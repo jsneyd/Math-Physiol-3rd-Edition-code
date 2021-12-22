@@ -1,0 +1,44 @@
+# Initial conditions are the steady state for p=0
+#
+c(0)=0.013919
+y(0)=0.9
+#
+# Parameter values
+#
+param p=0.5
+
+param k1=400, km1=52
+param k2=0.2, km2=0.21
+param k3=400, km3=377.2
+param k4=0.2, km4=0.029
+param k5=20,  km5=1.64
+
+bigK1=km1/k1
+bigK2=km2/k2
+bigK3=km3/k3
+bigK4=km4/k4
+bigK5=km5/k5
+
+param gamma=5.5, kf=1.11, Vp=0.9, kp=0.1
+param ct=2.0, Jer=0.02
+
+#
+# Define the functions used in the model
+#
+
+ce(c)=gamma*(ct-c)
+Po(c,y)= ( p*c*(1-y)/((p+bigK1)*(c+bigK5)) )^3
+phi1(c) = (km4*bigK2*bigK1 + km2*p*bigK4)*c/(bigK4*bigK2*(p+bigK1))
+phi2(c) = (km2*p + km4*bigK3)/(p+bigK3)
+
+serca(c)=Vp*c*c/(c*c+kp*kp)
+
+#
+# Define the differential equations here
+#
+dc/dt = (kf*Po(c,y)+Jer)*(ce(c)-c)-serca(c)
+dy/dt = phi1(c)*(1-y) - phi2(c)*y
+#
+@ total=100,dt=0.05,xp=t,yp=c,xlo=0,xhi=100,ylo=0,yhi=0.6,meth=gear,bounds=1000
+
+done

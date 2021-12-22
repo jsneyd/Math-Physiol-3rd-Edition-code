@@ -1,0 +1,59 @@
+
+v(0)=-11.455
+h(0)=0.012925
+n(0)=0.61732
+
+
+
+# Conductances in pS; currents in fA; Ca concentrations in uM; time in ms
+
+par c=-0.2, x=0.7
+par rho=0.0003
+number Kc=0.0085
+number lam=0.08, cm=1.0, vna=30.0, vca=140.0
+number vk=-75.0, vL=-40.0, gna=4.0, gca=0.004, gk=0.3, gkca=0.03, gL=0.003
+number C1=1.209, C2=78.714
+number taux=235.0
+
+number A=0.15, B=-50.0
+
+
+# Activation variables
+
+alpham(v) = 0.1*(50.0-(C1*v + C2))/(exp((50.0-(C1*v + C2))/10.0) - 1.0)
+betam(v) = 4.0*exp((25.0-(C1*v + C2))/18.0)
+minf(v) = alpham(v)/(alpham(v) + betam(v))
+
+alphah(v) = 0.07*exp((25.0-(C1*v + C2))/20.0)
+betah(v) = 1.0/(exp((55.0-(C1*v + C2))/10.0) + 1.0)
+hinf(v) = alphah(v)/(alphah(v) + betah(v))
+tauh(v) = 1.0/(alphah(v) + betah(v))
+
+alphan(v) = 0.01*(55.0-(C1*v + C2))/(exp((55.0-(C1*v + C2))/10.0) - 1.0)
+betan(v) = 0.125*exp((45.0-(C1*v + C2))/80.0)
+ninf(v) = alphan(v)/(alphan(v) + betan(v))
+taun(v) = 1.0/(alphan(v) + betan(v))
+
+!dum=gkca*c/(0.5+c)
+
+# Ionic currents
+ina = gna*(minf(v)^3)*h*(v-vna)
+ica = gca*x*(v-vca)
+iL = gL*(v-vL)
+ik = ( gk*(n^4) + dum )*(v-vk)
+
+# Differential Equations
+v' = (-ina -ica - ik - iL)/cm
+h' = lam*(hinf(v) - h)/tauh(v)
+n' = lam*(ninf(v) - n)/taun(v)
+
+
+@ meth=euler, toler=1.0e-10, atoler=1.0e-10, dt=0.01, total=1000
+@ maxstor=2000000,bounds=1000, xp=t, yp=v
+@ xlo=0, xhi=1000, ylo=-70, yhi=20
+@ autovar=v,ntst=50,nmax=20000,npr=20000
+@ dsmin=0.001,dsmax=0.05,ds=0.005,parmin=-0.5,parmax=9
+@ autoxmin=-0.5,autoxmax=9,autoymin=-70,autoymax=50
+
+
+done

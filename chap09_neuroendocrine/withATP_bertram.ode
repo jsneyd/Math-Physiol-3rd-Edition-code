@@ -1,0 +1,63 @@
+# BMB_04.ode
+#
+# This XPPAUT file contains the program for pancreatic beta-cells, published
+# by Bertram and Sherman, Bull. Math. Biol., 66:1313-1344, 2004.
+
+# Variables:
+#    v -- voltage
+#    n -- activation variable for a delayed rectifier
+#    c -- free cytosolic calcium concentration
+#    cer -- concentration of free calcium in the endoplasmic reticulum
+#    a -- fraction of activated KATP channels
+
+v(0)=-61.21
+n(0)=0.000311
+c(0)=0.07
+atp(0)=1.99
+adp(0)=0.0502
+
+# Conductances in pS; currents in fA; Ca concentrations in uM; time in ms
+
+
+par    bargkatp=350,f=0.001, etaadp=185
+
+number gca=1200, gk=3000
+number gkca=300, taun=16
+number vca=25, vk=-75
+number cm=5300, kc=0.1
+number kd=0.3, alpha=2.25e-6
+number sm=12, vm=-20
+number sn=5.6, vn=-16
+
+# Activation variables
+ninf = 1/(1+exp((vn-v)/sn))
+minf = 1/(1+exp((vm-v)/sm))
+omega = 1/(1+(kd/c))
+
+# ATP handling
+number nuadp=10, kadp=20, tauadp=1200000
+phi=atp*(1+kadp*adp)^2
+gkatp=bargkatp/atp
+
+# Ionic currents
+ica = gca*minf*(v-vca)
+ikca = gkca*omega*(v-vk)
+ikatp = gkatp*(v-vk)
+ik = gk*n*(v-vk)
+
+# Differential Equations
+
+v' = (-ica - ik - ikatp  - ikca)/cm
+n' =  (ninf - n)/taun
+c' = -f*(alpha*ica + kc*c)
+atp'=(nuadp-phi)/tauadp
+adp'=(phi-etaadp*adp)/tauadp
+
+@ meth=cvode, toler=1.0e-10, atoler=1.0e-10, dt=20.0, total=600000
+@ maxstor=20000,bounds=10000000, xp=tmin, yp=v
+@ xlo=0, xhi=10, ylo=-70, yhi=-10
+
+aux tsec=t/1000
+aux tmin=t/60000
+
+done

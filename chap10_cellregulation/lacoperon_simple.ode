@@ -1,0 +1,16 @@
+
+A(0)=0.0
+L(0)=1.3346
+
+param s=0.0
+param m0=0.001,lamda=1.,kappa=3.,eps=0.01,m=4
+param gamma=1.5,mu=0.7
+
+bigM(A)=m0+(1.0+A^m)/(kappa^m+A^m)
+
+A'=bigM(A)-eps*L
+L'=mu*L*(s-lamda*A/(A+1.0))-gamma*A
+
+@ylo=0.0,yhi=0.1
+@ autovar=A,ntst=50,nmax=5000,npr=5000,dsmin=0.01,dsmax=0.05,ds=0.02,parmin=0,parmax=2
+@ autoxmin=0,autoxmax=2,autoymin=0,autoymax=30

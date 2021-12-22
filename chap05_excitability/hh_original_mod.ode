@@ -1,0 +1,29 @@
+#hh.ode: an XppAut file for the Hodgkin-Huxley equations
+#time in msec and voltage in mV
+#the initial conditions
+init V=0,m=0.052,h=0.596,n=0.317
+
+#the parameters
+param VNa=115,VK=-12,VL=10.6,gNa=120
+param gK=36,gL=0.3,C=1,Iapp=0
+
+#time constants and steady state functions for gating variables
+
+taum(V)=1/(0.1*(V-25)/(1-exp(-(V-25)/10))+4*exp(-(V)/18))
+minf(V)=(0.1*(V-25)/(1-exp(-(V-25)/10)))*taum(V)
+
+tauh(V)=1/(0.07*exp(-(V)/20)+(1/(1+exp(-(V-30)/10))))
+hinf(V)=0.07*exp(-(V)/20)*tauh(V)
+
+taun(V)=1/(0.01*(V-10)/(1-exp(-(V-10)/10))+0.125*exp(-(V)/80))
+ninf(V)=(0.01*(V-10)/(1-exp(-(V-10)/10)))*taun(V)
+
+#the equations
+dV/dt=(-gNa*m^3*h*(V-VNa)-gK*(V-VK)*n^4-gL*(V-VL)+Iapp)/C
+dm/dt=-(m-minf(V))/taum(V)
+dh/dt=-(h-hinf(V))/tauh(V)
+dn/dt=-(n-ninf(V))/taun(V)
+
+@ ylo=-100, yhi=100
+
+done

@@ -1,0 +1,22 @@
+# set the variables. v is the deviation from rest.
+v(0) = 0
+m(0) = 0
+#
+# set the pseudo-steady state parameters
+n0=0.3176
+h0=0.596
+#
+# set the remaining parameters
+param gna=120   gk=36   gl=0.3  cm=1.0
+param vna=115   vk=-12  vl=10.6
+#
+# set the functions
+alpha_m(v)=0.1*(25-v)/(exp((25-v)/10)-1)
+beta_m(v)=4*exp(-v/18)
+#
+v'=(1/cm)*(-gk*(n0^4)*(v-vk) - gna*(m^3)*h0*(v-vna) - gl*(v-vl))
+m'=alpha_m(v)*(1-m) - beta_m(v)*m
+#
+@ total=200, xp=v, yp=m, dt=0.001, xlo=0, xhi=120, ylo=0, yhi=1.2,  
+@ meth=gear, bound=1000
+done

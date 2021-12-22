@@ -1,0 +1,301 @@
+## Set file for selgrade.ode on Tue Oct 10 20:00:26 2006
+14   Number of equations and auxiliaries
+42   Number of parameters
+# Numerical stuff
+1    nout
+40    nullcline mesh
+3   Runge-Kutta
+100  total
+0.02  DeltaT
+0  T0
+0  Transient
+1000000  Bound
+1e-12  DtMin
+1  DtMax
+0.001  Tolerance
+0.001  Abs. Tolerance
+2  Max Delay
+100   Eigenvector iterates
+0.001  Eigenvector tolerance
+0.001  Newton tolerance
+0  Poincare plane
+1e-05  Boundary value tolerance
+1e-05  Boundary value epsilon
+20   Boundary value iterates
+0   Poincare None
+1   Poincare variable
+1   Poincare sign
+0   Stop on Section
+1   Delay flag
+99.99999999999724  Current time
+99.99999999999724  Last Time
+1   MyStart
+1   INFLAG
+# Delays
+600  
+25.34  
+352  
+142.5  
+9  
+1  
+1  
+1  
+1  
+1  
+1  
+1  
+1  
+# Bndry conds
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+# Old ICs
+600  RPLH
+25.34  LH
+352  RPFSH
+142.5  FSH
+9  RCF
+1  SEF
+1  PRF
+1  SC1
+1  SC2
+1  LUT1
+1  LUT2
+1  LUT3
+1  LUT4
+# Ending  ICs
+610.00050641199  RPLH
+34.49453529985959  LH
+651.6276602237863  RPFSH
+180.1223036818585  FSH
+102.7227467450201  RCF
+149.6779249147357  SEF
+20.05578209534557  PRF
+25.39669995983133  SC1
+17.93763949983087  SC2
+12.86744394780932  LUT1
+9.651090356639475  LUT2
+8.349297367623908  LUT3
+9.840775029508618  LUT4
+# Parameters
+1263  V0LH
+91000  V1LH
+48  e0
+0.1  e1
+0.7  d1
+0.7  d2
+0.7  k1
+0.7  k2
+0.7  k3
+0.7  k4
+0.77  alpha
+0.16  beta
+0  gamma
+1  dP
+2.5  v
+2  dIh
+2.5  kLH
+14  aLH
+360  KmLH
+31  KiLHP
+0.005  cLHE
+0.07000000000000001  cLHP
+5700  VFSH
+8.210000000000001  aFSH
+7.3  kFSH
+0.16  cFSHE
+641  KiFSHIh
+644  cFSHP
+0.004  b
+0.0058  c1
+0.048  c2
+0.004  c3
+0.0061  c4
+1.2655  c5
+0.1659  little_e2
+0.2309  e3
+0.05  p1
+0.05  p2
+274.28  h0
+0.4064  h1
+0.4613  h2
+2.12  h3
+# Graphics
+0.7071097251469876  rm
+-0.4999999999826661  rm
+0.4999958366025518  rm
+0.7071038372138506  rm
+0.5000041633974482  rm
+-0.4999999999826661  rm
+0  rm
+0.7071038372138506  rm
+0.7071097251469876  rm
+0    
+2    
+2    
+1    
+0    
+0    
+14    
+2    
+1    
+1    
+0    
+2    
+2    
+1    
+0    
+0    
+2    
+2    
+1    
+0    
+0    
+2    
+2    
+1    
+0    
+0    
+2    
+2    
+1    
+0    
+0    
+2    
+2    
+1    
+0    
+0    
+2    
+2    
+1    
+0    
+0    
+2    
+2    
+1    
+0    
+0    
+2    
+2    
+1    
+0    
+-1000   
+1000   
+0    
+0   3DFlag
+1   Timeflag
+0   Colorflag
+0   Type
+1  color scale
+0   minscale
+100   xmax
+0   xmin
+450   ymax
+0   ymin
+12   zmax
+-12   zmin
+50   
+0.02   
+225   
+0.004444444444444444   
+0   
+0.08333333333333333   
+45   Theta
+45   Phi
+0    xshft
+0    yshft
+0    zshft
+0   xlo
+0   ylo
+0   
+0   
+100   xhi
+450   yhi
+100   
+450   
+# Transpose variables etc
+RPLH
+2   n columns
+1   n rows
+1   row skip
+1   col skip
+1   row 0
+# Coupling stuff for H funs
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+# Array plot stuff
+
+1   NCols
+0   Row 1
+50   NRows
+8   RowSkip
+0  Zmin
+1  Zmax
+# Torus information 
+0    Torus flag 1=ON
+6.283185307179586  Torus period
+# Range information
+V0LH
+-1   eq-range stab col
+0   shoot flag 1=on
+10   eq-range steps
+0  eq_range low
+1  eq_range high
+RPLH
+RPLH
+20   Range steps
+0   Cycle color 1=on
+1   Reset data 1=on
+1   Use old I.C.s 1=yes
+0  Par1 low
+0  Par2 low
+1  Par1 high
+1  Par2 high
+V0LH
+0   BVP side
+0   color cycle flag 1=on
+10   BVP range steps
+0  BVP range low
+1  BVP range high
+RHS etc ...
+dRPLH/dT=(V0LH+V1LH*(E2(SEF,PRF,LUT4)^8)/(KMLH^8+E2(SEF,PRF,LUT4)^8))/(1.0+P4(DELAY(LUT3,DP),DELAY(LUT4,DP))/KILHP)-KLH*(1.0+CLHP*P4(LUT3,LUT4))*RPLH/(1.0+CLHE*E2(SEF,PRF,LUT4))
+dLH/dT=(1.0/V)*KLH*(1.0+CLHP*P4(LUT3,LUT4))*RPLH/(1.0+CLHE*E2(SEF,PRF,LUT4))-ALH*LH
+dRPFSH/dT=VFSH/(1.0+IH(DELAY(PRF,DIH),DELAY(LUT3,DIH),DELAY(LUT4,DIH))/KIFSHIH)-KFSH*(1.0+CFSHP*P4(LUT3,LUT4))*RPFSH/(1.0+CFSHE*(E2(SEF,PRF,LUT4)^2))
+dFSH/dT=(1.0/V)*KFSH*(1+CFSHP*P4(LUT3,LUT4))*RPFSH/(1.0+CFSHE*(E2(SEF,PRF,LUT4)^2))-AFSH*FSH
+dRCF/dT=B*FSH+(C1*FSH-C2*(LH^ALPHA))*RCF
+dSEF/dT=C2*(LH^ALPHA)*RCF+(C3*(LH^BETA)-C4*LH)*SEF
+dPRF/dT=C4*LH*SEF-C5*(LH^GAMMA)*PRF
+dSC1/dT=C5*(LH^GAMMA)*PRF-D1*SC1
+dSC2/dT=D1*SC1-D2*SC2
+dLUT1/dT=D2*SC2-K1*LUT1
+dLUT2/dT=K1*LUT1-K2*LUT2
+dLUT3/dT=K2*LUT2-K3*LUT3
+dLUT4/dT=K3*LUT3-K4*LUT4
+EST=E0+E1*SEF+LITTLE_E2*PRF+E3*LUT4
+
+User-defined functions:
+E2(SEF,PRF,LUT4) =  E0 + E1*SEF + LITTLE_E2*PRF + E3*LUT4  
+P4(LUT3,LUT4) =  P1*LUT3 + P2*LUT4  
+IH(PRF,LUT3,LUT4) =  H0 + H1*PRF + H2*LUT3 + H3*LUT4  

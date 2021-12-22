@@ -1,0 +1,20 @@
+c(0)=0.01
+cs(0)=1
+
+param co=1000
+param kL1=20e-6, kP1=0.13 
+param kL20=0.013, kL21=0.58, kP2=0.9
+param Kd=0.5, n=3, gamma=0.24
+
+#param kL1=8.7e-6, kP1=0.4 
+#param kL20=0.0072, kL21=0.334, kP2=0.2544
+#param Kd=0.23, n=3.8, gamma=0.24
+
+kL2(c)= kL20 + kL21/(1+(Kd/c)^n)
+
+c'  = kL2(c)*(cs-c) - kP1*c + kL1*(co-c) - kP2*c
+cs' = (kP2*c - kL2(c)*(cs-c))/gamma
+
+@ total=1000,xlo=0,xhi=1000,ylo=0,yhi=2,bounds=1000,method=gear,dt=0.2
+
+done

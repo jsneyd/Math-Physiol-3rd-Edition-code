@@ -1,0 +1,14 @@
+# Declare the variables
+u(0)=0
+v(0)=0
+#
+# Declare the parameters
+#
+param   eps=0.01  f=1  q=0.0001
+#
+u'  = (1/eps)*(-f*v*(u-q)/(u+q) + u - u*u)
+v'  = u-v
+#
+@ total=300,xp=u,yp=v,xlo=, xhi=0.02, 
+@ ylo=0, yhi=0.02, dt=0.001, meth=gear
+done

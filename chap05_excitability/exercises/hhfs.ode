@@ -1,0 +1,26 @@
+# initialise the variables. v is the deviation from rest.
+v(0)=-0.19571
+n(0)=0.31468
+#
+# set the remaining parameters
+param Iapp=0
+param gna=120   gk=36   gl=0.3  cm=1.0
+param vna=115   vk=-12  vl=10.6
+#
+# define the functions
+alpha_m(v)=0.1*(25-v)/(exp((25-v)/10)-1)
+beta_m(v)=4*exp(-v/18)
+alpha_n(v)=0.01*(10-v)/(exp((10-v)/10)-1)
+beta_n(v)=0.125*exp(-v/80)
+minf(v)=alpha_m(v)/(alpha_m(v)+beta_m(v))
+#
+# define the ODEs
+v'=(1/cm)*(-gk*(n^4)*(v-vk) - gna*(minf(v)^3)*(0.8-n)*(v-vna) - gl*(v-vl) + Iapp)
+n'=alpha_n(v)*(1-n) - beta_n(v)*n
+#
+@ total=200, xp=v, yp=n, dt=0.01, xlo=-20, xhi=120, ylo=0, yhi=1.2,  
+@ meth=gear, bound=1000
+@ autovar=Iapp,ntst=50,nmax=2000,npr=2000,dsmin=0.001,dsmax=1,ds=0.1
+@ parmin=0,parmax=500,autoxmin=0,autoxmax=500,autoymin=0,autoymax=130
+
+done

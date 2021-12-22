@@ -1,0 +1,66 @@
+
+cdc13T(0)=0.0
+preMPF(0)=0.0
+ste9(0)=1.0
+slp1T(0)=0.05
+slp1(0)=0.0
+IEP(0)=0.0
+rum1T(0)=10.0
+sk(0)=0.0
+
+param m=0.0
+
+# Original parameters of fission model
+#param k1=0.03,k2p=0.03,k2pp=1.0,k2ppp=0.1
+#param k3p=1.0,k3pp=10.0,J3=0.01,k4p=2.0,k4=35.0,J4=0.01
+#param k5p=0.005,k5pp=0.3,k6=0.1,J5=0.3
+#param k7=1.0,k8=0.25,J7=0.001,J8=0.001
+#param k9=0.1,k10=0.04
+
+param J9=0.01,J10=0.01
+param k11=0.1,k12=0.01,k12p=1.0,k12pp=3.0,Kdiss=0.001
+param k13=0.1,k14=0.1
+param k15=1.5,k16p=1.0,k16pp=2.0,J15=0.01,J16=0.01
+param Vawee=0.25,Viwee=1.0,Jawee=0.01,Jiwee=0.01
+param Va25=1.0,Vi25=0.25,Ja25=0.01,Ji25=0.01
+param kweep=0.15,kweepp=0.6,k25p=0.05,k25pp=5.0
+param n=4
+
+# Parameters from the simpler model.
+param k1=0.04,k2p=0.04,k2pp=1.0,J3=0.04,k2ppp=1.0
+param k3p=1.0,k3pp=10.0,k4p=2.0,k4=35.0,J4=0.04
+param k5p=0.005,k5pp=0.2,k6=0.1,J5=0.3
+param k7=1.0,k8=0.5,J7=1.03-3,J8=1.0e-3
+param k9=0.1,k10=0.02
+
+
+gold(a,b,c,d)=2.0*a*d/(b-a+b*c+a*d+sqrt((b-a+b*c+a*d)^2-4.0*a*d*(b-a)))
+
+MPF(x1,x2,x3)=x1-trimer(x1,x2)-x3*Kdiss/(Kdiss+x2-trimer(x1,x2))
+sigma(x1,x2)=x1+x2+Kdiss
+trimer(x1,x2)=2.0*x1*x2/(sigma(x1,x2)+sqrt(sigma(x1,x2)^2-4.0*x1*x2))
+#MPF=(cdc13T-preMPF)*(x1-trimer(x1,x2))/cdc13T
+
+tf(x1,x2,x3)=gold(k15*m,k16p+k16pp*MPF(x1,x2,x3),J15,J16)
+kwee(x1,x2,x3)=kweep + (kweepp-kweep)*gold(Vawee,Viwee*MPF(x1,x2,x3),Jawee,Jiwee)
+k25(x1,x2,x3)=k25p + (k25pp-k25p)*gold(Va25*MPF(x1,x2,x3),Vi25,Ja25,Ji25)
+
+cdc13T'=k1*m-(k2p+k2pp*ste9+k2ppp*slp1)*cdc13T
+preMPF'=kwee(cdc13T,rum1T,preMPF)*(cdc13T-preMPF)-k25(cdc13T,rum1T,preMPF)*preMPF-(k2p+k2pp*ste9+k2ppp*slp1)*preMPF
+ste9'=(k3p+k3pp*slp1)*(1.0-ste9)/(J3+1.0-ste9) - (k4p*sk+k4*MPF(cdc13T,rum1T,preMPF))*ste9/(J4+ste9)
+slp1T'=k5p+k5pp*(MPF(cdc13T,rum1T,preMPF)^n)/(J5^n+MPF(cdc13T,rum1T,preMPF)^n)-k6*slp1T
+slp1'=k7*IEP*(slp1T-slp1)/(J7+slp1T-slp1) - k8*slp1/(J8+slp1) - k6*slp1
+IEP'=k9*MPF(cdc13T,rum1T,preMPF)*(1.0-IEP)/(J9+1.0-IEP) - k10*IEP/(J10+IEP)
+rum1T'=k11-(k12+k12p*sk+k12pp*MPF(cdc13T,rum1T,preMPF))*rum1T
+sk'=k13*tf(cdc13T,rum1T,preMPF)-k14*sk
+
+aux out1=MPF(cdc13T,rum1T,preMPF)
+aux out2=trimer(cdc13T,rum1T)
+aux out3=cdc13T-MPF(cdc13T,rum1T,preMPF)
+
+@ xlo=0,xhi=200,ylo=0,yhi=1.6,method=stiff,total=200
+@ autovar=out1,ntst=50,nmax=20000,npr=50000,dsmin=0.001,dsmax=0.005,ds=0.002,parmin=0,parmax=4
+@ autoxmin=0,autoxmax=4,autoymin=0,autoymax=1.6
+
+
+done

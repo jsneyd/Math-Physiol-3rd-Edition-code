@@ -1,0 +1,1 @@
+%to find diffusion coefficients for problem 2.3%data %numbers of cellsN = [1800,3700,4800,5500,6700,8000];T = [2,5,10,12.5,15,20];% in units of minutes%in units of mmC0 = 7.e13A = (1.e-6)/32D = pi*N.^2./(3600*4*C0^2*A^2*T);plot(D,'*')%data set 2:N = [1350,2300,3400,6200];C = [2.5,4.6,5,12];c = C*1.e13;t = 10;d = pi*N.^2./(3600*4*c.^2*A^2*t);

@@ -1,0 +1,31 @@
+M(0)=2.2994e-6
+B(0)=1.5569e-6
+P(0)=3.2068e-5
+A(0)=0.
+L(0)=0.
+
+param Le=0
+param n=2
+param aA=1.76e4,bA=2.15e4,gamA=0.52,
+param aB=1.66e-2,gamB=0.0
+param aP=10.0,gamP=0.65
+param aM=9.97e-4,gamM=0.411
+param aL=2880.0,bL=2.65e3,gamL=0.0
+param mu=2.26e-2
+param K1=2.52e4,K=6000.0,KA=1.95,KL=9.7e-7,KLe=0.26,KL1=1.81
+param tauM=0.1,tauB=2.0,tauP=0.83
+
+
+!bL2=aA
+!KL2=KL
+
+M'=aM*(1.0+K1*(exp(-mu*tauM)*A)^n)/(K+K1*(exp(-mu*tauM)*A)^n) - gamM*M
+B'=aB*(exp(-mu*tauB))*M-mu*B
+P'=aP*(exp(-mu*(tauP+tauB)))*M-gamP*P
+A'=aA*B*L/(KL+L)-bA*B*A/(KA+A)-gamA*A
+L'=aL*P*Le/(KLe+Le)-bL*P*L/(KL1+L)-bL2*B*L/(KL2+L)-mu*L
+#L'=aL*P*L0-aA*B*L/(KL+L)
+
+@ autovar=A,ntst=50,nmax=2000,npr=5000,dsmin=0.0001,dsmax=0.0005,ds=0.0002,parmin=0,parmax=0.07
+@ autoxmin=0,autoxmax=0.07,autoymin=0,autoymax=0.4
+done

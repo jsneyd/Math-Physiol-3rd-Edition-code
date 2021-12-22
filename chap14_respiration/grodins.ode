@@ -1,0 +1,26 @@
+Pa(0) = 50.0
+PB(0) = 50.0
+PT(0) = 50.0
+
+param KL=3.0, KB=1.0, KT=39.0, KCO2=0.005
+param MB=0.05, MT=0.182
+param tauaB=0.18, tauaT=0.32, tauvT=0.59, tauvB=0.11
+param littlek=0.0013, alpha=0.51
+param GC=9.0, IC=49.3
+param Q=6.0, QB=0.75, Vdot=2.0
+
+Pv = (1.0/Q)*(QB*delay(PB,tauvB) + (Q-QB)*delay(PT,tauvT))
+VE = Vdot + GC*max(PB - IC,0)
+
+
+Pa' = (1.0/KL)*(-VE*Pa + 863.0*KCO2*Q*(Pv-Pa))
+PB' = (1.0/(KCO2*KB))*(MB + KCO2*QB*(delay(Pa,tauaB) - PB))
+PT' = (1.0/(KCO2*KT))*(MT + KCO2*(Q-QB)*(delay(Pa,tauaT) - PT))
+
+aux out=VE
+
+@ TOTAL=150,ylo=0,yhi=100.0,xlo=140,xhi=150,delay=20.0,nplot=2,yp1=pa,yp2=out
+@ bounds=1000
+
+done
+

@@ -1,0 +1,15 @@
+
+u1(0)=0.012275
+u2(0)=0.14109
+u3(0)=0.025614
+
+par K6=0.1,K2=11.0, K3=3.26, K4=0.087, K5=17.0, K1=6.85
+
+u1' = K1*u1*u2*(1.0-u1)*(1+K2*u1)/(1+K3*u3) - u1
+u2' = u1-K4*u2
+u3' = K5*u1*u1 - K6*u3
+
+@ autovar=K6,ntst=50,nmax=20000,npr=20000,dsmin=0.001,dsmax=0.01,ds=-0.01,parmin=0,parmax=0.2
+@ autoxmin=0.0,autoxmax=0.2,autoymin=0.0,autoymax=1.0
+
+done

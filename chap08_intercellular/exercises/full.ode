@@ -1,0 +1,93 @@
+v1(0)=-50
+w(0)=0
+o(0)=0
+c(0)=0
+o1(0)=0
+o2(0)=0
+o3(0)=0
+o4(0)=0
+a(0)=0
+x(0)=0
+y(0)=0
+v2(0)=-70
+
+###########################################################
+# FHN params
+Vr=-70
+
+# Llinas params
+param k10=2, k20=1, z1=1, n=5,ci=0.1,ce=4.0e4,PCa=3.0e-2,s0=100
+
+# Voltage-type params
+param FRT=.0386  F=96490.0  
+
+# Calcium parameters. Radius in microns. Factor converts current to calcium flux.
+param kout=1 radius=20
+!factor=(3/radius)*(1/(2*F))
+
+# Calcium-stimulated secretion params
+param kp1=3.75e-3, km1=4e-4
+param kp2=2.5e-3, km2=1e-3
+param kp3=5e-4, km3=0.1
+param kp4=7.5e-3, km4=10
+
+# Magleby parameters
+param bigA=0.008 bigB=1.43  bigN=10
+param smalla=0.00315 smallb=1
+param k1m=1000, k2m=500, ke=10
+
+# Post-synaptic voltage params
+param Vs=-15, gr=1, Cm=1
+
+
+###########################################################
+# Llinas functions  
+k1(x)=k10*exp(z1*x*FRT)
+fac(x)=2*x*FRT
+j(x)=PCa*2*F*fac(x)*(ci-ce*exp(-fac(x)))/(1-exp(-fac(x)))
+ICa(x,y)=j(x)*(s0/n)*((y/s0)^n)
+
+# calcium-stimulated secretion functions
+tau1(x)=1/(kp1*x+km1)
+tau2(x)=1/(kp2*x+km2)
+tau3(x)=1/(kp3*x+km3)
+tau4(x)=1/(kp4*x+km4)
+
+# Magleby functions
+alpha(x)=bigB*exp(bigA*x)
+beta(x)=smallb*exp(smalla*x)
+
+###########################################################
+
+aux R=o1*o2*o3*o4
+
+###########################################################
+# FHN odes for the presynaptic voltage
+v1'=100*(0.0001*(v1-Vr)*(70-(v1-Vr))*((v1-Vr)-7)-w)
+w'=0.25*(v1-Vr-5*w)
+
+# Llinas odes
+o'=k1(v1)*(s0-o) - k20*o
+
+# Calcium odes. Conversion factors are included explicitly, for clarity
+c'= -ICa(v1,o)*factor - kout*c
+
+# Calcium-stimulated secretion odes
+o1'=kp1*c - o1/tau1(c)
+o2'=kp2*c - o2/tau2(c)
+o3'=kp3*c - o3/tau3(c)
+o4'=kp4*c - o4/tau4(c)
+
+# Magleby odes
+x'=-alpha(v2)*x + beta(v2)*y
+y'=alpha(v2)*x + k1m*a*(bigN-x-y) - (beta(v2)+k2m)*y
+a'=3e6*o1*o2*o3*o4 - ke*a - k1m*a*(bigN-x-y) + k2m*y
+
+# Post-synaptic voltage ode
+v2'= (1/Cm)*(-gr*(v2-Vr) - x*(v2-Vs))
+###########################################################
+
+@ total=15, dt=0.01, xlo=0, xhi=15,  ylo=-85, yhi=0, yp1=v1, yp2=v2, bounds=10000, nplot=2
+@ meth=gear
+
+done

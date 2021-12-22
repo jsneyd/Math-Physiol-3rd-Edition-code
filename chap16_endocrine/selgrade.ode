@@ -1,0 +1,56 @@
+
+RPLH(0)=600
+LH(0)=25.34
+RPFSH(0)=352
+FSH(0)=142.5
+RcF(0)=9
+SeF(0)=1
+PrF(0)=1
+Sc1(0)=1
+Sc2(0)=1
+Lut1(0)=1
+Lut2(0)=1
+Lut3(0)=1
+Lut4(0)=1
+
+par V0LH=1263.35,V1LH=91000
+par e0=48,e1=0.1044,d1=0.6715,d2=0.7048
+par k1=0.6876,k2=0.69,k3=0.6891,k4=0.7093
+par alpha=0.7736,beta=0.1566,gamma=0.0202
+par dP=1.0,v=2.5,dIh=2.0
+
+par kLH=2.49,aLH=14.0,KmLH=360.0,KiLHP=31.22,cLHE=0.0049,cLHP=0.07
+par VFSH=5700.0,aFSH=8.21,kFSH=7.29,cFSHE=0.16,KiFSHIh=641.0,cFSHP=644.0
+par b=0.004,c1=0.0058,c2=0.048,c3=0.004,c4=0.0061,c5=1.2655
+par little_e2=0.1659,e3=0.2309,p1=0.05,p2=0.05,h0=274.28,h1=0.4064,h2=0.4613,h3=2.12
+
+
+E2(SeF,PrF,Lut4) = e0 + e1*SeF + little_e2*PrF + e3*Lut4
+P4(Lut3,Lut4) = p1*Lut3 + p2*Lut4
+Ih(PrF,Lut3,Lut4) = h0 + h1*PrF + h2*Lut3 + h3*Lut4
+
+
+RPLH' = (V0LH + V1LH*(E2(SeF,PrF,Lut4)^8)/(KmLH^8+E2(SeF,PrF,Lut4)^8))/(1.0+P4(delay(Lut3,dP),delay(Lut4,dP))/KiLHP) - kLH*(1.0+cLHP*P4(Lut3,Lut4))*RPLH/(1.0+cLHE*E2(SeF,PrF,Lut4))
+LH' = (1.0/v)*kLH*(1.0+cLHP*P4(Lut3,Lut4))*RPLH/(1.0+cLHE*E2(SeF,PrF,Lut4)) - aLH*LH
+RPFSH' = VFSH/(1.0+Ih(delay(PrF,dIh),delay(Lut3,dIh),delay(Lut4,dIh))/KiFSHIh) - kFSH*(1.0+cFSHP*P4(Lut3,Lut4))*RPFSH/(1.0+cFSHE*(E2(SeF,PrF,Lut4)^2))
+FSH' = (1.0/v)*kFSH*(1+cFSHP*P4(Lut3,Lut4))*RPFSH/(1.0+cFSHE*(E2(SeF,PrF,Lut4)^2)) - aFSH*FSH
+RcF' = b*FSH + (c1*FSH - c2*(LH^alpha))*RcF
+SeF' = c2*(LH^alpha)*RcF + (c3*(LH^beta) - c4*LH)*SeF
+PrF' = c4*LH*SeF - c5*(LH^gamma)*PrF
+Sc1' = c5*(LH^gamma)*PrF - d1*Sc1
+Sc2' = d1*Sc1 - d2*Sc2
+Lut1' = d2*Sc2 - k1*Lut1
+Lut2' = k1*Lut1 - k2*Lut2
+Lut3' = k2*Lut2 - k3*Lut3
+Lut4' = k3*Lut3 - k4*Lut4
+
+aux Est=e0 + e1*SeF + little_e2*PrF + e3*Lut4
+
+@ DT=0.02
+@ BOUNDS=1000000
+@ TOTAL=100
+@ maxstor=100000
+@ xp=t,yp1=LH,yp2=Est,xlo=0,ylo=0,xhi=100,yhi=450,nplot=2
+@ DELAY=2.0
+
+done

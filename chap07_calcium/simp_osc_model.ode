@@ -1,0 +1,34 @@
+# Initial conditions are the steady state for p=0
+#
+c(0)=0.013919
+ct(0)=13.296
+#
+# Parameter values
+#
+param p=0.0,alpha1=0.03
+param delta=0.1,alpha2=0.2,Vp=28.0,Kp=0.425
+param gamma=5.405,g1=0.002,Vs=2,Ks=0.18
+param Kact=0.21,Kinf=52, Kip=0.05, pmax=0.08
+#
+!Jinflux=alpha1+alpha2*p
+!Kinh = Kinf*(p^4)/(p^4 + Kip^4)
+#
+# Define the functions used in the model
+#
+act(c) = c*c/(c*c + Kact*Kact)
+inh(c) = (Kinh)^4/((Kinh)^4 + c^4)
+
+Po(c)=pmax*act(c)*inh(c)
+serca(c)=((Vs*c)/(Ks+c))
+pmca(c)=(Vp*c^2)/(Kp^2+c^2)
+ce(c,ct)=gamma*(ct-c)
+#
+# Define the differential equations here
+#
+dc/dt = (Po(c)+g1)*(ce(c,ct)-c)+delta*(Jinflux-pmca(c))-serca(c)
+dct/dt = delta*(Jinflux-pmca(c))
+#
+@ total=200,dt=0.05,xp=c,yp=ct,xlo=0,xhi=1,ylo=0,yhi=20,meth=gear,bounds=1000
+@ autovar=c,ntst=25,nmax=2000,npr=2000,dsmin=0.01,dsmax=0.5,ds=0.1,parmin=0,parmax=10
+@ autoxmin=0,autoxmax=10,autoymin=0,autoymax=1
+done

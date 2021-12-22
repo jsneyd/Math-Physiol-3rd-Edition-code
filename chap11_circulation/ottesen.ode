@@ -1,0 +1,18 @@
+param tau=1.15
+param ca=1.55, R=1.05, Vs=67.9, alpha=0.84, beta=1.17, mu=93.0
+
+
+P(0)=88.71759
+H(0)=0.8026246
+
+gs(x) = mu^7/(mu^7+x^7)
+gp(x) = 1.0-gs(x)
+
+dP/dt = -P/(ca*R) + (Vs/Ca)*H
+dH/dt = alpha*gs(delay(P,tau)) - beta*gp(P)
+
+@ dt=0.1, bounds=1000 ylo=0 yhi=150 xlo=150 xhi=200 total=200
+
+# Don't forget to set the maximum delay to be about 2!!
+
+done

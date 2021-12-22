@@ -1,0 +1,9 @@
+s1(0)=10.011
+s2(0)=0.1
+
+par nu=0.001, alpha=1, eta=0.1, gamma=2
+
+s1'= nu - s1*(s2^gamma)/( (s2^gamma)*s1 + s2^gamma + 1)
+s2'= alpha*s1*(s2^gamma)/( (s2^gamma)*s1 + s2^gamma + 1) - eta*s2
+
+done

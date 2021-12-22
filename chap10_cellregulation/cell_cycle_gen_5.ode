@@ -1,0 +1,27 @@
+
+cycB(0)=0.0
+cdh(0)=1.0
+cdcT(0)=0.05
+cdcA(0)=0.0
+IEP(0)=0.00
+
+param m=0.0
+param k1=0.04,k2p=0.04,k2pp=1.0,k2ppp=1.0
+param k3p=1.0,k3pp=10.0,k4p=2.0,k4=35.0
+param k5p=0.005,k5pp=0.2,k6=0.1,k7=1.0,k8=0.5
+param J3=0.04,J4=0.04,J5=0.3,n=4
+param J7=1.0e-3,J8=1.0e-3,mad=1.0
+param k9=0.1,k10=0.02
+
+
+cycB'=k1*m-(k2p+k2pp*cdh)*cycB
+cdh'=(k3p+k3pp*cdcA)*(1.0-cdh)/(J3+1-cdh) - k4*cycB*cdh/(J4+Cdh)
+cdcT'=k5p+k5pp*((cycB)^n)/(J5^n+(cycB)^n)-k6*cdcT
+cdcA'=k7*IEP*(cdcT-cdcA)/(J7+cdcT-cdcA) - k8*mad*cdcA/(J8+cdcA) - k6*cdcA
+IEP'=k9*cycB*(1.0-IEP) - k10*IEP
+
+@ autovar=cycB,ntst=50,nmax=20000,npr=50000,dsmin=0.001,dsmax=0.005,ds=0.002,parmin=0,parmax=10
+@ autoxmin=0,autoxmax=11,autoymin=0,autoymax=1.0
+
+
+done

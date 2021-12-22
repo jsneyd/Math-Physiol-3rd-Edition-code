@@ -1,0 +1,1 @@
+function T_prime=deRHS(y,s)global  a FN=size(s)/2;T = s(1:N);S = s(N+1:2*N);FT = S;FS = (2*a.*y-F).*S-1;T_prime = [FT;FS];

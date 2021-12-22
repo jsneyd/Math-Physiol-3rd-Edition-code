@@ -1,0 +1,33 @@
+
+c0(0) = 1
+c1(0) = 0
+c2(0) = 0
+D1(0) = 0
+D2(0) = 0
+
+simpleC(0)=1
+
+param Rb=13.0e6, Ru1=5.9, Ru2=8.6e4, Rd=900.0, Rr=64.0, Ro=2.7e3, Rc=200.0
+
+O = 1-c0-c1-c2-D1-D2
+simpleO = 1-simpleC
+
+TT = 1000*(heav(t) - heav(t-0.001))
+
+c0' = -Rb*TT*c0 + Ru1*c1
+c1' = Rb*TT*c0 - Ru1*c1 + Rr*D1 - Rd*c1 + Ru2*c2 - Rb*TT*c1
+c2' = -Ru2*c2 + Rb*TT*c1 + Rr*D2 - Rd*c2 + Rc*O - Ro*c2
+D1' = Rd*c1-Rr*D1
+D2' = Rd*c2 - Rr*D2
+
+aux OO= 1-c0-c1-c2-D1-D2
+
+param alpha=1.35, beta=200.0
+simpleC'= -alpha*simpleC*TT + beta*simpleO
+aux simpleOO = 1-simpleC
+
+@ meth=stiff, tol=0.01, dt=0.00001, total=0.03
+@ maxstor=20000,bounds=10000000, nplot=2, xp=t, yp1=OO,yp2=simpleOO
+@ xlo=0, xhi=0.03, ylo=0, yhi=1
+
+done

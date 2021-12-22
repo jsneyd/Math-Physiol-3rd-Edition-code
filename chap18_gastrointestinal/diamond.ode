@@ -1,0 +1,17 @@
+param c0=0.3, diff=10.0, r=0.05, P=0.002, N0=0.001
+
+bndry c'-0.3
+bndry d
+bndry v
+
+init c=0.74425,d=0,v=0
+
+N=N0*heav(10.0-t)
+
+c'=d
+d'=(1.0/diff)*(v*d + c*(2.0/r)*P*(c-c0) - 2.0*N/r)
+v'=(2.0/r)*P*(c-c0)
+
+@ total=100, xlo=0,xhi=100,ylo=0,yhi=1.0
+
+done

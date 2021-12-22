@@ -1,0 +1,19 @@
+# Declare the variables
+v[0..5](0)=0.9
+v[6..100](0)=0
+#
+param delx=1.0  diff=1.0
+#
+!lam=diff/(delx*delx)
+#
+# Define right hand sides of the pdes
+bistab(v)=v*(1-v)*(v-0.1)
+#
+v[1..99]'  = lam*(v[j-1]-2.0*v[j]+v[j+1]) + bistab(v[j]) 
+# No-flux boundary conditions
+v0'  = lam*(-2.0*v0+2.0*v1)  + bistab(v0) 
+v100'  = lam*(2.0*v99-2.0*v100)  + bistab(v100)  
+#
+#
+@ total=200, dt=0.1, xlo=0, xhi=200, ylo=0, yhi=1,  meth=gear, yp2=v4,yp3=v50,yp4=v80,nplot=4
+done

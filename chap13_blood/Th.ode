@@ -1,0 +1,14 @@
+# ODEs
+dx/dt=-mu*x+(a1*x^n/(k1^n+x^n)+sig1*S1/(p1+S1))/(1.0+y/gam2)+B1
+dy/dt=-mu*y+(a2*y^n/(k2^n+y^n)+sig2*S2/(p2+S2))/(1.0+x/gam1)+B2
+
+par S2=0. S1=0.0
+par mu=3.0 a1=5.0 a2=5.0 k1=1.0 k2=1.0 sig1=5.0 sig2=5.0 p1=1.0 p2=1.0 
+par gam1=1.0 gam2=0.5 B1=0.05 B2=0.05 n=4
+
+init x=0.05003 y=0.05003
+
+@ autovar=y,ntst=50,nmax=2000,npr=2000,dsmin=0.001,dsmax=0.01,ds=0.01,parmin=-4,parmax=1.3
+@ autoxmin=0.0,autoxmax=1.5,autoymin=0.0,autoymax=9.0
+
+done
