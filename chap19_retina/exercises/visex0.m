@@ -143,8 +143,8 @@ I = (exp(-v/par.s1)-1)/par.s2;
 p = par.eta*I./(par.k1+par.eta*I);
 
 % Comment out the one you don't want
-%phi = x.*(par.delta + (par.gam-par.delta)*p);
-phi = 4 + 84./(1 + (y/0.34).^4);   % Using A(y) instead, just for fun
+phi = x.*(par.delta + (par.gam-par.delta)*p);
+%phi = 4 + 84./(1 + (y/0.34).^4);   % Using A(y) instead, just for fun
 end
 
 
