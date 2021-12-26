@@ -19,13 +19,11 @@ tauz=0.04
 # 
 !v0=-s1*ln(1+s2*I0)
 #
-phi=(y*exp(vK*(1-y)))^(1/3)*\
-        (delta+(gam-delta)*eta*\
-        (exp(-vK*(1-y)/s1)-1)/ \
-        (s2*k1+eta*(exp(-vK*(1-y)/s1)-1)))
+#phi=(y*exp(vK*(1-y)))^(1/3)*(delta+(gam-delta)*eta*(exp(-vK*(1-y)/s1)-1)/ \
+#        (s2*k1+eta*(exp(-vK*(1-y)/s1)-1)))
 #
 # Here's A(y) (still called phi just to make it easy). Uncomment to use A(y)
-# phi=4+84/(1+(y/0.34)^4) 
+ phi=4+84/(1+(y/0.34)^4) 
   
 p'=eta*I0*(1-p)-k1*p
 x'=phi-(gam-delta)*x*p-delta*x
@@ -34,20 +32,22 @@ z'=(((1-kappa)/(1+kappa))*(x^3)*exp(-v)\
    +(2*kappa/(1+kappa))*y-z)/tauz
 V'=( (x^3)*exp(-v) - ((1+kappa)/3)*z +(kappa/2)*y + \
    ((4+kappa)/(6*vK))*(v-vK) )/taum
-#
 
 
-#
-# The dark steady state is the easiest place to start tracking the steady states
+# The dark steady state is the easiest place to start tracking the steady states.
+# However, you have to note that this is NOT the steady state if A(y) is used instead.
+# If you use A(y) you first need to find the exact steady state when I0=0. It's close to
+# this dark steady state, but not exactly the same.
+
 p(0)=0
 x(0)=1
 y(0)=1
 z(0)=1
 v(0)=0
-#
+
 # We choose to plot out the shifted voltages 
 # (which is why we bother to calculate v0 at all)
 aux vshift=v-v0
 @ yp=vshift total=2.5 xlo=0 xhi=0.5 ylo=-0.5 yhi=0.1 dt=0.001
-@ ntst=50 nmax=2000 npr=2000 dsmin=0.0001 dsmax=0.01 ds=0.001 parmin=0.00001
-@ parmax=1 autoxmin=0.00001 autoxmax=1 autoymin=-12 autoymax=0 autovar=v
+@ ntst=50 nmax=2000 npr=2000 dsmin=0.0001 dsmax=0.01 ds=0.001 parmin=0.0
+@ parmax=1 autoxmin=0.00001 autoxmax=1 autoymin=-0.5 autoymax=0 autovar=v
