@@ -8,10 +8,11 @@ par.s1=1.59/par.Vstar;  par.s2=1130;  par.vK=-13/par.Vstar;
 par.tauy=0.07; par.k1=35.4; par.gam=303; par.delta=5; par.kappa=0.1;
 par.eta=52.5; par.tau1=0.012; par.taum=0.02; par.tauz=0.04;
 
-
 plotphi(par)
 plot_impulse_sequence(par)
 plot_single_impulse_responses(par)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% plot the function phi -------------------------------------------------
 function plotphi(par)
