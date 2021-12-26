@@ -8,8 +8,8 @@ par.s1=1.59/par.Vstar;  par.s2=1130;  par.vK=-13/par.Vstar;
 par.tauy=0.07; par.k1=35.4; par.gam=303; par.delta=5; par.kappa=0.1;
 par.eta=52.5; par.tau1=0.012; par.taum=0.02; par.tauz=0.04;
 
-plotphi(par)
-plot_impulse_sequence(par)
+%plotphi(par)
+%plot_impulse_sequence(par)
 plot_single_impulse_responses(par)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -30,7 +30,7 @@ end
 
 %% Plot a sequence of impulse responses -------------------------------------------------
 function plot_impulse_sequence(par)
-par.I0=1;
+par.I0=0.01;
 
 % First find the steady state
 tspan = linspace(0,2,200);
@@ -66,7 +66,9 @@ IC = U1(end,:);
 
 figure(3)
 plot(t2,U2(:,5)-IC(5),'LineWidth',2)
+%plot(t2,(U2(:,5)-IC(5))/max(abs(U2(:,5)-IC(5))),'LineWidth',2)
 hold on
+
 
 par.I0=0.005;
 % First find the steady state
@@ -77,6 +79,7 @@ IC = [0 1 1 1 0];
 IC = U1(end,:);
 [t2,U2] = ode15s(@(t,y)rhs(t,y,par,par.I0), tspan, IC);
 plot(t2,U2(:,5)-IC(5),'LineWidth',2)
+%plot(t2,(U2(:,5)-IC(5))/max(abs(U2(:,5)-IC(5))),'LineWidth',2)
 
 par.I0=0.05;
 % First find the steady state
@@ -87,6 +90,7 @@ IC = [0 1 1 1 0];
 IC = U1(end,:);
 [t2,U2] = ode15s(@(t,y)rhs(t,y,par,par.I0), tspan, IC);
 plot(t2,U2(:,5)-IC(5),'LineWidth',2)
+%plot(t2,(U2(:,5)-IC(5))/max(abs(U2(:,5)-IC(5))),'LineWidth',2)
 
 par.I0=0.5;
 % First find the steady state
@@ -97,14 +101,17 @@ IC = [0 1 1 1 0];
 IC = U1(end,:);
 [t2,U2] = ode15s(@(t,y)rhs(t,y,par,par.I0), tspan, IC);
 plot(t2,U2(:,5)-IC(5),'LineWidth',2)
+%plot(t2,(U2(:,5)-IC(5))/max(abs(U2(:,5)-IC(5))),'LineWidth',2)
 
 xlim([0 0.5])
 xlabel('seconds')
 ylabel('v')
 set(gca,'FontSize',14)
-legend('I_0=0.0005','I_0=0.005','I_0=0.05','I_0=0.5')
+legend('I_0=0.0005','I_0=0.005','I_0=0.05','I_0=0.5','Location','SouthEast')
+box off
 
 end
+
 
 %% The ODEs -------------------------------------------------
 function dUdt=rhs(t,U,par,stim)
@@ -128,15 +135,16 @@ dUdt = dUdt';
 
 end
 
-
-
 %%  get phi -------------------------------------------------
 function phi = getphi(y,par)
 v = par.vK*(1-y);
 x = (y.*exp(v)).^0.33333;
 I = (exp(-v/par.s1)-1)/par.s2;
 p = par.eta*I./(par.k1+par.eta*I);
-phi = x.*(par.delta + (par.gam-par.delta)*p);
+
+% Comment out the one you don't want
+%phi = x.*(par.delta + (par.gam-par.delta)*p);
+phi = 4 + 84./(1 + (y/0.34).^4);   % Using A(y) instead, just for fun
 end
 
 
