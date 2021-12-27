@@ -15,12 +15,19 @@ IC = [0 0 0];                   % initial conditions
 stim = [1 2 4 100 200 400];     % The stimulus strengths, going up in factors of 2, just for convenience.
 tspan=linspace(0,1,500);        % The time interval on which to solve the odes
 
-figure(1)
+
 for i=1:6
 [t,U] = ode15s(@(t,y)rhs(t,y,par,stim(i)),tspan,IC);
-plot(t,U(:,3),'LineWidth',2')
+figure(1);
+plot(t,U(:,3),'LineWidth',2')           % plot the responses
+hold on
+figure(2);
+plot(t,U(:,3)/stim(i),'LineWidth',2')   % plot the responses scaled by the stimulus strength.
 hold on
 end
+
+% make the figures look nicer
+figure(1)
 set(gca,'FontSize',14)
 xlabel('time (s)')
 ylabel('P^*')
@@ -29,26 +36,14 @@ lgd = legend('1','2','4','100','200','400');
 title(lgd,'stimulus strength','FontSize',14)
 hold off
 
-% Now plot the responses scaled by the stimulus strength. In a linear
-% system, all the responses would look identical when scaled like this.
-
-% It's very inefficient to solve the ODEs all over again just to plot the
-% scaled responses, but too bad. It's just easier to write (and read) the code, and it
-% only takes another few microseconds to compute.
-
 figure(2)
-for i=1:6
-[t,U] = ode15s(@(t,y)rhs(t,y,par,stim(i)),tspan,IC);
-plot(t,U(:,3)/stim(i),'LineWidth',2')    % This plots the scaled responses.
-hold on
-end
 set(gca,'FontSize',14)
 xlabel('time (s)')
-ylabel('P^* (scaled to equal stimulus strength)')
+ylabel('P^* (scaled by stimulus strength)')
 box off
 lgd = legend('1','2','4','100','200','400');
 title(lgd,'stimulus strength','FontSize',14)
-
+hold off
 
 % Now save the figures. This bit is just for my convenience. You might want
 % to delete these lines

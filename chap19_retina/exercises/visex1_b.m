@@ -48,8 +48,8 @@ hold off
 % Now save the figures. This bit is just for my convenience. You might want
 % to delete these lines
 
-saveas(1,'../../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/visex1_fig1.png')
-saveas(2,'../../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/visex1_fig2.png')
+saveas(1,'../../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/visex1_fig3.png')
+saveas(2,'../../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/visex1_fig4.png')
 
 
 %% The ODEs -------------------------------------------------
@@ -59,7 +59,7 @@ Rs = U(1); Ts=U(2); Ps=U(3);
 light = stim*(heaviside(t) - heaviside(t-0.01));  % Stimulus is a square impulse, of width 0.01 and height stim.
 
 dUdt(1) = light - par.alpha*Rs;
-dUdt(2) = par.eps*Rs*(par.T0-Ts) - par.beta*Ts;
+dUdt(2) = par.eps*Rs*(par.T0-Ts-Ps) - par.beta*Ts*(Ts+Ps) - par.tau1*Ts*(par.P0-Ps) + par.tau2*Ps;
 dUdt(3) = par.tau1*Ts*(par.P0-Ps) - par.tau2*Ps;
 
 dUdt = dUdt';

@@ -1,1 +1,0 @@
-# Declare the variablesr(0)=0g(0)=0p(0)=0# Declare the parameterspar str=0.2 alpha1=20 eps=0.5 T0=1000 P0=100 beta1=10.6par tau1=0.1 tau2=10### Define right hand sidesr'=str*(heav(t)-heav(t-0.01))-alpha1*rg'=eps*r*(T0-g-p)-beta1*g*(g+p)+tau2*p-tau1*g*(P0-p)p'=tau1*g*(P0-p)-tau2*p#@ total=4, dt=0.001, xlo=0, xhi=4done
