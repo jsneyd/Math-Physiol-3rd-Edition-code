@@ -1,0 +1,75 @@
+% Program to solve the initial stages of the Forti et al model of
+% phototransduction. For the exercises of Chapter 19, Keener and Sneyd.
+
+
+clear all
+close all
+clc
+
+par.T0 = 1000; par.P0 = 100;
+par.alpha = 20; par.beta = 10.6; par.eps = 0.5;  
+par.tau1 = 0.1; par.tau2 = 10;
+
+IC = [0 0 0];
+stim = [1 2 4 100 200 400];   % The stimulus strengths, going up in factors of 2, just for convenience.
+tspan=linspace(0,1,500);
+
+figure(1)
+for i=1:6
+[t,U] = ode15s(@(t,y)rhs(t,y,par,stim(i)),tspan,IC);
+plot(t,U(:,3),'LineWidth',2')
+hold on
+end
+set(gca,'FontSize',14)
+xlabel('time (s)')
+ylabel('P^*')
+box off
+lgd = legend('1','2','4','100','200','400');
+title(lgd,'stimulus strength','FontSize',14)
+hold off
+
+% Now plot the responses scaled by the stimulus strength. In a linear
+% system, all the responses would look identical when scaled like this.
+
+% It's very inefficient to solve the ODEs all over again just to plot the
+% scaled responses, but too bad. It's just easier to write (and read) the code, and it
+% only takes another few microseconds to compute.
+
+figure(2)
+for i=1:6
+[t,U] = ode15s(@(t,y)rhs(t,y,par,stim(i)),tspan,IC);
+plot(t,U(:,3)/stim(i),'LineWidth',2')    % This plots the scaled responses.
+hold on
+end
+set(gca,'FontSize',14)
+xlabel('time (s)')
+ylabel('P^* (scaled to equal stimulus strength)')
+box off
+lgd = legend('1','2','4','100','200','400');
+title(lgd,'stimulus strength','FontSize',14)
+
+
+% Now save the figures. This bit is just for my convenience. You might want
+% to delete these lines
+
+saveas(1,'../../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/visex1_fig1.png')
+saveas(2,'../../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/visex1_fig2.png')
+
+
+%% The ODEs -------------------------------------------------
+function dUdt=rhs(t,U,par,stim)
+
+Rs = U(1); Ts=U(2); Ps=U(3);
+light = stim*(heaviside(t) - heaviside(t-0.01));  % Stimulus is a square impulse, of width 0.01 and height stim.
+
+dUdt(1) = light - par.alpha*Rs;
+dUdt(2) = par.eps*Rs*(par.T0-Ts) - par.beta*Ts;
+dUdt(3) = par.tau1*Ts*(par.P0-Ps) - par.tau2*Ps;
+
+dUdt = dUdt';
+
+end
+
+
+
+
