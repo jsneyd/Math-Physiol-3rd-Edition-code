@@ -6,13 +6,14 @@ clear all
 close all
 clc
 
+% specify all the parameter values
 par.T0 = 1000; par.P0 = 100;
 par.alpha = 20; par.beta = 10.6; par.eps = 0.5;  
 par.tau1 = 0.1; par.tau2 = 10;
 
-IC = [0 0 0];
-stim = [1 2 4 100 200 400];   % The stimulus strengths, going up in factors of 2, just for convenience.
-tspan=linspace(0,1,500);
+IC = [0 0 0];                   % initial conditions
+stim = [1 2 4 100 200 400];     % The stimulus strengths, going up in factors of 2, just for convenience.
+tspan=linspace(0,1,500);        % The time interval on which to solve the odes
 
 figure(1)
 for i=1:6
