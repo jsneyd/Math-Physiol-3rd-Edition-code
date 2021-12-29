@@ -32,6 +32,7 @@ set(gca,'FontSize',14)
 xlabel('substrate concentration (any units you like)')
 ylabel('complex concentration (any units you like)')
 legend('solution','slow manifold','Location','NorthWest')
+box off
 
 %%
 % Next do the modified QSSA solution, with e0/(s0+Km) small
@@ -64,7 +65,7 @@ set(gca,'FontSize',14)
 xlabel('substrate concentration (any units you like)')
 ylabel('complex concentration (any units you like)')
 legend('solution','slow manifold','Location','NorthWest')
-
+box off
 
 % Now save the figures. This bit is just for my convenience. You might want
 % to delete these lines
