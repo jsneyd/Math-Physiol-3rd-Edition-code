@@ -1,4 +1,4 @@
-% Program to solve the initial stages of the Forti et al model of
+% Program to solve the initial stages of the modified Forti et al model of
 % phototransduction. For the exercises of Chapter 19, Keener and Sneyd.
 
 
