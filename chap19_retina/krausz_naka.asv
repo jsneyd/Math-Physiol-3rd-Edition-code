@@ -1,0 +1,33 @@
+clear all
+close all
+clc
+
+%% Response to a bar of width 2R, by
+a = 1;
+R = 20;
+lh = 3;
+
+x1 = linspace(-3*R,-R,500);
+G1 = (1/(a*a*lh*lh))*abs(exp(-a*abs(x1+R)) - exp(-a*abs(x1-R)));
+plot(x1,G1)
+hold on
+
+x2 = linspace(-R,R,500);
+G2 = (1/(a*a*lh*lh))*( 2 - (exp(-a*abs(x2-R)) + exp(-a*abs(x2+R)) ) );
+plot(x2,G2)
+
+x3 = linspace(R,3*R,500);
+G3 = (1/(a*a*lh*lh))*abs(exp(-a*abs(x3+R)) - exp(-a*abs(x3-R)));
+plot(x3,G3)
+
+hold off
+
+
+%% Convolution gives the general response
+
+syms x s real
+
+p=@(x) heaviside(x+R).*heaviside(R-x);
+
+x=[x1 x2 x3];
+plot(x,p(x))
