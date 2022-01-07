@@ -47,7 +47,7 @@ hold off
 
 % Work in time units of milliseconds
 lh = 0.267;
-A = 3000;
+A = 300.77;
 tau = 24.8;
 t0 = 0.022;
 R = 0.1;
@@ -57,7 +57,7 @@ Fs = 2;              % sampling frequency
 t = 0:1/Fs:3000;             % time vector
 L = length(t);              % signal length
 
-k = (3/tau)*exp(-(t-t0)/tau).*(1 - exp(-(t-t0)/tau) ).^2;   % From the Krausz-Naka paper.
+k = (30/tau)*exp(-(t-t0)/tau).*(1 - exp(-(t-t0)/tau) ).^2;
 figure(2)
 plot(t,k)
 
@@ -70,7 +70,7 @@ plot(f,abs(khat(1:n/2+1)))
 alpha = (1 + A*khat).^0.5/lh;
 alpha0 = (1+A*khat(1))^0.5/lh;   % The zero frequency value of the response ratio
 
-x = 0;
+x = 0*R;
 if abs(x)<=R 
 F = 2 - exp(-alpha.*abs(x-R)) - exp(-alpha.*abs(x+R));
 F0 = 2 - exp(-alpha0.*abs(x-R)) - exp(-alpha0.*abs(x+R))
