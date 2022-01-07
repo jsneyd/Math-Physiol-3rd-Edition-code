@@ -12,6 +12,8 @@ A = 3000;
 tau = 24.8;
 t0 = 0.022;
 
+%% Set up and plot k and khat
+
 % First, set up k and khat. We do this by taking the inverse Fourier
 % transform of the function k(t), which is given in the text. We plot k(t)
 % just for fun, to make sure it looks OK
@@ -56,7 +58,7 @@ lower = upper;
 % Calculate the bar response in three pieces, just for convenience. To the
 % left of the bar, inside the bar, and then to the right of the bar.
 x1 = linspace(-lower,-R,500);
-G1 = (1/(2*alpha0*alpha0*lh*lh))*(exp(alpha0*(x1+R)) - exp(-alpha0*abs(R-x1)));
+G1 = (1/(2*alpha0*alpha0*lh*lh))*abs(exp(-alpha0*abs(x1+R)) - exp(-alpha0*abs(R-x1)));
 figure(4)
 plot(x1,G1,'LineWidth',2)
 hold on
@@ -66,7 +68,7 @@ G2 = (1/(2*alpha0*alpha0*lh*lh))*( 2 - (exp(alpha0*(x2-R)) + exp(-alpha0*(x2+R))
 plot(x2,G2,'LineWidth',2)
 
 x3 = linspace(R,upper,500);
-G3 = (1/(2*alpha0*alpha0*lh*lh))*(exp(alpha0*(R-x3)) - exp(-alpha0*(x3+R)));
+G3 = (1/(2*alpha0*alpha0*lh*lh))*abs(exp(-alpha0*abs(x3+R)) - exp(-alpha0*abs(R-x3)));
 plot(x3,G3,'LineWidth',2)
 
 % Now do the response by convolution
@@ -86,6 +88,7 @@ cc = conv(p(x),gg(x),'same')*dx;
 plot(x,cc,'k--','LineWidth',2)
 hold off
 
+%% Check
 % Now check that the ratio of the bar/field response (computed directly by
 % solving the differential equations) is the same as that given by the
 % frequency response
@@ -93,7 +96,6 @@ hold off
 bar_response = G2(250);  % Take the midpoint of the bar response, to get the value at x=0.
 fprintf('direct solution gives the bar/field ratio as %d\n\n',bar_response/fullfield);
 fprintf('the frequency response gives the bar/field ratio as %d\n\n',abs(ratio(1)));
-
 
 
 
