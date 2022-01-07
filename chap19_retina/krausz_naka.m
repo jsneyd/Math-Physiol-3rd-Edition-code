@@ -36,10 +36,10 @@ alpha0 = (1+A*khat(1))^0.5/lh;      % The zero frequency value of alpha
 fullfield = 1/(alpha0^2*lh^2)
 
 %% Computation of the frequency response of the bar/field ratio at x=0
-R = 0.1;           % Make the spot small
+R = 0.1;           % Set the width of the bar. R=1 is a wide bar. R=0.1 is a thin bar
 x = 0;
 
-F = (2 - exp(-alpha.*(x+R)) - exp(alpha.*(x-R)));
+F = (2 - exp(-alpha.*(x+R)) - exp(alpha.*(x-R)));  % F as defined in the text
 ratio = F/2;
 
 figure(3)
@@ -48,9 +48,8 @@ loglog(f,abs(ratio(1:n/2+1)))
 %% Response to a steady bar of width 2R, by direct calculation and then by convolution. Plot on same graph, to compare
 
 % To get a steady response, choose alpha to be the value at 0 frequency. So
-% use alpha0 here.
+% use alpha0 here. 
 
-R = 0.1;                            % A reasonably wide bar, but not too wide
 upper = 5*R;
 lower = upper;
 
@@ -71,10 +70,10 @@ G3 = (1/(2*alpha0*alpha0*lh*lh))*(exp(alpha0*(R-x3)) - exp(-alpha0*(x3+R)));
 plot(x3,G3,'LineWidth',2)
 
 % Now do the response by convolution
-
-p = @(x) heaviside(x+R).*heaviside(R-x);    % The stimulus. Redefine as needed
-gg = @(x) (1/(2*alpha0*lh*lh))*exp(-alpha0*abs(x));   % The Green's function
-x = linspace(-2*lower,2*upper,500);
+        
+p = @(x) heaviside(x+R).*heaviside(R-x);                % The stimulus. Redefine as needed
+gg = @(x) (1/(2*alpha0*lh*lh))*exp(-alpha0*abs(x));     % The Green's function
+x = linspace(-2*lower,2*upper,500);                     % Increase the bounds, to try and avoid edge effects
 dx=x(2)-x(1);
 
 % Use the built-in Matlab convolution function, which is faster than doing the integral directly.
