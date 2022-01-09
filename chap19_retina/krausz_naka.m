@@ -7,10 +7,10 @@ close all
 clc
 
 % Work in time units of milliseconds
-lh = 0.267;                     % The space constant of electrical diffusion in the horizontal cell layer
+lh = 0.3;                      % The space constant of electrical diffusion in the horizontal cell layer
 A = 3000;
-tau = 24.8;
-t0 = 0.022;
+tau = 25 ; 
+t0 = 0.02; 
 
 %% Set up and plot k and khat
 
@@ -35,10 +35,10 @@ plot(f,abs(khat(1:n/2+1)))
 % Once we know the FT of k, we can then calculate alpha(w).
 alpha = (1 + A*khat).^0.5/lh;
 alpha0 = (1+A*khat(1))^0.5/lh;      % The zero frequency value of alpha
-fullfield = 1/(alpha0^2*lh^2)
+fullfield = 1/(alpha0^2*lh^2)       % The full-field response. Used as a check, mostly.
 
 %% Computation of the frequency response of the bar/field ratio at x=0
-R = 0.1;           % Set the width of the bar. R=1 is a wide bar. R=0.1 is a thin bar
+R = 1.1;           % Set the width of the bar. R=1 is a wide bar. R=0.1 is a thin bar
 x = 0;
 
 F = (2 - exp(-alpha.*(x+R)) - exp(alpha.*(x-R)));  % F as defined in the text
@@ -52,7 +52,7 @@ loglog(f,abs(ratio(1:n/2+1)))
 % To get a steady response, choose alpha to be the value at 0 frequency. So
 % use alpha0 here. 
 
-upper = 5*R;
+upper = 2*R;
 lower = upper;
 
 % Calculate the bar response in three pieces, just for convenience. To the
