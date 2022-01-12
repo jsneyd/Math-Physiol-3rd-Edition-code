@@ -1,6 +1,5 @@
 % Solutions of the Krausz-Naka model of photoreceptor cell/horizontal cell
-% interactions in the catfish retina. This first bit computes responses to
-% steady inputs, and the later bits compute the frequency response.
+% interactions in the catfish retina. 
 
 clear all
 close all
@@ -38,7 +37,7 @@ alpha0 = (1+A*khat(1))^0.5/lh;      % The zero frequency value of alpha
 fullfield = 1/(alpha0^2*lh^2)       % The full-field response. Used as a check, mostly.
 
 %% Computation of the frequency response of the bar/field ratio at x=0
-R = 1.1;           % Set the width of the bar. R=1 is a wide bar. R=0.1 is a thin bar
+R = 0.1;           % Set the width of the bar. R=1 is a wide bar. R=0.1 is a thin bar
 x = 0;
 
 F = (2 - exp(-alpha.*(x+R)) - exp(alpha.*(x-R)));  % F as defined in the text
