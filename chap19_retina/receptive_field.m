@@ -94,4 +94,4 @@ xlabel('t')
 ylabel('r(t)')
 box off
 legend('c=1','c=0.5','c=3')
-saveas(4,'../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/receptive_field_3.png')
+%saveas(4,'../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/receptive_field_3.png')
