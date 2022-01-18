@@ -46,7 +46,7 @@ ylabel('r(t)')
 box off
 legend('c=1','c=10')
 
-saveas(2,'../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/receptive_field.png')
+%saveas(2,'../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/receptive_field.png')
 
 %% Now calculate the response to a step and a bar, when the response is not instantaneous
 
@@ -67,26 +67,31 @@ xlabel('t')
 ylabel('r(t)')
 box off
 legend('impulse response','step response')
-saveas(3,'../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/receptive_field_2.png')
+%saveas(3,'../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/receptive_field_2.png')
 
-% Finally, calculate the response to a moving step, when the response is
-% not instantaneous
+
+%% Finally, calculate the response to a moving step, when the response is not instantaneous
+
+w = 8;
+n = 200;
+t = linspace(-2,20,n);
 c=1;
-stim = @(x,t)heaviside(c*t-x) - heaviside(c*t-x-w);
+stim1 = @(x,t)heaviside(t-x/c) - heaviside(t-x/c-w/c);
+c=0.5;
+stim2 = @(x,t)heaviside(t-x/c) - heaviside(t-x/c-w/c);
+c=3;
+stim3 = @(x,t)heaviside(t-x/c) - heaviside(t-x/c-w/c);
 for i = 1:n
-bar_response1(i) = integral2(@(s,x)1.*imp(t(i)-s).*f(x),0,t(i),c*t(i)-w,c*t(i));
-end
-c=8;
-stim = @(x,t)heaviside(c*t-x) - heaviside(c*t-x-w);
-for i = 1:n
-bar_response2(i) = integral2(@(s,x)1.*imp(t(i)-s).*f(x),0,t(i),c*t(i)-w,c*t(i));
+bar_response1(i) = integral2(@(s,x)stim1(x,t(i)).*imp(t(i)-s).*f(x),-Inf,t(i),-Inf,Inf);
+bar_response2(i) = integral2(@(s,x)stim2(x,t(i)).*imp(t(i)-s).*f(x),-Inf,t(i),-Inf,Inf);
+bar_response3(i) = integral2(@(s,x)stim3(x,t(i)).*imp(t(i)-s).*f(x),-Inf,t(i),-Inf,Inf);
 end
 
 figure(4)
-plot(t,bar_response1,t,bar_response2,'r','LineWidth',2)
+plot(t,bar_response1,t,bar_response2,t,bar_response3,'LineWidth',2)
 set(gca,'Fontsize',14)
 xlabel('t')
 ylabel('r(t)')
 box off
-legend('c=1','c=8')
+legend('c=1','c=0.5','c=3')
 saveas(4,'../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/receptive_field_3.png')
