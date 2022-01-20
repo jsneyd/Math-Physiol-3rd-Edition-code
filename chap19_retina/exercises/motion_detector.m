@@ -1,5 +1,7 @@
 % Reichardt motion detector, responding to a square wave pulse.
 
+function main
+  
 clear all
 close all
 clc
@@ -47,6 +49,9 @@ else
 end
 legend('first product', 'second product','combined response','Location','northwest')
 
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%
 function out = s(x,t,c,s0)

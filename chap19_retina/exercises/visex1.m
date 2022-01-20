@@ -1,7 +1,7 @@
 % Program to solve the initial stages of the Forti et al model of
 % phototransduction. For the exercises of Chapter 19, Keener and Sneyd.
 
-
+function main
 clear all
 close all
 clc
@@ -48,8 +48,10 @@ hold off
 % Now save the figures. This bit is just for my convenience. You might want
 % to delete these lines
 
-saveas(1,'../../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/visex1_fig1.png')
-saveas(2,'../../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/visex1_fig2.png')
+%saveas(1,'../../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/visex1_fig1.png')
+%saveas(2,'../../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/visex1_fig2.png')
+
+end
 
 
 %% The ODEs -------------------------------------------------
@@ -65,6 +67,16 @@ dUdt(3) = par.tau1*Ts*(par.P0-Ps) - par.tau2*Ps;
 dUdt = dUdt';
 
 end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
 
 
 

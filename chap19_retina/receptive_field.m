@@ -45,7 +45,6 @@ xlabel('t')
 ylabel('r(t)')
 box off
 legend('c=1','c=10')
-
 %saveas(2,'../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/receptive_field.png')
 
 %% Now calculate the response to a step and a bar, when the response is not instantaneous
@@ -72,8 +71,11 @@ legend('impulse response','step response')
 
 %% Finally, calculate the response to a moving step, when the response is not instantaneous
 
+% You have to be careful with the resolution (the parameter n) here. It's a tradeoff between speed and accuracy. 
+% Octave does the integral a lot slower than Matlab does, and struggles with n=200, which looks a lot better than n=50.
+
 w = 8;
-n = 200;
+n = 50;    
 t = linspace(-2,20,n);
 c=1;
 stim1 = @(x,t)heaviside(t-x/c) - heaviside(t-x/c-w/c);
@@ -83,12 +85,12 @@ c=3;
 stim3 = @(x,t)heaviside(t-x/c) - heaviside(t-x/c-w/c);
 for i = 1:n
 bar_response1(i) = integral2(@(s,x)stim1(x,t(i)).*imp(t(i)-s).*f(x),-Inf,t(i),-Inf,Inf);
-bar_response2(i) = integral2(@(s,x)stim2(x,t(i)).*imp(t(i)-s).*f(x),-Inf,t(i),-Inf,Inf);
-bar_response3(i) = integral2(@(s,x)stim3(x,t(i)).*imp(t(i)-s).*f(x),-Inf,t(i),-Inf,Inf);
+%bar_response2(i) = integral2(@(s,x)stim2(x,t(i)).*imp(t(i)-s).*f(x),-Inf,t(i),-Inf,Inf);
+%bar_response3(i) = integral2(@(s,x)stim3(x,t(i)).*imp(t(i)-s).*f(x),-Inf,t(i),-Inf,Inf);
 end
 
 figure(4)
-plot(t,bar_response1,t,bar_response2,t,bar_response3,'LineWidth',2)
+plot(t,bar_response1,'LineWidth',2)
 set(gca,'Fontsize',14)
 xlabel('t')
 ylabel('r(t)')

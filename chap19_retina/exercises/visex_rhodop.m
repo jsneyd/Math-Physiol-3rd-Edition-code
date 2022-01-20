@@ -7,9 +7,9 @@ syms k w t x real
 assume(k>0);
 assume(x>0);
 
-n=6;
-Phat = k^n/((k+i*w)^n);
-P = ifourier(Phat);
+n=2; k=1;
+Phat = k^n/((k+i*w)^n)
+P = ifourier(Phat)
 pretty(P)
 
 % Just for fun, make sure that the integral of P (from 0 to infinity) is 1.
