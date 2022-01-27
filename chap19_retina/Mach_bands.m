@@ -1,5 +1,5 @@
 
-% The Matlab file used to generate the image in Fig. 1 of Chapter 19
+% The Octave file used to generate the image in Fig. 1 of Chapter 19
 % (Keener and Sneyd, Mathematical Physiology)
 
 clear all
