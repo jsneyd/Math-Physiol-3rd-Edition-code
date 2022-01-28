@@ -9,9 +9,9 @@ function longtin_milton
     clc
     
     options = ddeset('Reltol',0.000005);  % To get output at a decent resolution
-    lags = 1;
+    tau = 1;   % here is where you set the time delay
     tspan = (0:10);
-    sol = dde23(@ddefun, lags, @history, tspan,options);
+    sol = dde23(@ddefun, tau, @history, tspan,options);
     area = areafun(sol.y);
     plot(sol.x,sol.y,'b-o',sol.x,area,'r-o')
     xlabel('Time (s)');
@@ -26,10 +26,11 @@ end
 %%
 function dydt = ddefun(t,y,Z)
     gamma = 5;
-    I = 10;
+    I = 1;
     phibar = 1;
+    taux = 1;
     ylag1 = Z(:,1);
-    dydt = gamma*capF(log(I*areafun(ylag1)/phibar))-y(1);
+    dydt = (1/taux)*(gamma*capF(log(I*areafun(ylag1)/phibar))-y(1));
 end
 
 %%
@@ -40,6 +41,7 @@ end
 %% 
 function out=capF(x)
 out = heaviside(x)*x;
+%out = x;
 end
 
 %%

@@ -1,0 +1,25 @@
+# File to solve the Longtin-Milton model of pupillary light reflex cycling.
+
+lam = 30
+par n = 7
+gamma = 5
+par I = 10
+phibar = 1
+theta = 10
+areafun(x) = lam*theta^n/(x^n + theta^n)
+capF(x) = x*exp(x)/(1+exp(x))
+
+par tau = 1
+
+x(0) = 1
+x' = gamma*capF(log(I*areafun(delay(x,tau))/phibar))-x
+   	   	
+#set up the plot
+@ total=20, dt=1e-3, xp=t, yp=x, xlo=0, xhi=20, ylo=0, yhi=30 meth=euler, bounds=20000
+@ delay=20
+
+done
+
+
+
+
