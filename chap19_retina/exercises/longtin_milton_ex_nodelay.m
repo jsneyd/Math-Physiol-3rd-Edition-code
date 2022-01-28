@@ -11,7 +11,7 @@ close all
 clc
 
 IC = [1 1 1 1 1];
-tspan = linspace(0,10,100);
+tspan = linspace(0,3000,1000);
 [t,sol] = ode45(@(t,y)rhs(t,y), tspan,IC);
 area = areafun(sol(:,5));
 plot(t,sol(:,4),'b-o',t,area,'r-o')
@@ -21,10 +21,10 @@ end
 
 %%
 function yp = rhs(t,y)
-gamma = 10;
+gamma = 8;
 I = 10;
 phibar = 1;
-k1 = 2; k2=1;
+k1 = 0.1; k2=1;
 
 x = y(5);
 x1 = y(1);
@@ -50,7 +50,7 @@ end
 %%
 function out = areafun(x)
 lam = 30;
-n = 8;   % vary n to get different oscillatory behaviour
+n = 7;   % vary n to get different oscillatory behaviour
 theta = 10;
 out = lam*theta^n./(x.^n + theta^n);
 end
