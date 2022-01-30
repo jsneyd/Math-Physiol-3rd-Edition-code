@@ -1,3 +1,6 @@
+# Python code to solve the Longtoin-Milton delay differential model of the pupil
+# light reflex.
+
 from pylab import *
 from ddeint import ddeint
 
@@ -14,7 +17,6 @@ capF = lambda x: heaviside(x,1)*x
 model = lambda x,t : gamma*capF(log(I*areafun(x(t-tau)))/phibar)-x(t)
 tt = linspace(0,10,1000) # Time start, time end, num of points/steps
 g= lambda t: 10 # solution before the integration interval
-
 
 yy = ddeint(model,g,tt) # Solving
 
