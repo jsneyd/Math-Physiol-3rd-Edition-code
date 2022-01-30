@@ -26,7 +26,7 @@ end
 %%
 function dydt = ddefun(t,y,Z)
     gamma = 5;
-    I = 1;
+    I = 10;
     phibar = 1;
     taux = 1;
     ylag1 = Z(:,1);
@@ -35,7 +35,7 @@ end
 
 %%
 function s = history(t)
-  s = ones(1,1);
+  s = 10*ones(1,1);
 end
 
 %% 
@@ -47,7 +47,7 @@ end
 %%
 function out = areafun(x)
     lam = 30;
-    n = 8;   % vary n to get different oscillatory behaviour
+    n = 7;   % vary n to get different oscillatory behaviour
     theta = 10;
     out = lam*theta^n./(x.^n + theta^n);
 end
