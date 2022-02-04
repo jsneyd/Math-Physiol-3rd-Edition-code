@@ -1,1 +1,43 @@
-% Fluid absorption as a function of lumenal Na concentration,% in nondimensional variables.% Basically, this is just a check that we can do it.clear allclose allclcbeta = 1;gam = 10;rho = 1;u0 = 1;ui = linspace(0,10,1000);fi = (ui.^3)./(1+ui.^3);ul = ui + beta*fi;a = rho;b = rho + ul;c = ui - u0 + (1-gam)*beta*fi;y = (-b + (b.^2 - 4*a*c).^0.5)./(2*a);plot(ul,y,'LineWidth',2)xlabel('lumenal sodium concentration, u_l')ylabel('flow rate, y')set(gca,'FontSize',14)box off
+% Fluid absorption as a function of lumenal Na concentration,
+% in nondimensional variables.
+
+
+clear all
+close all
+clc
+
+% First reproduce the figure in the gastrointestinal chapter.
+
+beta = 1;
+gam = 10;
+rho = 1;
+u0 = 1;
+
+ui = linspace(0,8,1000);
+fi = (ui.^3)./(1+ui.^3) ;
+ul = ui + beta*fi;
+
+a = rho;
+b = rho + ul;
+c = ui - u0 + (1-gam)*beta*fi;
+y = (-b + (b.^2 - 4*a*c).^0.5)./(2*a);
+
+plot(ul,y,'LineWidth',2)
+xlabel('lumenal sodium concentration, u_l')
+ylabel('flow rate, y')
+set(gca,'FontSize',14)
+box off
+hold on
+
+% Next add to the figure the curve assuming that the Na flux depends on the
+## voltage
+
+V = -1;
+ul = ui*exp(V).*exp(fi);
+
+a = rho;
+b = rho + ul;
+c = ui - u0 + (1-gam)*beta*fi;
+y = (-b + (b.^2 - 4*a*c).^0.5)./(2*a);
+
+plot(ul,y,'LineWidth',2)

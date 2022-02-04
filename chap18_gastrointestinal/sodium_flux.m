@@ -14,8 +14,6 @@ rho = 1;
 u0 = 1;
 
 ui = linspace(0,10,1000);
-
-
 fi = (ui.^3)./(1+ui.^3) ;
 ul = ui + beta*fi;
 
