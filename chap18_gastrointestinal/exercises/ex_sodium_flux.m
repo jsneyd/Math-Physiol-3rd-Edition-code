@@ -25,7 +25,7 @@ y = (-b + (b.^2 - 4*a*c).^0.5)./(2*a);
 plot(ul,y,'LineWidth',2)
 xlabel('lumenal sodium concentration, u_l')
 ylabel('flow rate, y')
-set(gca,'FontSize',14)
+set(gca,'FontSize',14,'LineWidth',1.5)
 box off
 hold on
 
@@ -33,7 +33,7 @@ hold on
 ## voltage
 
 V = -1;
-ul = ui*exp(V).*exp(fi);
+ul = ui*exp(V).*exp(beta*fi);
 
 a = rho;
 b = rho + ul;
@@ -41,3 +41,6 @@ c = ui - u0 + (1-gam)*beta*fi;
 y = (-b + (b.^2 - 4*a*c).^0.5)./(2*a);
 
 plot(ul,y,'LineWidth',2)
+
+% Save the file. For convenience. You probably don't want this line.
+%saveas(1,'../../Math-Physiol-3rd-Edition/figures/chap18_gastrointestinal/exercises/ex_sodium_flux.png')
