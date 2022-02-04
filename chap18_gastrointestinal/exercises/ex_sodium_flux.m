@@ -43,4 +43,4 @@ y = (-b + (b.^2 - 4*a*c).^0.5)./(2*a);
 plot(ul,y,'LineWidth',2)
 
 % Save the file. For convenience. You probably don't want this line.
-%saveas(1,'../../Math-Physiol-3rd-Edition/figures/chap18_gastrointestinal/exercises/ex_sodium_flux.png')
+saveas(1,'../../../Math-Physiol-3rd-Edition/figures/chap_18_gastrointestinal/exercises/ex_sodium_flux.png')
