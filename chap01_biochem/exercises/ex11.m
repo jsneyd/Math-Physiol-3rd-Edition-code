@@ -2,6 +2,12 @@ clear all
 close all
 clc
 
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 1.0, ...
+   'defaultlinelinewidth', 1.2, ...
+   'defaultpatchlinewidth', 0.7);
+
 %%
 % First do the usual QSSA solution, with e0/s0 small
 
@@ -67,7 +73,7 @@ ylabel('complex concentration (any units you like)')
 legend('solution','slow manifold','Location','NorthWest')
 box off
 
-% Now save the figures. This bit is just for my convenience. You might want
+% Now save the figures. This bit is for my convenience. You might want
 % to delete these lines
 
 saveas(1,'../../../Math-Physiol-3rd-Edition/figures/chap_01_biochem/exercises/ex11_fig1.png')
