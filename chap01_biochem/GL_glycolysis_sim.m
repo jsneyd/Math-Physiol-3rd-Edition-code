@@ -1,4 +1,4 @@
-function GL_sim
+function GL_glycolysis_sim
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 1.0, ...
@@ -14,7 +14,7 @@ global nu eta a
  a=1.0;
 
 % set up the integration
-tspan = [0:0.001:1];            % time interval for the solution
+tspan = [0:0.0005:1];            % time interval for the solution
 IC = [37,1];                        % initial condition
 [t,U] = ode15s(@(t,y)rhs(t,y),tspan,IC);
 
@@ -43,7 +43,7 @@ hold off
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function out=rhs(t,y)
-global nu eta a g
+global nu eta a 
 u=y(1);
 w=y(2);
 f =u*(1+w)^2;
