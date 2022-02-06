@@ -1,3 +1,4 @@
+function ex11_fig1
 clear all
 close all
 clc
@@ -34,7 +35,7 @@ c = par.e0*s./(par.Km+s);
 plot(s,c,'r--','LineWidth',2)
 
 % Make the plot look pretty
-set(gca,'FontSize',14)
+set(gca,'FontSize',16)
 xlabel('substrate concentration (any units you like)')
 ylabel('complex concentration (any units you like)')
 legend('solution','slow manifold','Location','NorthWest')
@@ -67,7 +68,7 @@ c = par.e0*s./(par.Km+s);
 plot(s,c,'r--','LineWidth',2)
 
 % Make the plot look pretty
-set(gca,'FontSize',14)
+set(gca,'FontSize',16)
 xlabel('substrate concentration (any units you like)')
 ylabel('complex concentration (any units you like)')
 legend('solution','slow manifold','Location','NorthWest')
@@ -92,4 +93,4 @@ out(2) = par.k1*s*(par.e0-c) - (par.k2+par.km1)*c;
 
 out = out';
 
-end
+ 
