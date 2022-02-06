@@ -16,7 +16,7 @@ s=[0:100]/20;
 g=b(1)*s./(s+b(2));
 figure(1);
 plot(S,V,'k*',s,g,'r','linewidth',2)
-xlabel('Substrate Concentration S','fontsize',16)
+xlabel('Substrate Concentration s','fontsize',16)
 ylabel('Reaction Velocity V','fontsize',16)
 t=-.004*[0:100];
 f=b(1)+t*b(2);
@@ -26,5 +26,5 @@ plot(t,f,'g','linewidth',2)
 hold on
 plot(-V./S,V,'k*')
 hold off
-xlabel('V/S','fontsize',16)
+xlabel('V/s','fontsize',16)
 ylabel('V','fontsize',16)
