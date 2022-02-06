@@ -30,9 +30,9 @@ box off
 hold on
 
 % Next add to the figure the curve assuming that the Na flux depends on the
-## voltage
+## voltage, with a linear IV curve
 
-V = -1;
+V = -2;
 ul = ui*exp(V).*exp(beta*fi);
 
 a = rho;
@@ -42,5 +42,21 @@ y = (-b + (b.^2 - 4*a*c).^0.5)./(2*a);
 
 plot(ul,y,'LineWidth',2)
 
+% Finally add to the figure the curve assuming that the Na flux depends on the
+## voltage, but with a GHK IV curve
+
+V = -2;
+ul = exp(V).*(ui + beta*fi./V*(1-exp(-V)));
+
+a = rho;
+b = rho + ul;
+c = ui - u0 + (1-gam)*beta*fi;
+y = (-b + (b.^2 - 4*a*c).^0.5)./(2*a);
+
+plot(ul,y,'LineWidth',2)
+legend('no V dependence','linear IV curve','GHK IV curve')
+%xlim([0 1])
+
 % Save the file. For convenience. You probably don't want this line.
-saveas(1,'../../../Math-Physiol-3rd-Edition/figures/chap_18_gastrointestinal/exercises/ex_sodium_flux.png')
+%
+% saveas(1,'../../../Math-Physiol-3rd-Edition/figures/chap_18_gastrointestinal/exercises/ex_sodium_flux2.png')
