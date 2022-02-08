@@ -12,25 +12,26 @@ a = 0.1
 N0 = 0.3
 
 def fun(x, y, p):
-    N = N0*(1-np.heaviside(x-a*L,1))
+    N = N0*(1-np.heaviside(x-a*L,0))
     return np.vstack( (y[1], (1/D)*(2*P*y[0]*(y[0]-c0)/r + y[1]*y[2] - 2*N/r),2*P*(y[0]-c0)/r) )
 
 def bc(ya, yb, p):
     cc = p[0]
-    return np.array([ya[1], ya[2], yb[0]-c0,ya[0]-cc])
+    return np.array([ya[1], ya[2], yb[0]-c0, ya[0]-cc])
 
-x = np.linspace(0, 100, num=1000)
+x = np.linspace(0, L, num=1000)
 y = np.zeros((3, x.size))
 y[0] = 1
 y[1] = 0
 y[2] = 10
 
-sol = solve_bvp(fun, bc, x, y,p=[1])
+sol = solve_bvp(fun, bc, x, y, p=[1])
+print(sol.p)
 
 # All the rest is just plotting out the solution and making it look nicer. 
 # The hard work is already done.
 
-x_plot = np.linspace(0, 100, num=1000)
+x_plot = np.linspace(0, L, num=1000)
 
 fig, ax1 = plt.subplots(dpi=600)
 c_plot = sol.sol(x_plot)[0]
