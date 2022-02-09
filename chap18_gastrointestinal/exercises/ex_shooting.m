@@ -7,12 +7,13 @@ clear all
 close all
 clc
 
-L= 100;  % cinit = 0.6169954  is the value needed to get c(L)=c0, if L=20.;
+L= 100;  
 c0 = 0.3;
 xspan = linspace(0,L,10000);
 
 % Do a bisection method on cinit to find the best value
-
+% This is the initial bracket of values, which we know to be above and below the
+## true value.
 cup = 2;
 cdown = 0.5;
 
@@ -63,7 +64,9 @@ dydx(3) = 2*P*(c-c0)/r;
 dydx = dydx';
 end
 
-%% Define the condition under which we stop the integration because it's already going wrong
+%% Define the condition under which we stop the integration because it's already going
+## wrong. If you don't do this the program will crash as it really doesn't like
+## computing the solution for a long time if c(0) is too big.
 function [value, isterminal, direction] = stopping(x,y)
 value = [y(1);y(1)-10];
 isterminal = [1;1];
