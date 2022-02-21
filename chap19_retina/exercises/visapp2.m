@@ -7,7 +7,7 @@ clc
 % function
 syms a w trans
 
-trans = 1/(a+i*w)^2;
+trans = 1/(a+i*w)^4;
 latex(simplify(ifourier(trans)))
 pretty(simplify(ifourier(trans)))
 
