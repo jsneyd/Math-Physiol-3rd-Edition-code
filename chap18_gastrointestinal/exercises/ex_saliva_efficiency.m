@@ -4,7 +4,7 @@ clear all
 clc
 
 a1 = 0.01;
-a2 =0.05;
+a2 = 0.05;
 
 j1=linspace(0,2,100);
 j2 = j1;
@@ -55,4 +55,3 @@ QQ = taylor(Q,aT,'Order',n);
 QQ = subs(QQ,aT,1/(1/a1+1/a2));
 
 pretty(simplify(QQ-qq1-qq2))
-%collect(QQ-qq1-qq2,[a1,a2])
