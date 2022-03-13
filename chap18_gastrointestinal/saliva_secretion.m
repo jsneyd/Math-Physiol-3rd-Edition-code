@@ -7,8 +7,10 @@
 function main
  close all; clear all; clc; format longg; 
 
-        load('saliva_secretion_parameters.mat')            % loads all the model parameters.
+% The data file can be found at 
+% https://github.com/jsneyd/Math-Physiol-3rd-Edition-code/blob/main/chap18_gastrointestinal/saliva_secretion_parameters.mat
  
+        load('saliva_secretion_parameters.mat')            % loads all the model parameters.
         par.Ul = 10;                                      
         vplc = 0.00;        % No agonist stimulation, to calculate the steady state for resting calcium       
         M = eye(16);
