@@ -27,7 +27,7 @@ n = 200   # number of oscillators in chain
 # Output times and range
 t0=0
 tf=60
-t = np.arange(t0,tf,0.05)
+t = np.arange(t0,tf,0.01)
 # Initial conditions for all oscillators: V = 0.1; w = 0.
 y0 = 0.1*np.ones(2*n)
 y0[n:2*n] = 0
@@ -45,6 +45,7 @@ for i in range(0, n):
 
 # Plot solution
 plt.plot(freq)
+np.savetxt('coupled_oscillator_output_1.dat',freq)
 
 # Now solve with coupling
 G=50
@@ -59,3 +60,5 @@ for i in range(0, n):
 
 # Plot solution
 plt.plot(freq)
+
+np.savetxt('coupled_oscillator_output_2.dat',freq)
