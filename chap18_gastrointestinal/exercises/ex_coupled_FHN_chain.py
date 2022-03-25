@@ -3,6 +3,8 @@ import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 from scipy.signal import find_peaks
+plt.rcParams['axes.spines.right'] = False  # Me being pedantic and removing the box around the graph
+plt.rcParams['axes.spines.top'] = False
 
 def deriv(t, y):
     """ODEs for FHN."""
@@ -45,7 +47,6 @@ for i in range(0, n):
 
 # Plot solution
 plt.plot(freq)
-np.savetxt('coupled_oscillator_output_1.dat',freq)
 
 # Now solve with coupling
 G=50
@@ -61,4 +62,8 @@ for i in range(0, n):
 # Plot solution
 plt.plot(freq)
 
-np.savetxt('coupled_oscillator_output_2.dat',freq)
+plt.xlabel('oscillator number')
+plt.ylabel('frequency')
+plt.legend(['uncoupled','coupled'],frameon=False)
+
+plt.savefig('coupled_oscillator.png',dpi=300)
