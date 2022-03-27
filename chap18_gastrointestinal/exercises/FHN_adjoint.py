@@ -4,7 +4,6 @@ import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
-from scipy.signal import find_peaks
 plt.rcParams['axes.spines.right'] = False  # Me being pedantic and removing the box around the graph
 plt.rcParams['axes.spines.top'] = False
 
@@ -114,3 +113,9 @@ plt.figure(3)
 plt.plot(t_n/T,Va/norm)
 
 np.savetxt('FHN_adjoint.dat',np.c_[t_n/T,Va/norm])
+
+#################################
+# now save all the data so that we can use it again later, without having to
+# recompute the adjoint, etc
+
+np.save('FHN_save_variables.npy',[alpha,eps,I,T,t_n,v_n,w_n,Va,Wa],allow_pickle=True)
