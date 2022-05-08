@@ -1,5 +1,6 @@
 
 from sympy import *
+import matplotlib.pyplot as plt
 
 x, t= symbols('x t',positive = 'true')
 rho = 1
@@ -15,9 +16,12 @@ dum = x*exp(-fplusg*x*t/h)
 ans = integrate(dum,(x,h-delx,h))
 print(ans)   # Just for funsies, check the integral
 
-plot((rho*k*alpha*(h**2)/2,(t,-2,0)),
+plt.figure(dpi=300)    # this works because symplot uses matplotlib for its plotting stuff
+graph = plot((rho*k*alpha*(h**2)/2,(t,-2,0)),
         (rho*k*alpha*(h**2)/2 - alpha*exp(-g2*t)*(delx**2) - alpha*ans,(t,0,5)),
         ylim=(0,0.43),
         axis_center=(0,0),
         ylabel='force',
-        xlabel='time')
+        xlabel='time',line_color='red')
+
+graph.save('ex_muscle_2.png')
