@@ -1,5 +1,7 @@
+#%%
 import numpy as np
 from scipy.integrate import solve_ivp
+from scipy.integrate import trapezoid
 import matplotlib.pyplot as plt
 
 plt.rcParams['axes.spines.right'] = False  # Me being pedantic and removing the box around the graph
@@ -34,7 +36,7 @@ x = np.arange(x0,xf,-0.0001)
 # Initial conditions
 y0 = [0,0]
 
-# Compute solutions for 4 different values of v
+# Compute and plot solutions for 4 different values of v
 v = 0.01
 soln1 = solve_ivp(deriv, (x0, xf), y0, method='Radau',t_eval=x)
 v = 0.05
@@ -58,5 +60,24 @@ ax2.text(-1.5, 0.4, '$v=0.05$')
 ax3.text(-1.5, 0.4, '$v=0.1$')
 ax4.text(-1.5, 0.4, '$v=0.5$')
 
+#plt.savefig('exhill1_2_solutions.png',dpi=300)
 
-plt.savefig('exhill1_2_solutions.png',dpi=300)
+#%%
+# Now calculate the force-velocity curve. Cycle through the values of v, 
+# calculating p by an integral at each step
+
+n = 20
+force = np.empty(n)
+vel = np.empty(n)
+for i in range(n):
+    v = 0.01+ 2*i/n
+    soln = solve_ivp(deriv, (x0, xf), y0, method='Radau',t_eval=x)
+    [n0,nm1] = soln.y
+    x = soln.t
+    force[i] = -trapezoid(x*n0,x) - trapezoid((x-delta)*nm1,x)   # x is in reverse order so you need to change the sign of the integral
+    vel[i] = v
+
+plt.plot(vel,force)
+plt.xlabel('v')
+plt.ylabel('p')
+plt.savefig('exhill1_2_force_velocity.png',dpi=300)
