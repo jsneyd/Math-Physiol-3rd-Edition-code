@@ -66,7 +66,7 @@ ax4.text(-1.5, 0.4, '$v=0.5$')
 # Now calculate the force-velocity curve. Cycle through the values of v, 
 # calculating p by an integral at each step
 
-n = 20
+n = 40
 force = np.empty(n)
 vel = np.empty(n)
 for i in range(n):
