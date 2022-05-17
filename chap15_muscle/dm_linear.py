@@ -1,6 +1,5 @@
 import numpy as np
 from scipy.integrate import solve_ivp
-from scipy.integrate import quad
 import matplotlib.pyplot as plt
 
 
