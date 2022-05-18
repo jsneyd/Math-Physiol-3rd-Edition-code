@@ -3,7 +3,7 @@
 % GM Donovan
 % g.donovan@auckland.ac.nz
 
-function main
+function DM_linear_donovan
 close all
 clear all
 
