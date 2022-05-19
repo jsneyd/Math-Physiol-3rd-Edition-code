@@ -5,19 +5,11 @@ close all
 clear all
 clc
 
-% for constant stretch change sign of v as required
-par.v = 50;
-
-% v0=25;
-% om=50;
-% par.v=@(t) v0*sin(om*t);
-
-
-% binding functions
 par.f1=43.3;
 par.g1=10;
 par.g2=209;
 par.h=1;
+par.v = 50;    % the velocity. Change the value to suit
 par.num = 100; % number of space points
 
 
@@ -26,7 +18,7 @@ x0 = linspace(-1,3,par.num);
 n0 = f(x0,par)./(f(x0,par) + g(x0,par));
 y0 = [x0 n0];
 
-output_times = linspace(0,0.04,5);
+output_times = linspace(0,0.04,5);  % to make the curves for a constant v
 % integrate the odes, one for each x point
 [tout,yout]=ode45(@(t,y)derivs(t,y,par),output_times,y0);
 
@@ -60,6 +52,7 @@ ylabel('n')
 title('t=0.04 s')
 ylim([0 1])
 
+
 end
 
 
@@ -82,6 +75,7 @@ end
 function out = g(x,par)
 out = par.g2*(x<=0) + par.g1*x.*(x>0);
 end
+
 
 
 
