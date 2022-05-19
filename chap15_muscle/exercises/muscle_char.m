@@ -59,6 +59,7 @@ xlabel('x')
 ylabel('n')
 title('t=0.04 s')
 ylim([0 1])
+
 end
 
 
