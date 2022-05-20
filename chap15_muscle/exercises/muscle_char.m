@@ -16,7 +16,7 @@ par.num = 100; % number of space points
 % initial conditions
 x0 = linspace(-1,3,par.num);
 n0 = f(x0,par)./(f(x0,par) + g(x0,par));
-y0 = [x0 n0];
+y0 = [x0 n0]; 
 
 output_times = linspace(0,0.04,5);  % to make the curves for a constant v
 % integrate the odes, one for each x point
