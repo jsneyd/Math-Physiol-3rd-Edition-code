@@ -87,8 +87,9 @@ function out = derivs(t,y,par)
 x = y(1:par.num);
 n = y(par.num+1:2*par.num);
 
+N = trapz(x,n);
 out(1:par.num) = -v(t);
-out(par.num+1:2*par.num) = (1-n).*f(x,par) - n.*g(x,par);
+out(par.num+1:2*par.num) = (1-N).*f(x,par) - n.*g(x,par);
 out = out';
 end
 
