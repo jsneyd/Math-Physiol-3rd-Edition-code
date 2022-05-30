@@ -92,7 +92,6 @@ n0 = 0;
 par.v = v;
 [xout,nout]=ode15s(@(x,n)derivs(x,n,par),xspan,n0);
 load = -trapz(xout,xout.*nout);  % Has to be minus since x is going backwards in the integration
-
 end
 
 %% ------------------------------------------------

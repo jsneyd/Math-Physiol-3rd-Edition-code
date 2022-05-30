@@ -19,35 +19,35 @@ y0 = [x0 n0];
 nump = 250;
 output_times = linspace(0,0.4,nump);  % to make the curves for a constant v
 % integrate the odes, one for each x point
-[tout,yout]=ode45(@(t,y)derivs(t,y,par),output_times,y0);
+[tout,yout]=ode15s(@(t,y)derivs(t,y,par),output_times,y0);
 
 
 % All the real work is done now. The rest is just plotting the output.
 
 figure(1)
 subplot(2,2,1)
-plot(yout(60,1:par.num),yout(60,par.num+1:2*par.num),'LineWidth',2,'r')
+plot(yout(60,1:par.num),yout(60,par.num+1:2*par.num))
 xlabel('x')
 ylabel('n')
 title('t = 0.1 s')
 ylim([0 1])
 
 subplot(2,2,2)
-plot(yout(80,1:par.num),yout(80,par.num+1:2*par.num),'LineWidth',2,'b')
+plot(yout(80,1:par.num),yout(80,par.num+1:2*par.num))
 xlabel('x') 
 ylabel('n')
 title('t = 0.13 s')
 ylim([0 1])
 
 subplot(2,2,3)
-plot(yout(100,1:par.num),yout(100,par.num+1:2*par.num),'LineWidth',2,'g')
+plot(yout(100,1:par.num),yout(100,par.num+1:2*par.num))
 xlabel('x')
 ylabel('n')
 title('t = 0.16 s')
 ylim([0 1])
 
 subplot(2,2,4)
-plot(yout(120,1:par.num),yout(120,par.num+1:2*par.num),'LineWidth',2,'m')
+plot(yout(120,1:par.num),yout(120,par.num+1:2*par.num))
 xlabel('x')
 ylabel('n')
 title('t = 0.19 s')
