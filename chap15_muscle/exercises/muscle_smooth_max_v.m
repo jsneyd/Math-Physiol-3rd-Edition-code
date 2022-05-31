@@ -37,7 +37,11 @@ Nmp = nout(:,2);
 Nam = nout(:,3);
 Namp = nout(:,4);
 
-plot(xout,Nam,'b',xout,Namp,'r')
+plot(xout,Nam,'b','LineWidth',2)
+hold on
+plot(xout,Namp,'r','LineWidth',2)
+xlabel('x')
+legend('Nam','Namp')
 
 end
 

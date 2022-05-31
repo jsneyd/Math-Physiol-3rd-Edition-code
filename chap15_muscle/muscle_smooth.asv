@@ -59,9 +59,8 @@ for i=1:par.numt
 end
 plot(tout2,force2,'LineWidth',2)
 
-% tout1 = tout1';
-% tout2 = tout2';
-% save('temp.mat','tout1','force1','tout2','force2')
+tout = tout';
+save('temp.mat','tout1','force1','tout2,'force2')
 
 
 
