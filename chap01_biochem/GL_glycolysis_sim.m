@@ -8,10 +8,10 @@ set(0,                           ...
 % this code is to simulate the Goldbeter-Lefever enzyme model
 
 %parameters
-global nu eta a  
+global nu eta  
  nu=200;
  eta=120;
- a=1.0;
+ 
 
 % set up the integration
 tspan = [0:0.0005:1];            % time interval for the solution
@@ -35,7 +35,7 @@ w=[0.02:0.1:20];
 
 u1=nu./(1+w).^2;
 
-u2 =eta/a*w./(1+w).^2;
+u2 =eta*w./(1+w).^2;
  
 plot(u2,w,'--',u1,w,'.','linewidth',2)
 axis([0 40 0 20])
@@ -43,11 +43,11 @@ hold off
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function out=rhs(t,y)
-global nu eta a 
+global nu eta 
 u=y(1);
 w=y(2);
 f =u*(1+w)^2;
 Fu = nu-f;
-Fw = a*f -eta*w;
+Fw = f -eta*w;
  
 out = [Fu Fw]';
