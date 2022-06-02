@@ -28,10 +28,10 @@ def gL(x):
     return np.piecewise(x,[x<=0,0<=x],[gL2,gL1*x])
 
 def k1(t):
-    return 1 + 0.9*np.sin(0.5*t)
+    return 0.35 - 0.34*np.sin(2*t)
 
 def k5(t):
-    return 1 + 0.9*np.sin(0.5*t)
+    return 0.35 - 0.34*np.sin(2*t)
 
 # ----------------------------------------------------------------
 ff = np.vectorize(f)
@@ -47,9 +47,9 @@ h   = 1;
 k2  = 0.1;
 k6  = 0.1;
 
-num = 50;       # number of space points
+num = 200;       # number of space points
 numt = 100;     # number of time outputs
-tend = 20;      # final time
+tend = 10;      # final time
 
 # Initial conditions
 x0 = np.linspace(-2,2,num);
