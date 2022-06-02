@@ -30,7 +30,7 @@ par.xshift = floor(par.delx/point_spacing);        % calculate how many points f
 
 % initial conditions. use the conservation law to determine Nmp
 x0 = linspace(xlow,xhigh,par.num);
-nm0 = zeros(1,par.num);
+nm0 = ones(1,par.num);
 nam0 = zeros(1,par.num);
 namp0 = zeros(1,par.num);
 y0 = [x0 nm0 nam0 namp0];
