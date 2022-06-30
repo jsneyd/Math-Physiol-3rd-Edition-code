@@ -4,7 +4,7 @@ w(0)=0.014915
 #
 # Declare the parameters
 #
-param   Iapp=0.0   cm=20.0     gca=4.4   gk=8
+param   Iapp=60.0   cm=20.0     gca=4.4   gk=8
 param   gl=2        phi=0.04  vee1=-1.2     
 param   vee2=18  vee3=2  vee4=30
 param   vca=120     vk=-84    vl=-60
