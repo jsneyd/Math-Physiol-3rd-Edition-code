@@ -17,7 +17,7 @@ def deriv(t,y):
     return [Ddiff,Ndiff,vdiff]
 
 
-I0 = 0.8
+I0 = 0.08
 dD = 0.25
 dN = 1
 dv = 10
@@ -38,4 +38,4 @@ tout = np.linspace(0,140,10000)
 soln = solve_ivp(deriv,[0, 140],y0,method='Radau',t_eval=tout,rtol=10e-6,atol=10e-9)
 plt.plot(soln.t,soln.y[2])
 
-np.savetxt('test.dat', np.transpose([soln.t,soln.y[2]]) )
+np.savetxt('test.dat', np.transpose([soln.t,soln.y[0],soln.y[2]]) )
