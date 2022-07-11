@@ -1,0 +1,37 @@
+D(0) = 0.7
+N(0) = 0
+v(0) = 0
+
+param I0 = 0
+
+dD = 0.25
+dN = 1
+dv = 10
+kkD = 4.5
+kkN = 320
+kD0 = 0.175
+KN0 = 0
+pv = 1
+v0 = 30000
+KD = 0.3
+KN = 32
+Kv1 = 1200
+Kv2 = 1200
+
+fD = kD0 + kkD*v^2/(v^2+Kv1^2)
+fN = kN0 + kkN*(v^2/(v^2+Kv2^2))*(KD^2/(KD^2 + D^2))
+I = I0 + pv*v*N^2/(N^2 + KN^2)
+fv = v0*(1-exp(-I))/(1+exp(-I))
+
+D' = fD - dD*D
+N' = fN - dN*N
+v' = fv - dv*v
+
+@ total=100,dt=0.01,xp=t,yp=v,xlo=0, xhi=100, bounds=1000000
+@ ylo=0, yhi=4000, meth=gear
+@ autovar=v, npr=5000, nmax=2000, parmin=0, parmax=0.5, autoxmin=0,autoxmax=0.5
+@ autoymin=0, autoymax=5000
+@ ntst=50,nmax=20000,npr=50000,ds=0.02,dsmin=0.0001,normmax=100000
+@ epsl=1e-05,epsu=1e-05,epss-1e-05
+
+done
