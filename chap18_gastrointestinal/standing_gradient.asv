@@ -29,6 +29,7 @@ plot(X,S(:,2),[Nb,Nb],[0,root],'--','linewidth',2)
 % at x=L
 function fval = transport_eqs(c)
 global D P r c0 alp L N0
+%this make a plot of th solution for this value of c
 
 [X,S] = desolve(c);
 fval = S(end,2)-c0;
@@ -41,7 +42,7 @@ D=1000;
 r=0.05;
 c0 = 0.3;
 P=0.2;
-L=40;
+L=50;
 alp=0.1;
 N0 = 0.3;
 
@@ -80,8 +81,8 @@ fu = feval(uu);
 % we make the assumption, without checking, that 
 % fu*fl<0
 
-% if not, the algorithm fails to find a root.
-N = 25;  % number of iterates
+% if not, the algoritm fails to find a root.
+N = 20;  % number of iterates
 % the main bisection algorithm
 for j = 1:N
 uc = (ul+uu)/2;
