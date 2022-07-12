@@ -1,0 +1,82 @@
+
+LHR(0)=600
+LH(0)=25.34
+FSHR(0)=352
+FSH(0)=142.5
+RcF(0)=9
+SeF(0)=1
+PrF(0)=1
+S1(0)=1
+S2(0)=1
+L1(0)=1
+L2(0)=1
+L3(0)=1
+L4(0)=1
+
+kL = 2.49
+cL = 14
+V0L = 1263
+V1L = 91000
+KmL = 360
+KiL = 31.22
+cLE = 0.0049
+cLP = 0.07
+tau = 2
+
+VF=5700.0
+cF=8.2
+kF=7.3
+cFE=0.16
+KiF=641.0
+cFP=644.0
+v = 2.5
+
+b=0.004
+c1=0.006
+c2=0.05
+c3=0.004
+c4=0.006
+c5=1.3
+k=1.43
+alpha = 0.77
+beta = 0.16
+
+e0 = 48
+e1 = 0.1
+e2=0.17
+e3=0.23
+p=0.05
+h0=274
+h1=0.5
+h2=0.5
+h3=2
+
+E(SeF,PrF,L4) = e0 + e1*SeF + e2*PrF + e3*L4
+PP(L3,L4) = p*(L3 + L4)
+I(PrF,L3,L4) = h0 + h1*PrF + h2*L3 + h3*L4
+
+
+LHR' = (V0L + V1L*(E(SeF,PrF,L4)^8)/(KmL^8+E(SeF,PrF,L4)^8))/(1.0+PP(delay(L3,tau),delay(L4,tau))/KiL) - kL*(1.0+cLP*PP(L3,L4))*LHR/(1.0+cLE*E(SeF,PrF,L4))
+LH' = (1.0/v)*kL*(1.0+cLP*PP(L3,L4))*LHR/(1.0+cLE*E(SeF,PrF,L4)) - cL*LH
+FSHR' = VF/(1.0+I(delay(PrF,tau),delay(L3,tau),delay(L4,tau))/KiF) - kF*(1.0+cFP*PP(L3,L4))*FSHR/(1.0+cFE*(E(SeF,PrF,L4)^2))
+FSH' = (1.0/v)*kF*(1+cFP*PP(L3,L4))*FSHR/(1.0+cFE*(E(SeF,PrF,L4)^2)) - cF*FSH
+RcF' = b*FSH + (c1*FSH - c2*(LH^alpha))*RcF
+SeF' = c2*(LH^alpha)*RcF + (c3*(LH^beta) - c4*LH)*SeF
+PrF' = c4*LH*SeF - c5*PrF
+S1' = c5*PrF - S1/k
+S2' = (S1 - S2)/k
+L1' = (S2 - L1)/k
+L2' = (L1 - L2)/k
+L3' = (L2 - L3)/k
+L4' = (L3 - L4)/k
+
+aux Est=e0 + e1*SeF + e2*PrF + e3*L4
+
+@ DT=0.02
+@ BOUNDS=1000000
+@ TOTAL=100
+@ maxstor=100000
+@ xp=t,yp1=LH,yp2=Est,xlo=0,ylo=0,xhi=100,yhi=450,nplot=2
+@ DELAY=2.0
+
+done
