@@ -24,7 +24,7 @@ figure(2)
 plot(X,S(:,2),[Nb,Nb],[0,root],'--','linewidth',2)
  ylabel('c(x) (mM)','fontsize',20)
  xlabel('x (mm)','fontsize',20)
- 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % the function transport_eqs(c) solves the initial value problem with
 % initial value c and calculates the error for the boundary value condition
 % at x=L
@@ -33,7 +33,7 @@ global D P r c0 alp L N0
 
 [X,S] = desolve(c);
 fval = S(end,2)-c0;
-
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [X,S] = desolve(c)
 global D P r c0 alp L N0
 
@@ -62,7 +62,9 @@ xspan = [0:xstep:x_end];
 figure(1) 
 plot(X,S(:,2))
 hold on
-% specify the right hand side of the differential equation system
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ % specify the right hand side of the differential equation system
 function s_prime=deRHS(x,s)  % right hand side for ode system
 global D P r c0 alp L N0
 Nx = N0*(x<=alp*L);
@@ -75,14 +77,14 @@ Nx = N0*(x<=alp*L);
  Fcp = (vp*c+v*cp-2*Nx/r)/D;
  
 s_prime = [vp,Fc,Fcp]';
-
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Define the condition under which to stop the integration 
 function [value, isterminal, direction] = stopping(x,y)
 value = [y(2);y(2)-5];
 isterminal = [1;1];
 direction = [0;0];
  
-
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % this is the bisection algorithm
 function root = bisect(a,b,feval)
 
