@@ -29,7 +29,6 @@ plot(X,S(:,2),[Nb,Nb],[0,root],'--','linewidth',2)
 % at x=L
 function fval = transport_eqs(c)
 global D P r c0 alp L N0
-%this make a plot of th solution for this value of c
 
 [X,S] = desolve(c);
 fval = S(end,2)-c0;
@@ -42,7 +41,7 @@ D=1000;
 r=0.05;
 c0 = 0.3;
 P=0.2;
-L=50;
+L=40;
 alp=0.1;
 N0 = 0.3;
 
@@ -51,9 +50,12 @@ x_end = L; % length of  interval
 xspan = [0:xstep:x_end];
 
  % initial data for integration
- s = [0;c;0];
+ y0 = [0;c;0];
    
-[X,S] = ode15s(@deRHS,xspan,s); 
+ stop_cond = odeset('Events',@stopping);   % The stopping conditions for the integration
+ %this is needed since for some initial conditions, the integrator cannot
+ %integrate all the way to x=L
+[X,S] = ode15s(@deRHS,xspan,y0,stop_cond); 
  
 % specify the right hand side of the differential equation system
 function s_prime=deRHS(x,s)  % right hand side for ode system
@@ -69,6 +71,12 @@ Nx = N0*(x<=alp*L);
  
 s_prime = [vp,Fc,Fcp]';
 
+%% Define the condition under which to stop the integration 
+function [value, isterminal, direction] = stopping(x,y)
+value = [y(1);y(1)-10];
+isterminal = [1;1];
+direction = [0;0];
+end
 
 % this is the bisection algorithm
 function root = bisect(a,b,feval)
@@ -81,8 +89,8 @@ fu = feval(uu);
 % we make the assumption, without checking, that 
 % fu*fl<0
 
-% if not, the algoritm fails to find a root.
-N = 20;  % number of iterates
+% if not, the algorithm fails to find a root.
+N = 25;  % number of iterates
 % the main bisection algorithm
 for j = 1:N
 uc = (ul+uu)/2;
