@@ -10,14 +10,14 @@ set(0,                           ...
 N = 32; % number of coupled oscillators
 % pick a value of delta
 % 
-delta = 32;
+delta = 45;
 %delta = 18;
 Omega = -10/31;
 
 % set up the differential equation solve
 
 tstep = 1; % integration step size
-t_end = 2000; % length of  interval
+t_end =2000; % length of  interval
 tspan = [0:tstep:t_end];
 
  % initial data for integration
