@@ -1,5 +1,5 @@
 %  FHN adjoint solution
-function fhn_adjoint_solut
+function fhn_adjoint_solution
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 1.0, ...
@@ -13,7 +13,7 @@ global alpha eps I v0 Sv Tsv period dir
  eps = 0.01;
  I = 5;
 
- % first make a phase portrait
+% first make a phase portrait
 vmin = -0.4;
 vmx = 1.1;
 
@@ -65,7 +65,6 @@ stop_cond = odeset('Events',@stopping);
   legend('v','w','fontsize',18)
   
 % this is the periodic solution
-stop
  
 % now solve the adjoint equation
 
@@ -84,15 +83,15 @@ t_end =period; % length of  interval  a multiple of the period
 tspan = [0:tstep:-period];   %integrate backwards in time
 [Ta,Sa] = ode15s(@deadj_RHS,tspan,s);
 
-figure(2)
-plot(Sa(:,1),Sa(:,2),'linewidth',2)
-xlabel('V','fontsize',20)
-ylabel('W','fontsize',20)
+% figure(2)
+% plot(Sa(:,1),Sa(:,2),'linewidth',2)
+% xlabel('V','fontsize',20)
+% ylabel('W','fontsize',20)
 figure(3)
 plot(Ta+period,Sa(:,1),Ta+period,Sa(:,2),'linewidth',2)
 legend('Va','Wa','fontsize',18)
 xlabel('T','fontsize',20)
-
+axis([0 period -30 5])
 % check the identity
 for j = 1:length(Ta)
    [vt,wt]=  eval_soln(Ta(j))
