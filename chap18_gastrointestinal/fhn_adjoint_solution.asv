@@ -1,19 +1,19 @@
 %  FHN adjoint solution
-function fhn_adjoint_solut
+function fhn_adjoint_solution
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 1.0, ...
    'defaultlinelinewidth', 1.2, ...
    'defaultpatchlinewidth', 0.7);
 
-global alpha eps I v0 Sv Tsv period
+global alpha eps I v0 Sv Tsv period dir
 
 % parameters
  alpha = 0.05;
  eps = 0.01;
  I = 5;
 
- % first make a phase portrait
+% first make a phase portrait
 vmin = -0.4;
 vmx = 1.1;
 
@@ -24,7 +24,7 @@ figure(1)
 plot(v,ff,v,v,'linewidth',2)
 
 hold on
-% set up the differential equation solve
+% set up the differential equation  and solve
 
 tstep = 0.01; % integration step size
 t_end =100; % length of  interval; run for a long time
@@ -42,8 +42,9 @@ v0=S(end,1);
 w0 = S(end,2);
 
 s = [v0,w0];
+t=0;
 s_prime=deRHS(t,s);
-dir = sgn(s_prime(1))
+dir = sign(s_prime(1));
 stop_cond = odeset('Events',@stopping); 
 
 [Tsv,Sv] = ode15s(@deRHS,tspan,s,stop_cond); 
@@ -64,7 +65,6 @@ stop_cond = odeset('Events',@stopping);
   legend('v','w','fontsize',18)
   
 % this is the periodic solution
-stop
  
 % now solve the adjoint equation
 
@@ -83,15 +83,15 @@ t_end =period; % length of  interval  a multiple of the period
 tspan = [0:tstep:-period];   %integrate backwards in time
 [Ta,Sa] = ode15s(@deadj_RHS,tspan,s);
 
-figure(2)
-plot(Sa(:,1),Sa(:,2),'linewidth',2)
-xlabel('V','fontsize',20)
-ylabel('W','fontsize',20)
+% figure(2)
+% plot(Sa(:,1),Sa(:,2),'linewidth',2)
+% xlabel('V','fontsize',20)
+% ylabel('W','fontsize',20)
 figure(3)
 plot(Ta+period,Sa(:,1),Ta+period,Sa(:,2),'linewidth',2)
 legend('Va','Wa','fontsize',18)
 xlabel('T','fontsize',20)
-
+axis([0 period -30 5])
 % check the identity
 for j = 1:length(Ta)
    [vt,wt]=  eval_soln(Ta(j))
@@ -117,7 +117,7 @@ function [value, isterminal, direction] = stopping(x,y)
 global v0 dir
 value = [y(1)-v0];  %v0 is the starting value; stop whep the starting value repeats
 isterminal = [1];
-direction = [1];
+direction = [dir];
  
 function s_prime=deRHS(t,s)  % right hand side for ode system
 global alpha eps I
@@ -143,6 +143,8 @@ global eps
  [vt,wt] = eval_soln(t);
  Fva = -cubic_prime(vt)/eps*va-wa; 
  Fwa = va/eps+wa;
+
+ % add the integral normalization
 
 s_prime = [Fva; Fwa];
 

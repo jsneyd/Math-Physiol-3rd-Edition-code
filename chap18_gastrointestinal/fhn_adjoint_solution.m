@@ -24,7 +24,7 @@ figure(1)
 plot(v,ff,v,v,'linewidth',2)
 
 hold on
-% set up the differential equation solve
+% set up the differential equation  and solve
 
 tstep = 0.01; % integration step size
 t_end =100; % length of  interval; run for a long time
@@ -43,8 +43,8 @@ w0 = S(end,2);
 
 s = [v0,w0];
 t=0;
-s_prime=deRHS(t,s)
-dir = sign(s_prime(1))
+s_prime=deRHS(t,s);
+dir = sign(s_prime(1));
 stop_cond = odeset('Events',@stopping); 
 
 [Tsv,Sv] = ode15s(@deRHS,tspan,s,stop_cond); 
@@ -68,7 +68,7 @@ stop_cond = odeset('Events',@stopping);
  
 % now solve the adjoint equation
 
-s = [0,10]; %initial values
+s = [0,1,0]; %initial values
   tstep = -0.001; % integration step size, backwards in time 
 t_end =25*period; % length of  interval  a multiple of the period
 tspan = [0:tstep:-t_end];   %integrate backwards in time
@@ -77,47 +77,26 @@ tspan = [0:tstep:-t_end];   %integrate backwards in time
 % now take the final values and integrate through one more period to find
 % the periodic solution
 
-s = [Sa(end,1),Sa(end,2)]; %initial values
+s = [Sa(end,1),Sa(end,2),0]; %initial values
 tstep = -0.01*period; % integration step size, backwards in time 
 t_end =period; % length of  interval  a multiple of the period
 tspan = [0:tstep:-period];   %integrate backwards in time
 [Ta,Sa] = ode15s(@deadj_RHS,tspan,s);
 
-% figure(2)
-% plot(Sa(:,1),Sa(:,2),'linewidth',2)
-% xlabel('V','fontsize',20)
-% ylabel('W','fontsize',20)
+nmlize = Sa(end,3)/period;
 figure(3)
-plot(Ta+period,Sa(:,1),Ta+period,Sa(:,2),'linewidth',2)
+plot(Ta+period,Sa(:,1)/nmlize,Ta+period,Sa(:,2)/nmlize,'linewidth',2)
 legend('Va','Wa','fontsize',18)
-xlabel('T','fontsize',20)
-axis([0 period -30 5])
-% check the identity
-for j = 1:length(Ta)
-   [vt,wt]=  eval_soln(Ta(j))
-    FF= deRHS(Ta(j),[vt,wt])
-Fvs(j) = FF(1);
-Fws(j) = FF(2);
-end
-id = Fvs'.*Sa(:,1)+Fws'.*Sa(:,2);
-
-figure(4)
-plot(Ta+period,id)
-
-% id is supposed to be a constant, but since it is not exactly constant,
-% find its average value
-idm=mean(id)
-figure(4)
-plot(Ta+period,id,Ta+period,idm*ones(length(Ta),1),'--','linewidth',2)
-
-%idm is the normalization constant
+xlabel('t','fontsize',20)
+axis([0 period -5 60])
+ 
  
 %Define the condition under which to stop the integration 
 function [value, isterminal, direction] = stopping(x,y)
 global v0 dir
 value = [y(1)-v0];  %v0 is the starting value; stop whep the starting value repeats
 isterminal = [1];
-direction = [dir];
+direction = [dir];  %this is to insure the direction of crossing is the same as at t=0;
  
 function s_prime=deRHS(t,s)  % right hand side for ode system
 global alpha eps I
@@ -144,7 +123,11 @@ global eps
  Fva = -cubic_prime(vt)/eps*va-wa; 
  Fwa = va/eps+wa;
 
-s_prime = [Fva; Fwa];
+ % add the integral normalization
+ s_prime=deRHS(t,s);
+ id = va*s_prime(1)+wa*s_prime(2);
+
+s_prime = [Fva; Fwa; id];
 
 %this evaluates the periodic solution via linear interpolation
 function [vt,wt] = eval_soln(t)
