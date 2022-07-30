@@ -10,7 +10,7 @@ set(0,                           ...
 N = 32; % number of coupled oscillators
 % pick a value of delta
 % 
-delta = 45;
+delta = 32;
 %delta = 18;
 Omega = -10/31;
 
