@@ -1,0 +1,23 @@
+G(0)=600
+I(0)=0
+
+par beta=0
+par SI=0.72
+EG0=1.44
+R0=864
+sigma=43.2
+alpha=20000
+k=432
+d0=0.06
+r1=0.84e-3
+r2=0.24e-5
+
+G' = R0 - (EG0+SI*I)*G
+I' = beta*sigma*G*G/(alpha+G*G) - k*I
+
+@ total=100,dt=0.01,xp=t,yp=G,xlo=0, xhi=100, bounds=1000000
+@ ylo=0, yhi=700, meth=gear
+@ autovar=G, npr=5000, nmax=2000, parmin=0, parmax=1200, autoxmin=0,autoxmax=1200
+@ autoymin=0, autoymax=700
+@ ntst=50,nmax=20000,npr=50000,ds=0.2,dsmin=0.0001,normmax=100000
+@ epsl=1e-05,epsu=1e-05,epss-1e-05
