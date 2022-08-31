@@ -1,0 +1,56 @@
+
+#  Slightly modified Chay-Keizer model of bursting. 
+#  Original version from Artie Sherman.
+#  Biophys. J. 42:181-190 '83
+#  For Keener and Sneyd, Mathematical Physiology, Third edition
+
+# Initial values:
+v(0)    = -28.116   
+n(0)    = 0.3469 
+
+
+# Parameters:
+# conductances in mS/cm^2, ca in uM, v in mV, t in msec
+
+p ca=0
+p cm=4.5 gca=6.5 gk=12 gl=0.04 gkca=0.09
+p vca=100 vk=-75 vl=-40
+p vprime=50 vstar=30
+p f=0.01 k1=0.035
+p Kd=1 kca=0.04 
+p lam=0.5
+
+# Gating functions:
+alphamca(v)   = -0.1*((v+vprime)-25)/(exp(-((v+vprime)-25)/10)-1)
+betamca(v)    = 4*exp(-(v+vprime)/18)
+alphahca(v)   = 0.07*exp(-(v+vprime)/20)
+betahca(v)    = 1/(exp(-((v+vprime)-30)/10)+1)
+alphan(v)     = -0.01*((v+vstar)-10)/(exp(-((v+vstar)-10)/10)-1)
+betan(v)      = 0.125*exp(-(v+vstar)/80)
+
+minf(v)=alphamca(v)/(alphamca(v) + betamca(v))
+hinf(v)=alphahca(v)/(alphahca(v) + betahca(v))
+
+# Ionic currents:
+i_ca  = gca*minf(v)^3*hinf(v)*(v-vca)
+i_k   = gk*n^4*(v-vk)
+i_kca = gkca*ca/(ca+Kd)*(v-vk)
+i_l   = gl*(v-vl)
+
+# The differential equations:
+v'    = -1/cm*(2*i_ca+i_k+i_kca+i_l)  
+n'    = lam*(alphan(v)*(1-n)-betan(v)*n)  
+
+aux tsec=t/1000
+
+# Numerical and plotting parameters for xpp:
+@ maxstor=1000000, meth=cvode, xp=tsec,yp=v,toler=1e-6, atoler=1e-6
+@ xlo=0, xhi=15, ylo=-70, yhi=-10, total=15000, bounds=100000, dt=1
+
+# Auto settings just for convenience
+@ autovar=v, npr=5000, nmax=2000, parmin=0, parmax=2.5, autoxmin=0,autoxmax=2.5
+@ autoymin=-70, autoymax=-10
+@ ntst=50,nmax=20000,npr=50000,ds=0.02,dsmin=0.001,dsmax=0.05,normmax=100000
+@ epsl=1e-06,epsu=1e-06,epss-1e-06
+
+done
