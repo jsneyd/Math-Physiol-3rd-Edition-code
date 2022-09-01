@@ -1,14 +1,8 @@
-# BMB_04.ode
-#
-# This XPPAUT file contains the program for pancreatic beta-cells, published
-# by Bertram and Sherman, Bull. Math. Biol., 66:1313-1344, 2004.
 
-# Variables:
-#    v -- voltage
-#    n -- activation variable for a delayed rectifier
-#    c -- free cytosolic calcium concentration
-#    cer -- concentration of free calcium in the endoplasmic reticulum
-#    a -- fraction of activated KATP channels
+#
+# The model for compound bursting. Wierschem and Bertram, 2004, BMB.
+# Original code provided by Richard Bertram. Modified slightly.
+
 
 v(0)=-61.21
 n(0)=0.000311
@@ -19,7 +13,7 @@ adp(0)=0.0502
 # Conductances in pS; currents in fA; Ca concentrations in uM; time in ms
 
 
-par    bargkatp=350,f=0.001, etaadp=185
+par    bargkatp=350,f=0.001, etaadp=185, tauadp=1.2e6
 
 number gca=1200, gk=3000
 number gkca=300, taun=16
@@ -35,7 +29,7 @@ minf = 1/(1+exp((vm-v)/sm))
 omega = 1/(1+(kd/c))
 
 # ATP handling
-number nuadp=10, kadp=20, tauadp=1200000
+number nuadp=10, kadp=20
 phi=atp*(1+kadp*adp)^2
 gkatp=bargkatp/atp
 
