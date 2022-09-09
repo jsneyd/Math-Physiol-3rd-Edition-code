@@ -1,7 +1,8 @@
-# BMB_04.ode
-#
-# This XPPAUT file contains the program for pancreatic beta-cells, published
+
+# This XPPAUT file contains a modified version of the program for pancreatic beta-cells, published
 # by Bertram and Sherman, Bull. Math. Biol., 66:1313-1344, 2004.
+
+# For Keener and Sneyd, Third Edition.
 
 # Variables:
 #    v -- voltage
