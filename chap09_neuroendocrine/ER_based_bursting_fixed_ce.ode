@@ -1,0 +1,72 @@
+# ER-based bursting model. Keener and Sneyd, Chapter 9. 
+# Based on the model and code of Bertram and Sherman, Bull. Math. Biol, 2004.
+
+# Variables:
+#    v -- voltage
+#    n -- activation variable for a delayed rectifier
+#    c -- free cytosolic calcium concentration
+
+v(0)=-60
+n(0)=0
+c(0)=0.1
+
+par cer = 150
+
+# Conductances in pS; currents in fA; Ca concentrations in uM; time in ms
+
+# conductances
+par gkatp=230
+par gkca=700
+
+# Ca parameters 
+par gamma=5, kpm=0.2, kserca=0.4
+
+# Ik
+number vn=-16, vk=-75, taun=16, gk=3000, sn=5
+# Ica
+number vca=25, gca=1200
+number vm=-20, sm=12
+# Ikca
+number kD=0.3
+# Miscellaneous
+number cm=5300
+
+# Calcium Handling
+number fcyt=0.01, fer=0.01
+number alpha=4.50e-6
+
+# Calcium Handling: ER
+par kleak=0.0005
+
+# Activation variables
+ninf = 1/(1+exp((vn-v)/sn))
+minf = 1/(1+exp((vm-v)/sm))
+omega = 1/(1+(kD/c)^5)
+
+# Ionic currents
+ica = gca*minf*(v-vca)
+ikca = gkca*omega*(v-vk)
+ikatp = gkatp*(v-vk)
+ik = gk*n*(v-vk)
+
+% Ca fluxes
+jserca = kserca*c
+jmemtot = -(alpha*ica + kpm*c)
+jleak = kleak*(cer - c)
+jertot = jleak - jserca
+
+# Differential Equations
+v' = (-ica - ik - ikatp  - ikca)/cm
+n' =  (ninf - n)/taun
+c' = fcyt*(jertot + jmemtot)  
+
+@ meth=cvode, toler=1.0e-10, atoler=1.0e-10, dt=2.0, total=150000
+@ maxstor=20000,bounds=10000000, xp=tsec, yp=v
+@ xlo=0, xhi=150, ylo=-70, yhi=-10
+@ parmin=-500,parmax=160,Nmax=20000,NPr=5000,ds=-0.02,dsmax=0.05
+@ autoxmin=-500,autoxmax=160,autoymin=-70,autoymax=-10
+
+aux tsec=t/1000
+aux tmin=t/60000
+
+done
