@@ -13,7 +13,7 @@ adp(0)=0.0502
 # Conductances in pS; currents in fA; Ca concentrations in uM; time in ms
 
 
-par    bargkatp=350,f=0.001, etaadp=185, tauadp=1.2e6
+par    gkatp=350,f=0.001, v2=185, tauc=1.2e6
 
 number gca=1200, gk=3000
 number gkca=300, taun=16
@@ -29,14 +29,13 @@ minf = 1/(1+exp((vm-v)/sm))
 omega = 1/(1+(kd/c))
 
 # ATP handling
-number nuadp=10, kadp=20
+number v1=10, kadp=20
 phi=atp*(1+kadp*adp)^2
-gkatp=bargkatp/atp
 
 # Ionic currents
 ica = gca*minf*(v-vca)
 ikca = gkca*omega*(v-vk)
-ikatp = gkatp*(v-vk)
+ikatp = (gkatp/atp)*(v-vk)
 ik = gk*n*(v-vk)
 
 # Differential Equations
@@ -44,8 +43,8 @@ ik = gk*n*(v-vk)
 v' = (-ica - ik - ikatp  - ikca)/cm
 n' =  (ninf - n)/taun
 c' = -f*(alpha*ica + kc*c)
-atp'=(nuadp-phi)/tauadp
-adp'=(phi-etaadp*adp)/tauadp
+atp'=(v1-phi)/tauc
+adp'=(phi-v2*adp)/tauc
 
 @ meth=cvode, toler=1.0e-10, atoler=1.0e-10, dt=20.0, total=600000
 @ maxstor=20000,bounds=10000000, xp=tmin, yp=v
