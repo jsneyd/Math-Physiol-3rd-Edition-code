@@ -1,0 +1,521 @@
+## Set file for C:\Users\sjmoran\Documents\GnRH-Research\Paper\figures\v2\xpp_files\gnrh_burst.ode on Mon Jun  8 16:58:31 2015
+34   Number of equations and auxiliaries
+147   Number of parameters
+# Numerical stuff
+1    nout
+40    nullcline mesh
+5   Gear
+60000  total
+0.1  DeltaT
+0  T0
+0  Transient
+30000  Bound
+1e-12  DtMin
+1  DtMax
+0.001  Tolerance
+0.001  Abs. Tolerance
+0  Max Delay
+100   Eigenvector iterates
+0.001  Eigenvector tolerance
+0.001  Newton tolerance
+0  Poincare plane
+1e-05  Boundary value tolerance
+1e-05  Boundary value epsilon
+20   Boundary value iterates
+0   Poincare None
+1   Poincare variable
+1   Poincare sign
+0   Stop on Section
+0   Delay flag
+20041.2  Current time
+20041.2  Last Time
+1   MyStart
+1   INFLAG
+# Delays
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+0.0
+# Bndry conds
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+# Old ICs
+-67.06196552027281  V
+0.9867650197315291  C
+0.007023714674659673  O
+0  OB
+0.9091369936632173  HNAP
+0.000222871236978363  MNAP
+0.4180136201010951  HA
+0.3793640141583027  HAS
+0.008724271405865605  MA
+0.1023406811363102  MK
+0.0003324405936039846  MHVA
+0.9601081371009057  HHVA
+0.9498604255515599  HHVAS
+0.2641983490360376  MLVA
+0.05955468182418794  HLVA
+0.1831265928928509  MS
+0.2444682992778443  HH1
+0.2335834671673278  HH2
+0.3073175677915989  HKIR
+0.001639087616527612  MKM
+-1.244429985567998e-21  ETA
+0.510893998351572  CA
+# Ending  ICs
+-68.43010297520014  V
+0.9885926972327416  C
+0.00577578258702586  O
+0  OB
+0.9282226136034943  HNAP
+0.0001420198650519663  MNAP
+0.4765246081012116  HA
+0.4757328466911456  HAS
+0.007711623910658436  MA
+0.09851594288916206  MK
+0.0002733951327981166  MHVA
+0.9648595935827051  HHVA
+0.9636337814973416  HHVAS
+0.2400557672403986  MLVA
+0.07865222151651471  HLVA
+0.1357090074406618  MS
+0.2732273459045352  HH1
+0.2736711506781329  HH2
+0.3344440688707266  HKIR
+0.001246618695422886  MKM
+-1.961461086481298e-27  ETA
+0.4436824306236052  CA
+# Parameters
+1  ts
+0  vs
+20  cm
+300  gnaf
+0.68  gnap
+45  ga
+115  gk
+8  ghva
+0.2  glva
+0.58  gs
+0.5  gh
+1.96  gkca
+0  gl
+0  gm
+0  gkir
+54  vna
+-101  vk
+82.5  vca
+-40  vh
+-65  vl
+1  r1
+0.2  r2
+0.05  r4
+55  ap1
+33  av1
+-7  av2
+60  bp1
+32  bv1
+10  bv2
+30  cp1
+77.47  cv1
+12  cv2
+67.31  ahnap
+-27.5  bhnap
+67.31  chnap
+27.5  dhnap
+574.478  ehnap
+62.57  fhnap
+-41.5233  vhmnap
+-3.0371  mnapk
+-47.427  vhhnap
+8.21289  hnapk
+0.4  taumnap
+-89.81  ahh1
+11.57  bhh1
+35.8  chh1
+7.551  dhh1
+-82.55  ahh2
+25.73  bhh2
+370.9  chh2
+54.1  dhh2
+9.218  khh1
+-77.45  vhh1
+0.364469  fhh1
+-40  ama
+26.5  bma
+43  cma
+-8.4  dma
+1  ema
+0.1  fma
+-15  vhma
+-11  kma
+-69  vhha
+0  p
+6  kha
+0  daha
+30  dbha
+500  dbhas
+0.8  f1a
+4  Nk
+-43  amk
+18.5  bmk
+144  cmk
+-49  dmk
+0.38  emk
+0.01  fmk
+15  vhmk
+-9  kmk
+-76  vhhkir
+11  khkir
+1  tauhkir
+-35  vhmkm
+-5  kmkm
+30  amkm
+15  bmkm
+30  cmkm
+-15  dmkm
+16  emkm
+0  fmkm
+50  amlva
+9  bmlva
+50  cmlva
+-9  dmlva
+7  emlva
+0.5  fmlva
+-56.1  vhmlva
+-10.7  kmlva
+-80  vhhlva
+4.7  khlva
+20  tauhlva
+20  amhva
+-10  bmhva
+20  cmhva
+10  dmhva
+1  emhva
+0.6  fmhva
+-11  vhmhva
+-7  kmhva
+-32  vhhhva
+11  khhva
+45  tauhhva
+950  tauhhvas
+0.2  f1hva
+-45  vhms
+-12  kms
+1500  taums
+1  kkca
+2  nkca
+0.265  kc
+1  beta
+2800  volume
+0.0025  free
+96485.3  Faraday
+1.2  kp
+2  kpn
+0  subunitne
+0  currentne
+0  oune
+5  sigma
+1500  tc
+1  d
+250  ns
+0  amp
+300  ton
+1500  toff
+0  Iapp
+150000  te
+100000  taue
+0  eon
+1.18  gkcaf
+0.2  gsf
+0  glf
+150  gkf
+0.5  ghf
+35  gaf
+-45  vhmsf
+-12  kmsf
+# Graphics
+0.7071097251469876  rm
+-0.4999999999826661  rm
+0.4999958366025516  rm
+0.7071038372138505  rm
+0.5000041633974482  rm
+-0.4999999999826661  rm
+0  rm
+0.7071038372138505  rm
+0.7071097251469876  rm
+0    
+1    
+1    
+1    
+0    
+0    
+1    
+1    
+1    
+0    
+0    
+1    
+1    
+1    
+0    
+0    
+1    
+1    
+1    
+0    
+0    
+1    
+1    
+1    
+0    
+0    
+1    
+1    
+1    
+0    
+0    
+1    
+1    
+1    
+0    
+0    
+1    
+1    
+1    
+0    
+0    
+1    
+1    
+1    
+0    
+0    
+1    
+1    
+1    
+0    
+-1000   
+1000   
+0    
+0   3DFlag
+1   Timeflag
+0   Colorflag
+0   Type
+1  color scale
+0   minscale
+60000   xmax
+0   xmin
+45   ymax
+-85   ymin
+12   zmax
+-12   zmin
+30000   
+3.333333333333333e-05   
+-20   
+0.01538461538461539   
+0   
+0.08333333333333333   
+45   Theta
+45   Phi
+0    xshft
+0    yshft
+0    zshft
+0   xlo
+-85   ylo
+0   
+-85   
+60000   xhi
+45   yhi
+60000   
+45   
+# Transpose variables etc
+V
+2   n columns
+1   n rows
+1   row skip
+1   col skip
+1   row 0
+# Coupling stuff for H funs
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+# Array plot stuff
+
+1   NCols
+0   Row 1
+50   NRows
+8   RowSkip
+0  Zmin
+1  Zmax
+# Torus information 
+0    Torus flag 1=ON
+6.283185307179586  Torus period
+# Range information
+ts
+-1   eq-range stab col
+0   shoot flag 1=on
+10   eq-range steps
+0  eq_range low
+1  eq_range high
+V
+V
+20   Range steps
+0   Cycle color 1=on
+1   Reset data 1=on
+1   Use old I.C.s 1=yes
+0  Par1 low
+0  Par2 low
+1  Par1 high
+1  Par2 high
+ts
+0   BVP side
+0   color cycle flag 1=on
+10   BVP range steps
+0  BVP range low
+1  BVP range high
+RHS etc ...
+dV/dT=TS*(1/CM)*(-IION+ICN+I_APP)
+dC/dT=TS*(BNAF*O+R3*(1-C-O)-(ANAF+R4)*C)
+dO/dT=TS*(ANAF*C+R2*(1-C-O)-(R1+BNAF)*O)
+dOB/dT=-TS*OB
+dHNAP/dT=TS*(HNAPINF-HNAP)/TAUHNAP
+dMNAP/dT=TS*(MNAPINF-MNAP)/TAUMNAP
+dHA/dT=TS*(HAINF-HA)/TAUHA
+dHAS/dT=TS*(HAINF-HAS)/TAUHAS
+dMA/dT=TS*(MAINF-MA)/TAUMA
+dMK/dT=TS*(MKINF-MK)/TAUMK
+dMHVA/dT=TS*(MHVAINF-MHVA)/TAUMHVA
+dHHVA/dT=TS*(HHVAINF-HHVA)/TAUHHVA
+dHHVAS/dT=TS*(HHVAINF-HHVAS)/TAUHHVAS
+dMLVA/dT=TS*(MLVAINF-MLVA)/TAUMLVA
+dHLVA/dT=TS*(HLVAINF-HLVA)/TAUHLVA
+dMS/dT=TS*(MSINF-MS)/TAUMS+SUBUNITNE*SQRT(TS*(MSINF*(1-2*MS)+MS)/(TAUMS*NS))*N01
+dHH1/dT=TS*(HH1INF-HH1)/TAUHH1
+dHH2/dT=TS*(HH2INF-HH2)/TAUHH2
+dHKIR/dT=TS*(HKIRINF-HKIR)/TAUHKIR
+dMKM/dT=TS*(MKMINF-MKM)/TAUMKM
+dETA/dT=TS*(1/TC)*(-ETA+OUNE*SQRT(2*D*TC)*N01)
+dCA/dT=TS*FREE*(ALPHA*(ILVA+IHVA+IS)-KC*(CA^KPN/(KP^KPN+CA^KPN)))
+I_NAF=INAF
+I_NAP=INAP
+I_A=IA
+I_K=IK
+I_HVA=IHVA
+I_LVA=ILVA
+I_S=IS
+I_H=IH
+I_KCA=IKCA
+I_L=IL
+I_ION=IION
+V_P=VP
+
+where ...
+INAF =  GNAF*O^3*(V-(VNA-VS))      
+INAP =  GNAP*MNAP*HNAP*(V-(VNA-VS))       
+IA =  GA*(1-EGA*EAPP(T))*MA*(F1A*HA+(1-F1A)*HAS)*(V-(VK-VS))      
+IK =  GK*(1-EGK*EAPP(T))*MK^NK*(V-(VK-VS))           
+IHVA =  GHVA*MHVA*(F1HVA*HHVA+(1-F1HVA)*HHVAS)*(V-(VCA-VS))            
+ILVA =  GLVA*MLVA^2*HLVA*(V-(VCA-VS))               
+IS =  GS*(1-EGS*EAPP(T))*MS*(V-(VCA-VS))      
+IH =  GH*(1-EGH*EAPP(T))*(FHH1*HH1 + (1-FHH1)*HH2)*(V-(VH-VS))            
+IKCA =  GKCA*(1-EGKCA*EAPP(T))*(CA^NKCA/(KKCA^NKCA+CA^NKCA))*(V-(VK-VS))       
+IL =  GL*(V-(VL-VS))           
+IKIR = GKIR*HKIR*(V-(VK-VS))         
+IM = GM*MKM*(V-(VK-VS))         
+IION = INAF+INAP+IA+IK+IHVA+ILVA+IS+IH+IKCA+IL+IM+IKIR       
+ICN = CURRENTNE*SIGMA*N01_2 + OUNE*ETA           
+VP = (1/CM)*(-IION + I_APP + ICN)       
+ANAF = AP1/(1+EXP((V+AV1+VS)/AV2))                  
+BNAF = BP1/(1+EXP((V+BV1+VS)/BV2))           
+R3 = CP1/(1+EXP((V+CV1+VS)/CV2))      
+MNAPINF = BOLTZMANN(VHMNAP-VS,MNAPK,V)                  
+HNAPINF = BOLTZMANN(VHHNAP-VS,HNAPK,V)                  
+TAUHNAP = EMPERICAL3(AHNAP+VS,BHNAP,CHNAP+VS,DHNAP,EHNAP,FHNAP,V)             
+MAINF = BOLTZMANN(VHMA-VS,KMA,V)       
+HAINF = BOLTZMANN(VHHA-VS,KHA,V)             
+TAUMA = EMPERICAL3(AMA+VS,BMA,CMA+VS,DMA,EMA,FMA,V)                       
+TAUHA = DBHA        
+TAUHAS = DBHAS        
+MKINF = BOLTZMANN(VHMK-VS,KMK,V)^(1/NK)                         
+TAUMK = EMPERICAL3(AMK+VS,BMK,CMK+VS,DMK,EMK,FMK,V)                     
+MKMINF = BOLTZMANN(VHMKM-VS,KMKM,V)         
+TAUMKM = EMPERICAL3(AMKM+VS,BMKM,CMKM+VS,DMKM,EMKM,FMKM,V)         
+HKIRINF = BOLTZMANN(VHHKIR-VS,KHKIR,V)         
+MHVAINF = BOLTZMANN(VHMHVA-VS,KMHVA,V)                  
+HHVAINF = BOLTZMANN(VHHHVA-VS,KHHVA,V)             
+TAUMHVA = EMPERICAL3(AMHVA+VS,BMHVA,CMHVA+VS,DMHVA,EMHVA,FMHVA,V)           
+MLVAINF = BOLTZMANN(VHMLVA-VS,KMLVA,V)                  
+HLVAINF = BOLTZMANN(VHHLVA-VS,KHLVA,V)             
+TAUMLVA = EMPERICAL3(AMLVA+VS,BMLVA,CMLVA+VS,DMLVA,EMLVA,FMLVA,V)                   
+MSINF =  BOLTZMANN(VHMS*(1-EVHMS*EAPP(T))-VS,KMS*(1-EKMS*EAPP(T)),V)             
+HH1INF = BOLTZMANN(VHH1-VS,KHH1,V)              
+HH2INF = BOLTZMANN(VHH1-VS,KHH1,V)              
+TAUHH1 = EMPERICAL2(AHH1-VS,BHH1,CHH1,DHH1,V)              
+TAUHH2 = EMPERICAL2(AHH2-VS,BHH2,CHH2,DHH2,V)              
+IPULSE = AMP*(STEP(T-TON)-STEP(T-TOFF))                  
+I_APP = IAPP+IPULSE       
+
+User-defined functions:
+BOLTZMANN(VH,K,V) = 1/(1+EXP((V-VH)/K))            
+EMPERICAL1(A,B,C,D,E,V) = 1/(A*EXP(B*V)+C*EXP(D*V))+E            
+EMPERICAL2(A,B,C,D,V) = D+C*EXP(-((V-A)/B)^2)            
+EMPERICAL3(A,B,C,D,E,F,V) = E/(EXP((A+V)/B)+EXP((C+V)/D))+F               
+EMPERICAL4(A,B,V) = A*V+B            
+STEP(X) = .5*(1+TANH(X*80))      
+EAPP(T) =  EON*HEAV(T-TE)*(1-EXP(-(T-TE)/TAUE))   
