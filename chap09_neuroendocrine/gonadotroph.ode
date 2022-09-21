@@ -1,0 +1,162 @@
+# Pituitary cell model using a common core of ionic currents
+# Adding ER calcium, a cytosolic calcium subspace, and IP3 receptor dynamics 
+# Adapted from the original code (Fletcher, Bertram, Stojilkovic, Mol Cell Endocrin 463 (2018))
+# for Keener and Sneyd, Math Physiology, third edition.
+
+
+# background IP3 and pulse IP3. Vary to get different bursting patterns.
+par ip3b=0
+par ip3p=0.5
+par tpulse = 5000
+
+num gnav=20
+num gca=1.5
+num gk=5
+num gkca=2.5
+num gleak=0.1
+num gkir=0.9
+
+num ek=-75
+num eca=60
+num ena=75
+num vleak=0
+
+vkdrive=v-ek
+vnadrive=v-ena
+vcadrive=v-eca
+vnsdrive=v-vleak
+
+
+###### cell geometry ############
+num alpha=0.0015
+num cm=6
+num sigmaer=39
+num sigmad=39
+
+
+###### sodium #########################
+
+# ina -- ttx-sensitive
+num tauhna=2
+num vmna=-15
+num smna=5
+num vhna=-55
+num shna=-10
+mnainf = 1/(1+exp((vmna-v)/smna))
+hnainf = 1/(1+exp((vhna-v)/shna))
+in = gnav*mnainf*mnainf*mnainf*hna*vnadrive
+
+###### calcium ########################
+# ica
+num vmca=-15
+num smca=12
+mcainf = 1/(1+exp((vmca-v)/smca))
+ica = gca*mcainf*vcadrive
+
+###### potassium ######################
+# ik
+num vn=0
+num sn=5
+num taun=20
+ninf = 1/(1+exp((vn-v)/sn))
+ikdr = gk*n*vkdrive
+
+# ikca -- sk, ik, and/or bk far from ca2+ channels
+num kkca=0.4
+c2=c*c
+nkcainf=c2/(c2+kkca*kkca)
+ikca = gkca*nkcainf*vkdrive
+
+# ikir and GIRK
+num vnkir=-55
+num snkir=-10
+nkirinf = 1/(1+exp((vnkir-v)/snkir))
+ikir = gkir*nkirinf*vkdrive
+
+ik = ikca + ikdr  + ikir
+
+######## non-specific leak #################
+
+iL=gleak*(v-vleak)
+
+###### calcium handling ###############
+
+num fcyt=0.01
+num fer=0.01
+
+jin = -alpha*ica
+
+# jout consists of a plasma membrane atpase and a small linear leak to prevent c->infinity in some circumstances
+num nupmca=0.02
+num kpmca=0.1
+jpmca=nupmca*c2/(c2+kpmca*kpmca) 
+
+num kpmlin=0.001
+jout=jpmca + kpmlin*c
+
+# ER refilling
+num nuserca=0.16
+num kserca=0.2
+jref=nuserca*c2/(c2+kserca*kserca)
+
+#jrel consists of ER leak and IP3 receptor
+num pleak=0.0002
+num pip3=20
+num ki=1
+num ka=.8
+num kd=.8
+num aip3=0.002
+
+# background IP3 + pulse
+ip3=ip3b+ip3p*heav(t-tpulse)
+
+
+# IPR stuff
+num=(ip3*cd*hip3r)
+num3=num*num*num
+denom=(ip3+ki)*(cd+ka)
+denom3=denom*denom*denom
+jip3r=pip3*num3/denom3*(cer - cd)
+
+jleak=pleak*(cer - cd)
+jrel = jleak+jip3r
+
+#calcium subspace
+num kdiff=.6
+jdiff=kdiff*(cd-c)
+
+##### Equations #######################
+v'= -(in+ica+ik+iL)/Cm
+
+c' = fcyt*(jin-jout+jdiff-jref)
+cer' = fer*sigmaER*(jref-jrel)
+cd' = fcyt*sigmaD*(jrel-jdiff)
+
+hna'= (hnainf-hna)/tauhna
+n'= (ninf-n)/taun
+
+hip3r' = Aip3*(Kd-(cd + Kd)*hip3r)
+
+##### Initial Conditions ###############
+init v=-60.58
+
+init c=0.0881
+init cer=124.49
+init cd=0.130
+
+init hna=0.637
+init n=0.0
+
+init hip3r=0.862
+
+##### Auxiliary outputs ###############
+aux tsec=t/1000
+
+##### Options #########################
+@ dt=1
+@ total=120000
+
+@ maxstor=200000, bounds=10000000, xp=t, yp=v
+@ xlo=0, xhi=120000, ylo=-90, yhi=30, bell=0
+
+done
