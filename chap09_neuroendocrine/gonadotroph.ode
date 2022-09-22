@@ -26,39 +26,39 @@ vnadrive=v-ena
 vcadrive=v-eca
 vnsdrive=v-vleak
 
-
 ###### cell geometry ############
 num alpha=0.0015
 num cm=6
 num sigmaer=39
 num sigmad=39
 
+####### smooth pulse profiles ############
+# time to peak is 2*tau, peak value is 1. 
+
+par kp=0.04
+par tau=175000
+delpulse=t-tpulse
+pnorm=4*tau*tau*exp(-2)
+pulse=delpulse*delpulse/pnorm*heav(delpulse)
+ip3pulse=pulse/(pulse+kp) * (1+kp)
 
 ###### sodium #########################
 
 # ina -- ttx-sensitive
 num tauhna=2
-num vmna=-15
-num smna=5
-num vhna=-55
-num shna=-10
-mnainf = 1/(1+exp((vmna-v)/smna))
-hnainf = 1/(1+exp((vhna-v)/shna))
+mnainf = 1/(1+exp((-15-v)/5))
+hnainf = 1/(1+exp((55+v)/10))
 in = gnav*mnainf*mnainf*mnainf*hna*vnadrive
 
 ###### calcium ########################
 # ica
-num vmca=-15
-num smca=12
-mcainf = 1/(1+exp((vmca-v)/smca))
+mcainf = 1/(1+exp((-15-v)/12))
 ica = gca*mcainf*vcadrive
 
 ###### potassium ######################
 # ik
-num vn=0
-num sn=5
 num taun=20
-ninf = 1/(1+exp((vn-v)/sn))
+ninf = 1/(1+exp((-v)/5))
 ikdr = gk*n*vkdrive
 
 # ikca -- sk, ik, and/or bk far from ca2+ channels
@@ -68,9 +68,7 @@ nkcainf=c2/(c2+kkca*kkca)
 ikca = gkca*nkcainf*vkdrive
 
 # ikir and GIRK
-num vnkir=-55
-num snkir=-10
-nkirinf = 1/(1+exp((vnkir-v)/snkir))
+nkirinf = 1/(1+exp((55+v)/10))
 ikir = gkir*nkirinf*vkdrive
 
 ik = ikca + ikdr  + ikir
@@ -86,18 +84,15 @@ num fer=0.01
 
 jin = -alpha*ica
 
-# jout consists of a plasma membrane atpase and a small linear leak to prevent c->infinity in some circumstances
-num nupmca=0.02
-num kpmca=0.1
-jpmca=nupmca*c2/(c2+kpmca*kpmca) 
+# PMCA
+num Vpmca=0.02
+num Kpmca=0.1
+jpmca=Vpmca*c2/(c2+Kpmca*Kpmca) 
 
-num kpmlin=0.001
-jout=jpmca + kpmlin*c
-
-# ER refilling
-num nuserca=0.16
-num kserca=0.2
-jref=nuserca*c2/(c2+kserca*kserca)
+# SERCA
+num Vserca=0.16
+num Kserca=0.2
+jserca=Vserca*c2/(c2+Kserca*Kserca)
 
 #jrel consists of ER leak and IP3 receptor
 num pleak=0.0002
@@ -108,7 +103,7 @@ num kd=.8
 num aip3=0.002
 
 # background IP3 + pulse
-ip3=ip3b+ip3p*heav(t-tpulse)
+ip3=ip3b+ip3p*ip3pulse
 
 
 # IPR stuff
@@ -128,8 +123,8 @@ jdiff=kdiff*(cd-c)
 ##### Equations #######################
 v'= -(in+ica+ik+iL)/Cm
 
-c' = fcyt*(jin-jout+jdiff-jref)
-cer' = fer*sigmaER*(jref-jrel)
+c' = fcyt*(jin-jpmca+jdiff-jserca)
+cer' = fer*sigmaER*(jserca-jrel)
 cd' = fcyt*sigmaD*(jrel-jdiff)
 
 hna'= (hnainf-hna)/tauhna
@@ -150,7 +145,8 @@ init n=0.0
 init hip3r=0.862
 
 ##### Auxiliary outputs ###############
-aux tsec=t/1000
+aux tsec=t/1000   
+aux ip3 = ip3
 
 ##### Options #########################
 @ dt=1
