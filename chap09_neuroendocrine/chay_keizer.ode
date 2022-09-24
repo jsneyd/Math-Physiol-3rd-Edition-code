@@ -14,10 +14,10 @@ n(0)    = 0.00044035
 
 # Parameters:
 # conductances in mS/cm^2, ca in uM, v in mV, t in msec
-p cm=4.5 gca=6.5 gk=12 gl=0.04 gkca=0.09
+p cm=4.5 gca=13 gk=12 gl=0.04 gkca=0.09
 p vca=100 vk=-75 vl=-40
 p vprime=50 vstar=30
-p f=0.01 k1=0.035
+p f=0.01 k1=0.01525
 p Kd=1 kca=0.04 
 
 # Gating functions:
@@ -35,7 +35,7 @@ i_kca = gkca*ca/(ca+Kd)*(v-vk)
 i_l   = gl*(v-vl)
 
 # The differential equations:
-v'    = -1/cm*(2*i_ca+i_k+i_kca+i_l) 
+v'    = -1/cm*(i_ca+i_k+i_kca+i_l) 
 mca'  = (alphamca(v)*(1-mca)-betamca(v)*mca)
 hca'  = (alphahca(v)*(1-hca)-betahca(v)*hca) 
 n'    = (alphan(v)*(1-n)-betan(v)*n)  

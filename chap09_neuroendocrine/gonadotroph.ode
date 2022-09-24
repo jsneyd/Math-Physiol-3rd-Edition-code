@@ -13,18 +13,18 @@ num gnav=20
 num gca=1.5
 num gk=5
 num gkca=2.5
-num gleak=0.1
+num gL=0.1
 num gkir=0.9
 
 num ek=-75
 num eca=60
 num ena=75
-num vleak=0
+num vL=0
 
 vkdrive=v-ek
 vnadrive=v-ena
 vcadrive=v-eca
-vnsdrive=v-vleak
+vnsdrive=v-vL
 
 ###### cell geometry ############
 num alpha=0.0015
@@ -75,7 +75,7 @@ ik = ikca + ikdr  + ikir
 
 ######## non-specific leak #################
 
-iL=gleak*(v-vleak)
+iL=gL*(v-vL)
 
 ###### calcium handling ###############
 
@@ -95,8 +95,8 @@ num Kserca=0.2
 jserca=Vserca*c2/(c2+Kserca*Kserca)
 
 #jrel consists of ER leak and IP3 receptor
-num pleak=0.0002
-num pip3=20
+num kleak=0.0002
+num kf=20
 num ki=1
 num ka=.8
 num kd=.8
@@ -111,9 +111,9 @@ num=(ip3*cd*hip3r)
 num3=num*num*num
 denom=(ip3+ki)*(cd+ka)
 denom3=denom*denom*denom
-jip3r=pip3*num3/denom3*(cer - cd)
+jip3r=kf*num3/denom3*(cer - cd)
 
-jleak=pleak*(cer - cd)
+jleak=kleak*(cer - cd)
 jrel = jleak+jip3r
 
 #calcium subspace
