@@ -1,13 +1,8 @@
-# Chay_Keizer.ode
+# Pseudo-plateau bursting. A modification of the Chay-Keizer model.
+# Modified from the original code of Teka, Bertram, etc.
 
-# This XPPAUT file contains the program for a variation of the Chay-Keizer
-# model for bursting in pancreatic beta-cells. It was used to make 
-# Figures 1A-C, 2, and 4-7 in: W. Teka, K. Tsaneva-Atanasova,
-# R. Bertram, J. Tabak, "From Plateau to Pseudo-Plateau Bursting: Making
-# the Transition", Bulletin of Mathematical Biology, 73:1292-1311, 2011.
-
-# Using default parameter values, the code produces plateau bursting. 
-
+# This is the fast subsystem of the model.
+# Used for Keener and Sneyd, Mathematical Physiology, Chapter 9.
 
 # Variables:
 #    V -- membrane potential
