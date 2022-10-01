@@ -1,0 +1,62 @@
+# Chay_Keizer.ode
+
+# This XPPAUT file contains the program for a variation of the Chay-Keizer
+# model for bursting in pancreatic beta-cells. It was used to make 
+# Figures 1A-C, 2, and 4-7 in: W. Teka, K. Tsaneva-Atanasova,
+# R. Bertram, J. Tabak, "From Plateau to Pseudo-Plateau Bursting: Making
+# the Transition", Bulletin of Mathematical Biology, 73:1292-1311, 2011.
+
+# Using default parameter values, the code produces plateau bursting. 
+
+
+# Variables:
+#    V -- membrane potential
+#    n -- delayed rectifier activation variable
+#    c -- cytosolic calcium concentration
+
+# Initial conditions
+v(0)=-65 
+n(0)=0 
+
+par c=0.01
+
+# steady state functions 
+ninf = 1/(1+exp((vn-v)/sn))
+minf = 1/(1+exp((vm-v)/sm))
+
+# parameter values
+par gkatp=180
+num vk=-75, vca=25, cm=5300
+par gk=2700, gca=1000
+par vm=-20, sm=12, vn=-12, sn=5
+num taun=18.7
+par gkca=400
+num kd=0.3
+
+# Ikca
+Ikca = gkca/(1+(kd/c)^3)*(v-vk)
+
+
+# ICa
+Ica = gca*minf*(v-vca)
+
+# Ik
+Ik = gk*n*(v-vk)
+
+# Ikatp
+Ikatp = gkatp*(v-vk)
+
+# equations
+dv/dt=-(Ik + Ica + Ikca + Ikatp)/cm
+dn/dt=(ninf-n)/taun
+
+aux tsec=t/1000
+
+@ meth=cvode, atol=1.0e-6, tol=1.0e-6, dt=10, total=150000, maxstor=100000
+@ xp=tsec, yp=v, bound=100000000
+@ xlo=0, xhi=5, ylo=-70, yhi=-10
+@ parmin=0, parmax=0.5,dsmax=0.02,ds=0.01,dsmin=0.001
+@ autoxmin=0,autoxmax=0.5,nmax=20000,npar=20000
+@ autoymin=-70, autoymax=-10
+
+done
