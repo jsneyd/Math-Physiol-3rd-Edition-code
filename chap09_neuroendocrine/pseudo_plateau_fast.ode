@@ -51,7 +51,7 @@ aux tsec=t/1000
 @ xp=tsec, yp=v, bound=100000000
 @ xlo=0, xhi=5, ylo=-70, yhi=-10
 @ parmin=0, parmax=0.5,dsmax=0.02,ds=0.01,dsmin=0.001
-@ autoxmin=0,autoxmax=0.5,nmax=20000,npar=20000
+@ autoxmin=0,autoxmax=0.5,nmax=20000,npr=20000
 @ autoymin=-70, autoymax=-10
 
 done
