@@ -1,4 +1,4 @@
-function selkov_sim
+function Selkov_glycolysis_sim
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 1.0, ...
@@ -15,7 +15,7 @@ alph=1.0
 g=2
 
 % set up the integration
-tspan = [0:1:800];            % time interval for the solution
+tspan = [0:0.1:800];            % time interval for the solution
 IC = [0.4,0.4];                        % initial condition
 [t,U] = ode15s(@(t,y)rhs(t,y),tspan,IC);
 
@@ -39,6 +39,13 @@ s1b=(1+s2.^g)./(s2.^(g-1).*(alph/eta-s2));
 plot(s1a,s2,'--',s1b,s2,'.','linewidth',2)
 axis([0 1.4 0 1])
 hold off
+
+%out = [t U];
+%save('test1.dat','out')
+%out = [s2' s1a' s1b'];
+%save('test2.dat','out')
+
+
 function out=rhs(t,y)
 global nu eta alph g
 u=y(1);
