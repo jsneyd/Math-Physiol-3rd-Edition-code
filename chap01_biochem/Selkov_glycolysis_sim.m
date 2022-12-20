@@ -28,17 +28,19 @@ ylabel('Concentration','fontsize',18)
 
 % plot the phase portrait
 figure(2)
-plot(U(:,1),U(:,2),'linewidth',2)
-xlabel('\sigma_1','fontsize',20)
-ylabel('\sigma_2','fontsize',20)
-hold on
+
+
+
 % add null clines
 s2=[0.02:0.01:1.4];
 s1a=nu/(1-nu)*(1+s2.^g)./s2.^g;
 s1b=(1+s2.^g)./(s2.^(g-1).*(alph/eta-s2));
-plot(s1a,s2,'--',s1b,s2,'.','linewidth',2)
+plot(U(:,1),U(:,2),s1a,s2,'--',s1b,s2,'--','linewidth',2)
+legend('solution','\sigma_1 nullcline','\sigma_2 nullcline','fontsize',20)
+xlabel('\sigma_1','fontsize',20)
+ylabel('\sigma_2','fontsize',20)
 axis([0 1.4 0 1])
-hold off
+
 function out=rhs(t,y)
 global nu eta alph g
 u=y(1);
