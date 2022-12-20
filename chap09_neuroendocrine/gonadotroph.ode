@@ -1,0 +1,158 @@
+# Pituitary cell model using a common core of ionic currents
+# Adding ER calcium, a cytosolic calcium subspace, and IP3 receptor dynamics 
+# Adapted from the original code (Fletcher, Bertram, Stojilkovic, Mol Cell Endocrin 463 (2018))
+# for Keener and Sneyd, Math Physiology, third edition.
+
+
+# background IP3 and pulse IP3. Vary to get different bursting patterns.
+par ip3b=0
+par ip3p=0.5
+par tpulse = 5000
+
+num gnav=20
+num gca=1.5
+num gk=5
+num gkca=2.5
+num gL=0.1
+num gkir=0.9
+
+num ek=-75
+num eca=60
+num ena=75
+num vL=0
+
+vkdrive=v-ek
+vnadrive=v-ena
+vcadrive=v-eca
+vnsdrive=v-vL
+
+###### cell geometry ############
+num alpha=0.0015
+num cm=6
+num sigmaer=39
+num sigmad=39
+
+####### smooth pulse profiles ############
+# time to peak is 2*tau, peak value is 1. 
+
+par kp=0.04
+par tau=175000
+delpulse=t-tpulse
+pnorm=4*tau*tau*exp(-2)
+pulse=delpulse*delpulse/pnorm*heav(delpulse)
+ip3pulse=pulse/(pulse+kp) * (1+kp)
+
+###### sodium #########################
+
+# ina -- ttx-sensitive
+num tauhna=2
+mnainf = 1/(1+exp((-15-v)/5))
+hnainf = 1/(1+exp((55+v)/10))
+in = gnav*mnainf*mnainf*mnainf*hna*vnadrive
+
+###### calcium ########################
+# ica
+mcainf = 1/(1+exp((-15-v)/12))
+ica = gca*mcainf*vcadrive
+
+###### potassium ######################
+# ik
+num taun=20
+ninf = 1/(1+exp((-v)/5))
+ikdr = gk*n*vkdrive
+
+# ikca -- sk, ik, and/or bk far from ca2+ channels
+num kkca=0.4
+c2=c*c
+nkcainf=c2/(c2+kkca*kkca)
+ikca = gkca*nkcainf*vkdrive
+
+# ikir and GIRK
+nkirinf = 1/(1+exp((55+v)/10))
+ikir = gkir*nkirinf*vkdrive
+
+ik = ikca + ikdr  + ikir
+
+######## non-specific leak #################
+
+iL=gL*(v-vL)
+
+###### calcium handling ###############
+
+num fcyt=0.01
+num fer=0.01
+
+jin = -alpha*ica
+
+# PMCA
+num Vpmca=0.02
+num Kpmca=0.1
+jpmca=Vpmca*c2/(c2+Kpmca*Kpmca) 
+
+# SERCA
+num Vserca=0.16
+num Kserca=0.2
+jserca=Vserca*c2/(c2+Kserca*Kserca)
+
+#jrel consists of ER leak and IP3 receptor
+num kleak=0.0002
+num kf=20
+num ki=1
+num ka=.8
+num kd=.8
+num aip3=0.002
+
+# background IP3 + pulse
+ip3=ip3b+ip3p*ip3pulse
+
+
+# IPR stuff
+num=(ip3*cd*hip3r)
+num3=num*num*num
+denom=(ip3+ki)*(cd+ka)
+denom3=denom*denom*denom
+jip3r=kf*num3/denom3*(cer - cd)
+
+jleak=kleak*(cer - cd)
+jrel = jleak+jip3r
+
+#calcium subspace
+num kdiff=.6
+jdiff=kdiff*(cd-c)
+
+##### Equations #######################
+v'= -(in+ica+ik+iL)/Cm
+
+c' = fcyt*(jin-jpmca+jdiff-jserca)
+cer' = fer*sigmaER*(jserca-jrel)
+cd' = fcyt*sigmaD*(jrel-jdiff)
+
+hna'= (hnainf-hna)/tauhna
+n'= (ninf-n)/taun
+
+hip3r' = Aip3*(Kd-(cd + Kd)*hip3r)
+
+##### Initial Conditions ###############
+init v=-60.58
+
+init c=0.0881
+init cer=124.49
+init cd=0.130
+
+init hna=0.637
+init n=0.0
+
+init hip3r=0.862
+
+##### Auxiliary outputs ###############
+aux tsec=t/1000   
+aux ip3 = ip3
+
+##### Options #########################
+@ dt=1
+@ total=120000
+
+@ maxstor=200000, bounds=10000000, xp=t, yp=v
+@ xlo=0, xhi=120000, ylo=-90, yhi=30, bell=0
+
+done

@@ -1,4 +1,4 @@
-function selkov_sim
+function Selkov_glycolysis_sim
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 1.0, ...
@@ -15,7 +15,7 @@ alph=1.0
 g=2
 
 % set up the integration
-tspan = [0:1:800];            % time interval for the solution
+tspan = [0:0.1:800];            % time interval for the solution
 IC = [0.4,0.4];                        % initial condition
 [t,U] = ode15s(@(t,y)rhs(t,y),tspan,IC);
 
@@ -29,8 +29,6 @@ ylabel('Concentration','fontsize',18)
 % plot the phase portrait
 figure(2)
 
-
-
 % add null clines
 s2=[0.02:0.01:1.4];
 s1a=nu/(1-nu)*(1+s2.^g)./s2.^g;
@@ -40,6 +38,14 @@ legend('solution','\sigma_1 nullcline','\sigma_2 nullcline','fontsize',20)
 xlabel('\sigma_1','fontsize',20)
 ylabel('\sigma_2','fontsize',20)
 axis([0 1.4 0 1])
+ 
+
+%out = [t U];
+%save('test1.dat','out')
+%out = [s2' s1a' s1b'];
+%save('test2.dat','out')
+
+%>>>>>>> 53bbebdd77194aebd9a7a48e35fd001590167bd9
 
 function out=rhs(t,y)
 global nu eta alph g

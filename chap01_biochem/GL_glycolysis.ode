@@ -8,5 +8,7 @@ init u=5,w=5
 @ total=8,dt=0.002
 @ xplot=u,yplot=w,xhi=50,yhi=40,xlo=0,ylo=0
 @ autoxmin=0,autoxmax=1500,autoymin=0,autoymax=50
-@parmin=0,parmax=1500,Dsmax=20,ntst=100
+@ parmin=0,parmax=1500,Dsmax=20,ntst=100
+@ ds=0.02,dsmin=0.001,dsmax=0.2
+@ Nmax=20000, NPr=50000
 done

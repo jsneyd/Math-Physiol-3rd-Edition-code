@@ -41,6 +41,11 @@ plot(u2,w,'--',u1,w,'.','linewidth',2)
 axis([0 40 0 20])
 hold off
 
+out = [t U];
+save('test1.dat','out')
+out = [w' u1' u2'];
+save('test2.dat','out')
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function out=rhs(t,y)
 global nu eta 

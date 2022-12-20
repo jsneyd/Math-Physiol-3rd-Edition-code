@@ -1,0 +1,100 @@
+  
+V(0) =  -47.439744033440896
+Hnaf(0) =  0.150875059704950
+Nkm(0) =   0.068499547036174
+c(0) =   0.042896908631945
+ce(0) =   10
+h(0) =   0.061113223260552
+Ow(0) =   0.000000002523211
+Ow_star(0) =   0.000049694789395
+
+par IP3=0.15
+
+Kf=1.92e-1
+
+# Ca and IPR parameters
+ tau_max=1000
+ Ktau=0.1
+ tauP=0.5
+ Kc=0.2
+ Kh=0.08
+
+ gnaf= 280
+ gsk=0.3
+ gw=950
+ gcal=0.05 
+ Prate=1
+ Vp=0.0042 
+
+ number gkm=8  gleak=0.04 
+ number Cm=16  Vna=60  Vca=100  Vk=-80  Vleak=100 							
+ number k_sk=1  n_sk=2  k11=1e-7  k_11=1.2  k22=0.5  k33=3e-5 	
+
+ number rho=0.5  gamma=27  
+ number a1=1e-4  a2=35  a3=300  a4=7  a5=35 
+ number alpha=4.8e-3   Kp=0.425  beta=2e-5  Jer=4e-7  Knaca=0.05  
+
+
+
+# Current submodel
+Mnaf_inf = 1/(1+exp(-(V+40.0)/4.3))
+Hnaf_inf = 1/(1+exp((V+66.1)/10.8))
+Nkm_inf = 1/(1+exp(-(V+37)/4))
+Mcal_inf = 1/(1+exp(-(V+30)/2))
+
+Thnaf = 75/(exp((V+80)/19)+2*exp(-2*(V+80)/19))
+Tnkm = 11.5/(exp((V+30)/15)+exp(-(V+30)/15))
+
+Inaf =  gnaf*Mnaf_inf^3*Hnaf*(V- Vna)
+Ical =  gcal*Mcal_inf^2*(V- Vca)
+Ileak =  gleak*(V- Vleak)
+
+Ikm =  gkm*Nkm*(V- Vk)
+Isk =  gsk*(c^( n_sk)/(c^( n_sk)+ k_sk^( n_sk)))*(V- Vk)
+Iw =  gw*(Ow+Ow_star)*(V- Vk)
+
+Iionic = Inaf+Ikm+Ical+Ileak
+
+# calcium submodel
+
+phi_c=c^4/(c^4+ Kc^4)
+phi_p= IP3^2/( Kp^2+ IP3^2)
+phi_p_down= Kp^2/( Kp^2+ IP3^2)
+
+h_inf= Kh^4/( Kh^4+c^4)
+tau =  tau_max* Ktau^4/( Ktau^4+c^4)
+beta_IPR = phi_p*phi_c*h
+alpha_IPR = phi_p_down*(1-phi_c*h_inf)
+Po=beta_IPR/(beta_IPR + 0.4*(beta_IPR+alpha_IPR))
+
+Jrelease = ( Kf*Po+ Jer)*(ce-c)
+Jserca =  Prate*(c- a1*ce)/( a2+ a3*c+ a4*ce+ a5*c*ce)
+Jin = - alpha*(Ical)+ beta* IP3
+Jpm =  Vp*c^2/( Kp^2+c^2)
+
+
+
+aux XX = Ow + Ow_star
+aux tsec = t/1000
+
+
+# Differential equations
+
+V' = (-1/ Cm)*(Iionic+Isk+Iw)
+Hnaf' = (Hnaf_inf-Hnaf)/Thnaf
+Nkm' = (Nkm_inf-Nkm)/Tnkm
+
+c' =  rho*(Jin - Jpm) + (Jrelease - Jserca) 
+h'  = 0.001*((h_inf-h)/tau)
+ce' =  gamma*(Jserca - Jrelease)
+
+Ow' = -Ow* k_11-Ow* k22+ k11*c*(1-Ow-Ow_star)
+Ow_star' =  k22*Ow- k33*Ow_star
+
+@ XLO=0,XHI=60,YLO=-85,YHI=45,        
+@ BOUND=30000,TOTAL=60000,NOUT=1,METH=gear,dt=.1,MAXSTOR=1000000               
+@ NPLOT=1,XP1=tsec,YP1=V               
+@ NTST=75,DSMIN=1e-5,DSMAX=.5,DS=0.01        
+@ parmin=0,parmax=5,autoxmin=0,autoxmax=1 autoymin=-80,autoymax=40            
+@ EPSU=1e-7, EPSL=1e-7, EPSS=1e-5                   
+@ Nmax=100000, NPr=10000    
