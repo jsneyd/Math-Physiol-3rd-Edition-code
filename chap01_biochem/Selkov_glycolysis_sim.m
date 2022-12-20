@@ -21,10 +21,10 @@ IC = [0.4,0.4];                        % initial condition
 
 % plot the solution as a function of time:
 figure(1)
-plot(t,U(:,1),t,U(:,2),'--','linewidth',2)
+plot(t,U(:,1),'r',t,U(:,2),'b--','linewidth',2)
 legend('\sigma_1','\sigma_2','fontsize',18,'location','northwest')
-xlabel('Time','fontsize',18)
-ylabel('Concentration','fontsize',18)
+xlabel('time','fontsize',18)
+ylabel('concentration','fontsize',18)
 
 % plot the phase portrait
 figure(2)
