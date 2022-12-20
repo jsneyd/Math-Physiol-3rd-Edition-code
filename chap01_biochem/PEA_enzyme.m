@@ -16,7 +16,7 @@ par.e = 0.1;
 
 tspan = linspace(0,20,2000);
 initial = [1,1];
-[t,Y] = ode15s(@(t,y)rhs(t,y,par),tspan,initial);
+[t,Y] = ode15s(@(t,y)rhseq(t,y,par),tspan,initial);
 s=Y(:,1);
 z=Y(:,2);
 x = (z-s)/par.a;   % the original variable, x
@@ -46,7 +46,7 @@ save('temp2.dat','forplotting2')
 
 % Part 2:  QSS approximation
 par.a = 0.5;
-par.b = 1.5;
+par.k = 1.5;
 par.e = 0.05;
 
 tspan = linspace(0,20,2000);
@@ -62,7 +62,7 @@ xlabel('\tau','fontsize',20)
 axis([0 4 0 1])
 % now plot the slow manifold and the solution together
 slow_s = linspace(0,1.2,100);
-slow_x = slow_s./(slow_s+par.b) ;
+slow_x = slow_s./(slow_s+par.k) ;
 figure(5)
 plot(s,x,slow_s,slow_x,'--','linewidth',2)
 xlabel('\sigma','fontsize',20)
@@ -78,7 +78,7 @@ save('temp4.dat','forplotting4')
 end
 
 
-function out = rhs(t,y,par)
+function out = rhseq(t,y,par)
 s = y(1);
 z = y(2);
 out(1) = z-s - par.b*s*(par.a + s - z);
@@ -90,7 +90,7 @@ function out = rhsqss(t,y,par)
 s = y(1);
 x = y(2);
 out(1) = -s+x*(s+par.a) ;
-out(2) = (s-x*(s+par.b))/par.e;
+out(2) = (s-x*(s+par.k))/par.e;
 out = out';  % don't forget this or you get rubbish.
 end
 
