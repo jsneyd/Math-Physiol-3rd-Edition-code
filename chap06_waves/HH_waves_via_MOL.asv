@@ -29,10 +29,10 @@ Vl = Tfact*(10.5988+Veq)-Veq;
 
  % h = L/N;
  
- L = 30;
- N=201; %number of grid points
+ L = 40;
+ N=401; %number of grid points
  h=L/(N-1);
- dg = 1/h^2; %Take D = 1  % coupling coefficient
+ dg = 1/(h^2); %Take D = 1  % coupling coefficient
   
  X =[0:N-1]'*h;
  
@@ -43,31 +43,18 @@ n = 0.3177;
 
  sc = [1;2*ones(N-2,1);1]; % diagonal entries for the diffusion matrix
 % initial data
-  V0 =  20.1*(1-tanh(X)) ;
-      
-    
-
+  V0 =  20.1*(1-tanh(X/2)) ;
+ 
  u0 = [V0;m*ones(N,1);h*ones(N,1);n*ones(N,1)];
  
 tstep = 0.05;
-t_end = 30;
+t_end = 40;
  
 %specify the output points
 tspan = [0:tstep:t_end];
 
 [T,S] = ode23(@deRHS,tspan, u0, odeset('maxstep',1));  
  
-figure(2)
- for j = 1:N
-    plot(T,S(:,j)-j,'linewidth',2)
-     
-   hold on
- end
-  hold off
- 
-xlabel('T','fontsize',20)
-ylabel('V(X,t)','fontsize',20)
-%axis([0 t_end 0 1])
  
 % % Now find the speed:
 figure(3)
@@ -76,46 +63,23 @@ figure(3)
  ylabel('T')
 
  thresh = 40;
- 
+ % for each X value find the first time the solution crosses the threshold
  for j = 1:N
-     jmin = min(find(S(:,j)>=thresh))
+     jmin = min(find(S(:,j)>=thresh));
      Tc(j) = T(jmin);
  end
- figure(5)
- plot(Tc,X)
-
+ 
  xlabel('T')
  ylabel('X')
 
  p=polyfit(Tc,X,1)
- spest= p(2)+p(1)*Tc
-     %figure(3) 
-%sfc=contour(S(:,1:N)',[20.5 40.5],'linewidth',2);
-
-%sfcl=length(sfc(1,:));
-% to get a good estimate of the speed, this curve may need to be truncated
-% some
-
-%size(sfc)
-
-% figure(4)
-% plot(sfc(2,:),'*'  )
-% 
-% spx = sfc(1, 5:end-5);
-% spy = sfc(2, 5:end-5);
-%  
-  % now use sfc to estimate the speed
-  % this must be done interactively
-  
-  p=polyfit(spx,spy,1) %p(1) is the estimated speed n/time
-  spest = p(2)+p(1)*spx;
+ spest= p(2)+p(1)*Tc;
+  figure(5)
+ plot(Tc,X,Tc,spest,'--')
+ xlabel('X')
+ ylabel('T (ms)')
   speedest = p(1)
-  velocity= p(1)*h
- % figure(4)
-%plot(spx,spy,spx,spest,'--')
- %xlabel('\tau', 'fontsize',20)
- % ylabel('n', 'fontsize',20)
- % title('Level Surface')
+  
  end
  
 %the right hand side for MOL ode simulation:

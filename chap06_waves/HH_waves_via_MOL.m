@@ -76,7 +76,8 @@ figure(3)
  spest= p(2)+p(1)*Tc;
   figure(5)
  plot(Tc,X,Tc,spest,'--')
-
+ xlabel('X')
+ ylabel('T (ms)')
   speedest = p(1)
   
  end
