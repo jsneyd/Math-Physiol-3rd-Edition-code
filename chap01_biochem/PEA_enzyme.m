@@ -58,7 +58,7 @@ x=Y(:,2);
 figure(4)
 plot(t,s,t,x,'linewidth',2)
 legend('\sigma','z','fontsize',18)
-xlabel('\tau','fontsize',20)
+xlabel('\eta','fontsize',20)
 axis([0 4 0 1])
 % now plot the slow manifold and the solution together
 slow_s = linspace(0,1.2,100);
