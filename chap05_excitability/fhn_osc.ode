@@ -5,7 +5,7 @@ par Iapp=0
 par alpha=0.1, eps=0.01, gamma=0.5
 
 v'= (v*(1-v)*(v-alpha) - w + Iapp)/eps
-w'=v-gamma*w
+w'=v-gamma*w 
 
 @ xpar=v,ypar=w,xlo=-0.3,xhi=1, ylo=-0.1, yhi=0.25
 done
