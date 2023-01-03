@@ -58,7 +58,7 @@ while (Nt>0&j<Kt)
      % update only those for which s+c >0
      
     T(ndx(k),j) = - log(rn(k,1))/H(ndx(k)) +T(ndx(k),j-1); % time of next reaction
-    rk  = min(find(rn(k,2) <=hc(ndx(k),:)/H(ndx(k)) )); % this determines which reaction occurs
+    rk  =  find(rn(k,2) <=hc(ndx(k),:)/H(ndx(k)) ,1); % this determines which reaction occurs
     s(ndx(k)) = s(ndx(k)) + Ch(rk,1); % update s 
     c(ndx(k)) = c(ndx(k)) + Ch(rk,2); % update c
     
