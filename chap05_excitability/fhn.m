@@ -11,16 +11,18 @@ set(0,                           ...
 
 global p
 p.eps = 0.01; p.alpha = 0.1; p.gamma = 0.5;
+% pick a value of p.Iapp
 p.Iapp = 0.5;
+p.Iapp = 0.;
 
-tend = 4; nt = 50000;
+tend = 4; nt = 5000;
 init = [0.2,0];
 tspan = linspace(0,tend,nt);
 [t,sol] = ode15s(@(t,x)fhnrhs(t,x),tspan,init);
 
 figure(1)
 plot(t,sol(:,1),'r')  % time series
-
+xlabel('t'); ylabel('v');
 
 figure(2)  % phase plane
 v = linspace(-0.4,1.4,100);

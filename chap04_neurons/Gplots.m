@@ -1,13 +1,16 @@
-% This code calculates the fundamental solution and a bunch of Green's
+% This code calculates the fundamental solution and several Green's
 % functions for the cable equation on a finite domain. The Green's functions are calculated
 % for sealed-end and closed-circuit ends (i.e., Neumann and Dirichlet BCs)
 % and are calculated by a sum of fundamental solutions and by Fourier
-% series. So there's a bunch of different curves.
+% series. So there are several different curves.
 
 clear all
 close all
 clc
-
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 1.0, ...
+   'defaultlinelinewidth', 2.0);
 L = 1;
 xi = 0.7*L;
 tau = 0;
@@ -15,13 +18,14 @@ tau = 0;
 
 %%----------------------------------------
 
-% fundamental solution on infinite domain
+% fundamental solution on  the infinite domain
 Z = fund(T,X,xi,tau);
 figure(1)
 surf(T,X,Z)
 xlabel('T')
 ylabel('X')
 zlabel('V')
+title('Fundamental solution on the infinite domain')
 
 %%----------------------------------------
 
@@ -54,7 +58,7 @@ plot(xf,Vf1,'k',xf,Vf2,'k',xf,Vf3,'k','LineWidth',2)
 hold on
 plot(xf,Vf1F,'r--',xf,Vf2F,'b--',xf,Vf3F,'g--','LineWidth',2)
 xlabel('T'); ylabel('V')
-legend('method of images','','','Fourier expansion:t=0.001','t=0.01','t=0.05','Location','northwest')
+legend('method of images','','','Fourier expansion:t=0.001','t=0.01','t=0.05','Location','northwest','fontsize',16)
 set(gca,'FontSize',14)
 
 
@@ -90,7 +94,7 @@ plot(xf,Vf1,'k',xf,Vf2,'k',xf,Vf3,'k','LineWidth',2)
 hold on
 plot(xf,Vf1F,'r--',xf,Vf2F,'b--',xf,Vf3F,'g--','LineWidth',2)
 xlabel('T'); ylabel('V')
-legend('method of images','','','Fourier expansion:t=0.001','t=0.01','t=0.05','Location','northwest')
+legend('method of images','','','Fourier expansion:t=0.001','t=0.01','t=0.05','Location','northwest','fontsize',16)
 set(gca,'FontSize',14)
 
 %%------------------------------------------
