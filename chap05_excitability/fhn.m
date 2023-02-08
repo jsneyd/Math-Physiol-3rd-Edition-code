@@ -10,30 +10,37 @@ set(0,                           ...
    'defaultlinelinewidth', 2.0); 
 
 global p
-p.eps = 0.15; 
+p.eps = 0.01; 
 p.alpha = 0.1; 
-p.gamma = 1.5;
+p.gamma = 0.5;
 % pick a value of p.Iapp
-p.Iapp = 0.2;
+p.Iapp = 0.5;
 %p.Iapp = 0.;
 
-tend = 40; nt = 500;
+dt = 0.01;
+if(p.Iapp == 0)
+    tend=2;
+else
+    tend=4;
+end
+
+ 
 init = [0.2,0];
-tspan = linspace(0,tend,nt);
+tspan = [0:dt:tend];
 [t,sol] = ode15s(@(t,x)fhnrhs(t,x),tspan,init);
 
 figure(1)
 plot(t,sol(:,1),'r')  % time series
-xlabel('t'); ylabel('v');
+xlabel('Time'); ylabel('v');
 
 figure(2)  % phase plane
 v = linspace(-0.4,1.4,100);
 w1 = v.*(p.alpha-v).*(v-1) + p.Iapp;
 w2 = v/p.gamma;
-plot(sol(:,1),sol(:,2),'r',v,w1,'g--',v,w2,'b--')
+plot(v,w1,'g--',v,w2,'b--',sol(:,1),sol(:,2),'r')
 ylim([-0.1,1.2*max(w1)]);
 xlabel('v'); ylabel('w');
-
+legend('dv/dt=0','dn/dt=0')
 
 % ----------------
 function out=fhnrhs(t,x)

@@ -25,7 +25,6 @@ Vk = Tfact*(-12+Veq)-Veq;
 Vl = Tfact*(10.5988+Veq)-Veq;
 
 tstep = .1;
-rn0 = 0.8;
 
 tstim = 0.005;  %This is the length of time of an initial stimulus
 
@@ -37,7 +36,7 @@ Inp = 0;
 %Iapp is the amplitude of the steady current stimulus
 %Pick one:
  Iapp = 120;
- Iapp = 20;
+ %Iapp = 20;
  %Iapp = 0;
 %BCL = 39;
 BCL = 0;
@@ -92,12 +91,12 @@ Ik=gk.*(V-Vk);
 
 figure(1)
 plot(T,V,'linewidth',2)
-axis([0 t_end -20 120])
+axis([0 tend -20 120])
 xlabel('time (ms)','fontsize',20)
 ylabel('V-V_{eq} (mV)','fontsize',20)
 formatSpecF = '%5.2f\n';
  
- title(strcat('I{app}= ',sprintf(formatSpecF,Iapp)),'fontsize',18)
+ title(strcat('I_{app}= ',sprintf(formatSpecF,Iapp)),'fontsize',18)
  
  
 figure(2)
@@ -105,15 +104,15 @@ plot(T,m,'b',T,n,'r',T,h,'g',  'linewidth',2)
 legend('m(t)','n(t)','h(t)','fontsize',16)
 xlabel('time (ms)','fontsize',20)
 ylabel('Gating variables','fontsize',20)
-axis([0 t_end 0 1])
- title(strcat('I{app}= ',sprintf(formatSpecF,Iapp)),'fontsize',18)
+axis([0 tend 0 1])
+ title(strcat('I_{app}= ',sprintf(formatSpecF,Iapp)),'fontsize',18)
  
  figure(3)
  plot(T, gk,T, gna)
 xlabel('time (ms)')
 ylabel('Conductance (mmho/cm^2)')
 legend('g_K','g_{Na}')
- title(strcat('I{app}= ',sprintf(formatSpecF,Iapp)),'fontsize',18)
+ title(strcat('I_{app}= ',sprintf(formatSpecF,Iapp)),'fontsize',18)
 end
 
 %the right hand side for the simulation:
@@ -126,7 +125,7 @@ m = s(2);
 h = s(3);
 n = s(4);
  
-Input = Inp/cosh(mod(t,BCL)-BCL/10) +Iapp
+Input = Inp/cosh(mod(t,BCL)-BCL/10) +Iapp;
  
 AM=.1*(25.-V)./(exp(.1*(25.-V))-1.);
 BM=4.*exp(-V/18);
