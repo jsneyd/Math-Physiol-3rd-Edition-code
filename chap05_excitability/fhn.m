@@ -5,17 +5,19 @@ close all
 clear all
 clc
 set(0,                           ...
-   'defaultaxesfontsize', 14,   ...
-   'defaultaxeslinewidth', 1.2, ...
+   'defaultaxesfontsize', 18,   ...
+   'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0); 
 
 global p
-p.eps = 0.01; p.alpha = 0.1; p.gamma = 0.5;
+p.eps = 0.15; 
+p.alpha = 0.1; 
+p.gamma = 1.5;
 % pick a value of p.Iapp
-p.Iapp = 0.5;
-p.Iapp = 0.;
+p.Iapp = 0.2;
+%p.Iapp = 0.;
 
-tend = 4; nt = 5000;
+tend = 40; nt = 500;
 init = [0.2,0];
 tspan = linspace(0,tend,nt);
 [t,sol] = ode15s(@(t,x)fhnrhs(t,x),tspan,init);
