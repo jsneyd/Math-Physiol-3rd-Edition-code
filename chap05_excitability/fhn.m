@@ -15,7 +15,7 @@ p.alpha = 0.1;
 p.gamma = 0.5;
 % pick a value of p.Iapp
 p.Iapp = 0.5;
-%p.Iapp = 0.;
+p.Iapp = 0.;
 
 dt = 0.01;
 if(p.Iapp == 0)
