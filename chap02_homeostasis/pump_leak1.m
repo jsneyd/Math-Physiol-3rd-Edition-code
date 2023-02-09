@@ -1,7 +1,7 @@
 %this file makes plots for the original pump-leak model
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.0, ...
+   'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0); 
   
 %set parameter values
@@ -16,7 +16,7 @@ p = [0.01:.01:14];  %pump rate values could go to 14.3
 alpha = (Ne*exp(-3*p)+Ke*exp(2*p*gamma))/(Ne+Ke);
  
  
-mu=(1 + sqrt(-alpha*zx^2 + zx^2 + alpha))./(2*(1 - alpha))
+mu=(1 + sqrt(-alpha*zx^2 + zx^2 + alpha))./(2*(1 - alpha));
 y = (-zx+sqrt(zx^2+4*alpha.*mu.^2))./(2*alpha.*mu);
 
 

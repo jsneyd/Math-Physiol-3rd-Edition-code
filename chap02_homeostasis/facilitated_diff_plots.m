@@ -2,10 +2,8 @@
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.0, ...
-   'defaultlinelinewidth', 1.2, ...
-   'defaultpatchlinewidth', 0.7);
-
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0);
  
 
 %parameters
@@ -34,9 +32,7 @@ ylabel('Oxygen Concentration','fontsize',20)
 text(0.1,2.4,'Total','fontsize',20)
 text(0.1,0.45,'Bound','fontsize',20)
 text(0.1,1.3,'Free','fontsize',20)
-if(cmykflg==1)
-    print('../../figs_c/chapt_6/facil_conc_fig','-deps','-cmyk')
-end
+ 
 figure(2)
 plot(xi,sigp,xi,rho*up,'--','linewidth',2)
 text(0.3,5,'Bound Oxygen Flux','fontsize',20)
@@ -44,9 +40,7 @@ text(0.3,2.6,'Free Oxygen Flux','fontsize',20)
 axis([0 1 0 7])
 xlabel('y','fontsize',20)
 ylabel('Oxygen Flux','fontsize',20)
-if(cmykflg==1)
-    print('../../figs_c/chapt_6/facil_flux_fig','-deps','-cmyk')
-end
+ 
 rho = 5;
 gam = sig+rho*u;
 
@@ -57,9 +51,7 @@ xlabel('Oxygen Consumption','fontsize',20)
 ylabel('Critical external oxygen concentration','fontsize',20)
 text(6,2.1,'\rho = 5','fontsize',20)
 text(6,5.8,'\rho = 0','fontsize',20)
-if(cmykflg==1)
-    print('../../figs_c/chapt_6/critcl_oxy_mscle','-deps','-cmyk')
-end
+ 
 r = rho;
 g = 14;
 xi = sqrt(gam/g);
@@ -80,6 +72,4 @@ legend('\rho=5','\rho=5, critical external concentration','\rho=0, critical exte
 ,
 axis([0 1 0 14])
 
-if(cmykflg==1)
-    print('../../figs_c/chapt_6/free_oxy_mscle','-deps','-cmyk')
-end
+ 

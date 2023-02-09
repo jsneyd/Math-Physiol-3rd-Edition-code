@@ -1,7 +1,7 @@
 close all
 clear all
 clc
-
+ 
 syms k kp km K Kd 
 syms ce pe ci pi se si C0
 

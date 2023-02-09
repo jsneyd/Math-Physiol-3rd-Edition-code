@@ -9,7 +9,7 @@ set(0,                           ...
    'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0); 
 
-global p
+
 p.eps = 0.01; 
 p.alpha = 0.1; 
 p.gamma = 0.5;
@@ -27,7 +27,7 @@ end
  
 init = [0.2,0];
 tspan = [0:dt:tend];
-[t,sol] = ode15s(@(t,x)fhnrhs(t,x),tspan,init);
+[t,sol] = ode15s(@(t,x)fhnrhs(t,x,p),tspan,init);
 
 figure(1)
 plot(t,sol(:,1),'r')  % time series
@@ -43,8 +43,8 @@ xlabel('v'); ylabel('w');
 legend('dv/dt=0','dn/dt=0')
 
 % ----------------
-function out=fhnrhs(t,x)
-global p
+function out=fhnrhs(t,x,p)
+
 v=x(1);
 w=x(2);
 out(1) = (v.*(p.alpha-v).*(v-1) - w + p.Iapp)/p.eps;
