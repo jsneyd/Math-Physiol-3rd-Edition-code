@@ -15,13 +15,13 @@ alphan=0.01*(10.0-v)/(exp((10.0-v)/10.0)-1.0)
 betan=0.125*exp(-(v)/80.0)
 m=alpham/(alpham + betam)
 
-# define the ODEs
+# define the ODE's
 v'=(1.0/cm)*(-gk*(n^4)*(v-vk) - gna*(m^3)*(0.8-n)*(v-vna) - gl*(v-vl) + Iapp)
 n'=alphan*(1.0-n) - betan*n
 
 @ xpar=v, ypar=n,xlo=-0.3
 @ ylo=0,yhi=1,bounds=1000,deltat=0.01,xlo=-20,xhi=120,total=100
-@ autovar=Iapp,ntst=50,nmax=200,npr=200,dsmin=0.1,dsmax=1,ds=0.2
-@ parmin=0,parmax=400
+@ autovar=Iapp,ntst=50,nmax=200,npr=200,dsmin=0.1,dsmax=2,ds=0.2
+@ parmin=-10,parmax=400
 @ autoxmin=0,autoxmax=400,autoymin=-20,autoymax=120
 done
