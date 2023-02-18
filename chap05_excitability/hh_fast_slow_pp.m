@@ -21,6 +21,11 @@ vlist = linspace(vk+0.01,vna-0.01,100)
 figure(1)
 
 plot(vlist,n0,vlist,nbar)
+xlabel('v')
+ylabel('n')
+axis([-20 120 0 1])
+hold on
+
 output=[vlist' n0' nbar'];
 save fastslow.dat output -ascii
 end
@@ -37,7 +42,7 @@ for i=1:length(vlist)
     n(i)=fminsearch(@nullcline,n0); % this uses a Matlab routine to find the minimum of a function
     n0=n(i);
     alphan=0.01*(10.0-dumv)./(exp((10.0-dumv)/10.0)-1.0);
-    betan=0.125*exp(-(dumv)/19.7);
+    betan=0.125*exp(-(dumv)/80);
     nbar(i)=alphan/(alphan+betan);
 end
 
