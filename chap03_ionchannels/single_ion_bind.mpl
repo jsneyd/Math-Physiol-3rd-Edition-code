@@ -3,17 +3,17 @@ restart;
 N:=1; # choose the number of barriers 
 ;
 for j from 0 to N-1 do
-eq||(j+1):= k||j*p||j-km||(j+1)*p||(j+1)-M;
+eq||(j+1):= k||j*p||j-km||(j+1)*p||(j+1)-J;
 od;
-eq0:=koff*cibyKeq*x-koff*p0-M;
-eq||(N+1):=k||N*p||N-koff*cebyKeq*x-M;
+eq0:=koff*cibyKeq*x-koff*p0-J;
+eq||(N+1):=k||N*p||N-koff*cebyKeq*x-J;
 eq||(N+2):=x+sum('p||k',k=0..N)-1;
 for j from 0 to N do
 p||j:=solve(eq||j,p||j);
 od;
-M:=solve(eq||(N+1),M);
+J:=solve(eq||(N+1),J);
 x:=solve(eq||(N+2),x);
-M;
+J;
 #now add dG and V dependence
 ;
 for j from 0 to N-1 do
@@ -25,8 +25,8 @@ od;
 km0:=koff;
 k||(N):=koff;
 
-M;
-factor((M));
+J;
+factor(J);
 # assume equal barrier heights
 for j from 0 to N-1 do
  kpEmdG||j:=kpEmDG;
@@ -34,12 +34,24 @@ od;
 for j from 1 to N do
 kpEmdGm||j:=kpEmDG;
 od;
-M;
-M:=factor(M);
+J;
+J:=factor(J);
 
-dM:=denom(M);
-factor(dM);
+dJ:=denom(J);
+factor(dJ);
 for j from 0 to 2*N do
-dM||j:=factor(coeff(dM,EmVby||(2*N),j));
+dJ||j:=factor(coeff(dJ,EmVby||(2*N),j));
 od;
+limit(J,cibyKeq=infinity)
+;
+
+limit(J,cebyKeq=infinity);
+NULL;
+NULL;
+NULL;
+NULL;
+NULL;
+NULL;
+NULL;
+NULL;
 NULL;
