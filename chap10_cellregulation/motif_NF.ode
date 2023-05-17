@@ -1,0 +1,24 @@
+# Positive feedback motif
+# For Keener and Sneyd, Mathematical Physiology, Third Edition, Chapter 10
+
+
+par S = 0
+par k1=1
+par Kx = 1, Ky = 1, k2=1
+par n = 4,m=8
+
+init x=0.96635, y=0.43197
+
+x' = S - k1*x + 1/(Ky^n+y^n)
+y' = x^m/(Kx^m+x^m) - k2*y
+
+@ total=10,  maxstor=500000, bounds=1e7, dt=.05, meth=gear
+@ xp=t, yp=x, xlo=0, xhi=10, ylo=0, yhi=5
+
+@ total=200,dt=0.05
+@ xp=x, yp=y, xl0=0,xhi=2.5,ylo=0,yhi=2.5
+@ meth=gear,bounds=1000
+@ autovar=x,ntst=50,nmax=2000,npr=2000,dsmin=0.01,dsmax=0.05,ds=0.02,parmin=0,parmax=2
+@ autoxmin=0,autoxmax=2,autoymin=0,autoymax=1.5
+
+done
