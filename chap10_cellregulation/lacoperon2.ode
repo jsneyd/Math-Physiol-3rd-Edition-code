@@ -1,0 +1,24 @@
+M(0)=2.2994e-6
+B(0)=1.5569e-6
+P(0)=3.2068e-5
+A(0)=0.
+L(0)=0.
+
+param Le=0
+param aA=1.76e4,bA=2.15e4,gamA=0.52,
+param aB=1.66e-2,gamB=2.26e-2
+param aP=10.0,gamP=0.65
+param aM=9.97e-4,gamM=0.41
+param aL=2880.0,gamL=2.26e-2
+param Kaa=2.52e4,K=6000.0,KA=1.95,KL=9.7e-7,KLe=0.26,KL1=1.81
+
+M'=aM*(1.0+Kaa*(A)^2)/(K+Kaa*(A)^2) - (gamM)*M
+B'=aB*M-(gamB)*B
+P'=aP*M-(gamP)*P
+A'=aA*B*L/(KL+L)-bA*B*A/(KA+A)-(gamA)*A
+L'=aL*P*Le/(KLe+Le)-aA*B*L/(KL+L)-(gamL)*L
+
+
+@ autovar=A,ntst=50,nmax=20000,npr=50000,dsmin=0.0001,dsmax=0.0005,ds=0.0002,parmin=0,parmax=0.08
+@ autoxmin=0,autoxmax=0.08,autoymin=0,autoymax=2
+done
