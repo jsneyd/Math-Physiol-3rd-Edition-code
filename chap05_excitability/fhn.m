@@ -11,7 +11,7 @@ set(0,                           ...
 
 
 p.eps = 0.01; 
-p.eps = 0.001; 
+p.eps = 0.0001; 
 p.alpha = 0.1; 
 p.gamma = 0.5;
 % pick a value of p.Iapp
