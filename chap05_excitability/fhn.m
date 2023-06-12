@@ -11,13 +11,14 @@ set(0,                           ...
 
 
 p.eps = 0.01; 
+p.eps = 0.0001; 
 p.alpha = 0.1; 
 p.gamma = 0.5;
 % pick a value of p.Iapp
 p.Iapp = 0.5;
-p.Iapp = 0.;
+%p.Iapp = 0.;
 
-dt = 0.01;
+dt = 0.001;
 if(p.Iapp == 0)
     tend=2;
 else
@@ -25,12 +26,12 @@ else
 end
 
  
-init = [0.2,0];
+init = [0.2,0.49];
 tspan = [0:dt:tend];
 [t,sol] = ode15s(@(t,x)fhnrhs(t,x,p),tspan,init);
 
 figure(1)
-plot(t,sol(:,1),'r')  % time series
+plot(t,sol(:,1),'r',t,sol(:,2),'b')  % time series
 xlabel('Time'); ylabel('v');
 
 figure(2)  % phase plane
@@ -41,7 +42,7 @@ plot(v,w1,'g--',v,w2,'b--',sol(:,1),sol(:,2),'r')
 ylim([-0.1,1.2*max(w1)]);
 xlabel('v'); ylabel('w');
 legend('dv/dt=0','dn/dt=0')
-
+axis([-0.5 1.4 0.4 0.7])
 % ----------------
 function out=fhnrhs(t,x,p)
 
