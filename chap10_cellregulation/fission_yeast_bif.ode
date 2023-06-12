@@ -51,10 +51,9 @@ p k13'=0.,k13"=.1,k14=.1
 p k15'=1.5,k15"=0.,k16'=1.,k16"=2.,J15=.01,J16=.01
 p mu=.005,Mstar=10.
 p kwee'=0.15
-# p kweepp=1.3
-p kweepp=0.3
+p kweepp=1.3
 p Vawee=0.25, Viwee'=0., Viwee"=1., Jawee=0.01, Jiwee=0.01
-p k25'=0.05, k25"=0.02, Va25'=0., Va25"=1., Vi25=0.25, Ja25=0.01, Ji25=0.01
+p k25'=0.05, k25"=5, Va25'=0., Va25"=1., Vi25=0.25, Ja25=0.01, Ji25=0.01
 
 
 @ YP=x, TOTAL=500, METH=stiff, XHI=500, YLO=0, YHI=2, BOUND=1000

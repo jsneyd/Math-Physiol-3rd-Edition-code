@@ -1,8 +1,8 @@
 cycB(0)=0.0
 cdh(0)=1.0
 
-
-param m=0.0,A=0.0
+param A=0
+param m=0.0
 param k1=0.04,k2p=0.04,k2pp=1.0,k2ppp=1.0
 param k3p=1.0,k3pp=10.0,k4p=2.0,k4=35.0
 param k5p=0.005,k5pp=0.2,k6=0.1
