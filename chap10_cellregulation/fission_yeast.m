@@ -103,7 +103,8 @@ dum=y(10);
 
 BB     = Cdc13T+Rum1T+Kdiss;
 Trimer = 2.*Cdc13T*Rum1T/(BB+sqrt(BB^2-4.*Cdc13T*Rum1T));
-MPF   = (Cdc13T-pMPF)*(Cdc13T-Trimer)/Cdc13T;
+%MPF   = (Cdc13T-pMPF)*(Cdc13T-Trimer)/Cdc13T;
+MPF = Cdc13T - Trimer - pMPF*Kdiss/(Kdiss+Rum1T-Trimer);
 
 TF     = GK(k15p*M+k15pp*SK,k16p+k16pp*MPF,J15,J16);
 kwee   = kweep + (kweepp-kweep)*GK(Vawee,Viweep+Viweepp*MPF,Jawee, Jiwee);
