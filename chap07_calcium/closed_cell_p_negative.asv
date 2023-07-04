@@ -10,7 +10,7 @@ set(0,                           ...
 
 %parameters
 
-p.Vplc = 0.005;
+p.Vplc = 8;
 p.ct = 10;
 
  
@@ -34,23 +34,22 @@ p.K4=p.km4/p.k4;
 p.gm = 5.5;
 p.n = 2;
 p.Kbar = 0;
-p.kf=7.4;
-p.Ki=0.3;
-p.kf2=0.00148;
+p.kf=1.11;
+p.Ki=0.4;
+p.kf2=0.0203;
  
-p.k3K=0.1;
-p.K3K = 0.4;
-p.k5P=0;
-p.Kplc=0;
-p.Vserca = 0.25; 
+p.k3K=0;
+p.k5P=0.66;
+p.Kplc=0.4;
+p.Vserca = 0.9; 
 p.Kserca = 0.1;
 
 
-p.tauy=6.6;
+p.tauy=12.5;
 
- init = [0.05 ,0.2,0.2];
-dt=0.05;
-tend=200;
+ init = [0.5 ,0.2,0];
+dt=0.1;
+tend=400;
 
 tspan = [0:dt:tend];
 [t,sol] = ode15s(@(t,x)coscrhs(t,x,p),tspan,init);
@@ -76,7 +75,7 @@ Jserca = p.Vserca*(c.^2-p.Kbar*ce^2)/(p.Kserca^2+c^2);
  
 out(1) = Jipr-Jserca;
 out(2) =  (-1+(1-y)*(p.Ki+c)/p.Ki)/p.tauy;
-out(3) =  p.Vplc*c^p.n/(p.Kplc^2+c^p.n)-(p.k3K+p.k5P)*c.^2/(p.K3K^2+c^2)*P;
+out(3) =  p.Vplc*c^p.n/(p.Kplc^2+c^p.n)-(p.k3K+p.k5P)*c.^2/(K3P^2+c^2)*P;
 
 out = out';
  

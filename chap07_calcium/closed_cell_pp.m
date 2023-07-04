@@ -9,18 +9,17 @@ set(0,                           ...
    'defaultlinelinewidth', 2.0); 
 
 %parameters
-p.Vs = 0.9;
-p.Vp=0.1;
+p.Vserca = 0.9;
  
 p.Kbar = 2.e-7;
 p.kf=1.11;
  
-p.Ks = 0.1;
+p.Kserca = 0.1;
 p.Kp = 0.3;
  
 p.gm = 5.5;
 p.p=0.4;  %ip3 parameter 
-p.ct = 20;
+p.ct = 15;
 p.k1 = 400;
 p.k2 = 0.2;
 p.k3 = 400;
@@ -38,7 +37,7 @@ p.K3=p.km3/p.k3;
 p.K4=p.km4/p.k4;
 
 
- init = [0.5 ,0.2];
+ init = [0.5 ,0.55];
 dt=0.1;
 tend=100;
 
@@ -51,45 +50,44 @@ xlabel('Time')
 legend('c','y')
 
  
-
-% nullclines
-cmx = p.kf*p.ct/(p.kf*p.gm+1);
-c = [0.009:0.001:cmx];
+% nullclines 
+ 
+c = [0.01:0.001:p.ct-0.001];
 ph1  = (p.km4*p.K1*p.K2+p.km2*p.K4*p.p).*c./(p.K4*p.K2*(p.p+p.K1));
 ph2 =  (p.km2*p.p+p.km4*p.K3)/(p.K3+p.p);
 
  y1=ph1./(ph1  +ph2);
  
- ce=p.ct-p.gm*c;
+ ce=p.gm*(p.ct-c); % this is how ct is defined in this code, ce must be positive
  
- Jserca = p.Vs*(c.^2-p.Kbar*ce.^2)./(p.Ks^2+c.^2);
-Po=Jserca./(p.kf*ce-c);
- 
-
+ Jserca = p.Vserca*(c.^2-p.Kbar*ce.^2)./(p.Kserca^2+c.^2);
+Po=Jserca./(p.kf*(ce-c));
+ cdx = find(Po>0);
+  
 tmp=((p.p+p.K1).*(c+p.K5).*Po.^(1/3))./(p.p*c);
 y2=1- tmp;
  
 
  figure(2)  % phase portrait
-semilogx(sol(:,1),sol(:,2),c,y1,'--',c,y2,'b--')
+semilogx(sol(:,1),sol(:,2),c,y1,'--',c(cdx),y2(cdx),'b--')
 xlabel('c')
 ylabel('y')
-axis([0 cmx 0 1])
+axis([0.02 max(c(cdx)) 0.4 1])
 text(1,0.9,'dy/dt=0','fontsize',18)
-text(1,0.1,'dc/dt=0','fontsize',18)
+text(3.5,0.5,'dc/dt=0','fontsize',18)
 
 function out=coscrhs(t,x,p)
 
 c=x(1); % calcium
 y=x(2); %IPR inhibition
-ce = p.ct-p.gm*c;
+ce = p.gm*(p.ct-c);
 
 Po = (p.p*c*(1-y)./((p.p+p.K1).*(c+p.K5))).^3; %open probability
 ph1  = (p.km4*p.K1*p.K2+p.km2*p.K4*p.p).*c./(p.K4*p.K2*(p.p+p.K1));
 ph2 =  (p.km2*p.p+p.km4*p.K3)/(p.K3+p.p);
 
 Jipr = p.kf*Po*(ce-c);
-Jserca = p.Vs*(c.^2-p.Kbar*ce^2)/(p.Ks^2+c^2);
+Jserca = p.Vserca*(c.^2-p.Kbar*ce^2)/(p.Kserca^2+c^2);
 
   
 out(1) = Jipr-Jserca;
