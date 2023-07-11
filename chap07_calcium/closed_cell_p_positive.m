@@ -46,9 +46,9 @@ p.Kserca = 0.1;
 
 p.tauy=12.5;
 
- init = [0.5 ,0.2,0];
+ init = [0.5 ,0.2,4];
 dt=0.1;
-tend=400;
+tend=200;
 
 tspan = [0:dt:tend];
 [t,sol] = ode15s(@(t,x)coscrhs(t,x,p),tspan,init);

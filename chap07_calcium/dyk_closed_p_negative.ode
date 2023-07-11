@@ -1,4 +1,4 @@
-# Initial conditions are the steady state for p=0.4, ct=1. No oscillations
+# Initial conditions are the steady state for p=0.4, ct=2. 
 #
 c(0)=0.3
 y(0)=0.47
@@ -26,19 +26,20 @@ bigK1=km1/k1
 bigK2=km2/k2
 bigK3=km3/k3
 bigK4=km4/k4
-bigK5=km5/k5
+bigK5=0.2
 
 gamma = 5.5
 
-param kf=1.1
-k3K =0.4
-k5P=0.66
-Kplc=0.2
-Vserca = 0.9
+param kf=7.4
+k3K =0.1
+bigK3K=0.4
+k5P=0
+Kplc=0
+Vserca = 0.25
 Kserca=0.1
-kf2=0.0203
-Ki=0.4
-tauy=12.5
+kf2=0.00148
+Ki=0.3
+tauy=6.6
 
 #
 # Define the functions used in the model
@@ -54,12 +55,12 @@ Jserca=Vserca*(c*c)/(c*c+Kserca*Kserca)
 # 
 dc/dt = (kf*Po+kf2)*(ce-c)-Jserca
 dy/dt = (-1+(1-y)*(Ki+c)/Ki)/tauy
-dp/dt =(Vplc*c^2/(Kplc^2+c^2)- (k3K+k5P)*p*c^2/(K3K^2+c^2))
+dp/dt =(Vplc*c^2/(Kplc^2+c^2)- (k3K+k5P)*p*c^2/(bigK3K^2+c^2))
 #
 @ total=400,dt=0.05,xp=t,yp=c,xlo=0,xhi=400,ylo=0,yhi=1,meth=gear,bounds=1000
-@ ntst=250,nmax=200000,npr=200000,dsmin=0.001,dsmax=0.01,ds=0.002
-@ parmin=0,parmax=2
-@ autoxmin=0,autoxmax=2,autoymin=0,autoymax=0.6,nmax=20000
+@ ntst=250,nmax=200,npr=200,dsmin=0.001,dsmax=0.02,ds=0.002
+@ parmin=0,parmax=0.02
+@ autoxmin=0,autoxmax=0.01,autoymin=0,autoymax=2
 @ epsl=1e-8, epsu=1e-8, epss=1e-8
 
 done

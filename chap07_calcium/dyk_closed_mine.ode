@@ -1,12 +1,12 @@
 # Initial conditions are the steady state for p=0
 #
-c(0)=0.1001
+c(0)=1.1001
 y(0)=0.4085
-ct(0)=40.816
+
 #
 # Parameter values
 #
-param p=0.4
+param ct=39,p=0.4
 
 
 k1=400
@@ -32,7 +32,7 @@ param kf=1.11, Vp=0.9, kp=0.1
 param Kbar = 2e-7
 param Vpm=0.1
 param alpha0=.005, Vsocc=.03, Ksocc = 150
-param delta=5
+param delta=0
 
 #
 # Define the functions used in the model
@@ -42,21 +42,20 @@ ce=gamma*(ct-c)
 Po= ( p*c*(1-y)/((p+bigK1)*(c+bigK5)) )^3
 phi1 = (km4*bigK2*bigK1 + km2*p*bigK4)*c/(bigK4*bigK2*(p+bigK1))
 phi2 = (km2*p + km4*bigK3)/(p+bigK3)
-Jpm = Vpm*c^2/(Kpm^2+c^2)
-Jin = alpha0 + Vsocc*Ksocc^4/(ce^4+Ksocc^4)
+ 
 
 Jserca=Vp*(c*c - Kbar*ce*ce)/(c*c+Kp*Kp)
 
 #
 # Define the differential equations here
 #
-dc/dt = (kf*Po)*(ce-c)-Jserca + delta*(Jin - Jpm)
+dc/dt = (kf*Po)*(ce-c)-Jserca  
 dy/dt = phi1*(1-y) - phi2*y
-dct/dt = delta*(Jin - Jpm)
+
 #
-@ total=400,dt=0.05,xp=t,yp=c,xlo=0,xhi=400,ylo=0,yhi=2,meth=gear,bounds=1000
-@ ntst=50,nmax=2000,npr=2000,dsmin=0.01,dsmax=0.05,ds=0.02
-@ parmin=0,parmax=0.8
-@ autoxmin=0,autoxmax=0.8,autoymin=0,autoymax=0.6,nmax=20000
+@ total=400,dt=0.05,xp=c,yp=y,xlo=0,xhi=4,ylo=0,yhi=1,meth=gear,bounds=1000
+@ ntst=50,nmax=200000,npr=200000,dsmin=0.01,dsmax=0.1,ds=-0.02
+@ parmin=0,parmax=40
+@ autoxmin=0,autoxmax=40,autoymin=0,autoymax=2.5 
 
 done
