@@ -1,0 +1,1 @@
+clear allclose allclcsyms Pa Pv Va Vv Qsyms Cd F Rs Ca Cv Vtfun1 = Q - F*Cd*Pv;fun2 = Q - (Pa-Pv)/Rs;fun3 = Va - Ca*Pa;fun4 = Vv - Cv*Pv;% volumefun5 = Vt - Va - Vv;eqns = [fun1==0,fun2==0,fun3==0,fun4==0,fun5==0];vars = [Pa,Pv,Va,Vv,Q];sols = solve(eqns,vars);Q = simplify(sols.Q,150);

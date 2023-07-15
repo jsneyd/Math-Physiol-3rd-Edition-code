@@ -1,5 +1,6 @@
-
+close all
 clear all
+clc
 
 ca=1.55; R=1.05; Vs=67.9; alpha=0.84; beta=1.17; mu=93;
 
