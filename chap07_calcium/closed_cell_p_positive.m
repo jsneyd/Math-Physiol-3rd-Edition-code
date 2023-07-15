@@ -10,8 +10,8 @@ set(0,                           ...
 
 %parameters
 
-p.Vplc = 8;
-p.ct = 10;
+p.Vplc = 1;
+p.ct = 2;
 
  
 p.k1 = 400;
@@ -39,14 +39,15 @@ p.kf2=0.0203;
  
 p.k3K=0;
 p.k5P=0.66;
-p.Kplc=0.4;
+p.Kplc=0.2;
+%p.Kplc = 0;  % gives the no feedback case
 p.Vserca = 0.9; 
 p.Kserca = 0.1;
 
 
 p.tauy=12.5;
 
- init = [0.5 ,0.2,4];
+ init = [0.5 ,0.2,1.5];
 dt=0.1;
 tend=200;
 
@@ -58,16 +59,22 @@ plot(t,sol(:,1),'r',t,sol(:,2),'b',t,sol(:,3))  % time series
 xlabel('Time')
 legend('c','y','p')
 
+figure(2)
+plot( sol(:,1),sol(:,3))  
+xlabel('c')
+ylabel('p')
+
+
   
 function out=coscrhs(t,x,p)
 
 c=x(1); % calcium
 y=x(2); %IPR inhibition
-P = x(3); %IP3
+IP3 = x(3); %IP3
 
-ce = p.ct-p.gm*c;
+ce = p.gm*(p.ct-c);
 
-Po = (P*c*(1-y)./((P+p.K1).*(c+p.K5))).^3; %open probability
+Po = (IP3*c*(1-y)./((IP3+p.K1).*(c+p.K5))).^3; %open probability
 
 Jipr = (p.kf*Po+p.kf2)*(ce-c);
 Jserca = p.Vserca*(c.^2-p.Kbar*ce^2)/(p.Kserca^2+c^2);
@@ -75,7 +82,7 @@ Jserca = p.Vserca*(c.^2-p.Kbar*ce^2)/(p.Kserca^2+c^2);
   
 out(1) = Jipr-Jserca;
 out(2) =  (-1+(1-y)*(p.Ki+c)/p.Ki)/p.tauy;
-out(3) =  p.Vplc*c^p.n/(p.Kplc^2+c^p.n)-(p.k3K+p.k5P)*P;
+out(3) =  p.Vplc*c^p.n/(p.Kplc^2+c^p.n)-(p.k3K+p.k5P)*IP3;
 
 out = out';
  

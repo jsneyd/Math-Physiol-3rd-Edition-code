@@ -35,7 +35,7 @@ p.K5=p.km5/p.k5;
 p.K2 = p.km2/p.k2;
 p.K3=p.km3/p.k3;
 p.K4=p.km4/p.k4;
-
+p.Vplc = 0.4;
 
  init = [0.5 ,0.55];
 dt=0.1;
@@ -92,6 +92,8 @@ Jserca = p.Vserca*(c.^2-p.Kbar*ce^2)/(p.Kserca^2+c^2);
   
 out(1) = Jipr-Jserca;
 out(2) = ph1*(1-y) -ph2*y;
-
+% remark:  we could add another de for p of the form
+%out(3) = p.Vplc-p
+% and then the steady state fpr p is p.Vplc
 out = out';
  
