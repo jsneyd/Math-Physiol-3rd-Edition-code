@@ -14,10 +14,11 @@ param Vplc=0
 #Kplc=0.1
 #can run this with different values of Kplc
 #Kplc = 0
-param Kplc=0
+param Kplc=0.2
 # Klpc=0 is the no feedback case
 param ct=2
- 
+buffer=0.1
+# buffer = 1 means no buffer
 k1=400
 km1=52
 k2=0.2
@@ -59,7 +60,7 @@ Jserca=Vserca*(c*c)/(c*c+Kserca*Kserca)
 #
 # Define the differential equations here
 # 
-dc/dt = (kf*Po+kf2)*(ce-c)-Jserca
+dc/dt =buffer*( (kf*Po+kf2)*(ce-c)-Jserca)
 dy/dt = (-1+(1-y)*(Ki+c)/Ki)/tauy
 dp/dt =(Vplc*c^2/(Kplc^2+c^2)- (k3K+k5P)*p)
 
