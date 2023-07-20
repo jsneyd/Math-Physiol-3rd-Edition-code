@@ -1,0 +1,65 @@
+# Initial conditions are the steady state for p=0.4, ct=1. No oscillations
+#
+c(0)=0.00253
+y(0)=0.00828
+#
+# Parameter values
+#
+
+param ct=2
+param bt=0
+param p=0.4
+ 
+Kb = 1
+# buffer disassociation constant
+k1=400
+km1=52
+k2=0.2
+km2=0.21
+k3=400
+km3=377.2
+k4=0.2
+km4=0.029
+k5=20
+km5=1.64
+
+bigK1=km1/k1
+bigK2=km2/k2
+bigK3=km3/k3
+bigK4=km4/k4
+bigK5=km5/k5
+
+gamma = 5.5
+ 
+param kf=1.11, Vserca=0.9, Kserca=0.1
+param Kbar = 2e-7
+
+param  Vsocc=.03, Ksocc = 150
+
+
+#
+# Define the functions used in the model
+#
+
+ce= gamma*(ct-c-bt*c/(Kb+c))
+Po= ( p*c*(1-y)/((p+bigK1)*(c+bigK5)) )^3
+phi1 = (km4*bigK2*bigK1 + km2*p*bigK4)*c/(bigK4*bigK2*(p+bigK1))
+phi2 = (km2*p + km4*bigK3)/(p+bigK3)
+#Jpm = Vpm*c^2/(Kpm^2+c^2)
+#Jin = alpha0 + Vsocc*Ksocc^4/(ce^4+Ksocc^4)
+
+Jserca=Vserca*(c*c - Kbar*ce*ce)/(c*c+Kserca*Kserca)
+
+#
+# Define the differential equations here
+#
+dc/dt =( (kf*Po)*(ce-c)-Jserca)/(1+bt*Kb/(Kb+c)^2)
+dy/dt = phi1*(1-y) - phi2*y
+#
+@ total=400,dt=0.05,xp=c,yp=y,xlo=0,xhi=4,ylo=0,yhi=1,meth=gear,bounds=1000
+@ ntst=250,nmax=200000,npr=200000,dsmin=0.001,dsmax=0.05,ds=-0.002
+@ parmin=0,parmax=40
+@ autoxmin=0,autoxmax=40,autoymin=0,autoymax=2.5,nmax=20000
+@ epsl=1e-8, epsu=1e-8, epss=1e-8
+
+done
