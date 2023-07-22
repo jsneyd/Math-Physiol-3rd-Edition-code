@@ -11,7 +11,7 @@ set(0,                           ...
 %parameters
 
 p.Vplc = 0.005;
-p.ct = 10;
+p.ct = 2;
 
  
 p.k1 = 400;
@@ -67,7 +67,7 @@ c=x(1); % calcium
 y=x(2); %IPR inhibition
 P = x(3); %IP3
 
-ce = p.ct-p.gm*c;
+ce = p.gm*(p.ct-c);
 
 Po = (P*c*(1-y)./((P+p.K1).*(c+p.K5))).^3; %open probability
 

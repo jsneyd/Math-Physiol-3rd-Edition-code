@@ -6,10 +6,12 @@ y(0)=0.00828
 # Parameter values
 #
 
-param ct=39
+param ct=2
+param bt=0
 param p=0.4
  
-
+Kb = 1
+# buffer disassociation constant
 k1=400
 km1=52
 k2=0.2
@@ -39,7 +41,7 @@ param  Vsocc=.03, Ksocc = 150
 # Define the functions used in the model
 #
 
-ce= gamma*(ct-c)
+ce= gamma*(ct-c-bt*c/(Kb+c))
 Po= ( p*c*(1-y)/((p+bigK1)*(c+bigK5)) )^3
 phi1 = (km4*bigK2*bigK1 + km2*p*bigK4)*c/(bigK4*bigK2*(p+bigK1))
 phi2 = (km2*p + km4*bigK3)/(p+bigK3)
@@ -51,7 +53,7 @@ Jserca=Vserca*(c*c - Kbar*ce*ce)/(c*c+Kserca*Kserca)
 #
 # Define the differential equations here
 #
-dc/dt = (kf*Po)*(ce-c)-Jserca
+dc/dt =( (kf*Po)*(ce-c)-Jserca)/(1+bt*Kb/(Kb+c)^2)
 dy/dt = phi1*(1-y) - phi2*y
 #
 @ total=400,dt=0.05,xp=c,yp=y,xlo=0,xhi=4,ylo=0,yhi=1,meth=gear,bounds=1000
