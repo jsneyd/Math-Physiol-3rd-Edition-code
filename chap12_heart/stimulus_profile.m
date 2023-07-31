@@ -1,7 +1,9 @@
 %this code is to plot the response to a stimulus in a bidomain cable.
 
 %These are the same parameters as used in the space constant calculation
-clear 
+clear all
+close all
+clc
 
 L = 0.012;
 qi = 5.47e-3;

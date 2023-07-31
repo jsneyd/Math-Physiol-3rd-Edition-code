@@ -1,6 +1,9 @@
 %this  file calculates the potentials in a passive cardiac cable.
 
 %The sawtooth potential
+clear all
+close all
+clc
 
 L = 0.012;
 qi = 5.47e-3;
@@ -10,6 +13,7 @@ sQ = sqrt(Q);
 lambda = sQ/L;
 lambda_g = 0.09;
 mu = exp(-L/lambda_g);
+
 
 E = exp(sQ);
 
@@ -26,7 +30,6 @@ y = [];
 
 sc =1.e3;
 for j = 0:15;
-    
     Vi = [Vi,sc*mu^j*phi_i];
     Ve = [Ve,sc*mu^j*phi_e];
     y = [y,j*L+x];

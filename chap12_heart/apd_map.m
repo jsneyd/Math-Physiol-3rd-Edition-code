@@ -1,6 +1,8 @@
 %apd map figure
 
-clear
+clear all
+close all
+clc
 
 %set parameters
 A_max = 616;

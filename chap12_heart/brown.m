@@ -1,5 +1,7 @@
 function main
-clear all;
+clear all
+close all
+clc
 
 initial = [0.01 0 0];
 tspan = linspace(0,20,4000);
@@ -35,7 +37,7 @@ function a=getstim(t)
 
 a=0;
 stimperiod=5;
-stimwidth
+stimwidth=3;
 if ( rem(t,stimperiod)<stimwidth) 
     a=3.5;
 end
