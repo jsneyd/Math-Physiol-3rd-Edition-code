@@ -23,7 +23,7 @@ p.kf = 20;
 p.del = 1;
 p.gam = 5;
 p.Dc = 25;  %Ca diffusion coefficient
-p.p =0.5; %the bifurcation parameter
+p.p =3; %the bifurcation parameter
 
 % make a phase portrait
 c = [0.01:.01:1.5];
@@ -36,13 +36,13 @@ Jin = p.a0+p.a1*p.p;
 
 ce1=(Jserca-p.del*(Jin-Jpm))./(p.kf*Po+p.a)+c;
 ce2= Jserca./(p.kf*Po+p.a)+c;
-c0=0.25;
-ce0=30;
+c0=0.5;
+ce0=4.8;
 % integrate the ode
  init = [c0,ce0]; %initial data for the ode
  ct = c0+ce0/p.gam
-tstep = 0.1;
-t_end = 100;
+tstep = 0.01;
+t_end = 50;
  
 %specify the output points
 tspan = [0:tstep:t_end];
@@ -52,12 +52,11 @@ p.N=1;
 C = S(:,1);
 Ce = S(:,2);
 figure(1) % a phase portrait
-plot(c,ce1,'--',c,ce2,'--',C,Ce,C(1),Ce(1),'*')
+plot(c,ce1,'--',c,ce2,'--',C,Ce)
 legend('dc/dt=0','dc_e/dt=0')
 xlabel('c')
 ylabel('c_e')
-axis([0 1.5 0 35])
-
+axis([0 1.5 0 15])
 hold on
 figure(2) % a time sequence
  plot(T,C,T,Ce,'linewidth',2)
@@ -81,7 +80,10 @@ legend('Ca^{++}','Ca^{++}_e')
  U =0.5*ones(p.N,1);  % IP3: this is in the range where we expect a solitary pulse
 
 ce0=p.gam*(ct-V);
- 
+figure(1)
+plot(V,ce0,'*')
+hold off
+
 
 init=[U;V;ce0];
   %plot the solution at each time step
@@ -100,8 +102,8 @@ init=[U;V;ce0];
  % axis([0 L 0 1])
  hold on 
  
-tstep = 0.1; % time between plots
-t_end = 20; %total time to run simulation
+tstep = 0.01; % time between plots
+t_end = 0.2; %total time to run simulation
  
 %specify the output points
 tspan = [0:tstep:t_end];
@@ -126,6 +128,19 @@ for j = 1:length(T)
     
 end
 
+for j = 1:length(T)
+   figure(7)
+  subplot(2,1,1)
+  plot(X,S(j,p.N+1:2*p.N),'linewidth',2)
+  xlabel('x','fontsize',20)
+   ylabel('Ca^{++}(x,t)','fontsize',20)
+  hold on
+  subplot(2,1,2)
+  plot(X, S(j,2*p.N+1:3*p.N),'linewidth',2)
+   xlabel('x','fontsize',20)
+    ylabel('C_e(x,t)','fontsize',20)
+    
+end
  
  
  figure(5) %plot the final solution
@@ -158,13 +173,16 @@ ce = s(2*p.N+1:3*p.N);
 % evaluate the ode part
 %[Fp;Fc;Fy;Fce]=
  
-out=coscrhs(t,s(p.N+1:3*p.N),p);
+out=coscrhs(t,s,p);
  
 Fc=out( 1:p.N);
 Fce=out(p.N+1:2*p.N);  % reaction only, no diffusion
 FP = scu*(-p.sc.*P+[0;P(1:end-1)]+[P(2:end);0]);  % IP3 is simply diffusing, no reaction term
 FC = scv*(-p.sc.*C+[0;C(1:end-1)]+[C(2:end);0]) +Fc ;
+ Fc
+ Fce
  
+
 s_prime = [FP;FC;Fce];
  
 
@@ -175,12 +193,12 @@ function out=coscrhs(t,s,p)
  % evaluate the ode dynamics
 % there are two variables
  
-c = s(1:p.N); % calcium
+c = s(1: p.N); % calcium
 
 ce = s(p.N+1:2*p.N); %ER calcium
 
 Po = p.p*(c.^2./(c.^2+p.ph1^2)).*(p.ph2./(c+p.ph2)); %open probability
-c
+
 Jipr = (p.kf*Po+p.a).*(ce-c)
 Jserca = p.ks*c;
 Jpm = p.km*c;
