@@ -23,7 +23,15 @@ p.kf = 20;
 p.del = 1;
 p.gam = 5;
 p.Dc = 25;  %Ca diffusion coefficient
-p.p =0.5; %the bifurcation parameter
+parlist=[2.5,0.5];%the bifurcation parameter
+c0list = [0.5,0.28];
+ce0list=[5.2,30];
+axlist=[15,35];
+for j =1:length(parlist)
+    p.p=parlist(j);%the bifurcation parameter
+
+c0=c0list(j);
+ce0=ce0list(j);
 
 % make a phase portrait
 c = [0.01:.01:1.5];
@@ -36,12 +44,11 @@ Jin = p.a0+p.a1*p.p;
 
 ce1=(Jserca-p.del*(Jin-Jpm))./(p.kf*Po+p.a)+c;
 ce2= Jserca./(p.kf*Po+p.a)+c;
-c0=0.25;
-ce0=30;
+ 
 % integrate the ode
  init = [c0,ce0]; %initial data for the ode
  ct = c0+ce0/p.gam
-tstep = 0.1;
+tstep = 0.05;
 t_end = 100;
  
 %specify the output points
@@ -51,20 +58,27 @@ p.N=1;
 [T,S] = ode15s(@(t,x)coscrhs(t,x,p),tspan,init);
 C = S(:,1);
 Ce = S(:,2);
-figure(1) % a phase portrait
+formatSpecF = '%6.2f\n';
+figure(j) % a phase portrait
 plot(c,ce1,'--',c,ce2,'--',C,Ce,C(1),Ce(1),'*')
 legend('dc/dt=0','dc_e/dt=0')
 xlabel('c')
 ylabel('c_e')
-axis([0 1.5 0 35])
+axis([0 1.5 0 axlist(j)])
+title(strcat('p =',sprintf(formatSpecF,p.p),'\mu M'),'fontsize',18)
+ycords=[0.66,0.61;0.8,0.775];
+xcords=[0.42,0.52;0.42,0.52]
+annotation('textarrow',xcords(j,:),ycords(j,:),'linewidth',2) 
+end
 
-hold on
-figure(2) % a time sequence
+figure() % a time sequence
  plot(T,C,T,Ce,'linewidth',2)
  
 xlabel('Time','fontsize',20)
 legend('Ca^{++}','Ca^{++}_e')
   
+
+stop
 % now integrate the pde
   p.N=10;  % number of spatial grid points
   p.L=5;  
