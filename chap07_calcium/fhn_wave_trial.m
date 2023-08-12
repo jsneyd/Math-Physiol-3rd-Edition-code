@@ -10,7 +10,7 @@ set(0,                           ...
 
 %parameters
 
-p.Iapp=0.01
+p.Iapp=0.01;
 p.alpha=0.1;
 p.s=1;
 p.eps=1;
