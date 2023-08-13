@@ -12,9 +12,6 @@ m1' = S + alpha/(1+m2^n) - m1
 m2' = S + alpha/(1+m3^n) - m2
 m3' = S + alpha/(1+m1^n) - m3
 
-@ total=10,  maxstor=500000, bounds=1e7, dt=.05, meth=gear
-@ xp=t, yp=x, xlo=0, xhi=10, ylo=0, yhi=5
-
 @ total=1000,dt=0.05
 @ xp=t, yp=m1, xl0=0,xhi=1000,ylo=0,yhi=10
 @ meth=gear,bounds=1000
