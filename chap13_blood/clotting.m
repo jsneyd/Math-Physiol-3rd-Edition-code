@@ -1,4 +1,6 @@
 clear all
+close all
+clc
 
 delt=0.1; delx=0.01; n=200; tend=350; nt=tend/delt;
 K1=6.85; K2=11.0; K3=2.36; K4=0.087; K5=17.0; K6=0.066; D=2.6e-4;
