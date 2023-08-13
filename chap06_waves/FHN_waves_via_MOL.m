@@ -12,9 +12,9 @@ function Diff_sim
  % parameters for FHN
 
 p.Iapp=0.;
-p.alpha=0.2;
+p.alpha=0.1;
 p.s=1;
-p.eps=0.1;
+p.eps=0.25;
 p.gamma=0.5 ;
  
  % for the continuous cable MOL
