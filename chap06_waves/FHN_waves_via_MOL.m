@@ -12,20 +12,14 @@ function Diff_sim
  % parameters for FHN
 
 p.Iapp=0.;
-p.alpha=0.1;
+p.alpha=0.2;
 p.s=1;
 p.eps=0.1;
 p.gamma=0.5 ;
  
-%plot null clines
-u = [-0.5:.01:1];
-w1=(u.*(u-p.alpha).*(1-u)+p.Iapp) ;
-w2=u/p.gamma;
-
- 
  % for the continuous cable MOL
  
- L = 40;
+ L = 30;
  p.N=500; %number of grid points
  h=L/(p.N-1);
  p.dg = 1/(h^2); %Take D = 1  % coupling (diffusion) coefficient
@@ -39,7 +33,7 @@ w2=u/p.gamma;
  u0 = [V0;zeros(p.N,1)];
  
 tstep = 0.025;
-t_end = 10;
+t_end = 20;
  
 %specify the output points
 tspan = [0:tstep:t_end];
@@ -47,13 +41,13 @@ tspan = [0:tstep:t_end];
 [T,S] = ode15s(@(t,x)RHS(t,x,p),tspan,u0);  
  
  
-%plot null clines
+%calculate the null clines
 u = [-0.3:.01:1];
 w1=(6*u.*(u-p.alpha).*(1-u)+p.Iapp) ;
 w2=u/p.gamma;
  
-j = fix(length(T)/2);
-j=200;
+ 
+j=250;
 
 figure(1)
 plot(u,w1,'--',u,w2,'--',S(j,1:p.N),S(j,p.N+1:2*p.N),'linewidth',2)
@@ -66,6 +60,7 @@ figure(3)
  mesh(X,T, S(:,1:p.N))
  xlabel('X')
  ylabel('T')
+ zlabel('u')
 
    % % Now find the speed:
  thresh = 0.5;
@@ -79,23 +74,20 @@ figure(3)
  q=polyfit(Tc,X,1)
  spest= q(2)+q(1)*Tc;
   figure(4)
- plot(Tc,X,Tc,spest,'--')
- ylabel('X')
- xlabel('T')
+ plot(X,Tc,spest,Tc,'--')
+ xlabel('X')
+ ylabel('T')
   speedest = q(1)
 
 
 figure(2)
  
-j=200;
+j=250;  % this is an arbitrary value to make a nice graph
     plot(X,S(j,1:p.N),X,S(j,p.N+1:2*p.N))
     xlabel('x')
     legend('u','w')
     formatSpecF = '%5.2f\n';
 title(strcat('Speed = ',sprintf(formatSpecF,speedest)),'fontsize',18)
-    
- 
-
   
  end
  
