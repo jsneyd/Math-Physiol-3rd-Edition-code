@@ -1,0 +1,129 @@
+% code to simulate FHN eqn via Method of lines
+
+%  
+function Diff_sim
+
+ set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 1.2, ...
+   'defaultlinelinewidth', 2.0, ...
+   'defaultpatchlinewidth', 0.7); 
+
+ % parameters for FHN
+
+p.Iapp=0.;
+p.alpha=0.1;
+p.s=1;
+p.eps=0.1;
+p.gamma=0.5 ;
+ 
+%plot null clines
+u = [-0.5:.01:1];
+w1=(u.*(u-p.alpha).*(1-u)+p.Iapp) ;
+w2=u/p.gamma;
+
+ 
+ % for the continuous cable MOL
+ 
+ L = 40;
+ p.N=500; %number of grid points
+ h=L/(p.N-1);
+ p.dg = 1/(h^2); %Take D = 1  % coupling (diffusion) coefficient
+  
+ X =[0:p.N-1]'*h;
+ 
+
+ p.sc = [1;2*ones(p.N-2,1);1]; % diagonal entries for the diffusion matrix
+% initial data
+ V0 =   (sech(X));
+ u0 = [V0;zeros(p.N,1)];
+ 
+tstep = 0.025;
+t_end = 10;
+ 
+%specify the output points
+tspan = [0:tstep:t_end];
+
+[T,S] = ode15s(@(t,x)RHS(t,x,p),tspan,u0);  
+ 
+ 
+%plot null clines
+u = [-0.3:.01:1];
+w1=(6*u.*(u-p.alpha).*(1-u)+p.Iapp) ;
+w2=u/p.gamma;
+ 
+j = fix(length(T)/2);
+j=200;
+
+figure(1)
+plot(u,w1,'--',u,w2,'--',S(j,1:p.N),S(j,p.N+1:2*p.N),'linewidth',2)
+axis([-0.3 1 -0.2 1])
+xlabel('u')
+ylabel('w')
+legend('du/dt=0','dw/dt=0')
+
+figure(3)
+ mesh(X,T, S(:,1:p.N))
+ xlabel('X')
+ ylabel('T')
+
+   % % Now find the speed:
+ thresh = 0.5;
+ % for each X value find the first time the solution crosses the threshold
+ for j = 1:p.N
+     jmin = min(find(S(:,j)>=thresh));
+     Tc(j) = T(jmin);
+ end
+ 
+  
+ q=polyfit(Tc,X,1)
+ spest= q(2)+q(1)*Tc;
+  figure(4)
+ plot(Tc,X,Tc,spest,'--')
+ ylabel('X')
+ xlabel('T')
+  speedest = q(1)
+
+
+figure(2)
+ 
+j=200;
+    plot(X,S(j,1:p.N),X,S(j,p.N+1:2*p.N))
+    xlabel('x')
+    legend('u','w')
+    formatSpecF = '%5.2f\n';
+title(strcat('Speed = ',sprintf(formatSpecF,speedest)),'fontsize',18)
+    
+ 
+
+  
+ end
+ 
+%the right hand side for MOL ode simulation:
+function s_prime=RHS(t,s,p)
+
+ % break s up into two parts
+ V = s(1:p.N);
+ w = s(p.N+1:2*p.N);
+  
+currents = IV(s,p);
+FV= currents(:,1);
+Fw = currents(:,2);
+ 
+ 
+Fv =  p.dg*(-p.sc.*V+[0;V(1:end-1)]+[V(2:end);0]) +FV;
+s_prime = [Fv ;Fw];
+
+end
+
+function currents = IV(s,p)
+ % calculate the ode dynamics
+ u = s(1:p.N);
+ w = s(p.N+1:2*p.N);
+ Fv = (6*u.*(u-p.alpha).*(1-u)-w +p.Iapp)/p.eps ;
+ Fw = (u-p.gamma*w) ;
+ 
+currents = [Fv, Fw];
+
+
+end

@@ -57,7 +57,7 @@ tspan = [0:tstep:t_end];
  
  
 % % Now find the speed:
-figure(3)
+figure(1)
  mesh(X,T, S(:,1:N))
  xlabel('X')
  ylabel('T')
@@ -74,7 +74,7 @@ figure(3)
 
  p=polyfit(Tc,X,1)
  spest= p(2)+p(1)*Tc;
-  figure(5)
+  figure(2)
  plot(Tc,X,Tc,spest,'--')
  xlabel('X')
  ylabel('T (ms)')

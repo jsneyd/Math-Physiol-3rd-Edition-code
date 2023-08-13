@@ -1,0 +1,22 @@
+# Initial conditions are the steady state for p=0
+# This is an attempt to find travelling waves for FHN using bifurcation# analysis
+u(0)=0
+v(0)=0
+w(0)=0
+ 
+par Iapp=0
+par sigma=-1, eps=0.1, gamma=0.5
+par alpha = 0.1
+   
+#
+# Define the differential equations here
+#
+
+u'=v
+v'=(-v/sigma+(u*(1-u)*(u-alpha) - w + Iapp)/eps) 
+w'=sigma*(u-gamma*w) 
+#
+@ total=50,dt=0.005,xp=t,yp=u,xlo=0,xhi=50,ylo=0,yhi=2,meth=gear,bounds=10000
+@ autovar=u,ntst=25,nmax=200,npr=200,dsmin=0.001,dsmax=0.05,ds=0.02,parmin=-1,parmax=2
+@ autoxmin=-1,autoxmax=2,autoymin=-1,autoymax=2
+done
