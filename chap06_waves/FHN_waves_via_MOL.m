@@ -11,10 +11,9 @@ function Diff_sim
 
  % parameters for FHN
 
-p.Iapp=0.;
-p.alpha=0.1;
-p.s=1;
-p.eps=0.25;
+p.Iapp=0;
+p.alpha=0.2;
+p.eps=0.1;
 p.gamma=0.5 ;
  
  % for the continuous cable MOL
@@ -52,15 +51,15 @@ j=250;
 figure(1)
 plot(u,w1,'--',u,w2,'--',S(j,1:p.N),S(j,p.N+1:2*p.N),'linewidth',2)
 axis([-0.3 1 -0.2 1])
-xlabel('u')
+xlabel('v')
 ylabel('w')
-legend('du/dt=0','dw/dt=0')
+legend('dv/dt=0','dw/dt=0')
 
 figure(3)
  mesh(X,T, S(:,1:p.N))
- xlabel('X')
- ylabel('T')
- zlabel('u')
+ xlabel('x')
+ ylabel('t')
+ zlabel('v')
 
    % % Now find the speed:
  thresh = 0.5;
@@ -75,8 +74,8 @@ figure(3)
  spest= q(2)+q(1)*Tc;
   figure(4)
  plot(X,Tc,spest,Tc,'--')
- xlabel('X')
- ylabel('T')
+ xlabel('x')
+ ylabel('t')
   speedest = q(1)
 
 
@@ -85,7 +84,7 @@ figure(2)
 j=250;  % this is an arbitrary value to make a nice graph
     plot(X,S(j,1:p.N),X,S(j,p.N+1:2*p.N))
     xlabel('x')
-    legend('u','w')
+    legend('v','w')
     formatSpecF = '%5.2f\n';
 title(strcat('Speed = ',sprintf(formatSpecF,speedest)),'fontsize',18)
   
