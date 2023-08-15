@@ -61,7 +61,7 @@ C = S(:,1);
 Ce = S(:,2);
 formatSpecF = '%6.2f\n';
 figure(2*j-1) % a phase portrait
-plot(c,ce1,'--',c,ce2,'--',C,Ce,C(1),Ce(1),'*')
+plot(c,ce1,'--',c,ce2,'--',C,Ce,C(1),Ce(1),'*','linewidth',2)
 legend('dc/dt=0','dc_e/dt=0')
 xlabel('c')
 ylabel('c_e')
