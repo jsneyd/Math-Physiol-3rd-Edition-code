@@ -74,11 +74,16 @@ figure(1)
 
  p=polyfit(Tc,X,1)
  spest= p(2)+p(1)*Tc;
+  speedest = p(1)
   figure(2)
  plot(Tc,X,Tc,spest,'--')
  xlabel('X')
  ylabel('T (ms)')
-  speedest = p(1)
+     formatSpecF = '%5.2f\n';
+title(strcat('Speed = ',sprintf(formatSpecF,speedest)),'fontsize',18)
+  
+
+ 
   
  end
  

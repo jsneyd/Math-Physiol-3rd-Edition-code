@@ -2,7 +2,7 @@ v(0)=0
 w(0)=0
 
 par Iapp=0
-par alpha=0.1, eps=0.01, gamma=0.5
+par alpha=0.1, eps=0.25, gamma=0.5
 
 v'= (v*(1-v)*(v-alpha) - w + Iapp)/eps
 w'=v-gamma*w 
