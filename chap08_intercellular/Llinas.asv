@@ -64,7 +64,6 @@
     xlabel('V (mV)')
    % ylabel('\hat{o}')
    legend('boxoff')
-   legend('I_{Ca}','i','\delta','Location','northwest','fontsize',16)
+   legend
     ylim([0,1])
-     
     
