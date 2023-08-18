@@ -62,6 +62,7 @@ Ce = S(:,2);
 formatSpecF = '%6.2f\n';
 figure(2*j-1) % a phase portrait
 plot(c,ce1,'--',c,ce2,'--',C,Ce,C(1),Ce(1),'*','linewidth',2)
+legend('boxoff')
 legend('dc/dt=0','dc_e/dt=0')
 xlabel('c')
 ylabel('c_e')
@@ -133,6 +134,7 @@ for j = fix(length(T)/2):fix(length(T)/2)
  plot(c,ce1,'--',c,ce2,'--',S(j,p.N+1:2*p.N), S(j,2*p.N+1:3*p.N),'linewidth',2)
    xlabel('Ca','fontsize',20)
     ylabel('C_e','fontsize',20)
+    legend('boxoff')
     legend('dc/dt=0','dc_e/dt=0')
      title(strcat('p =',sprintf(formatSpecF,p.p),'\mu M'),'fontsize',18)
 end
