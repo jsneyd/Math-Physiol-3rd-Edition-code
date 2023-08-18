@@ -20,7 +20,7 @@ a3=exp(-km3*(T+tpcp/K3));
 Fmax = (1./(1-a1)).*(1./(1-a2)).*(1./(1-a3)); 
     
 
-semilogx(1./T,Fmax)
+semilogx(1000./T,Fmax)
 xlabel('Stimulus Frequency (Hz)')
 ylabel('Facilitation')
-axis([0.0001 0.1 0 7])
+axis([0.1 100 0 7])
