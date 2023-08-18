@@ -1,4 +1,9 @@
-	k10=2; k20=1; z1=1; s0=100; PCa=0.00001; F=96490; R=8.315; T=300;
+ set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0);
+
+ k10=2; k20=1; z1=1; s0=100; PCa=0.00001; F=96490; R=8.315; T=300;
 	ci=0; ce=40; n=5;
 	Vss=-0.07;
 	k1=k10*exp(F*z1*Vss/(R*T));
@@ -38,7 +43,8 @@
     figure(1)
     plot(x,ICa_1,x,ICa_2,x,ICa_4,x,ICa_5,'LineWidth',2)
     xlabel('time (ms)')
-    ylabel('I_{Ca}')
+    ylabel('I_{Ca}(pA/(\mum)^2)')
+    legend('V=-20mV','V=-10mV','V=20mV','V=40mV')
 
 
     x = linspace(-70,70,100);
@@ -55,6 +61,6 @@
     yyaxis right
     plot(x,Oss,'LineWidth',2)
     xlabel('V (mV)')
-    ylabel('\hat{o}')
+   % ylabel('\hat{o}')
     ylim([0,1])
     
