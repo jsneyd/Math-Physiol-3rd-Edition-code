@@ -1,6 +1,11 @@
 close all
 clear all
 clc
+
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0);
 global tau
 
 
