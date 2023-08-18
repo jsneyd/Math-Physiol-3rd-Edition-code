@@ -26,7 +26,8 @@ for count = 1:7
 end
 figure(1)
 plot(T,N,'LineWidth',2)
-
+xlabel('t(s)')
+ylabel('n')
 
 % now plot the frequency versus mean response
 fcount = -2:0.1:2;
