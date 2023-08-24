@@ -11,9 +11,9 @@ N = 50;
 %number of particles
 M = 1000;
 % number of gap junctions
-K = 49; %(must be a perfect square)
+K = 100; %(must be a perfect square)
 % number of steps to take
-ncase=[1,2];
+ncase=[2,1];
 for nnr = 1:2
 gcase=ncase(nnr)
 
@@ -101,7 +101,7 @@ nk=ldx; % number of particles in box 2
  end
 figure(10)
 subplot(1,2,gcase)
-plot(nstr)
+plot(100*[1:nkthresh]/M,nstr)
 hold on
   
               % all done; plot the final point distribution
@@ -131,5 +131,9 @@ figure(nnr)
            plot3(gpos(:,1),gpos(:,2),N*ones(K,1),'g*')
 hold off
 end
- 
+ figure(10)
+ xlabel('Percentage of molecules in target cell')
+ ylabel('Steps')
+ hold off
+
  
