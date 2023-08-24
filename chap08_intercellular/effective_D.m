@@ -36,7 +36,7 @@ end
 clear Deff
 % a different loop
 dellist = [0:0.01:1];
-llist = [0.00001,0.2,0.5];
+llist = [0.000001,0.2,0.5];
 for lj=1:3
 
     l = llist(lj);
@@ -45,12 +45,23 @@ for lj=1:3
 
          Deff(dj) =  deff(l,del);
 end
+if(lj==1)
+    p=dellist.*(Deff-1);
+    q=polyfit(dellist(5:end-1),p(5:end-1),1)
+    pfit=polyval(q,dellist);
+
+     figure(3)
+     plot(dellist,p, dellist,pfit,'--')
+
+end
 
    figure(2)
    plot(dellist,Deff)
    hold on
    xlabel('\Delta')
    ylabel('D_{eff}/D')
+
+  
 end
 text(0.1,0.97,'l/L=0','fontsize',18)
 text(0.08,0.8,'l/L=0.2','fontsize',18)
@@ -58,7 +69,7 @@ text(0.18,0.5,'l/L=0.5','fontsize',18)
 hold off
        
 function out=deff(l,del)
-N=150;
+N=450;
 for kj = 1:N
 for n = 1:N
     
