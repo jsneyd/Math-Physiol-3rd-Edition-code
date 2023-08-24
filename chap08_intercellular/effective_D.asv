@@ -1,0 +1,53 @@
+% code to evaluate effective difusion coefficient
+function calc_deff
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0);
+clear all
+clear A
+clear R
+clear P
+del=0.1;
+
+
+dellist = [0.2,0.1,0.01];
+
+llist=[0.01:0.01:4];
+ for delj = 1:3
+     del=dellist(delj);
+
+for j = 1:length(llist)
+    l=llist(j);
+   Deff(j) =  deff(l,del);
+end
+
+   figure(1)
+   plot(llist,Deff)
+   hold on
+end
+
+% a different loop
+dellist = [0:0.1:1]
+llist = [0.00001:0.2,0.5];
+for lj=1:3
+
+    l = llist(lj);
+    for dj = 1:length(dellist)
+        del=dellist(delj);
+       
+function out=deff(l,del)
+N=400;
+for kj = 1:N
+for n = 1:N
+    
+        k = 1+2*(kj-1);
+        A(kj,n) = (2*n*tanh(2*n*pi*l*del)/(k*tanh(k*pi*l*(1-del)))+1)*n/(4*n^2-k^2);
+end
+R(kj) = 1/(2*pi*k^2);
+P(kj) = tanh(2*k*l*del);
+end
+
+ 
+C=A\R';
+out =P*C/l+del;
