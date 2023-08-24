@@ -7,22 +7,23 @@ set(0,                           ...
     
 %parameters
 % number of lattice points
-N = 50;
+N = 25;
 %number of particles
-M = 1000;
+M = 400;
 % number of gap junctions
 K = 49; %(must be a perfect square)
 % number of steps to take
 ncase=[1,2];
-for nnr = 1:2
+for nnr = 1:1
 gcase=ncase(nnr)
 
-nruns = 5;
+nruns = 2;
 for nr = 1:nruns
  
 %randomly distribute the particles in the N x N x N cell
  
 pos= [randi(N-1,M,1), randi(N-1,M,1),randi(N-1,M,1)];
+ max(max(pos))
  
 %locate the gap junctions
 clear gpos
@@ -44,7 +45,7 @@ clear gpos
  
  jstep = 0;
  nk = 0;
- nkthresh = 200;
+ nkthresh = 10;
  clear nstr
 
 while nk<nkthresh % nk is the number of particles in box 2
@@ -52,7 +53,7 @@ while nk<nkthresh % nk is the number of particles in box 2
 %  allow points to diffuse
 r1=randi(3,M,1); % this is the index that will change
 r2=2*randi(2,M,1)-3; % this is the amount of change of the index
- posnew=pos;
+ 
 for j = 1:M
     posnew(j,r1(j)) =  pos(j,r1(j))+r2(j);
  
@@ -90,6 +91,7 @@ for j = 1:M
  ldx=0;  
 for j = 1:M
 if(pos(j,3)>N)
+    
     ldx=ldx+1;
 end
 end
@@ -103,8 +105,11 @@ figure(10)
 subplot(1,2,gcase)
 plot(nstr)
 hold on
-  
-              % all done; plot the final point distribution
+
+ nstr
+  % number of steps it took to get this far
+ 
+              % all done; plot the answer
 end
 
              kdx=0;
@@ -127,7 +132,7 @@ figure(nnr)
            plot3(pos(kkdx,1),pos(kkdx,2),pos(kkdx,3),'b*')
           hold on
            plot3(pos(lldx,1),pos(lldx,2),pos(lldx,3),'r*')
-           
+           hold on
            plot3(gpos(:,1),gpos(:,2),N*ones(K,1),'g*')
 hold off
 end
