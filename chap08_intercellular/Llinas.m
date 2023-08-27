@@ -57,14 +57,15 @@
 
     figure(2)
     yyaxis left
-    plot(x,Jss,x,ICass,'LineWidth',2)
+    plot(x,ICass,x,Jss,'LineWidth',2)
     ylabel('I_{Ca}')
+    axis([-70 70 -500 0])
     yyaxis right
     plot(x,Oss,'LineWidth',2)
     xlabel('V (mV)')
    % ylabel('\hat{o}')
    legend('boxoff')
-   legend('I_{Ca}','i','\delta','Location','northwest','fontsize',16)
+   legend('I_{Ca}','j','\delta','Location','northwest','fontsize',16)
     ylim([0,1])
      
     
