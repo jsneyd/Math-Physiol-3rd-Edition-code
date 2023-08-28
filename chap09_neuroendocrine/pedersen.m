@@ -1,6 +1,10 @@
 clear all
 close all
 clc
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0);
 
 global p
 
@@ -15,7 +19,19 @@ tspan = linspace(0,22,500);
 F = Y(:,p.ng+1);
 I = Y(:,p.ng+2);
 figure(1)
+Gp = [0,0,50,50,100,100,150,150,200,200];     % glucose levels  
+timesp = [0 2 2 7 7 12 12 17 17 22];     % times of step application
 plot(T,F)
+ylabel('insulin secretion (\mug/min)')
+yyaxis ('right')
+plot(timesp,Gp,'--')
+ylabel('glucose (mg/100 ml)')
+xlabel('time(min')
+
+
+legend('boxoff')
+legend('model','glucose')
+
 %save('pedersen1.mat','T','F')
 
 %same stimulation twice
@@ -27,6 +43,8 @@ F = Y(:,p.ng+1);
 I = Y(:,p.ng+2);
 figure(2)
 plot(T,F)
+xlabel('time(min')
+ylabel('insulin secretion (\mug/min)')
 %save('pedersen2.mat','T','F')
 
 
@@ -48,7 +66,7 @@ M = p.M1*p.glucose^p.m/(p.KM^p.m + p.glucose^p.m) + p.M0;
 
 int = trapz(p.g(p.g<p.glucose),h(p.g<p.glucose));
 intinf = trapz(p.g,h);
-out(1:p.ng) = p.pplus*I*p.phi - p.pminus*h - p.fplus*h.*heaviside(p.glucose-p.g);
+out(1:p.ng) = p.pplus*I*p.phi - p.pminus*h - p.fplus*h.*(p.glucose>p.g);
 out(p.ng+1) = p.fplus*int - p.k*F;
 out(p.ng+2) = M - p.r*I - p.pplus*I + p.pminus*intinf;
 
