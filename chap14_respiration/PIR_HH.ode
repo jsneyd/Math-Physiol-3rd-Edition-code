@@ -1,0 +1,28 @@
+
+V1(0)=0
+h1(0)=0
+V2(0)=0
+h2(0)=0
+
+par gsyn = 0.3
+par thetasyn=-44
+par gpir=0.3
+par ksyn=2,Vpir=120,VL=-60,Vsyn=-80
+par C=1,gL=0.1,phi=3
+
+minf(V) = 1/(1+exp(-(V+65)/7.8))
+hinf(V) = 1/(1+exp((V+81)/11))
+tauh(V)=hinf(V)*exp((V+162.3)/17.8)
+Sinf(V) = 1/(1+exp(-(V-thetasyn)/ksyn))
+
+V1' = -gpir*(minf(V1)^3)*h1*(V1-Vpir) - gL*(V1-VL) - gsyn*Sinf(V2)*(V1-Vsyn)
+h1' = phi*(hinf(V1)-h1)/tauh(V1) 
+V2' = -gpir*(minf(V2)^3)*h2*(V2-Vpir) - gL*(V2-VL) - gsyn*Sinf(V1)*(V2-Vsyn)
+h2' = phi*(hinf(V2)-h2)/tauh(V2) 
+
+@ xlo=0,xhi=300,ylo=-90,yhi=0,total=300,meth=gear
+@ autovar=thetasyn,ntst=50,nmax=20000,npr=20000,dsmin=0.001,dsmax=0.05,ds=0.01
+@ parmin=0,parmax=1
+@ autoxmin=0,autoxmax=1,autoymin=-90,autoymax=-20
+
+done
