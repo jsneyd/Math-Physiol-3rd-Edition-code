@@ -1,0 +1,15 @@
+v(0)=0
+w(0)=0
+
+par Iapp=0
+par alpha=7, gamma=5
+
+v'=0.01*v*(70-v)*(v-alpha) -100*w+100*Iapp
+w'=0.25*(v-gamma*w) 
+
+@ xpar=v, ypar=w,xlo=-10,xhi=80, ylo=-1, yhi=6
+@ autovar=Iapp,ntst=50,nmax=200,npr=2000,dsmin=0.01,dsmax=0.5,ds=0.2
+@ parmin=0,parmax=6
+@ autoxmin=0,autoxmax=6,autoymin=-20,autoymax=80,nmax=2000
+@ method=gear
+done

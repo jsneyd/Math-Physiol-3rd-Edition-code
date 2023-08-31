@@ -10,7 +10,7 @@ global k10 k20 z1 s0 PCa F   ci ce n Vss k1 ohss tsw FbyRT
 	FbyRT = F/(R*Tp);
     k1=k10*exp(FbyRT*z1*Vss);
 	ohss= k1/(k1+k20);
-    tsw = 2.0;
+    tsw = 2.5;
 	
 	t = linspace(0,4,1000);
 Vlist = [-0.03,-0.02,-0.01,0.02,0.045];
@@ -68,11 +68,6 @@ end
     plot(t,oh)
     hold on
      legend('V=-20mV','V=-10mV','V=20mV','V=40mV')
-
-     figure(5)
-     plot(oh,-ICa)
-     hold on
-
     end
     figure(3)
 
@@ -116,20 +111,13 @@ end
 function oh=probde(t,V)
 % Calculate oh using the differential equation
 
-    global k10 k20 z1 s0 PCa ci ce n Vss ohss tsw FbyRT k2 
+    global k10 k20 z1 s0 PCa ci ce n Vss ohss
 
     sinit=0.1171;
     tspan = t;
  
     [T,S] = ode45(@(t,x)rhs(t,x,V),tspan,sinit);
     oh =S(:,1);
-     Vt=(T<tsw)*V+(T>=tsw)*Vss;
-    k1=k10*exp(FbyRT*z1*Vt);
-    figure(16)
-    plot(T,S)
-    figure(17)
-    plot(oh,k1.*(1-oh)-k2*oh,'*')
-   stop
      end
 
     function out=rhs(t,x,V)
@@ -138,6 +126,6 @@ function oh=probde(t,V)
     Vt=(t<tsw)*V+(t>=tsw)*Vss;
     k1=k10*exp(FbyRT*z1*Vt);
    
-    out = k1.*(1-x)-k2*x;
+    out = k1*(1-x)-k2*x;
     end
       
