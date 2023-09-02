@@ -3,21 +3,23 @@ set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0);
-global k10 k20 z1 s0 PCa F   ci ce n Vss k1 ohss tsw FbyRT
- k10=2; k20=1; z1=1; s0=100; PCa=0.00001; F=96490; R=8.315; Tp=300;
+global k10 k2 z1 s0 PCa F   ci ce n Vss k1  ohss tsw FbyRT
+ k10=2; k2=1; z1=1; s0=100; PCa=0.00001; F=96490; R=8.315; Tp=300;
 	ci=0; ce=40; n=5;
-	Vss=-0.07;
-	FbyRT = F/(R*Tp);
+	Vss=-70;
+	FbyRT = F/(R*Tp*1000);  % units of mV^(-1)
     k1=k10*exp(FbyRT*z1*Vss);
-	ohss= k1/(k1+k20);
-    tsw = 2.5;
+	ohss= k1/(k1+k2);
+    tsw = 2.5
 	
-	t = linspace(0,4,1000);
-Vlist = [-0.03,-0.02,-0.01,0.02,0.045];
+	t = [0:.01:5];
+Vlist = [-30,-20,-10,20,45];  % voltage in units of mV
 	
 for j = 1:length(Vlist)
 	V = Vlist(j);
-    currents=  fCa(t,V);
+    oh = prob(t,V);
+    currents= fCa(V,oh);
+    
    ICa=currents(1,:);
     
     figure(1)
@@ -26,14 +28,14 @@ for j = 1:length(Vlist)
     ylabel('-I_{Ca}(pA/(\mum)^2)')
     legend('boxoff')
     hold on
-    legend('V=-30mV','V=-20mV','V=-10mV','V=20mV','V=40mV')
+    legend('V=-30mV','V=-20mV','V=-10mV','V=20mV','V=45mV')
 
 end
-    x = linspace(-70,70,100);
+    x = linspace(-70,70,1000);  % units mV
  	
- 	phi_x=2*F*(x/1000 )/(R*Tp);
+ 	phi_x=2*FbyRT*x;
  	Jss=PCa*2*F*phi_x.*(ci-ce*exp(-phi_x))./(1-exp(-phi_x));
- 	Oss=k10*exp(F*z1*(x/1000 )/(R*Tp)).*(1./(k10*exp(F*z1*(x/1000 )/(R*Tp))+k20));
+ 	Oss=k10*exp(FbyRT*z1*x).*(1./(k10*exp(FbyRT*z1*x)+k2));
  	ICass=Jss.*(s0/n).*((Oss).^n);
 
     figure(2)
@@ -51,81 +53,77 @@ end
 
     for j = 1:length(Vlist)
 	V = Vlist(j);
-    decurrents= fCade(t,V);
-     
-    ICa = decurrents(:,1);
-    oh = decurrents(:,2);
- 
+    Vt=(t<tsw).*V+(t>=tsw).*Vss;
+    oh = probde(t,V);
+    ICa = fCa(Vt,oh');
+    
+  
     figure(3)
-    plot(t,-ICa,'LineWidth',2)
+    semilogy(t,-ICa,'LineWidth',2)
     xlabel('time (ms)')
     ylabel('-I_{Ca}(pA/(\mum)^2)')
-    legend('boxoff')
+    %legend('boxoff')
     hold on
-    legend('V=-20mV','V=-10mV','V=20mV','V=40mV')
+    legend('boxoff')
+   legend('V=-30mV','V=-20mV','V=-10mV','V=20mV','V=45mV','location','southwest')
 
     figure(4)
     plot(t,oh)
     hold on
-     legend('V=-20mV','V=-10mV','V=20mV','V=40mV')
+    legend('boxoff')
+     legend('V=-30mV','V=-20mV','V=-10mV','V=20mV','V=45mV')
+     xlabel('time (ms)')
+    ylabel('open probability')
+     
     end
     figure(3)
-
-   
+ 
     hold off
+    figure(4)
+    hold off
+
 end
      
     function oh=prob(t,V)
-    global k10 k20 z1 s0 PCa   ci ce n Vss ohss FbyRT
+    global k10 k2 z1  ohss FbyRT 
     %Calculate oh analytically
     k1=k10*exp(FbyRT*z1*V);
-    oh=k1./(k1+k20)*(1-exp(-(k1+k20)*t))+ohss*exp(-(k1+k20)*t);
+    oh=k1./(k1+k2)*(1-exp(-(k1+k2)*t))+ohss*exp(-(k1+k2)*t);
+
     end
 
-function currents=fCa(t,V)
-global k10 k20 z1 s0 PCa F  ci ce n Vss ohss FbyRT
-% this uses the analytical solution 
+function currents=fCa(V,oh)
+global  s0 PCa F ci ce n FbyRT
+  
     phi=2*FbyRT*V;
-	
-	jj=PCa*2*F*phi*(ci-ce*exp(-phi))/(1-exp(-phi));
-	oh = prob(t,V);
-
-	ICa =jj*(s0/n)*((oh).^n);
+	jj=PCa*2*F.*phi.*(ci-ce.*exp(-phi))./(1-exp(-phi));
+	ICa =(s0/n).*jj.*(oh.^n);
  
-     currents = [ICa; oh];
-end
-
-function currents=fCade(t,V)
-global k10 k20 z1 s0 PCa F ci ce n Vss ohss FbyRT
-% this uses the numerical  solution 
-    phi=2*FbyRT*V;
-	oh = probde(t,V);
-   
-	jj=PCa*2*F*phi*(ci-ce*exp(-phi))/(1-exp(-phi));
-	 
-	ICa =jj*(s0/n)*((oh).^n);
- 
-     currents = [ICa,oh];
+     currents = [ICa];
 end
 
 function oh=probde(t,V)
 % Calculate oh using the differential equation
 
-    global k10 k20 z1 s0 PCa ci ce n Vss ohss
+    global k10 k2 z1  Vss tsw FbyRT k2 
 
-    sinit=0.1171;
+    k1=k10*exp(FbyRT*z1*Vss);
+	ohss= k1/(k1+k2);
+    sinit=ohss;
     tspan = t;
  
-    [T,S] = ode45(@(t,x)rhs(t,x,V),tspan,sinit);
+    [T,S] = ode15s(@(t,x)rhs(t,x,V),tspan,sinit);
+    % warniing:  for piecewise continuous de's DO NOT use ode45 !!
     oh =S(:,1);
+   
      end
 
-    function out=rhs(t,x,V)
-    global Vss k10 k2 z1  tsw  FbyRT
-  
-    Vt=(t<tsw)*V+(t>=tsw)*Vss;
+    function out=rhs(t,s,V)
+    global Vss k10 k2 z1 tsw FbyRT
+ 
+    Vt=(t<tsw).*V+(t>=tsw).*Vss;
     k1=k10*exp(FbyRT*z1*Vt);
    
-    out = k1*(1-x)-k2*x;
+    out = k1.*(1-s)-k2*s;
     end
       
