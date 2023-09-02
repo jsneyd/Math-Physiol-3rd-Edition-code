@@ -70,8 +70,8 @@ smallb=1;
  Istim=3;
  Tperiod = 30;
 
-tt=[0:.1:3000];
-init=[-70, 0,0,0,0,0,0,0,0,0,0,-70];
+tt=[0:.01:5];
+init=[-50, 0,0,0,0,0,0,0,0,0,0,-70];
 [T,sol] = ode15s(@(t,S)rhs(t,S),tt,init);
 v1=sol(:,1);
 v2=sol(:,12);
@@ -83,17 +83,22 @@ y=sol(:,10);
 
 figure(1)
 
- plot(T,v1,T,v2)
+ plot(T,v1)
  legend('boxoff')
  legend('V1','V2')
 xlabel('t (ms)')
 
 figure(2)
-plot(T,c,T,op)
+plot(T,c)
 legend('c','op')
 xlabel('t (ms)')
 
 figure(3)
+plot( T,op)
+legend('c','op')
+xlabel('t (ms)')
+
+figure(4)
 plot(T,a,T,x,T,y)
 legend('a','x','y')
 xlabel('t (ms)')
