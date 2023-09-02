@@ -26,7 +26,7 @@ for count = 1:7
 end
 figure(1)
 plot(T,N,'LineWidth',2)
-xlabel('t(s)')
+xlabel('t/\tau')
 ylabel('n')
 
 % now plot the frequency versus mean response
@@ -40,7 +40,7 @@ end
 figure(2)
 semilogx(freq,nbar,freq,testfit,'LineWidth',2)
 ylim([0,1])
-
+xlabel('f\tau')
 
 save('STSD.mat','T','N','freq','nbar')
 
