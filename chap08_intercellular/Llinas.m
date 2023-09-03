@@ -5,12 +5,12 @@ set(0,                           ...
    'defaultlinelinewidth', 2.0);
 global k10 k2 z1 s0 PCa F   ci ce n Vss k1  ohss tsw FbyRT
  k10=2; k2=1; z1=1; s0=100; PCa=0.00001; F=96490; R=8.315; Tp=300;
-	ci=0; ce=40; n=5;
+	ci=0.00001; ce=40; n=5;
 	Vss=-70;
 	FbyRT = F/(R*Tp*1000);  % units of mV^(-1)
     k1=k10*exp(FbyRT*z1*Vss);
 	ohss= k1/(k1+k2);
-    tsw = 2.5
+    tsw = 2.5;
 	
 	t = [0:.01:5];
 Vlist = [-40,-10,20,50,120];  % voltage in units of mV

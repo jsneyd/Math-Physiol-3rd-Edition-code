@@ -10,7 +10,7 @@ set(0,                           ...
    'defaultlinelinewidth', 2.0); 
 %parameters
 global Vr k10  k20  z1  n ce PCa s0 
-global FbyRT  F  kout    
+global FbyRT  F  kout  radius 
 global   kp1  km1 kp2  km2  kp3  km3 kp4   km4 
 global   bigA  bigB   bigN smalla  smallb k1m  k2m  ke 
 global Vs  gr  gs0 Cm Istim Tperiod  rho
@@ -24,26 +24,26 @@ Vr=-70;
  z1=1;
  n=5;
  
- ce=4e4; % units micro molar = 40 mM
- PCa=2.0e-2; % mu m ms^{-1}
+ ce=40; % units milli molar
+ PCa=1.0e-4; % millimolar s^{-1}
  s0=20;
 
 %Voltage-type parameters
 F=96490; R=8.315; Tp=300;
- FbyRT = F/(R*Tp*1000); % units of mV^(-1)
+ FbyRT = F/(R*Tp*1000);  % units of mV^(-1)
  
 
 % Calcium parameters. Radius in microns. Factor converts current to calcium flux.
-  
+  kout=1000; 
+  radius=20;
+
 factor=(3/20)*(1/(2*F));
 
 % Calcium-stimulated secretion parameters
  kp1=3.75e-3;
- km1=4e-4;  % this is very slow
- %km1=4e-3;
+ km1=4e-4;
  kp2=2.5e-3; 
- km2=1e-3;  % this is very slow
- %km2 = 1e-2;
+ km2=1e-3;
  kp3=5e-4;
  km3=0.1;
  kp4=7.5e-3;
@@ -56,8 +56,8 @@ factor=(3/20)*(1/(2*F));
  bigN=10;
 smalla=0.00315; 
 smallb=1;
- k1m=1000; %ms^(-1)mM^(-1) 
- k2m=500; %ms^(-1)
+ k1m=1000; 
+ k2m=500;
  ke=10;% rate of ACh degradation
 
 % Postsynaptic voltage parameters
@@ -72,7 +72,7 @@ smallb=1;
  Tperiod = 30;
 
 tt=[0:.01:10];
-init=[-50, 0,0.11,1.4e-6,0.2,0.06,0.0015,0,0,0,0,-70];
+init=[-70, 0,0.11,1.4e-6,0,0,0,0,0,0,0,-70];
 [T,sol] = ode15s(@(t,S)rhs(t,S),tt,init);
 v1=sol(:,1);
 v2=sol(:,12);
@@ -81,23 +81,21 @@ c = sol(:,4);
 o1=sol(:,5);
 o2=sol(:,6);
 o3=sol(:,7);
-o4=sol(:,8);
+o4=sol(:,8)
 Pr = o1.*o2.*o3.*o4;
 
-x = sol(:,9);
-o1(end)
-o2(end)
-o3(end)
-o4(end)
-
-
-y=sol(:,10); 
+figure(4)
+plot(T,o1,T,o2,T,o3,T,o4,T,Pr)
+legend('0_1','o_2','o_3','o_')
 a = sol(:,11);
+x = sol(:,9);
+y=sol(:,10);  
 
 figure(1)
 
  plot(T,v1)
- 
+ legend('boxoff')
+ %legend('V1','V2')
 xlabel('t (ms)')
 ylabel('V_1')
 
@@ -109,33 +107,20 @@ xlabel('t (ms)')
 
 figure(3)
 plot(T,c)
- ylabel('c (\muM)')
+legend('c','op')
 xlabel('t (ms)')
 
-figure(4)
-plot(T,o1,T,o2,T,o3,T,o4 )
-legend('o_1','o_2','o_3','o_4')
 
-figure(5)
-plot(T,Pr)
-ylabel('P_R') 
-
-figure(6)
- 
- plot(T,a,T,x,T,y)
- legend('a','x','y')
- xlabel('t (ms)')
-
- figure(7)
- plot(T,v1,T,v2)
- legend('V_1,','V_2')
-  
+% figure(4)
+% plot(T,a,T,x,T,y)
+% legend('a','x','y')
+% xlabel('t (ms)')
 
 
 %%
 function out = rhs(t,sol)
 global Vr k10  k20  z1  n ce PCa s0 
-global FbyRT  F  kout 
+global FbyRT  F  kout  radius 
 global   kp1  km1 kp2  km2  kp3  km3 kp4   km4 
 global   bigA  bigB   bigN smalla  smallb k1m  k2m  ke 
 global Vs  gr  Cm gs0 rho
@@ -160,16 +145,15 @@ R=o1*o2*o3*o4;
 k1=k10*exp(z1*v1*FbyRT);
 fac=2*v1*FbyRT;
  
-if abs(fac)<1.e-6  % in case fac is close to zero:
-    g=1+fac/2+fac^2/12-fac^4/720;
-
+if abs(fac)<1.e-6
+    g=1/(1-fac/2);
 else
 g = fac/(1-exp(-fac));
 end
 
-jj=PCa*2*F*g*(c-ce*exp(-fac));
+j=PCa*2*F*g*(c-ce*exp(-fac));
 
-ICa=jj*s0*((o)^n);
+ICa=j*s0*((o)^n);
 
 % calcium-stimulated secretion functions
 tau1=1/(kp1*c+km1);
@@ -192,7 +176,7 @@ op=k1*(1-o) - k20*o;
 
 %Calcium odes. Conversion factors are included explicitly, for clarity
 
- kout=2;
+ kout=1;
  
 factor=(3/20)*(1/(2*F));
 
