@@ -20,6 +20,7 @@ IC = [37,1];                        % initial condition
 
 figure(1)
 plot(t,U(:,1),'r',t,U(:,2),'b--','linewidth',2)
+legend('boxoff')
 legend('\sigma_1','\sigma_2','fontsize',18,'location','northwest')
 xlabel('time','fontsize',18)
 ylabel('concentration','fontsize',18)
@@ -37,6 +38,7 @@ u2 =par.eta*w./(1+w).^2;
 plot(U(:,1),U(:,2),'r',u2,w,'b--',u1,w,'g--','linewidth',2)
 xlabel('\sigma_1','fontsize',20)
 ylabel('\sigma_2','fontsize',20)
+legend('boxoff')
 legend('solution','\sigma_1 nullcline','\sigma_2 nullcline','fontsize',18)
 axis([0 40 0 20])
 hold off

@@ -21,6 +21,7 @@ IC = [0.4,0.4];                        % initial condition
 % plot the solution as a function of time:
 figure(1)
 plot(t,U(:,1),'r',t,U(:,2),'b--','linewidth',2)
+legend('boxoff')
 legend('\sigma_1','\sigma_2','fontsize',18,'location','northwest')
 xlabel('time','fontsize',18)
 ylabel('concentration','fontsize',18)
@@ -33,6 +34,7 @@ s2=[0.02:0.01:1.4];
 s1a=par.nu/(1-par.nu)*(1+s2.^par.g)./s2.^par.g;
 s1b=(1+s2.^par.g)./(s2.^(par.g-1).*(par.alph/par.eta-s2));
 plot(U(:,1),U(:,2),'r',s1a,s2,'b--',s1b,s2,'g--','linewidth',2)
+legend('boxoff')
 legend('solution','\sigma_1 nullcline','\sigma_2 nullcline','fontsize',20)
 xlabel('\sigma_1','fontsize',20)
 ylabel('\sigma_2','fontsize',20)
