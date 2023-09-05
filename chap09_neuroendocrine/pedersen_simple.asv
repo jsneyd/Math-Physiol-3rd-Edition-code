@@ -1,0 +1,156 @@
+clear all
+close all
+clc
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0);
+
+global p
+
+getparams
+init = [0,0,0,0];  % to get a response 
+
+% Staircase experiment
+G = [0,50 ,100, 150, 200];% ,150,200,300];     % glucose levels  
+times = [0 2 7 12 17] ;     % times of step application
+tspan = linspace(0,20,5000);
+ 
+
+[T,sol] = ode15s(@(t,x)rhs(t,x,G,times),tspan,init);
+X = sol(:,1);
+F = sol(:,2);
+I = sol(:,3);
+Y = sol(:,4);
+ 
+
+figure(1)
+for j=1:length(G)
+    Gp(2*j-1) = G(j);
+    Gp(2*j)=G(j);
+end
+timesp(1) = 0;
+
+for j = 2:length(times)
+    timesp(2*j-2) = times(j);
+    timesp(2*j-1)=times(j);
+end
+timesp(length(Gp))=tspan(end);
+ 
+ 
+% times of step application
+ plot(T,F)
+ylabel('insulin secretion (\mug/min)')
+%axis([0 tspan(end) 0 0.01])
+yyaxis ('right')
+plot(timesp,Gp,'--')
+ylabel('glucose (mg/100 ml)')
+xlabel('time(min)')
+ 
+%save('pedersen3.mat','T','F')
+figure(2)
+plot(T,X,T,Y,'--')
+
+%same stimulation twice
+init=[0,0,0,4];
+G = [0, 300,0,300];     % glucose levels  
+times = [0   10 60 65];     % times of step application
+tspan = linspace(0,75,5000);
+[T,sol] = ode15s(@(t,x)rhs(t,x,G,times),tspan,init);
+X = sol(:,1);
+F = sol(:,2);
+I = sol(:,3);
+Y = sol(:,4);
+ 
+figure(3)
+plot(T,F)
+xlabel('time(min)')
+ylabel('insulin secretion (\mug/min)')
+%save('pedersen4.mat','T','F')
+figure(4)
+plot(T,X,T,Y,'--')
+
+
+
+
+
+
+%%
+function out = rhs(t,x,G,times)
+global p
+% there are four equations
+
+X = x(1);
+F = x(2);
+I = x(3);
+Y =x(4);
+ gl=0;
+
+gluc=getgl(t,G,times);
+p.glucose=gluc(1);
+dgdt = gluc(2);
+ 
+Phi = p.glucose^p.n/(p.K^p.n+p.glucose^p.n);
+
+M = p.M1*p.glucose^p.m/(p.KM^p.m + p.glucose^p.m) + p.M0;
+p.phi = p.n*p.glucose.^(p.n-1)*p.K^p.n./((p.K^p.n + p.glucose.^p.n).^2); 
+
+out(1) = p.pplus*I*Phi - p.pminus*X - p.fplus*X+ p.phi*Y*dgdt*(dgdt>0)/(1-Phi);
+out(2) = p.fplus*X - p.k*F;
+out(3) = M - p.r*I - p.pplus*I + p.pminus*(X+Y);
+out(4) = p.pplus*I*(1-Phi) - p.pminus*Y -p.phi*Y*dgdt*(dgdt>0)/(1-Phi);
+ 
+
+out = out';
+
+end
+
+%%
+function getparams
+global p
+
+p.Xmax = 1.65;
+p.n = 3.3;
+p.K = 150;
+p.K=100;
+
+p.M1 = 1.25;
+ 
+p.m = 12;
+p.KM = 185;
+p.M0 = 0.02;
+
+p.fplus = 6.2;
+ 
+p.k = 1.09;
+p.k=2.5;
+p.pplus = 0.021;
+p.pminus = 0.11;
+p.r = 0.0023;
+
+p.ng = 600;  % Number of values of g
+p.g = linspace(0,600,p.ng);
+p.phi = p.n*p.g.^(p.n-1)*p.K^p.n./((p.K^p.n + p.g.^p.n).^2);
+p.h0 = p.Xmax*p.phi;
+%p.h0 = linspace(0,0,p.ng);   % This also works
+end
+
+%%%
+function out = step(t,t0,del)
+% create a step function
+a=20;
+tnh=tanh((t-t0)*a);
+sp = del*(tnh+1)/2;
+sprime =del*a*(1-tnh^2)/2;
+out=[sp,sprime];
+end
+
+function gl = getgl(t,G,times)
+gl=0;
+for j=2:length(times)
+    t0=times(j);
+    del = G(j)-G(j-1);
+gl=gl+step(t,t0,del);
+end
+ gl;
+end
