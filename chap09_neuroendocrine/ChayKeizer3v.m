@@ -1,4 +1,4 @@
-%the chay Keizer model for beta cell
+%the 3 variable Chay Keizer model for beta cells
 function CheyKeizer
 global  cstar gkcabar lambda vca vk gk gca captot vbar 
 global  vn sn vm sm vh sh a  b c f alpha kca kd ibar treset width auto
@@ -25,7 +25,7 @@ vn=-15;
  sh=10;
  a=65;
  b=20;
- c=60
+ c=60;
 f=0.001;
 alpha=4.506e-6;
 kca=0.03;
@@ -45,7 +45,7 @@ tstep = 1;
 
 %specify the output points
 tspan = [0:tstep:total];
-%init ial data
+%initial data
 v0=-62;
 n0=0.001;
 ca0=0.55;
@@ -58,8 +58,13 @@ plot(S(:,3),S(:,1))
 ylabel('V')
 xlabel('Ca^{++}')
 figure(2)
-plot(T,S(:,1))
-xlabel('t')
+plot(T/1000,S(:,1))
+xlabel('t (s)')
+ylabel('V')
+
+figure(3)
+plot(T/1000,S(:,3))
+xlabel('t (s)')
 ylabel('V')
 
 function s_prime=deRHS(t,s)

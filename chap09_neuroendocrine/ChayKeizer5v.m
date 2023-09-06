@@ -35,14 +35,20 @@ n0    = 0.00044035
  
 [T,S] = ode23(@deRHS,tspan, u0, odeset('maxstep',1));  
 
-figure(1)
+figure(3)
 plot(S(:,5),S(:,1))
 ylabel('V')
 xlabel('Ca^{++}')
-figure(2)
+figure(1)
 plot(T/1000,S(:,1))
 xlabel('t (s)')
 ylabel('V')
+
+figure(2)
+plot(T/1000,S(:,5))
+xlabel('t (s)')
+ylabel('Ca^{++}')
+
 
 function s_prime=deRHS(t,s)
 global vprime vstar gca vca gk gkca Kd vk gl vl cm k1 kca f 
