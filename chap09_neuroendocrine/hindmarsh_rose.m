@@ -18,8 +18,9 @@ x1 = -(1+sqrt(5))/2; ...
  for j=1:length(Ilist)
      Iapp=Ilist(j)
 %initial data
+zstart=[0.2,1.8,2];
 
-init=[0,0,0.1];
+init=[0,0,zstart(j)];
 
 total=2000;
 tstep = 0.01;
@@ -40,12 +41,12 @@ ylabel('x')
 xlabel('t')
 
 figure(2*j)
-plot(S(:,1),S(:,2))
+plot(S(:,3),S(:,1) )
  formatSpecF = '%6.2f\n';
  
  title(strcat('I_{app} = ',sprintf(formatSpecF,Iapp)),'fontsize',18)
-xlabel('x')
-ylabel('y')
+xlabel('z')
+ylabel('x')
  end
 function s_prime=deRHS(t,sol) 
 global  Iapp  r s x1

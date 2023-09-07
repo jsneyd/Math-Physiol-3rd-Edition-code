@@ -65,7 +65,7 @@ ylabel('V')
 figure(3)
 plot(T/1000,S(:,3))
 xlabel('t (s)')
-ylabel('V')
+ylabel('Ca^{++}')
 
 function s_prime=deRHS(t,s)
 global  cstar gkcabar lambda vca vk gk gca captot vbar 
