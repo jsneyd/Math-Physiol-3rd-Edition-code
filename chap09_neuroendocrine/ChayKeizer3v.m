@@ -1,54 +1,41 @@
 %the 3 variable Chay Keizer model for beta cells
 function CheyKeizer
-global  cstar gkcabar lambda vca vk gk gca captot vbar 
-global  vn sn vm sm vh sh a  b c f alpha kca kd ibar treset width auto
+global   lam vca vk gk gca   vprime vstar gkca Kd
+global  vl cm   f alpha kca  gl 
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 1.2, ...
    'defaultlinelinewidth', 2.0, ...
    'defaultpatchlinewidth', 0.7); 
- cstar=0.7;
- gkcabar=30000;
- lambda=1.6;
- vca=110;
+ % parameter set
+
+ cm=4.5;
+ gca=13;
+ gk=12;
+ gl=0.04;
+ gkca=0.09;
+ vca=100;
  vk=-75;
-gk=2500;
-gca=1400;
-captot=5309.3;
-vbar=-75;
-vn=-15;
- sn=5.6;
- vm=4;
- sm=14;
- vh=-10;
- sh=10;
- a=65;
- b=20;
- c=60;
-f=0.001;
-alpha=4.506e-6;
-kca=0.03;
-kd=100.0;
-ibar=0;
-treset=10000;
-width=1000;
-
-ibar=0;
-treset=10000;
-width=1000;
-auto=0;
-
-
-total=15000;
+ vl=-40;
+  vprime=50;
+  vstar=30;
+ f=0.01;
+ alpha=0.01525;
+ Kd=1; 
+ kca=0.04; 
+ lam=0.5;
+ 
+ 
+total=10000;
 tstep = 1;
 
 %specify the output points
 tspan = [0:tstep:total];
 %initial data
-v0=-62;
-n0=0.001;
-ca0=0.55;
+v0=-54.77;
+n0=0.00044;
+ca0=0.1075;
  u0 = [v0,n0,ca0];
  
 [T,S] = ode23(@deRHS,tspan, u0, odeset('maxstep',1));  
@@ -68,32 +55,38 @@ xlabel('t (s)')
 ylabel('Ca^{++}')
 
 function s_prime=deRHS(t,s)
-global  cstar gkcabar lambda vca vk gk gca captot vbar 
-global  vn sn vm sm vh sh a  b c f alpha kca kd ibar treset width auto
+global  cstar gkcabar lam vca vk gk gca captot vbar vprime vstar gkca Kd
+global  vl cm vm sm vh sh a  b c f alpha kca  gl
 
 v=s(1);
 n = s(2);
 ca=s(3);
 
-phik  = 1/(1+exp((vn-v)/sn));
-phica  = 1/(1+exp((vm-v)/sm));
-phih  = 1/(1+exp((v-vh)/sh));
-ica  = gca*phica *phih *(v-vca);
-taun  = c/(exp((v-vbar)/a)+exp((vbar-v)/b));
-iapp  = ibar*( (t - treset>0) -  (t - treset - width>0));
-gkca = gkcabar*ca/(kd + ca);
+% gatiing functions
+ 
+alphamca    = -0.1*((v+vprime)-25)/(exp(-((v+vprime)-25)/10)-1);
+betamca     = 4*exp(-(v+vprime)/18);
+alphahca    = 0.07*exp(-(v+vprime)/20);
+betahca     = 1/(exp(-((v+vprime)-30)/10)+1);
+alphan      = -0.01*((v+vstar)-10)/(exp(-((v+vstar)-10)/10)-1);
+betan      = 0.125*exp(-(v+vstar)/80);
 
+minf =alphamca /(alphamca + betamca );
+hinf =alphahca/(alphahca + betahca);
 
-vp =  (-ica  + gk*n*(vk-v) + gkca*(vk-v) + iapp )/captot;
-np =  lambda*(phik -n)/taun ;
-cap = auto*(cstar - ca) + (1-auto)*(f*(-alpha*ica  - kca*ca));
+% Ionic currents:
+ica  = gca*minf^3*hinf*(v-vca);
+ik   = gk*n^4*(v-vk);
+ 
+ikca = gkca*ca/(ca+Kd)*(v-vk);
+il   = gl*(v-vl);
+
+% The differential equations:
+vp    = -1/cm*(ica+ik+ikca+il) ;
+np    = lam*(alphan*(1-n)-betan*n) ; 
+cap   = f*(-alpha*ica-kca*ca);
+
+ 
 
 s_prime = [vp;np;cap];
-% % @ , meth=cvode, toler=1e-6, atoler=1e-6, dt=5
-% % @ xhi=1, ylo=-70, yhi=-10, maxstor=20000, bound=100000
-% % @ xplot=ca yplot=v
-% % aux curpA = (-ica(v) + gk*n*(vk-v) + gkca*(vk-v))/1000
-% % aux icaout = -ica(v)/1000
-% % aux ikout = gk*n*(vk-v)/1000
-% % aux iapp = iapp(t)
-% % 
+ 

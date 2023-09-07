@@ -8,14 +8,17 @@ set(0,                           ...
  'defaultlinelinewidth', 2.0);
 
 %parameters
- 
-Iapp=-2;
+% change Iapp to see different phase portraits: 
+Iapp=0;
 
 % make a phase plane
 x=[-2:.01:2];
 y1= x.^3 - 3*x.^2 - Iapp ;
 y2 = 1 - 5*x.^2;
- 
+ x1=-1/2-sqrt(5)/2
+ x2=-1/2+sqrt(5)/2
+ ys1=1 - 5*x1.^2;
+  ys2=1 - 5*x2.^2;
 
 %initial data
 
@@ -36,7 +39,13 @@ legend('boxoff')
 legend('solution trajectory','dx/dt=0','dy/dt=0','location','northwest')
 ylabel('y')
 xlabel('x')
-
+if (Iapp==0)
+    hold on
+    text(x1,ys1,'*','fontsize', 25)
+    text(x2,ys2,'*','fontsize', 25)
+    hold off
+end
+ 
 
 function s_prime=deRHS(t,s) 
 global z Iapp  
