@@ -12,12 +12,17 @@ getparams
 init = [p.h0,0,8];
 
 % Staircase experiment
-G = [0,50,100,150,200];     % glucose levels  
+G = [0,50,100 150 200];     % glucose levels  
 times = [0 2 7 12 17];     % times of step application
-tspan = linspace(0,22,500);
+tspan = linspace(0,500,5000);
 [T,Y] = ode15s(@(t,x)rhs(t,x,G,times),tspan,init);
 F = Y(:,p.ng+1);
 I = Y(:,p.ng+2);
+h = Y(:,1:p.ng);
+intinf = trapz(p.g,h');
+figure(6)
+
+plot(T,intinf)
 figure(1)
 Gp = [0,0,50,50,100,100,150,150,200,200];     % glucose levels  
 timesp = [0 2 2 7 7 12 12 17 17 22];     % times of step application
@@ -26,7 +31,7 @@ ylabel('insulin secretion (\mug/min)')
 yyaxis ('right')
 plot(timesp,Gp,'--')
 ylabel('glucose (mg/100 ml)')
-xlabel('time(min')
+xlabel('time(min)')
 
 
 legend('boxoff')
@@ -43,7 +48,7 @@ F = Y(:,p.ng+1);
 I = Y(:,p.ng+2);
 figure(2)
 plot(T,F)
-xlabel('time(min')
+xlabel('time(min)')
 ylabel('insulin secretion (\mug/min)')
 %save('pedersen2.mat','T','F')
 

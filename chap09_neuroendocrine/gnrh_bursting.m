@@ -1,7 +1,15 @@
 % Bursting in GnRH neurons.
 % Simplified version of the model of Duan et al, Journal of Theoretical Biology 276 (2011) 22–34
 % For Keener and Sneyd, third edition
+close all
+clear all
+clc
+set(0,                           ...
+   'defaultaxesfontsize', 18,   ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0); 
 
+%parameters
 clear all; close all; clc
 format long;
 
@@ -36,9 +44,9 @@ p.k_sk=1; p.n_sk=2; p.k11=1*10^(-7); p.k_11=1.2; p.k22=0.5; p.k33=3*10^(-5); %Is
 p.rho=0.5; p.gamma=27;%Compartment converting parameters and sometimes rho values can be modified for TTX result
 p.a1=1*10^(-4); p.a2=35; p.a3=300; p.a4=7; p.a5=35; %SERCA pump parameters 
 p.alpha=4.8*10^(-3);  p.Kp=0.425; p.beta=2*10^(-5); p.Jer=4*10^(-7); p.Knaca=0.05; %Fluxes parameters
-
+tic
 [Time,soln1]=ode15s(@Model,[0 60000],init); 
-
+toc
 V = soln1(:,1);
 Hnaf = soln1(:,2);
 Nkm = soln1(:,3);
@@ -62,11 +70,11 @@ T = table(tsec,V,c,ce,X, 'VariableNames', {'tsec', 'V', 'c', 'ce','X'});
 writetable(T, 'temp.txt')
 
 %%
-function sys = Model(Time,init,p)
+function sys = Model(Time,S,p)
 global p
 
-V = init(1); Hnaf = init(2); Nkm = init(3); 
-c = init(4); ce = init(5); h = init(6); Ow = init(7); Ow_star = init(8);
+V = S(1); Hnaf = S(2); Nkm = S(3); 
+c = S(4); ce = S(5); h = S(6); Ow = S(7); Ow_star = S(8);
 
 % Current submodel
 Mnaf_inf = 1/(1+exp(-(V+40.0)/4.3));

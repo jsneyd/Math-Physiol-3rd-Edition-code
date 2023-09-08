@@ -46,16 +46,19 @@ p.Kserca = 0.1;
 
 p.tauy=12.5;
 
- init = [0.5 ,0.2,1.5;
+ init = [0.5 ,0.2,1.5];
 dt=0.1;
 tend=200;
 
 tspan = [0:dt:tend];
-[t,sol] = ode15s(@(t,x)coscrhs(t,x,p),tspan,init);
+tic
 
+[t,sol] = ode23(@(t,x)coscrhs(t,x,p),tspan,init);
+toc
 figure(1)
 plot(t,sol(:,1),'r',t,sol(:,2),'b',t,sol(:,3))  % time series
 xlabel('Time')
+legend('boxoff')
 legend('c','y','p')
 
 figure(2)
