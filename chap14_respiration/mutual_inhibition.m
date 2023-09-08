@@ -1,7 +1,9 @@
 % code to simulate respiration control (Chapter 14)
 
 
-function respiration_control
+close all
+clear all
+clc
  
  set(0,                           ...
    'defaultaxesfontsize', 20,   ...
@@ -36,11 +38,13 @@ xdot = S(:,4);
 figure(1)
  plot(T,I1,T,I2,'--','linewidth',2)
  legend('I_1','I_2')
-xlabel('Time','fontsize',20)
+xlabel('Time')
  
 figure(3)
-plot(T,x)
-
+dum = p.E2 + 2.5*x.^3./(1+x.^3); % keep for plotting
+plot(T,dum)
+xlabel('Time')
+ylabel('E_2 + f(x)')
 %writematrix([T S],'points.dat')
 
 
@@ -69,4 +73,6 @@ Fx = xdot;
 Fxd = (I1-p.k*x-p.mu*xdot)/p.m;
  
 out = [FI1;FI2;Fx;Fxd];
+
+end
  
