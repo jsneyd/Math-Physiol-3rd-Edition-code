@@ -4,6 +4,7 @@
 function compound_burster
 global vn sn vm sm kd kadp gca vca gkca vk gkatp gk cm f alpha kc v1 tauc v2 taun
 
+ 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 1.2, ...
@@ -14,11 +15,14 @@ set(0,                           ...
  
 % Conductances in pS; currents in fA; Ca concentrations in uM; time in ms
  
-gkatp=350; f=0.001; v2=185; tauc=1.2e6;
+gkatp=350; f=0.001; v2=185; 
+% exercise parameters:
+%gkatp=357; f=0.0013; v2=188; 
 
+tauc=1.2e6;
 gca=1200; gk=3000;
- gkca=300; taun=16;
- vca=25; vk=-75;
+gkca=300; taun=16;
+vca=25; vk=-75;
  cm=5300; kc=0.1;
  kd=0.3; alpha=2.25e-6;
  sm=12; vm=-20;
@@ -40,7 +44,8 @@ tstep = 1;
 tic
 %specify the output points
 tspan = [0:tstep:total];
-[T,S] = ode23(@deRHS,tspan, u0, odeset('maxstep',10));  
+% warning: This problem is sensitive to integrator choice!
+[T,S] = ode23s(@deRHS,tspan, u0, odeset('maxstep',10));  
 toc
 figure(1)
 plot(T/60000,S(:,1))

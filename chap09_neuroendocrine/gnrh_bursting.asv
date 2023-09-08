@@ -64,20 +64,7 @@ figure(1)
 plot(tsec,V)
 ylabel('V (mV')
 xlabel('t (s)')
-axis([39 46 -65 30])
-
-yyaxis('right')
-plot(tsec,c)
-ylabel('[Ca^{++}] (\muM')
-
-figure(2)
-plot(c,ce)
-
-figure(3)
-plot(c,V)
-
-figure(4)
-plot(tsec,c,tsec,ce)
+yyaxis('')
 
 
 % Create a table with the data and variable names

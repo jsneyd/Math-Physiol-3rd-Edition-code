@@ -9,7 +9,11 @@ set(0,                           ...
 %parameters
  
 par.nu=0.0285;
-par.eta=0.1;
+ 
+
+par.eta=0.08;
+ 
+
 par.alph=1.0;
 par.g=2;
 
@@ -39,7 +43,19 @@ legend('solution','\sigma_1 nullcline','\sigma_2 nullcline','fontsize',20)
 xlabel('\sigma_1','fontsize',20)
 ylabel('\sigma_2','fontsize',20)
 axis([0 1.4 0 1])
- 
+ eta = ones(51,1)*[0:.01:1];
+nu = [0:.01:0.5]'*ones(1,101);
+
+F=2*eta.^3.*nu + nu.^4 - eta.^3 + eta.*nu.^2 - 2*nu.^3 + nu.^2;
+figure(3)
+contour(nu,eta,F,[0 0],'linewidth',2)
+hold on
+plot(par.nu,par.eta,'*')
+xlabel('\nu')
+ylabel('\eta')
+text(0.1,0.6,'unstable','fontsize',20)
+text(0.3,0.2,'stable','fontsize',20)
+hold off
 
 %out = [t U];
 %save('test1.dat','out')

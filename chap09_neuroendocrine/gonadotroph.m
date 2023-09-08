@@ -4,8 +4,12 @@
 % for Keener and Sneyd, Math Physiology, third edition.
 
 function gonadotroph
+close all
+clear all
+clc
 global ip3b ip3p tpulse gnav gca gk gkca gL gkir ek eca ena vL alpha Cm sigmaER  sigmaD kp tau 
-global tauhna taun kkca fcyt Kdiff  kleak kf ki  ka Kd  Aip3 fer Vpmca  Kpmca Vserca Kserca pnorm
+global tauhna taun kca fcyt Kdiff  kleak kf ki  ka Kd  Aip3 fer Vpmca  Kpmca Vserca Kserca pnorm
+
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
@@ -13,13 +17,13 @@ set(0,                           ...
  'defaultlinelinewidth', 2.0);
 
 %parameters
-% background IP3 and pulse IP3. Vary to get different bursting patterns.
+% background IP3 and pulse IP3. Vary  these to get different bursting patterns.
    ip3b=0;
-   ip3p=0.5;
-   tpulse = 5000;
-   kp=0.04;
+   ip3mx=[0.1,0.4,0.7,2];
   
-
+   tpulse = 5000;
+  
+   
   gnav=20;
   gca=1.5;
   gk=5;
@@ -31,29 +35,19 @@ set(0,                           ...
   eca=60;
   ena=75;
   vL=0;
- alpha=0.0015;
-    Cm=6;
+  alpha=0.0015;
+  Cm=6;
    sigmaER=39;
    sigmaD=39;
+    kp=0.04;
  tauhna=2;
   taun=20;
    tau=175000;
-pnorm=4*tau^2*exp(-2);
+ pnorm=4*tau^2*exp(-2);  % sets a time scale for the ip3 input 
    Vserca=0.16;
   Kserca=0.2;
-
-%%%%%  initial Conditions %%%%%%%%%%%%%%%
-  v0=-60.58;
-  c0=0.0881;
-  cer0=124.49;
-  cd0=0.130;
-
-  hna0=0.637;
-  n0=0.0;
-
-  hip3r0=0.862;
- Kdiff=0.6;
- kkca=0.4;
+  Kdiff=0.6;
+ kca=0.4;
  fer=0.01;
   fcyt=0.01;
   Vpmca=0.02;
@@ -64,8 +58,20 @@ pnorm=4*tau^2*exp(-2);
   ka=.8;
   Kd=.8;
   Aip3=0.002;
+ 
+  for j = 1:4
+       ip3p=ip3mx(j);; % This sets the maximum value of the IP3 pulse input
+%%%%%  initial Conditions %%%%%%%%%%%%%%%
+  v0=-60.58;
+  c0=0.0881;
+  cer0=124.49;
+  cd0=0.130;
 
+  hna0=0.637;
+  n0=0.0;
 
+  hip3r0=0.862;
+ 
  init =[v0,c0,cer0,cd0,hna0,n0,hip3r0];
 
 total=60000;
@@ -75,19 +81,31 @@ tic
 tspan = [0:tstep:total];
 [T,S] = ode23(@deRHS,tspan,init  , odeset('maxstep',10));  
 toc
-plot(T,S(:,1))
+figure(2*j-1)
+
+plot(T/1000,S(:,1))
 ylabel('V (mV)')
  xlabel('t (s)')
- % yyaxis('right')
- % plot(T, ip3pulse(T))
- % ylabel('IP_3')
+  yyaxis('right')
+  plot(T/1000, ip3b+ip3p*ip3pulse(T))
+ ylabel('IP_3')
 
+ figure(2*j)
+ plot(T/1000,S(:,2))
+  xlabel('t (s)')
+  ylabel('c(\muM}')
+  yyaxis('right')
+  plot(T/1000,S(:,3))
+  ylabel('C_e (\muM)')
+
+    
+  end
 
   function s_prime=deRHS(t,sol) 
 
-  global ip3b ip3p  gnav gca gk gkca gL gkir ek eca ena vL alpha   Cm  sigmaER  sigmaD kp tau 
-global tauhna taun kkca fcyt Kdiff  kleak kf ki  ka Kd  Aip3 fer Vpmca  Kpmca Vserca Kserca
-
+global ip3b ip3p  gnav gca gk gkca gL gkir ek eca ena vL alpha   Cm  sigmaER  sigmaD 
+global tauhna taun kca fcyt Kdiff  kleak kf ki  ka Kd  Aip3 fer Vpmca  Kpmca Vserca Kserca
+  
 %there are 7 variables
 v=sol(1);
 c=sol(2);
@@ -114,7 +132,7 @@ vnsdrive=v-vL;
  
 mnainf = 1/(1+exp((-15-v)/5));
 hnainf = 1/(1+exp((55+v)/10));
-in = gnav*mnainf*mnainf*mnainf*hna*vnadrive;
+in = gnav*mnainf^3*hna*vnadrive;
 
 %%%%%% calcium %%%%%%%%%%%%%%%%%%%%%%%%
 % ica
@@ -130,7 +148,8 @@ iKdr = gk*n*vKdrive;
 % ikca -- sk, ik, and/or bk far from ca2+ channels
  
 c2=c^2;
-nkcainf=c2/(c2+kkca*kkca);
+ 
+nkcainf=c2/(c2+kca^2);
 ikca = gkca*nkcainf*vKdrive;
 
 % ikir and GIRK
@@ -149,11 +168,11 @@ jin = -alpha*ica;
 
 % PMCA
  
-jpmca=Vpmca*c2/(c2+Kpmca*Kpmca) ;
+jpmca=Vpmca*c2/(c2+Kpmca^2) ;
 
 % SERCA
  
-jserca=Vserca*c2/(c2+Kserca*Kserca);
+jserca=Vserca*c2/(c2+Kserca^2);
 
 %jrel consists of ER leak and IP3 receptor
 
@@ -166,7 +185,7 @@ ip3=ip3b+ip3p*ip3pulse(t);
  num3= num^3;
 denom=(ip3+ki)*(cd+ka);
 denom3=denom^3;
-jip3r=kf* 3/denom3*(cer - cd);
+jip3r=kf*num3/denom3*(cer - cd);
 
 jleak=kleak*(cer - cd);
 jrel = jleak+jip3r;
@@ -193,7 +212,6 @@ function ip3out=ip3pulse(t)
 global tpulse   pnorm kp   
 
 delpulse=t-tpulse;
-
 pulse=delpulse.^2./pnorm.*(delpulse>0);
-ip3pulse=pulse./(pulse+kp).* (1+kp);
+ip3pulse=pulse./(pulse+kp)*(1+kp);
 ip3out = ip3pulse;

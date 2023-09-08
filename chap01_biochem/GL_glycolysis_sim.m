@@ -9,7 +9,7 @@ set(0,                           ...
 
 %parameters
  
- par.nu=200;
+ par.nu=190;
  par.eta=120;
  
 
@@ -42,6 +42,22 @@ legend('boxoff')
 legend('solution','\sigma_1 nullcline','\sigma_2 nullcline','fontsize',18)
 axis([0 40 0 20])
 hold off
+
+%HB curve
+ eta = ones(201,1)*[0: 1:200];
+nu = [0:1:200]'*ones(1,201);
+
+F=-eta.^4 + eta.^3.*nu - eta.^3 - 3*eta.^2.*nu - 3*eta.*nu.^2 - nu.^3;
+figure(3)
+contour(nu,eta,F,[0 0],'linewidth',2)
+hold on
+plot(par.nu,par.eta,'*')
+xlabel('\nu')
+ylabel('\eta')
+text(50,150,'stable','fontsize',20)
+text(100,60,'unstable','fontsize',20)
+hold off
+
 
 out = [t U];
 save('test1.dat','out')

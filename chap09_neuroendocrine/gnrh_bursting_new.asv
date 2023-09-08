@@ -1,6 +1,11 @@
 % Bursting in GnRH neurons.
 % Simplified version of the model of Duan et al, Journal of Theoretical Biology 276 (2011) 22–34
 % For Keener and Sneyd, third edition
+
+%this version uses the Li-Rinzel model for calcium relese rather than a
+%modal model.
+
+
 close all
 clear all
 clc
@@ -26,7 +31,7 @@ init = [
    0.000049694789395
 ];
 
-p.IP3=0.15;
+p.IP3=0.15;  %IP3 level is a parameter
 p.Kf=1.92*10^(-1);
 
 % Ca and IPR parameters
@@ -60,25 +65,9 @@ X = Ow + Ow_star;
 
 tsec = Time/1000;
 figure(1)
-%
-plot(tsec,V)
-ylabel('V (mV')
-xlabel('t (s)')
-axis([39 46 -65 30])
-
-yyaxis('right')
-plot(tsec,c)
-ylabel('[Ca^{++}] (\muM')
-
-figure(2)
-plot(c,ce)
-
-figure(3)
-plot(c,V)
-
-figure(4)
-plot(tsec,c,tsec,ce)
-
+subplot(3,1,1); plot(tsec,V); ylabel('V'); xlim([25,35]);
+subplot(3,1,2); plot(tsec, c); ylabel('c');xlim([25,35]);
+subplot(3,1,3); plot(tsec,ce); xlabel('time (s)'); ylabel('ce');xlim([25,35]);
 
 % Create a table with the data and variable names
 T = table(tsec,V,c,ce,X, 'VariableNames', {'tsec', 'V', 'c', 'ce','X'});
@@ -113,6 +102,17 @@ Iionic = Inaf+Ikm+Ical+Ileak;
 Total_calcium = Ical;
 
 % calcium submodel
+Jserca = p.Prate*(c-p.a1*ce)/(p.a2+p.a3*c+p.a4*ce+p.a5*c*ce);
+Jin = -p.alpha*(Total_calcium)+p.beta*p.IP3;
+Jpm = p.Vp*c^2/(p.Kp^2+c^2);
+
+% this is a basic Li-Rinzel model
+Po = (p.p*c*h./((p.p+p.K1).*(c+p.K5))).^3; %open probability
+ph1  = (p.km4*p.K1*p.K2+p.km2*p.K4*p.p).*c./(p.K4*p.K2*(p.p+p.K1));  % dynamcis for h
+ph2 =  (p.km2*p.p+p.km4*p.K3)/(p.K3+p.p);
+
+Jipr = p.kf*Po*(ce-c);
+ 
 phi_c=c^4/(c^4+p.Kc^4);
 phi_p=p.IP3^2/(p.Kp^2+p.IP3^2);
 phi_p_down=p.Kp^2/(p.Kp^2+p.IP3^2);
@@ -123,20 +123,35 @@ beta = phi_p*phi_c*h;
 alpha = phi_p_down*(1-phi_c*h_inf);
 Po=beta/(beta + 0.4*(beta+alpha));
 
-Jrelease = (p.Kf*Po+p.Jer)*(ce-c); 
-Jserca = p.Prate*(c-p.a1*ce)/(p.a2+p.a3*c+p.a4*ce+p.a5*c*ce);
-Jin = -p.alpha*(Total_calcium)+p.beta*p.IP3;
-Jpm = p.Vp*c^2/(p.Kp^2+c^2);
+% IPR stuff
+ num=(ip3*c*hip3r);
+ num3= num^3;
+denom=(ip3+ki)*(c+ka);
+denom3=denom^3;
+jip3r=kf* 3/denom3*(cer - c);
+
+jleak=kleak*(cer - c);
+jrel = jleak+jip3r;
+
+Jrel = (p.Kf*Po+p.Jer)*(ce-c); 
+
 
 dVdt = (-1/p.Cm)*(Iionic+Isk+Iw);
 dHnafdt = (Hnaf_inf-Hnaf)/Thnaf;
 dNkmdt = (Nkm_inf-Nkm)/Tnkm;
 
-dcdt = p.rho*(Jin - Jpm) + (Jrelease - Jserca); 
-dhdt  = 0.001*((h_inf-h)/tau);
-dcedt = p.gamma*(Jserca - Jrelease);
+cp = fcyt*(jin-jpmca+Jrel-jserca);
+cerp = fer* sigmaER*(jserca-jrel);
+ 
+hnap= (hnainf-hna)/tauhna;
 
-dOwdt = -Ow*p.k_11-Ow*p.k22+p.k11*c*(1-Ow-Ow_star);
+dcdt = p.rho*(Jin - Jpm) + (Jrelease - Jserca); 
+dhdt  = 0.001*((h_inf-h)/tau);  %old version
+dhdt=-ph1*h +ph2*(1-h); new verson
+dcedt = p.gamma*(Jserca - Jrelease);
+-ph1*h +ph2*(1-h);
+
+w*p.k22+p.k11*c*(1-Ow-Ow_star);
 dOw_stardt = p.k22*Ow-p.k33*Ow_star;
 
 sys = [dVdt;...
