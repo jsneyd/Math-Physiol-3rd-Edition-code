@@ -72,13 +72,19 @@ ylabel('[Ca^{++}] (\muM')
 
 figure(2)
 plot(c,ce)
+ylabel('c_e (mM')
+xlabel('c (mM')
 
 figure(3)
 plot(c,V)
+ylabel('V (mV')
+xlabel('c (mM')
 
 figure(4)
 plot(tsec,c,tsec,ce)
-
+legend('boxoff')
+legend('c','c_e')
+xlabel('t (s)')
 
 % Create a table with the data and variable names
 T = table(tsec,V,c,ce,X, 'VariableNames', {'tsec', 'V', 'c', 'ce','X'});

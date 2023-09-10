@@ -8,6 +8,7 @@ y(0)=-23.3226825
 par z=4
 par I=2
 
+
 number x1 = -1.6
 
 # Differential Equations
@@ -18,7 +19,7 @@ y' = 1 - 5*x^2 - y
 @ maxstor=20000,bounds=10000000, xp=t, yp=x
 @ xlo=0, xhi=1000, ylo=-2, yhi=2
 
-@ parmin=-10, parmax=4, Nmax=2000, NPr=5000, autoxmin=-10, autoxmax=4
+@ parmin=-10, parmax=12, Nmax=2000, NPr=5000, autoxmin=-10, autoxmax=4
 @ ds=-0.02,dsmax=0.05,epsl=1e-06,epsu=1e-06,epss=1e-06,ntst=50
 
 done
