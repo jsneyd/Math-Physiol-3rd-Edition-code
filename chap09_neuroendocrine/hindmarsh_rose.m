@@ -9,7 +9,7 @@ set(0,                           ...
 
 %parameters
  
-Iapp=0;
+ 
 r=0.001;
 s=4;
 x1 = -(1+sqrt(5))/2; ...
@@ -54,8 +54,9 @@ x=sol(1);
 y=sol(2);
 z=sol(3);
 
+zp = r*(s*(x-x1)-z);
 xp = y - x^3 + 3*x^2 + Iapp -z  ;
 yp = 1 - 5*x^2 - y;
-zp = r*(s*(x-x1)-z);
+
 
 s_prime =[xp;yp;zp];
