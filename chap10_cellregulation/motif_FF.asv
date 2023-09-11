@@ -18,9 +18,7 @@ ylabel('R')
 yyaxis('right')
 plot(T,S)
 ylabel('S')
-xlabel('t')
-legend('boxoff')
-legend('R','S','location','southeast')
+x
 out = [T R S];
 save('test.dat','out','-ascii')
 
