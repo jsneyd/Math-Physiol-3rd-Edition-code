@@ -67,6 +67,7 @@ figure(4)
 plot(xi1,sig0,xi,sig,'g',xi0,sig,'r--','linewidth',2)
 xlabel('Radius','fontsize',20)
 ylabel('Free Oxygen','fontsize',20)
+legend('boxoff')
 legend('\rho=5','\rho=5, critical external concentration','\rho=0, critical external concentration', ...
     'Location','northwest')
 ,
