@@ -69,11 +69,11 @@ end
 % [T,Y]=ode23tb(@cilibertoodes,tspan,y0);
 % plot(T,Y(:,10))
 figure(1)
- 
- plot(keep(:,1),keep(:,2),keep(:,1),keep(:,10),keep(:,1),keep(:,4),keep(:,1),keep(:,11)) 
-        % Plot the mass,  MPF (or dum, the tracking variable),CDC_T and Ste9
+ plot()      % Plot the mass
+ hold on;
+ plot(keep(:,1),keep(:,11),keep(:,1),keep(:,10)keep(:,1),keep(:,2),keep(:,1),keep(:,4)) 
+        % Plot MPF (or dum, the tracking variable),CDC_T and Ste9
 xlabel('time (min)')
-legend('[Cdc13_T','m','[Ste9]','[MPF]')
  hold off;
 
   

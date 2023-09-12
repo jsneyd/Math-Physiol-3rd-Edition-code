@@ -2,6 +2,12 @@ clear all
 close all
 clc
 
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 2.0, ...
+ 'defaultlinelinewidth', 2.0);
+
+
 global k1 k2p k2pp k2ppp k3p k3pp k4p k4 k5p k5pp k6 k7 k8
 global J3 J4 J5 J7 J8 k9 k10 mu
 
@@ -33,6 +39,7 @@ for loop=1:tfinal
 end
 
 plot(keep(:,1),keep(:,2),keep(:,1),keep(:,7),'linewidth',2)
+ 
 legend('[Cdc13_T]','m','fontsize',16)
 
 %%
