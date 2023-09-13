@@ -21,6 +21,8 @@ ylabel('S')
 xlabel('t')
 legend('boxoff')
 legend('R','S','location','southeast')
+set(gca,'linewidth',1.5)
+box off
 out = [T R S];
 save('test.dat','out','-ascii')
 
@@ -33,6 +35,7 @@ n=2;
 K=2;
 S =  (t>10) +  (t>20) + (t>30);
 phi = K*X^n/(K+X^n);
+%phi = X; % for execise 1.9
 out(1) = S - phi*R;
 out(2) = S - X;
 out = out';

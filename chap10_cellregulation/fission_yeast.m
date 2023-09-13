@@ -33,9 +33,18 @@ k13p=0.; k13pp=.1; k14=.1;
 k15p=1.5; k15pp=0.; k16p=1.; k16pp=2.; J15=.01; J16=.01; 
 mu=.005; 
 kweep=0.15;   
- kweepp=1.3;  
+ kweepp=1.3;
+
+ % to simulate the wee1 mutant set kweepp=0.3;
+ kweepp=0.3;
 Vawee=0.25;  Viweep=0.;  Viweepp=1.;  Jawee=0.01;  Jiwee=0.01; 
 k25p=0.05;  k25pp=5;  Va25p=0.;  Va25pp=1.;  Vi25=0.25;  Ja25=0.01;  Ji25=0.01; 
+kweepplist=[1.3,0.3];
+tlim =[0,200];
+ylim=[2,1];
+
+for icase=1:2
+kweepp=kweepplist(icase)
 
 npts=10; delt=0.2;
 numtimesteps=2500; test=0;
@@ -68,13 +77,14 @@ end
 % tspan=linspace(0,400,400);
 % [T,Y]=ode23tb(@cilibertoodes,tspan,y0);
 % plot(T,Y(:,10))
-figure(1)
+figure(icase)
  
  plot(keep(:,1),keep(:,2),keep(:,1),keep(:,10),keep(:,1),keep(:,4),keep(:,1),keep(:,11)) 
         % Plot the mass,  MPF (or dum, the tracking variable),CDC_T and Ste9
 xlabel('time (min)')
 legend('[Cdc13_T','m','[Ste9]','[MPF]')
- hold off;
+ axis([tlim(icase) 500 0 ylim(icase)])
+end
 
   
 
