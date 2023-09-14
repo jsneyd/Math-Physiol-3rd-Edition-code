@@ -3,6 +3,7 @@ l(0)=0.1
 m(0)=0.1
 
 par kwee=0.9
+# for exercise 10.25, start with kwee = 0
 par k1=0.004,k2p=0.008,k2pp=3
 par k25p=0.03,k25pp=50
 
