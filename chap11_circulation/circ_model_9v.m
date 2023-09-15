@@ -31,7 +31,7 @@ Vdel=getpressures(Pdel);
 sens(:,j)=(Vdel-V)./(frac*V);
 end
 
-% the sensiivy matrix is:
+% the sensitivity matrix is:
 sens
 
 
