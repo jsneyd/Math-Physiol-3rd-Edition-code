@@ -12,7 +12,7 @@ set(0,                           ...
 p.eps = 0.02;  
 p.alpha = -0.05; 
 p.gamma = -0.6;
-
+p.Iapp = 0;
 dt = 0.001;
 tend=7;
 
