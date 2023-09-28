@@ -1,4 +1,4 @@
-%simple 3 state model of a l-type calcium channel
+%simple 3 state model of a L-type calcium channel
 
 function L_type_Ca
 
