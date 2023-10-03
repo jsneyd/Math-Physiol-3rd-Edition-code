@@ -19,23 +19,44 @@ lambda_g = 0.09;
 mu = exp(-L/lambda_g);
 
 
+
 E = exp(sQ);
 
+A=mu/(2*(1-mu^2));
+B=mu^2*A;
+C=-2*qe/(qe+qi)*A*(E-1)^2/E;
+% for negative n
+
 x = [0:.05:1]*L;
+phin = (1/mu-1/E)*exp(lambda*x) + (1/mu - E)*exp(-lambda*x);
 
-phi = (mu-1/E)*exp(lambda*x) + (mu - E)*exp(-lambda*x);
+Pkn = 2*qe*(1/mu-1/E)*(1/mu-E)/(1/mu-1);
+phi_in = phin*qi+Pkn;
+phi_en = -phin*qe + Pkn;
 
-Pk = 2*qe*(mu-1/E)*(mu-E)/(mu-1);
-phi_i = phi*qi+Pk;
-phi_e = -phi*qe + Pk;
 Vi = [];
 Ve = [];
 y = [];
 
-sc =1.e3;
-for j = 0:15;
-    Vi = [Vi,sc*mu^j*phi_i];
-    Ve = [Ve,sc*mu^j*phi_e];
+figure(4)
+plot(x,phin,x,phi_in,x,phi_en)
+
+for j =  -15:-1
+Vi = [Vi,B*mu^(-j)*phi_in+1+C];
+ Ve=[Ve,B*mu^(-j)*phi_en+C];
+y=[y,j*L+x];
+end
+
+phi = (mu-1/E)*exp(lambda*x) + (mu - E)*exp(-lambda*x);
+
+Pk = 2*qe*(mu-1/E)*(mu-E)/(mu-1);
+phi_i = phi*qi/(qi+qe)+Pk;
+phi_e = -phi*qe/(qi+qe) + Pk;
+
+
+for j = 0:15
+    Vi = [Vi,A*mu^j*phi_i];
+    Ve = [Ve,A*mu^j*phi_e];
     y = [y,j*L+x];
 end
 

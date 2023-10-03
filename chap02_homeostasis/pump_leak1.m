@@ -58,22 +58,4 @@ ylabel('Potential (mV)','fontsize',20)
  axis([0 400 -80 60])
  
 
-% now include the effect of potential on the pump rate
-rhoy=p./ (u.^3.*y);
-
-
-% plot everything as a function of rho
- 
-figure(5)
-plot(rho,mu,'r','linewidth',2)
-axis([0 4  0 5])
-xlabel('Pump rate','fontsize',20)
-ylabel('Cell Volume','fontsize',20)
- 
-figure(6)
-plot(rho,v,'r',rho,vna,'b',rho,vk,'g','linewidth',2)
-legend('V','V_{Na}','V_K','fontsize',18)
-xlabel('Pump rate \rho','fontsize',20)
-ylabel('Potential (mV)','fontsize',20)
- axis([0 400 -80 60])
  

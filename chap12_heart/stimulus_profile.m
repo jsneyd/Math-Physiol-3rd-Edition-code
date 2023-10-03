@@ -4,6 +4,10 @@
 clear all
 close all
 clc
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 1.5, ...
+   'defaultlinelinewidth', 2.0)
 
 L = 0.012;
 qi = 5.47e-3;
