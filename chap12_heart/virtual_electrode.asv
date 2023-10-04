@@ -90,9 +90,9 @@ indx = (Nsq+1)/2; %uses an odd number of points
 %indx = 1; %in the corner
 %Rhs(indx) = 1;
 %Rhs(indx+Nsq) = -1;
-
-Rhs(Nsq+1:2*Nsq) = 1/(Nsq-1); % remove current everywhere else
 Rhs(indx+Nsq) = -1; % add current at the center
+Rhs(Nsq+1:2*Nsq) = 1/(Nsq-1); % remove current everywhere else
+
  
 indx1 = Nsq + [1:N];
 indx2 = Nsq + (N-1)*N+[1:N];
@@ -125,25 +125,22 @@ phi = phi_i-phi_e;
 
 figure(1)
 K = 16;
- 
 vmax = max(max(phi));
 vmin = min(min(phi));
 rm = min(abs(vmax),abs(vmin));
 dv = 4*rm/K;
 v = -2*rm +[0:K]*dv;
-contour(phi,v,'linewidth',1.5)
-colorbar
+contour(phi,v,'k','linewidth',2)
 text(50,50,'+','fontsize',16)
 text(50,63,'-','fontsize',18)
 text(50,38,'-','fontsize',18)
-box off
 
 figure(2)
-contour(phi_i,20,'linewidth',1.5);
-colorbar
+contour(phi_i,20);
+
 figure(3) 
-contour(phi_e,20,'linewidth',1.5)
-colorbar
+contour(phi_e,20)
+
 
 
 

@@ -46,15 +46,13 @@ phin = (1/mu-1/E)*exp(lambda*x) + (1/mu - E)*exp(-lambda*x);
 
 Pkn = 2*qe/Q*(1/mu-1/E)*(1/mu-E)/(1/mu-1);
 phi_in =  (phin*qi/Q+Pkn);
-phi_en = -(phin*qe/Q + Pkn);
+phi_en = -phin*qe/Q + Pkn;
 
 Vi = [];
 Ve = [];
 y = [];
 
-figure(4)
-plot(x,phin,x,phi_in,x,phi_en)
-
+ 
 for j =  -25:-1
 Vi = [Vi,B*mu^(-j)*phi_in+1+C];
  Ve=[Ve,B*mu^(-j)*phi_en+C];
@@ -74,14 +72,13 @@ plot(y,Ve,y,Vi,y,Vi-Ve,'linewidth',2);
 
 xlabel('Length (cm)', 'fontsize',18)
 ylabel('Potential', 'fontsize',18)
-text(.05,0,'V_e','fontsize',18)
-text(.05,-.8,'V_i','fontsize',18)
-text(.05,-1.4,'V','fontsize',18)
- 
+text(-.1,-0.05,'V_e','fontsize',18)
+text(-.1,0.6,'V_i','fontsize',18)
+text(-0.05,0.8,'V','fontsize',18)
+ axis([-0.3 0.3 -0.2 1])
 set(gca,'linewidth',2.0)
 box off
 test=[y' Vi' Ve'];
 save('test.dat','-ascii','test')
 
-
-
+ 

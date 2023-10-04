@@ -17,8 +17,7 @@ sQ = sqrt(Q);
 lambda = sQ/L;
 lambda_g = 0.09;
 mu = exp(-L/lambda_g);
-
-
+ 
 E = exp(sQ);
 
 x = [0:.05:1]*L;
