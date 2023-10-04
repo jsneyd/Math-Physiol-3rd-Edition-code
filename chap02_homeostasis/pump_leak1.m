@@ -37,6 +37,7 @@ ylabel('Potential (mV)','fontsize',20)
 axis([0 14 -100 100])
  
 
+
 % Now the modified model with P = rho u^3
 
 u = y.*exp(-3*p);
