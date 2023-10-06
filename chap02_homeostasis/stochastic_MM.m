@@ -12,7 +12,7 @@ set(0,                           ...
  
     
 N = 100; %initial substrate number
-E = 10; %enzyme numbers
+E = 2; %enzyme numbers
  
 K = 2000;  % number of trials
 k1 = 1;
@@ -22,7 +22,7 @@ k2  = 0.5;    % without loss of generality
 %set the rate constants for two reactions:
 r(1) = k1;  % reaction 1  S + E -> C at rate k1 
 r(2) = km1; % reaction 2  C -> S + E at rate km1
-r(3) = k2;  % reaction 3  C -> S + E at rate k2
+r(3) = k2;  % reaction 3  C -> P + E at rate k2
 
 %Specify the change matrix
 %Ch is the change matrix, a 3 by 2 matrix; three reactions, two state variables

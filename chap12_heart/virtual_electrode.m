@@ -91,8 +91,8 @@ indx = (Nsq+1)/2; %uses an odd number of points
 %Rhs(indx) = 1;
 %Rhs(indx+Nsq) = -1;
 
-Rhs(Nsq+1:2*Nsq) = 1/(Nsq-1); % remove current everywhere else
-Rhs(indx+Nsq) = -1; % add current at the center
+Rhs(Nsq+1:2*Nsq) = -1/(Nsq-1); % remove current everywhere else
+Rhs(indx+Nsq) = 1; % add current at the center
  
 indx1 = Nsq + [1:N];
 indx2 = Nsq + (N-1)*N+[1:N];
@@ -133,9 +133,9 @@ dv = 4*rm/K;
 v = -2*rm +[0:K]*dv;
 contour(phi,v,'linewidth',1.5)
 colorbar
-text(50,50,'+','fontsize',16)
-text(50,63,'-','fontsize',18)
-text(50,38,'-','fontsize',18)
+text(50,52,'+','fontsize',18)
+text(50,63,'-','fontsize',20)
+text(50,39,'-','fontsize',20)
 box off
 
 figure(2)
