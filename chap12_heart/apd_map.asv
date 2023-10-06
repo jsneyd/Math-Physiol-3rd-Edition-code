@@ -48,7 +48,7 @@ text(100,650,'g_1(APD)','fontsize',18)
 text(900,630,'g_2(APD)','fontsize',18)
 text(700,900,'one-to-one line','fontsize',18)
 annotation('textarrow',[.53,.51],[.48,.58])
-annotation('textarrow',[.35,.38],[.25,.33])
+annotation('textarrow',[.35,.4],[.3,.4])
 text(220,100,'alternans solution','fontsize',18)
 text(650,400,'stable steady state','fontsize',18)
 

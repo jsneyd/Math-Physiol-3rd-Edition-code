@@ -76,10 +76,12 @@ hold off
 figure(2)
 plot(x,fp(u./x'))
  legend('boxoff')
-    legend('uncoupled','1-D symmetric' ,'3-D spherical')
+   
    box off
   xlabel('r')
 ylabel('f^{\prime}(v(r))')
+plot(x,zeros(N,1),'--')
+ legend('uncoupled','1-D symmetric' ,'3-D spherical')
 hold off
 
 % find the eigenvalues

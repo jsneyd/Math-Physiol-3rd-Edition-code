@@ -1,4 +1,5 @@
 % ectopic focus oscillations
+% here we use the metod of lines to compute waves
 function ectopic_waves
 
 clear
@@ -11,9 +12,9 @@ global alps gam Dscal A x N eps
 
 eps = 0.1;
 gam = 0.1;
-alf =0.2;
+alf =0.;
 b = 0.5;
-scale = 3;
+scale = 1.5;
 N=200; % number of interior grid points
 L = 20; % length of the domain 
 
@@ -23,8 +24,8 @@ alps=alf +(b-alf)*(exp(-(x/scale).^2));
  
  Dl=1;
 Dscal = Dl/dx^2;
+% impose a no-flux Neumann boundary condition at both ends
 A = -2*diag(ones(N,1)) + diag([2;ones(N-2,1)],1) + diag([ ones(N-2,1);2],-1);
- 
  
 V0=zeros(N,1);
 W0 = zeros(N,1);
@@ -39,6 +40,9 @@ s0 = [V0;W0 ];
 [t,X]=meshgrid(T,x);
  
 mesh(X,t,S(:,1:N)')
+xlabel('x')
+ylabel('t')
+zlabel('v')
 
 
    
