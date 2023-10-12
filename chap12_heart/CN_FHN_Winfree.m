@@ -8,7 +8,7 @@ L = 5; % length of the domain
 d = .01; % diffusion coefficient
 
 N=100;
-M = 100; % number of time steps
+M = 130; % number of time steps
 h = L/N;
 dt = h/3;
 
@@ -102,6 +102,27 @@ figure(1)
 t
 end
 
+figure(2)
+subplot(2,1,1)
+  plot(X,V,'r',X,W,'b')
+  axis([0 L -.5 1])
+ legend('v','w')
+  xlabel('x')
+    formatSpecF = '%6.2f\n';
+ 
+ title('v, w as functions of x','fontsize',18) 
+ 
+ 
+ w0=2*(alf^2-alf+1)^(3/2)/27;
+ 
+  subplot(2,1,2)
+  plot(V,W,'r',[V(N);V(1)],[W(N);W(1)],'r',Vt,Wn,'k--',Vt,Vn,'b--',Vt,w0,'k--')
+  axis([-.5 1 -.1 .2])
+   xlabel('v','fontsize',18)
+   ylabel('w','fontsize',18)
+  title('v-w phase plane','fontsize',[18])
+
+  save('onaloop.mat','V','W')
 time=cputime-time        % outputs the cpu time taken to solve the equations
 
 % figure(2)

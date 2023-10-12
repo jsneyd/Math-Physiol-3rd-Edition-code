@@ -10,7 +10,7 @@ set(0,                           ...
    'defaultaxeslinewidth', 1.5, ...
    'defaultlinelinewidth', 2.0)
 global  eps  gam Dscal A  t1 Iamp N Jcol alf
-
+tic
 % parameters
  eps=0.15;
 gam = 0.2;
@@ -60,7 +60,7 @@ tspan = [0,1,4,6];
 
 s0 = zeros(2*N,1);
 
-[T,S] = ode15s(@deRHS,tspan, s0); 
+[T,S] = ode23(@deRHS,tspan, s0);  % Remark ode23s and ode15s are significantly slower for this problem
  
 for j=1:length(tspan)
      
@@ -97,7 +97,7 @@ figure(2*icase-1)
  hold off
 
 end
-
+toc
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %the right hand side for ode simulation:
