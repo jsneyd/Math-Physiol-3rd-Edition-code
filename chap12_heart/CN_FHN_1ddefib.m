@@ -1,7 +1,12 @@
 % This file looks at solutions ofthe standard FHN model
 % on a periodic ring following application of a defibrillating stimulus
 
+ 
 clear
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 1.5, ...
+   'defaultlinelinewidth', 2.0)
 time=cputime;
 
 L = 5; % length of the domain
@@ -18,8 +23,8 @@ eps = .05;
 alf = .1;
 gamma = 2;
 
-Iampset=[0.85,0.95];
-for jamp = 1:2
+Iampset=[0.95,0.8,0];
+for jamp = 1:3
   Iamp =   Iampset(jamp)
   
   t1 = 2;
@@ -84,7 +89,7 @@ figure(jamp)
   xlabel('x')
     formatSpecF = '%6.2f\n';
  
- title(strcat('v, w as functions of x at t=',sprintf(formatSpecF,t)),'fontsize',18) 
+ title(strcat('v, w as functions of x at t=',sprintf(formatSpecF,t),' with I_{amp}=',sprintf(formatSpecF,Iamp)),'fontsize',18) 
  
  
  w0=2*(alf^2-alf+1)^(3/2)/27;
