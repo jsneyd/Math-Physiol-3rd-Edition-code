@@ -47,10 +47,7 @@ t=0;
 
 % set up matrix
 Ag = scal*ones(N-1,1);
-%Ag(Ng1) = scal*gf1;
-%Ag(Ng2) = scal*gf2;
-
-
+ 
 Aexp = -diag([Ag;scal]+[scal;Ag]) +diag(Ag,-1)+diag(Ag,1) ;
 Aexp(N,1)=scal;
 Aexp(1,N)=scal;
@@ -65,7 +62,6 @@ for k = 1:kstep
 Fv  = 20*(-V.*(V-1).*(V-alf)-W);
 
       W = W + dt*Fw;
-	
  
 Fin = Iamp1/cosh(5*(t-t1))*Inx +Iamp2/cosh(5*(t-t2))*In2x;
 
@@ -125,30 +121,4 @@ subplot(2,1,1)
   save('onaloop.mat','V','W')
 time=cputime-time        % outputs the cpu time taken to solve the equations
 
-% figure(2)
-%   subplot(2,1,1)
-%set(gca,'fontsize',[12])
-%in color
-%  plot(X([1:33]),Yv([1:33],k),'b',X([33:66]),Yv([33:66],k),'r',...
-%X([66:100]),Yv([66:100],k),'g',X([1:33]),Yw([1:33],k),'b--',X([33:66]), ...
-%Yw([33:66],k),'r--',X([66:100]),Yw([66:100],k),'g--')
-% in B/W
-% plot(X,Yv(:,k),'b',X,Yw(:,k),'r--','linewidth',2)
-%   axis([0 L -.5 1])
-% title('\phi, w as functions of space','fontsize',[14])
-% xlabel('x','fontsize',[12])
-% ylabel('\phi (solid), w (dashed)','fontsize',[12]) 
-% 
-%   subplot(2,1,2)
-% %set(gca,'fontsize',[12])
-% in living color
-%  plot(Yv([1:33],k),Yw([1:33],k),'b',Yv([33:66],k),Yw([33:66],k),'r',...
-%Yv([66:100],k),Yw([66:100],k),'g',Vt,Wn,'r--',Vt,Vn,'r--','linewidth',2)
-%in B/W
-% plot(Yv(:,k),Yw(:,k),'b',Vt,Wn,'r--',Vt,Vn,'r--','linewidth',2)
-%   axis([-.5 1 -.1 .2])
-% title('\phi-w phase plane','fontsize',[14])
-% xlabel('\phi','fontsize',[12])
-% ylabel('w','fontsize',[12])
-% 
- 
+  

@@ -23,7 +23,7 @@ Vn = -10*Vt.*(Vt-1).*(Vt-alf);
 Wn = Vt/gam;
  
 
-N=2000 ; % number of  grid points
+N=1000 ; % number of  grid points
 K = 10; %number of grid points per cell
 Nc = N/K;  %number of cells  (must be an integer)
  L=Nc;  
@@ -35,10 +35,10 @@ Dscal = 1/dx^2;
 ri = 0.1; % cytoplasmic resistance
 re =  0.05; % extracellular resistance
  
-rglist=[0.1,0.15,0.15]; % gap junctional resistance
-Inputlist=[40,40,55];
+rglist=[0.1,0.14,0.14]; % gap junctional resistance
+Inputlist=[1,900,2];
 
-for icase = 1:3
+for icase = 2:2
 rg=rglist(icase);
 Iamp=Inputlist(icase)
 rc = [ri*ones(1,K-1),rg];
@@ -50,8 +50,8 @@ end
 R=1./(re+Rc)';
   
 A=  -spdiags([0;R(1:N-1)],0,N,N) +spdiags(R ,-1,N,N)-spdiags([R(1:N-1);0],0,N,N)  +spdiags([0;R(1:N-1)],1,N,N);
-  
-Jcol = re*([R(1:N-1);0]-[0;R(1:N-1)])/dx;
+ sum(A)
+Jcol = re*([R(1:N-1);0]-[0;R(1:N-1)]);
  
 t1=2;
  
@@ -88,7 +88,10 @@ end
 figure(2*icase-1)
  title(strcat('r_g=',sprintf(formatSpecF,rg),', I_{amp} =',sprintf(formatSpecF,Iamp)),'fontsize',18) 
  box off
-  
+ if(icase<3)
+     legend('boxoff')
+ end
+ 
  legend('t=0','t=1','t=4','t=6')
  hold off
 
