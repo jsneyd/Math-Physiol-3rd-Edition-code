@@ -1,6 +1,6 @@
 % This file looks at solutions ofthe standard FHN model
 % on a periodic ring following application of a defibrillating stimulus
-
+% using the homogenized model
  
 clear
 set(0,                           ...

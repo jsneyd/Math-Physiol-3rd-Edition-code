@@ -32,7 +32,7 @@ Dscal = 1/dx^2;
 ri = 0.1; % cytoplasmic resistance
 re =  0.05; % extracellular resistance
  rglist=[0.15,0.15 ]; % gap junctional resistance
-Inputlist=[ 610,615];% stimulus amplitude
+Inputlist=[ 635,630];% stimulus amplitude
 
 % read in the initial data
 load('onedloopwrg.mat');
@@ -42,7 +42,7 @@ load('onedloopwrg.mat');
 
 for icase =1:2
 rg=rglist(icase);
-Iamp=Inputlist(icase);
+Iamp=Inputlist(icase)
 Iamp1 = 0;
 Iamp2 = 0;
 
@@ -65,7 +65,11 @@ Jcol = re*(R-[R(N);R(1:N-1)])/dx;
 In2x = 1./cosh(3*(x-L/3));
 t1=2;
 t2=36;
+ % read in the initial data
+load('onedloopwrg.mat');
+     % Initial values for V  and W
  
+
 tspan = [0,1,4,6];
 tspan=[0:1:35];
 s0 = [v,w];

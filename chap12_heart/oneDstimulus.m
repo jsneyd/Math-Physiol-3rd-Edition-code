@@ -1,4 +1,4 @@
-% Here we examine the response of a one d cable to a stimulus at the
+% Here we examine the response of a one d bidomain cable to a stimulus at the
 % boundaries
 
 
@@ -36,7 +36,7 @@ ri = 0.1; % cytoplasmic resistance
 re =  0.05; % extracellular resistance
  
 rglist=[0.1,0.15,0.15]; % gap junctional resistance
-Inputlist=[40,40,55];
+Inputlist=[40,45,55];
 
 for icase = 1:3
 rg=rglist(icase);
