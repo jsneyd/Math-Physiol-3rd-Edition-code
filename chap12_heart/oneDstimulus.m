@@ -1,4 +1,4 @@
-% Here we examine the response of a one d bidomain cable to a stimulus at the
+% Here we examine the response of a one d inhomogeneous bidomain cable to a stimulus at the
 % boundaries
 
 
