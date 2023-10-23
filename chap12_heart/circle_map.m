@@ -6,15 +6,16 @@ set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 1.5, ...
    'defaultlinelinewidth', 2.0)
-
+global gam del
 % set parameters
 gam = 0.6;
 del = 1;
  delt=0.001;
 t=[0:delt:6];
-F = sin(pi*t).^4.*exp(gam*t);
+ 
+F = evalF(t);
 
-G=F+del*exp(gam*t);
+G=evalG(t);
 
 %do an iteration
  
@@ -23,7 +24,7 @@ N=0;
 j=1;
 while N==0
     tj = tk(j);
-Gkj=sin(pi*tj).^4.*exp(gam*tj)+del*exp(gam*tj);
+Gkj=evalG(tj);
 Gk(j) = Gkj;
  if(isempty(find(F>=Gkj)))
      N=1;
@@ -52,6 +53,9 @@ text(0.3,3.75,'t_1','fontsize',18)
 text(3.1,12.3,'t_3','fontsize',18)
 
 text(1.3,5.95,'t_2','fontsize',18)
+formatSpecF = '%6.2f\n';
+ 
+ title(strcat('\gammaT = ',sprintf(formatSpecF,gam)),'fontsize',18)
  
 % plot some circle maps
 gamlist=[0.75,0.694,0.67,0.55];
@@ -60,12 +64,12 @@ for ngam = 1:length(gamlist)
     gam=gamlist(ngam);
 
 t=[0:delt:1];
-F = sin(pi*t).^4.*exp(gam*t);
+F = evalF(t); 
 [M,I]=max(F);
 ti=[0:delt:t(I)];
-Gkj=sin(pi*ti).^4.*exp(gam*ti)+del*exp(gam*ti);
+Gkj=evalG(ti); 
 t1=[0:delt:3];
-F1=sin(pi*t1).^4.*exp(gam*t1);
+F1=evalF(t1);
 for j=1:I
     j1=min(find(F1>=Gkj(j)));  
      t2(j)= t1(j1);
@@ -76,13 +80,13 @@ t3=mod(t2,1);
 % track a trajectory
 tk(1)=0.35;
 t=[0:delt:15];
-F = sin(pi*t).^4.*exp(gam*t);
+F = evalF(t); 
 N=0;
 j=1;
 while N==0
 
     tj = tk(j);
-Gkj=sin(pi*tj).^4.*exp(gam*tj)+del*exp(gam*tj);
+Gkj=evalG(tj);
  if(isempty(find(F>=Gkj)))
      N=1;
  else
@@ -115,6 +119,18 @@ box off
 formatSpecF = '%6.2f\n';
  
  title(strcat('\gammaT = ',sprintf(formatSpecF,gam)),'fontsize',18)
+end
+
+function F = evalF(t)
+global gam
+ 
+F = sin(pi*t).^4.*exp(gam*t);
+end
+
+function G = evalG(t)
+global gam del 
+ 
+G = evalF(t)+del*exp(gam*t);
 end
 
 
