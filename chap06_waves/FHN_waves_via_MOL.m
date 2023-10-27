@@ -13,12 +13,12 @@ function Diff_sim
 
 p.Iapp=0;
 p.alpha=0.2;
-p.eps=0.1;
+p.eps=0.05;
 p.gamma=0.5 ;
  
  % for the continuous cable MOL
  
- L = 30;
+ L = 40;
  p.N=500; %number of grid points
  h=L/(p.N-1);
  p.dg = 1/(h^2); %Take D = 1  % coupling (diffusion) coefficient
