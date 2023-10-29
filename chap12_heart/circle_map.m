@@ -1,29 +1,36 @@
- % cirle map
+ % circle map
 
-
+% this code can be used to plot circle maps F(T_{n+1} ) = G(T_n)
  clear all
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 1.5, ...
    'defaultlinelinewidth', 2.0)
-
+global gam del
 % set parameters
-gam = 0.6;
+ 
 del = 1;
- delt=0.001;
-t=[0:delt:6];
-F = sin(pi*t).^4.*exp(gam*t);
 
-G=F+del*exp(gam*t);
+gamlist=[0.75,0.694,0.67,0.55];  % a list of parameter values to use
+for ngam = 1:length(gamlist)
+    clear t1 t2 t3 tk Gkj Tk
+    gam=gamlist(ngam);
 
-%do an iteration
+delt=0.001; % This determines the resolution 
+t=[0:delt:6];  
+ 
+F = evalF(t);
+
+G=evalG(t);
+
+% iterate the map
  
 tk(1) = 0.;
 N=0;
 j=1;
 while N==0
     tj = tk(j);
-Gkj=sin(pi*tj).^4.*exp(gam*tj)+del*exp(gam*tj);
+Gkj=evalG(tj);
 Gk(j) = Gkj;
  if(isempty(find(F>=Gkj)))
      N=1;
@@ -41,7 +48,9 @@ for j = 1:N
     Tk(2*j-1) = tk(j);
     Tk(2*j) = tk(j);
 end
-figure(1)
+
+%this shows an example of the map
+figure(2*ngam-1)
 plot(t,G,t,F,Tk,gk(1:2*N),'k--')
 axis([0 4 0 20])
 xlabel('t','fontsize',20)
@@ -52,20 +61,19 @@ text(0.3,3.75,'t_1','fontsize',18)
 text(3.1,12.3,'t_3','fontsize',18)
 
 text(1.3,5.95,'t_2','fontsize',18)
+formatSpecF = '%6.2f\n';
  
-% plot some circle maps
-gamlist=[0.75,0.694,0.67,0.55];
-for ngam = 1:length(gamlist)
-    clear t1 t2 t3 tk Gkj Tk
-    gam=gamlist(ngam);
+ title(strcat('\gammaT = ',sprintf(formatSpecF,gam)),'fontsize',18)
+ 
+% plot some circle maps (on the circle)
 
 t=[0:delt:1];
-F = sin(pi*t).^4.*exp(gam*t);
+F = evalF(t); 
 [M,I]=max(F);
 ti=[0:delt:t(I)];
-Gkj=sin(pi*ti).^4.*exp(gam*ti)+del*exp(gam*ti);
-t1=[0:delt:3];
-F1=sin(pi*t1).^4.*exp(gam*t1);
+Gkj=evalG(ti); 
+t1=[0:delt:3];  %this must be large enough to get the whole range, but not too large
+F1=evalF(t1);
 for j=1:I
     j1=min(find(F1>=Gkj(j)));  
      t2(j)= t1(j1);
@@ -74,15 +82,15 @@ t3=mod(t2,1);
 
 
 % track a trajectory
-tk(1)=0.35;
+tk(1)=0.35; % starting value
 t=[0:delt:15];
-F = sin(pi*t).^4.*exp(gam*t);
+F = evalF(t); 
 N=0;
 j=1;
 while N==0
 
     tj = tk(j);
-Gkj=sin(pi*tj).^4.*exp(gam*tj)+del*exp(gam*tj);
+Gkj=evalG(tj);
  if(isempty(find(F>=Gkj)))
      N=1;
  else
@@ -98,14 +106,14 @@ for j = 1:N
     Tk(2*j-1) = tk(j);
     Tk(2*j) = tk(j);
 end
-Istop=max(find(t3(2:end)<t3(1:end-1)))
+Istop=max(find(t3(2:end)<t3(1:end-1))); % find the discontinuity/truncation
+figure(2*ngam)
 if(isempty(Istop))
-figure(ngam+1)
+
 plot(ti,t3,'r',t3,t3,'b--',mod(Tk(1:end-1),1),mod(Tk(2:end),1),'k--')
  axis([min(t3) max(t3) min(t3) max(t3)])
 else
-     
- figure(ngam+1)
+  
 plot(ti(1:Istop),t3(1:Istop),'r',ti(Istop+1:end),t3(Istop+1:end),'r',t3,t3,'b--',mod(Tk(1:end-1),1),mod(Tk(2:end),1),'k--')
  axis([min(t3) max(t3) min(t3) max(t3)]) 
 end
@@ -115,6 +123,19 @@ box off
 formatSpecF = '%6.2f\n';
  
  title(strcat('\gammaT = ',sprintf(formatSpecF,gam)),'fontsize',18)
+end
+
+% here is where the functions F and G are specified
+function F = evalF(t)
+global gam
+ 
+F = sin(pi*t).^4.*exp(gam*t);
+end
+
+function G = evalG(t)
+global gam del 
+ 
+G = evalF(t)+del*exp(gam*t);
 end
 
 
