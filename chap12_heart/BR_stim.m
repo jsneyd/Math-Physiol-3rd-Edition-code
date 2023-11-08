@@ -81,8 +81,8 @@ end
 
 figure(2)
 plot(betavals,tcrit)
-xlabel('\beta','fontsize',20)
-ylabel('T','fontsize',18)
+xlabel('\beta (mV)','fontsize',20)
+ylabel('T (ms)','fontsize',20)
 
 
 function currents= IV(s)
