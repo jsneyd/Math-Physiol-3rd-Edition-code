@@ -1,0 +1,162 @@
+% direct stimulus threshold  for BR
+close all
+clear all
+clc
+
+global ENa EK CKi CKe RTbyF gNa0 gK0  gK10 C V0 Cm
+
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0, ...
+   'defaultpatchlinewidth', 0.7);
+
+% set concentrations
+RTbyF = 25.8;  % mV
+F = 96485.;  % Faraday constant  Coulombs/mol
+
+CNai = 50;      % mM
+CNae = 457;     % mM
+CKi = 397;      % mM
+CKe = 20;       % mM
+
+% The reversal potentials (mV).
+ENa = RTbyF*log(CNae/CNai);  % sodium Nernst potential
+EK = RTbyF*log(CKe/CKi);  % potassium Nernst potential
+ENa = 50;  % for br
+ 
+% conductances
+gNa0 = 4;
+gK0 = 0.8;
+gK10 = 0.35;
+
+% Membrane capacitance (micro-Farads/cm^2)
+Cm = 1; % 
+
+% gating variable parameters
+C = [[0,0,1,-1,-0.1];
+    [40,-0.056,0,0,0]];
+ 
+V0=[-47;-72];
+
+
+V = [-100:.1:-50];
+lV = length(V);
+for j = 1:lV
+
+Vp(j)=V_prime(V(j));
+
+end
+tst = Vp(1:lV-1).*Vp(2:lV);
+ndx = find(tst<=0)
+figure(1)
+plot(V,Vp, V,zeros(lV,1),'--',V(ndx),Vp(ndx),'k*')
+
+ betavals = [42:1:60];
+% calculate the averaged f
+du=0.0102;
+
+u = [V(ndx(1)):du:V(ndx(2))];
+for k = 1:length(betavals)
+beta = betavals(k);
+for j = 1:length(u);
+    U = u(j);
+init = [0.0];
+tspan = [-0.5:.1:0.5];
+[t,sol] = ode15s(@(t,x)Ltrhs(t,x,U,beta),tspan,init);
+ Fb(j) = sol(end);
+  
+end
+tcrit(k) = sum(1./Fb)*du;
+formatSpecF = '%6.2f\n';
+
+figure(1)
+plot(V,Vp, V,zeros(lV,1),'--',V(ndx),Vp(ndx),'k*',u,Fb)
+title(strcat('\beta =',sprintf(formatSpecF,beta)),'fontsize',18)
+xlabel('V (mV)')
+ylabel('dV/dt')
+ 
+end 
+
+
+figure(2)
+plot(betavals,tcrit)
+xlabel('\beta','fontsize',20)
+ylabel('T','fontsize',18)
+
+
+function currents= IV(s)
+global ENa EK   gNa0  
+
+V    = s(1); 
+m    = s(2);
+h    = s(3);
+j    = s(4);
+d    = s(5);
+f    = s(6);
+x    = s(7);
+Cai  = s(8);
+
+alpbet=ab(V);
+
+A=alpbet(1 );
+B=alpbet(2 );
+ 
+Inf = A./(A+B);                        %    y_inf = a_y/(a_y + b_y);
+m = Inf ;
+g_Na = gNa0*m^3*h*j+0.003;                % Na+ conductance
+
+Ek1=EK;
+% sodium equilibrium potential
+% Currents
+INa = g_Na*(V-ENa);  %sodium current
+
+%  
+% the Ix current
+Ix  = 0.8*x*(exp(0.04*(V+77))-1)/exp(0.04*(V+35));
+% Ix = 0.0084*1.286 *x* (CKi-CKe*exp(-V/25)); %this is the DN current, almost identical
+
+%the Ik1 current
+IK1= 1.4*(exp(0.04*(V+85))-1)/(exp(0.08*(V+53))+exp(0.04*(V+53))) ...
++0.07*(V+23)/(1-exp(-0.04*(V+23)));  % the BR current
+IK = IK1  ;
+
+Esi = -82.3-13.0287*log( Cai);
+Is  = 0.09*d*f*(V-Esi);
+
+currents = [INa IK Ix Is];
+  
+end
+
+
+function alphabeta=ab(V)
+% there are 5 parameters C for each alpha, beta
+global C V0 
+alphabeta = (C(:,1).*exp(C(:,2).*(V-V0))+C(:,3).*(V-V0))./(1+C(:,4).*exp(C(:,5).*(V-V0)));
+end
+
+function Vp=V_prime(V)
+global Cm 
+% Steady state initial condition:
+s0=[ V,
+	0.011,
+	0.9877 ,
+	0.9748,
+	0.003,
+	1,
+	0.0056,
+	0.0000001782];
+currents= IV(s0);
+INa = currents(1);
+IK = currents(2);
+Ix = currents(3);
+Is = currents(4);
+
+Vp  = -(INa + IK + Ix + Is )/Cm; 
+end
+
+function s_prime=Ltrhs(t,s,u,beta)
+ 
+s_prime=V_prime(u+beta*t);
+ 
+end
