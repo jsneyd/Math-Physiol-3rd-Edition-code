@@ -4,7 +4,7 @@ clc
 
 num = 1000;
 L = 3.5;   % Units of cm
-l = 0.35;
+l = 0.0035;
 lam = 1.5;
 x = linspace(0,1,num);
 k = (1e7)*exp(-lam*x*L);   % don't forget that x is scaled by L
@@ -51,9 +51,10 @@ eta = 2*phi./W;
 figure(1)
 plot(x,eta/max(eta),'r','LineWidth',1)
 hold on
-plot(x,abs(eta/max(eta)),'--b','LineWidth',1)
+plot(x,abs(eta/max(eta)),'--b',x,-abs(eta/max(eta))','--b','LineWidth',1)
 
-
+%igorout = [x' real(eta/max(eta))' abs(eta/max(eta))' -abs(eta/max(eta))'];
+%writematrix(igorout,'igor_800.dat')
 
 
 
