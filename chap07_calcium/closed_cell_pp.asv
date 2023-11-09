@@ -19,7 +19,7 @@ p.Kp = 0.3;
  
 p.gm = 5.5;
 p.p=0.4;  %ip3 parameter 
-p.ct = 15;  % total calcium
+p.ct = 15;
 p.k1 = 400;
 p.k2 = 0.2;
 p.k3 = 400;
@@ -75,9 +75,7 @@ ylabel('y')
 axis([0.02 max(c(cdx)) 0.4 1])
 text(1,0.9,'dy/dt=0','fontsize',18)
 text(3.5,0.5,'dc/dt=0','fontsize',18)
-formatSpecF = '%6.2f\n';
- 
- title(strcat('p = ',sprintf(formatSpecF,p.p),' c_T = ',sprintf(formatSpecF,p.ct)),'fontsize',18)
+
 function out=coscrhs(t,x,p)
 
 c=x(1); % calcium
