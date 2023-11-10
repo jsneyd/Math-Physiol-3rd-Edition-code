@@ -4,13 +4,13 @@ clc
 
 num = 1000;
 L = 3.5;   % Units of cm
-l = 0.0035;
+l = 0.35;
 lam = 1.5;
 x = linspace(0,1,num);
 k = (1e7)*exp(-lam*x*L);   % don't forget that x is scaled by L
 mass = 0.05;
 r = 3000*exp(-lam*x*L);
-w = 1500;
+w = 800;
 Z = 1i*w*mass + r + k/(1i*w);
 W = Z/(1i*w*L);
 sigma = l/L;
@@ -48,10 +48,23 @@ Fhat = 1;   % driving force
 phi = phi/(1i*w*L*Fhat);
 eta = 2*phi./W;
 
-figure(1)
-plot(x,eta/max(eta),'r','LineWidth',1)
+figure(2)
+plot(x,eta,'r','LineWidth',1)
 hold on
-plot(x,abs(eta/max(eta)),'--b',x,-abs(eta/max(eta))','--b','LineWidth',1)
+plot(x,abs(eta),'--b',x,-abs(eta)','--b','LineWidth',2)
+
+
+% animate the wave, just for funsies
+N = 200;
+times = linspace(0,10/w,N);
+figure(3)
+for i=1:N
+    etawave = eta*exp(1i*w*times(i));
+    plot(x,etawave,'r',x,abs(etawave),'--b',x,-abs(etawave),'--b')
+    drawnow
+    pause(0.02)
+end
+
 
 %igorout = [x' real(eta/max(eta))' abs(eta/max(eta))' -abs(eta/max(eta))'];
 %writematrix(igorout,'igor_800.dat')

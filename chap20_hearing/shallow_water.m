@@ -22,8 +22,9 @@ x = linspace(0,L,2000);
 eta = exp(3*lam*x/4 - 2*ai*exp(lam*x/2)/lam + 2*1i*ar*exp(lam*x/2)/lam);
 
 figure(2)
-plot(x/L,eta/max(eta),x/L,abs(eta)/max(abs(eta)))
-xp = -2*log(4*ai/(3*lam))/lam;
+plot(x,eta/max(eta),'r',x,abs(eta)/max(abs(eta)),'--b',x,-abs(eta)/max(abs(eta)),'--b')
+xp = -2*log(4*ai/(3*lam))/lam
+xlim([0,L])
 
 %igorout = [x' real(eta/max(eta))' abs(eta/max(eta))' -abs(eta/max(eta))'];
 %writematrix(igorout,'shallow_800.dat')
