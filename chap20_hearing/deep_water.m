@@ -1,12 +1,12 @@
 clear all
-close all
+%close all
 clc
 
-L = 3;   % Units of cm
-l = 0.0035;
+L = 3.5;   % Units of cm
+l = 3.5;
 N = 1000;
 x = linspace(0,L,N);
-w = 800;
+w = 1500;
 sigma = l/L;
 
 k0 = 1e7;
@@ -26,10 +26,12 @@ eta = -1i*rho*eta0.*Y.*exp(-w*rho*intY);
 
 
 figure(1)
-plot(x,eta,'r','LineWidth',1)
+plot(x,eta/max(eta),'r','LineWidth',1)
 hold on
-plot(x,abs(eta),'b','LineWidth',2)
+plot(x,abs(eta)/max(abs(eta)),'--b','LineWidth',2)
+plot(x,-abs(eta)/max(abs(eta)),'--b','LineWidth',2)
 hold off
+xlim([0,L])
 
 % figure(2)
 % % test with the analytic solution
