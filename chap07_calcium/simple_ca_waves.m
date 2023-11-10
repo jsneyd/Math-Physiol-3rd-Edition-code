@@ -145,6 +145,9 @@ end
   xlabel('time')
  
   mesh(X,T,S(:,p.N+1:2*p.N))
+xlabel('X')
+ylabel('T')
+zlabel('Ca^{++}')
 
     % % Now find the speed:
  thresh = 0.5;

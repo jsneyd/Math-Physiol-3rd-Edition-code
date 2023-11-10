@@ -1,7 +1,10 @@
 clear all
 close all
 clc
-
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0)
 delt=0.1; delx=0.01; n=200; tend=350; nt=tend/delt;
 K1=6.85; K2=11.0; K3=2.36; K4=0.087; K5=17.0; K6=0.066; D=2.6e-4;
 
@@ -25,13 +28,14 @@ for i=2:nt
 end
 
 %surface(u1)
-
+figure(1)
 plot(u1(1,:))
 hold on
 plot(u1(50/delt,:))
 plot(u1(250/delt,:),'red')
 plot(u1(300/delt,:),'green')
 plot(u1(350/delt,:),'black')
+box off
 hold off
 
 save('clotting')

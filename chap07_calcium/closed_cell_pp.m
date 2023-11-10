@@ -48,7 +48,9 @@ figure(1)
 plot(t,sol(:,1),'r',t,sol(:,2),'b')  % time series
 xlabel('Time')
 legend('c','y')
-
+formatSpecF = '%6.2f\n';
+ 
+ title(strcat('p = ',sprintf(formatSpecF,p.p),' c_T = ',sprintf(formatSpecF,p.ct)),'fontsize',18)
  
 % nullclines 
  
