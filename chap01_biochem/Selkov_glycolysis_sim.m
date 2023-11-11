@@ -1,4 +1,19 @@
+%-------------------------------------------------------------------
+
+% Matlab code for simulating the Sel'kov model of glycolytic oscillations.
+
+% For Chapter 1 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%-------------------------------------------------------------------
+
 function Selkov_glycolysis_sim
+close all
+clear all
+clc
+
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 2.0, ...
@@ -9,11 +24,7 @@ set(0,                           ...
 %parameters
  
 par.nu=0.0285;
- 
-
 par.eta=0.08;
- 
-
 par.alph=1.0;
 par.g=2;
 
@@ -57,13 +68,8 @@ text(0.1,0.6,'unstable','fontsize',20)
 text(0.3,0.2,'stable','fontsize',20)
 hold off
 
-%out = [t U];
-%save('test1.dat','out')
-%out = [s2' s1a' s1b'];
-%save('test2.dat','out')
 
-%>>>>>>> 53bbebdd77194aebd9a7a48e35fd001590167bd9
-
+%%
 function out=rhs(t,y,par)
  
 u=y(1);

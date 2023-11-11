@@ -1,4 +1,20 @@
+%-------------------------------------------------------------------
+
+% Matlab code for simulating the Goldbeter-Lefever model of glycolytic oscillations.
+
+% For Chapter 1 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%-------------------------------------------------------------------
+
+
 function GL_glycolysis_sim
+close all
+clear all
+clc
+
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 2.0, ...
@@ -44,7 +60,7 @@ axis([0 40 0 20])
 hold off
 
 %HB curve
- eta = ones(201,1)*[0: 1:200];
+eta = ones(201,1)*[0: 1:200];
 nu = [0:1:200]'*ones(1,201);
 
 F=-eta.^4 + eta.^3.*nu - eta.^3 - 3*eta.^2.*nu - 3*eta.*nu.^2 - nu.^3;
@@ -58,11 +74,6 @@ text(50,150,'stable','fontsize',20)
 text(100,60,'unstable','fontsize',20)
 hold off
 
-
-out = [t U];
-save('test1.dat','out')
-out = [w' u1' u2'];
-save('test2.dat','out')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function out=rhs(t,y,par)

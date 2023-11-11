@@ -1,3 +1,15 @@
+%-------------------------------------------------------------------
+
+% Matlab code for simulating the quasi-steady-state approximation (QSSA)
+% of enzyme kinetics.
+
+% For Chapter 1 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%-------------------------------------------------------------------
+
 function enzyme
 % asymptotic analysis of enzyme kinetics equations - QSSA
 clear all
@@ -21,7 +33,7 @@ x=Y(:,2);
  
 figure(4)
 plot(t,s,t,x,'linewidth',2)
-legend('\sigma','z','fontsize',18)
+legend('\sigma','x','fontsize',18)
 xlabel('\eta','fontsize',20)
 axis([0 4 0 1])
 % now plot the slow manifold and the solution together
@@ -32,13 +44,6 @@ plot(s,x,slow_s,slow_x,'--','linewidth',2)
 xlabel('\sigma','fontsize',20)
 ylabel('x','fontsize',20)
 axis([0 1.2 0 0.5])
- 
-forplotting3 = [t s x];
-save('temp3.dat','forplotting3')
-forplotting4 = [slow_s ;  slow_x]';
-save('temp4.dat','forplotting4')
-
-
 end
 
  
