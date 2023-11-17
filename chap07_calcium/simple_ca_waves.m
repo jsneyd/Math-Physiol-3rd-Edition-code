@@ -86,7 +86,7 @@ end
   p.N=600;  % number of spatial grid points
   p.L=30;  
   p.h=p.L/p.N;
- p.p=parlist(2)
+ p.p=parlist(2);
   % specify diffusion coefficients
  p.dv = 1;p.Dc; % diffusion coefficient for Ca
  p.du = 0.0; % diffusion coefficient for IP3

@@ -33,8 +33,7 @@ param kf=1.11, Vserca=0.9, Kserca=0.1
 param Kbar = 2e-7
 
 param  Vsocc=.03, Ksocc = 150
-
-
+ 
 #
 # Define the functions used in the model
 #
@@ -54,8 +53,8 @@ Jserca=Vserca*(c*c - Kbar*ce*ce)/(c*c+Kserca*Kserca)
 dc/dt = (kf*Po)*(ce-c)-Jserca
 dy/dt = phi1*(1-y) - phi2*y
 #
-@ total=400,dt=0.05,xp=c,yp=y,xlo=0,xhi=4,ylo=0,yhi=1,meth=gear,bounds=1000
-@ ntst=250,nmax=200000,npr=200000,dsmin=0.001,dsmax=0.5,ds=-0.002
+@ total=400,dt=0.05,xp=c,yp=y,xlo=0,xhi=2.5,ylo=0.4,yhi=1,meth=gear,bounds=1000
+@ ntst=250,nmax=20000,npr=20000,dsmin=0.001,dsmax=0.5,ds=-0.002
 @ parmin=0,parmax=40
 @ autoxmin=0,autoxmax=40,autoymin=-0.1,autoymax=2.5,nmax=20000
 @ epsl=1e-8, epsu=1e-8, epss=1e-8
