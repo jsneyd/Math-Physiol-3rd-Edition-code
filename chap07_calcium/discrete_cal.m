@@ -16,11 +16,13 @@ C = Af./(Af+2*l0-2);
 a = C.*(muf-1)./(muf-1./mu0);
 b = C.*(1-1./mu0)./(muf-1./mu0);
 bf = C-b.*muf;
+figure(1)
+
 plot(beta,a,'r',beta,bf,'b','linewidth',2)
 xlabel('\beta','fontsize',16)
 ylabel('c^*/c_e','fontsize',16)
-text(2,.4,'standing waves','fontsize',16)
-text(.5, .1,'traveling waves','fontsize',16)
+text(2,.4,'standing waves','fontsize',18)
+text(.5, .1,'traveling waves','fontsize',18)
 
 output=[beta' a' bf'];
 

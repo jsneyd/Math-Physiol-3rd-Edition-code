@@ -19,7 +19,7 @@ p.Kp = 0.3;
  
 p.gm = 5.5;
 p.p=0.4;  %ip3 parameter 
-p.ct = 15;  % total calcium
+p.ct = 15; %2.11;  % total calcium
 p.k1 = 400;
 p.k2 = 0.2;
 p.k3 = 400;
@@ -39,7 +39,7 @@ p.Vplc = 0.4;
 
  init = [0.5 ,0.55];
 dt=0.1;
-tend=100;
+tend=50;
 
 tspan = [0:dt:tend];
 [t,sol] = ode15s(@(t,x)coscrhs(t,x,p),tspan,init);
