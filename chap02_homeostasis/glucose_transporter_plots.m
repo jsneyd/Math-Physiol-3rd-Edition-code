@@ -1,4 +1,13 @@
-%glucose_transporter_plots
+%-------------------------------------------------------------------
+
+% Matlab code for plotting the flux through a glucose transporter.
+
+% For Chapter 2, Fig. 2.7 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%-------------------------------------------------------------------
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...

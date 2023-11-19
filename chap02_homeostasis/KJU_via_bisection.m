@@ -1,4 +1,16 @@
-function KJUtest  % solve the KJU model using bisection
+%-------------------------------------------------------------------
+
+% Matlab code for solving the KJU model of a Na-transporting cell. The
+% nonlinear equations are solved using a bisection method.
+
+% For Chapter 2, Fig. 2.21 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%-------------------------------------------------------------------
+
+
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
@@ -33,6 +45,8 @@ plot(Nmset,RTbyF*V,'linewidth',2)
 xlabel('mucosal [Na^+], N_m (mM)')
 ylabel('V(mV)')
 
+
+%%
 function root=bisect_function
  % a bisection root finder algorithm
 % 
@@ -45,7 +59,9 @@ b = -0.01;
 %call the function bisect(a,b)
 
 root = bisect(a,b);
- 
+end
+
+%%
 function root = bisect(a,b)
 
 ul = a;
@@ -71,7 +87,10 @@ uu = (1-ftest)*u+ ftest*uu;
 fu = (1-ftest)*fc + ftest*fu;
 end
 root = u;
+end
 
+
+%%
 function f=feval(v)
 global Nm Ks Cs z rhon rhok
 
@@ -84,7 +103,9 @@ Ni= v.*Nm.*dum./(v + 3*rhon.*(1-dum)) ;
 Ki =  Ks*dum + 2*rhok*Ni.*(1-dum)./v;
 mu = -z./(Ni+Ki-Ci) ;
 f=Ni+Ki+Ci + 1./mu - (Ns+Ks+Cs);
+end
 
+%%
 function mu = KJUans(v)
 global Nm Ks Cs z rhon rhok
  Ns = Cs - Ks;
@@ -94,3 +115,5 @@ global Nm Ks Cs z rhon rhok
 Ni= v.*Nm.*dum./(v + 3*rhon.*(1-dum)) ;%Ni
 Ki =  Ks*dum + 2*rhok*Ni.*(1-dum)./v; %Ki
 mu = -z./(Ni+Ki-Ci) ; %mu
+
+end

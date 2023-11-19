@@ -1,4 +1,13 @@
-% to plot h1 and h2 vs n
+%-------------------------------------------------------------------
+
+% Matlab code for plotting the heights of two water columns.
+
+% For Chapter 2, Fig. 2.15 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%-------------------------------------------------------------------
 
 close all
 clear all

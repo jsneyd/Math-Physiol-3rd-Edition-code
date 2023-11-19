@@ -1,4 +1,17 @@
-% facilitated diffusion plots
+%-------------------------------------------------------------------
+
+% Matlab code for computing fluxes and concentrations in a facilitated
+% diffusion system.
+
+% For Chapter 2, Fig. 2.3 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%-------------------------------------------------------------------
+clear all
+close all
+clc
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
@@ -69,7 +82,6 @@ xlabel('Radius','fontsize',20)
 ylabel('Free Oxygen','fontsize',20)
 legend('\rho=5','\rho=5, critical external concentration','\rho=0, critical external concentration', ...
     'Location','northwest')
-,
 axis([0 1 0 14])
 
  
