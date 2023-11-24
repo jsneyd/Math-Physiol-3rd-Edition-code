@@ -1,7 +1,17 @@
-% Gillespie simulation for the MM process
+%-------------------------------------------------------------------
+
+% Matlab code for a
+% Gillespie simulation of the MM process
 % reaction 1  S + E -> C at rate k1
 % reaction 2  C -> S + E at rate km1
 % reaction 3  C -> S + E at rate k2
+
+% For Chapter 2, Section 2.9.3 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%-------------------------------------------------------------------
 
 clear all
 
