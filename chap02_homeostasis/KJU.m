@@ -1,5 +1,14 @@
-% Code to solve the KJU model of a Na-transporting epithelial cell.
+%-------------------------------------------------------------------
 
+% Matlab code for solving the KJU model of a Na-transporting cell. The
+% nonlinear equations are solved using a built-in Matlab nonlinear solver, fsolve.
+
+% For Chapter 2, Fig. 2.21 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%-------------------------------------------------------------------
 function KJU
 clear all
 close all

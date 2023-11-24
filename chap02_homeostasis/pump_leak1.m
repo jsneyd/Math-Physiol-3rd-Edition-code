@@ -1,4 +1,17 @@
-%this file makes plots for the original pump-leak model
+%-------------------------------------------------------------------
+
+% Matlab code for plotting the solutions of the pump-leak model.
+
+% For Chapter 2, Fig. 2.17 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%-------------------------------------------------------------------
+clear all
+close all
+clc
+
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 2.0, ...
