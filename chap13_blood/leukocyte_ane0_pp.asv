@@ -76,7 +76,7 @@ xlabel('U')
  box off
  if(Icase==1)
       if (j==1)
-     text(0.36,0.5,'dU/dt=0','fontsize',18)
+     text(0.34,0.5,'dU/dt=0','fontsize',18)
      text(0.55,1.,'dV/dt=0','fontsize',18)
      annotation('arrow', [.55,.5],[.4,.4])
      annotation('arrow', [.38,.38],[.44,.5])
@@ -217,8 +217,8 @@ text(3,1,'A: \{\infty\}','fontsize',18)
 text(3,2.5,'B: \{0,\infty\}','fontsize',18)
  
  figure(6)
-plot([0,4],[0,4],'--',[0,4],[1/U0,1/U0],'--' );%,1./bvals,xivals,'r*')
-box off
+plot([0,4],[0,4],'--',[0,4],[1/U0,1/U0],'--' ,1./bvals,xivals,'r*')
+
 if(Icase==2)
     title(strcat('\alpha = ',sprintf(formatSpecF,p.a)),'fontsize',18)
 end

@@ -11,15 +11,18 @@ global N
 %parameters
 p.g0=0.2;
 p.b0=1;
-xivals=[1.,2.5,1.5,2.5];
-bvals = [1/3,1/3,3,3];
+%there are four cases:
+xivals=[1.6,3.0,1.6,3];
+bvals = [0.1,0.1,3,3];
+letters=['A','B','C','D'];
 vinit=[0.5,2.0,1.5,1.5,2.1];
- 
+ formatSpecF = '%6.2f\n';
 p.a = 0.;
  U0 = p.b0/(1+p.b0);
  for j = 1:4
 p.b = bvals(j);
 p.xi = xivals(j);
+p.letter=letters(j);
  v=[0:.011:2.5];
  f = F(p.a*v);
 
@@ -47,6 +50,7 @@ tspan = [0:dt:tend(j)];
 
 figure(j)
 plot( sol(:,1) ,sol(:,2),u1,v,'g--',u2,v,'r--','linewidth',2) 
+
 hold on
  plot(U0,0,'*','linewidth',2)
 if (~isempty(ndx)) 
@@ -63,6 +67,7 @@ xlabel('U')
      annotation('arrow', [.78,.73],[.4,.4])
      annotation('arrow', [.2,.2],[.59,.65])
      plot(0.5,0,'*','linewidth',2)
+  title(strcat( 'A: \xi = ',sprintf(formatSpecF,p.xi),' \beta = ',sprintf(formatSpecF,p.b)),'fontsize',18)
 
      axis([.3 .7 0 2])
 
@@ -76,6 +81,7 @@ xlabel('U')
         annotation('arrow', [.45,.5],[.7,.7])
        annotation('arrow', [.7,.7],[.3,.24])
        axis([.2 .5 0 2.5])
+ title(strcat( 'B: \xi = ',sprintf(formatSpecF,p.xi),' \beta = ',sprintf(formatSpecF,p.b)),'fontsize',18)
 
   end
    if (j==3)
@@ -86,6 +92,7 @@ xlabel('U')
        annotation('arrow', [.4,.4],[.17,.23])
         annotation('arrow', [.87,.87],[.81,.74])
        axis([.5 .7 0 2])
+ title(strcat( 'C: \xi = ',sprintf(formatSpecF,p.xi),' \beta = ',sprintf(formatSpecF,p.b)),'fontsize',18)
 
    end
     if (j==4)
@@ -94,6 +101,7 @@ xlabel('U')
       annotation('arrow', [.18,.23],[.35,.35])
        annotation('arrow', [.84,.84],[.56,.5])
        axis([.3 .7 0 2])
+ title(strcat( 'D: \xi = ',sprintf(formatSpecF,p.xi),' \beta = ',sprintf(formatSpecF,p.b)),'fontsize',18)
 
  end
 figure(j)
@@ -101,46 +109,19 @@ hold off
  end
 
 % now plot the parameter curves
+% for alpha = 0;
 
-V=[0.1:.1:100];
-alist =[0.5,0.75,1];
-for j = 1:length(alist)
-    a = alist(j);
-cA=a^2*V.^4;
-cB=- V.*(-2*a^2*V.^2*p.b0 + a*V - 2*exp(a*V) + 2);
-cC= p.b0*(a^2*V.^2*p.b0 -a*V- 1 + exp(a*V).*(1 - V.^2*a)); 
-
-disc=cB.^2-4*cA.*cC;
-b1 = (-cB+sqrt(disc))./(2*cA);
-%b2 = (-cB-sqrt(disc))./(2*cA);
- 
-ndx=find(b1>0);
-onebyxi1= a*V.*(p.b0 + b1.*V)./(1 - exp(-a*V) + a*V.^2 + a*V.*exp(-a*V).*(p.b0 + b1.*V));
-%onebyxi2= a*V.*(p.b0 + b2.*V)./(1 - exp(-a*V) + a*V.^2 + a*V.*exp(-a*V).*(p.b0 + b2.*V));
-
-figure(5)
-ln(j)=plot(1./b1(ndx),1./onebyxi1(ndx))
-formatSpecF = '%6.2f\n';
-hold on
- 
- 
-end
-
-axis([0 4 0 4])
-
+ figure(5)
+plot([0,3],[1,4],'--',[0,4],[1/U0,1/U0],'--')
+box off
 xlabel('1/\beta','fontsize',20)
 ylabel('\xi','fontsize',20)
-text(1,2.5,'\{0\}','fontsize',18)
-text(0.5,1.3,'\{V_p\}','fontsize',18)
-text(3,1,'\{\infty\}','fontsize',18)
-text(3,2.5,'\{0,\infty\}','fontsize',18)
- 
- figure(5)
-plot([0,4],[0,4],'--',[0,4],[1/U0,1/U0],'--',1./bvals,xivals,'*')
-hold off
- legend('boxoff')
-legend([ln(1),ln(2),ln(3)],'\alpha = 0.5','\alpha = 0.75','\alpha = 1.0','fontsize',18,'location','northwest')
-  
+text(0.7,2.5,'D: \{0\}','fontsize',18)
+text(0.1,1.8,'C: \{V_p\}','fontsize',18)
+text(2.5,1.8,'A: \{\infty\}','fontsize',18)
+text(2.5,2.5,'B: \{0,\infty\}','fontsize',18)
+
+
 function out=rhs(t,x,p)
 global N
 

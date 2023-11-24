@@ -28,6 +28,12 @@ figure(3)
 plot(tau,G,'linewidth',2)
 xlabel('\eta','fontsize',16)
 ylabel('g_\beta(\eta)','fontsize',16)
+figure(5)
+plot(G,tau,'linewidth',2)
+ylabel('delay','fontsize',16)
+xlabel('threshold','fontsize',16)
+axis([0 1 0 5])
+
 
 figure(4)
 semilogy(sqrt(klist),max(G'),sqrt(klist),exp(-sqrt(klist)),'--','linewidth',2)
