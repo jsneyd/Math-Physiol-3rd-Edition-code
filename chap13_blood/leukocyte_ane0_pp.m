@@ -17,7 +17,7 @@ p.g0=0.2;
 p.b0=1;
 
 % choose Icase = 1 or 2;
-Icase = 1;
+Icase = 2;
  if (Icase ==1)
 alist =[0.5,1,2]; % three values of alpha
 xivals=[1.5,2.5,1.7,2.5,1.7];
@@ -217,7 +217,7 @@ text(3,1,'A: \{\infty\}','fontsize',18)
 text(3,2.5,'B: \{0,\infty\}','fontsize',18)
  
  figure(6)
-plot([0,4],[0,4],'--',[0,4],[1/U0,1/U0],'--' );%,1./bvals,xivals,'r*')
+plot([0,4],[0,4],'--',[0,4],[1/U0,1/U0],'--' );%,1./bvals,xivals,'r*')  add this if you want to see where the phase portraits are in parameter space 
 box off
 if(Icase==2)
     title(strcat('\alpha = ',sprintf(formatSpecF,p.a)),'fontsize',18)
