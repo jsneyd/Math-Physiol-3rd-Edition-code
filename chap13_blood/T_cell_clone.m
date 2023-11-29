@@ -2,10 +2,6 @@ clear all
 close all
 clc
 global threshold
-set(0,                           ...
-   'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 2.0, ...
- 'defaultlinelinewidth', 2.0);
 threshold = false;  % do you want to threshold the bacteria at B<1?
 
 init = [1 100 0 0];
