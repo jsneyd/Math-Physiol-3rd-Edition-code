@@ -1,3 +1,4 @@
+
 function otteson
 % this uses the Matlab routine dde23 to solve delay differential equations
 clear all
@@ -44,6 +45,9 @@ box off
 
  figure(2)
  plot(sol.y(2,:), sol.y(1,:))
+ xlabel('H')
+ ylabel('P')
+ 
 end
 
  %%%%%%%%%%%%%%%%%%
