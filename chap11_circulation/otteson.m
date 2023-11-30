@@ -1,4 +1,5 @@
 function otteson
+% this uses the Matlab routine dde23 to solve delay differential equations
 clear all
 close all
 clc

@@ -15,7 +15,7 @@ A(1,2)=-2*lam; A(n,n-1)=-2*lam;
 
 u1(1,1:n)=0; u1(1,1:10)=0.5;
 u2(1,1:n)=0; u3(1,1:n)=0;
-
+% use backward Euler integration
 for i=2:nt
     uu1=u1(i-1,:); uu2=u2(i-1,:); uu3=u3(i-1,:);
     rhs1= K1*uu1.*uu2.*(1-uu1).*(1+K2*uu1)./(1+K3*uu3) - uu1;
