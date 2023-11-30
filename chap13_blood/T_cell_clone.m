@@ -2,7 +2,6 @@ clear all
 close all
 clc
 global threshold
-
 threshold = false;  % do you want to threshold the bacteria at B<1?
 
 init = [1 100 0 0];

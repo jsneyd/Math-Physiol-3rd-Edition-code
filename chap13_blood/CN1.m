@@ -1,5 +1,5 @@
 %% DDE-Biftool Mackey CN model
-% Make sure you add DDE_Biftool to your Matlab path.
+% Be sure to add DDE_Biftool to your Matlab path.
 
 clear all
 close all
