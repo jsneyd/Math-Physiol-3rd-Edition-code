@@ -33,8 +33,8 @@ toc
 figure(1)
 plot(T,S(:,1),T,S(:,2),T,S(:,3))
 legend('boxoff')
-legend('m_1','m_2','m_3')
-
+legend('m_1','m_2','m_3','location','northwest')
+box off
 function s_prime=deRHS(t,sol) 
 global  alpha S n 
 m1=sol(1); 
