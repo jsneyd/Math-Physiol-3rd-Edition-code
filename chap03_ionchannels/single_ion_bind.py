@@ -10,35 +10,53 @@
 
 # -------------------------------------------------------------------
 
-from sympy import symbols, Eq, solve, pretty, simplify
+import sympy as sp
 
-x, ci, ce, k0, J, kNN, kmNN = symbols('x ci ce k0 J kNN kmNN')
+x, ci, ce, k0, kap0, J, kNN, kmNN, v = sp.symbols('x ci ce k0 kap0 J kNN kmNN v')
 
 # N is the number of binding sites.
-N = 1
-eq = [symbols('eq{}'.format(i)) for i in range(1, N)]
+N = 2
 
-k = [symbols('k{}'.format(i)) for i in range(1, N+1)]
-km = [symbols('km{}'.format(i)) for i in range(1,N+2)]
-c = [symbols('c{}'.format(i)) for i in range(1, N+1)]
+# eq = sp.MatrixSymbol('eq', N, 1)
+# k = sp.MatrixSymbol('k', N+1, 1)
+# kap = sp.MatrixSymbol('kap', N+1, 1) 
+# km = sp.MatrixSymbol('km', N+2, 1)
+# kapm = sp.MatrixSymbol('kapm', N+2, 1)
+# c = sp.MatrixSymbol('c', N+1, 1)
+
+eq = [sp.symbols('eq{}'.format(i)) for i in range(1, N)]
+k = [sp.symbols('k{}'.format(i)) for i in range(1, N+1)]
+kap = [sp.symbols('kap{}'.format(i)) for i in range(1, N+1)]
+km = [sp.symbols('km{}'.format(i)) for i in range(1,N+2)]
+kapm = [sp.symbols('kapm{}'.format(i)) for i in range(1,N+2)]
+c = [sp.symbols('c{}'.format(i)) for i in range(1, N+1)]
 
 # Define the endpoint equations
-eq0 = Eq(k0*ci*x - km[0]*c[0], J)
-eqNN = Eq(k[-1]*c[-1] - km[-1]*ce*x, J)
+eq0 = sp.Eq(k0*ci*x - km[0]*c[0], J)
+eqNN = sp.Eq(k[-1]*c[-1] - km[-1]*ce*x, J)
 
 # Define the internal equations
 for i in range(N-1):
-    eq[i] = Eq(k[i]*c[i] - km[i+1]*c[i+1], J)
+    eq[i] = sp.Eq(k[i]*c[i] - km[i+1]*c[i+1], J)
 
 # Define the conservation equation
-eqcons = Eq(x + sum(c), 1)
+eqcons = sp.Eq(x + sum(c), 1)
 
-# Solve for J in terms of x
-sol_J = solve([eq0] + eq + [eqNN], [J]+c)
-pretty_sol_J = pretty(simplify(sol_J[J]))
-print(pretty_sol_J)
+# Solve for J in terms of x and c
+sol_J = sp.solve([eq0] + eq + [eqNN], [J]+c)
+print(sp.pretty(sp.simplify(sol_J[J])))
 
-# Solve for J in terms of x, c
-sol = solve([eq0] + eq + [eqNN] + [eqcons], c + [J])
-pretty_sol_J_cons = pretty(simplify(sol[J]))
-print(pretty_sol_J_cons)
+
+# Solve for J in terms of c
+sol = sp.solve([eq0] + eq + [eqNN] + [eqcons], [J]+c+[x])
+print(sp.pretty(sp.simplify(sol[J])))
+
+
+# Make the rate constants functions of v = VF/RT
+subs_V = [
+    (k0, kap0 * sp.exp(v / (2 * (N + 1)))),
+    (k,kap * sp.exp(v / (2 * (N + 1))))
+    ]
+# Substitute the expressions for k0, k, and km into the solution for J
+J_subs = sol[J].subs(subs_V)
+print(J_subs)

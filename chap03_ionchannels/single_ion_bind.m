@@ -21,7 +21,7 @@ syms v kap0
 % endpoint equations and an additional N-1 equations for the binding sites.
 % And a conservation equation.
 
-N = 4;  
+N = 2;  
 eq = sym('eq',[1 N-1]);
 k = sym('k',[1 N]);
 km = sym('km',[1 N+1]);
