@@ -1,5 +1,6 @@
 
-restart;
+restart;# this is code to calculate the flux throug a single-ion binding ion channel model
+;
 N:=1; # choose the number of barriers 
 ;
 for j from 0 to N-1 do
@@ -46,12 +47,4 @@ limit(J,cibyKeq=infinity)
 ;
 
 limit(J,cebyKeq=infinity);
-NULL;
-NULL;
-NULL;
-NULL;
-NULL;
-NULL;
-NULL;
-NULL;
-NULL;
+
