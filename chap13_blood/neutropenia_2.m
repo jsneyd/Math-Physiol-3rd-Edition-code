@@ -1,7 +1,7 @@
 
 function neutropenia_2
 % this uses the Matlab routine dde23 to solve delay differential equations
-%  for extended cyclic neutropenia model
+%  for the extended cyclic neutropenia model
 clear all
 close all
 clc
@@ -34,13 +34,13 @@ tspan = [0:.005:50];
 lags = [tauR,tauN];; 
  
 sol= dde23(@ddeRHS,lags, @history, tspan) 
- size(sol)
+ 
 figure(1)
 plot(sol.x,sol.y(1,:),'r' ,sol.x,sol.y(2,:),'b' ,'linewidth',2)
 xlabel('t','fontsize',16)
 legend('boxoff')
 legend('R','N')
- title(strcat('\gamma = ',sprintf(formatSpecF,gam),'fontsize',18)
+ title(strcat('\gamma = ',sprintf(formatSpecF,gam)),'fontsize',18)
    
  
 set(gca,'linewidth',2.0)
@@ -68,12 +68,13 @@ dNdt = A*phi(NlagN)*RlagN-alpha *N;
 out=[dRdt;dNdt];
 
  end 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function gbout = beta(x)
 global K1 n  b0
 
 gbout = b0* K1^n/(K1^n+x^n);
 end
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function gpout = phi(x)
 global K2 m  p0
 
