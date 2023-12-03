@@ -17,9 +17,9 @@ clc
 syms x ci ce k0 J
 syms v kap0 
 
-% number of binding sites. Note that with N binding sites you have 2
-% endpoint equations and an additional N-1 equations for the binding sites.
-% And a conservation equation.
+% number of binding sites. Note that with N binding sites there are 2
+% endpoint equations, an additional N-1 equations for the binding sites
+% and a conservation equation.
 
 N = 2;  
 eq = sym('eq',[1 N-1]);
