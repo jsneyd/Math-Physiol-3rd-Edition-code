@@ -36,6 +36,6 @@ J = p2*k42 - p4*k24;
 [NJ,DJ] = numden(J);
 pretty(simplify(NJ))
 
-limit(J,kf,Inf)
-limit(J,ci,Inf)
-limit(J,ce,Inf)
+simplify(limit(J,kf,Inf))
+simplify(limit(J,ci,Inf))
+simplify(limit(J,ce,Inf))

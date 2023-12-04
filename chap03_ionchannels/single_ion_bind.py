@@ -15,14 +15,7 @@ import sympy as sp
 x, ci, ce, k0, kap0, J, kNN, kmNN, v = sp.symbols('x ci ce k0 kap0 J kNN kmNN v')
 
 # N is the number of binding sites.
-N = 2
-
-# eq = sp.MatrixSymbol('eq', N, 1)
-# k = sp.MatrixSymbol('k', N+1, 1)
-# kap = sp.MatrixSymbol('kap', N+1, 1) 
-# km = sp.MatrixSymbol('km', N+2, 1)
-# kapm = sp.MatrixSymbol('kapm', N+2, 1)
-# c = sp.MatrixSymbol('c', N+1, 1)
+N = 1
 
 eq = [sp.symbols('eq{}'.format(i)) for i in range(1, N)]
 k = [sp.symbols('k{}'.format(i)) for i in range(1, N+1)]
@@ -53,10 +46,17 @@ print(sp.pretty(sp.simplify(sol[J])))
 
 
 # Make the rate constants functions of v = VF/RT
-subs_V = [
-    (k0, kap0 * sp.exp(v / (2 * (N + 1)))),
-    (k,kap * sp.exp(v / (2 * (N + 1))))
-    ]
+# This is a weird, weird construction due to John Rugis. A perfect example 
+# of how Python, although good at a lot, really falls down on some
+# things.
+
+# If you can think of a better way to do this substitution, do please tell us.
+
+subs_V = [(k0, kap0 * sp.exp(v / (2 * (N + 1))))] + \
+          list(zip(k, [j * sp.exp(v / (2 * (N + 1))) for j in kap])) + \
+          list(zip(km, [j* sp.exp(v / (-2 * (N + 1))) for j in kapm])) 
+             
+             
 # Substitute the expressions for k0, k, and km into the solution for J
 J_subs = sol[J].subs(subs_V)
-print(J_subs)
+print(sp.pretty(sp.simplify(J_subs)))
