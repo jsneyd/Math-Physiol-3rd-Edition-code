@@ -43,4 +43,6 @@ axis([0 4 -9 0])
 
  plot([1.75,1.75],[-9,0],'k','linewidth',0.5)
  plot([2.5,2.5],[-9,0],'k','linewidth',0.5)
+ xlabel('\alpha (day^{-1})')
+ ylabel('\mu (day^{-1})')
  hold off
