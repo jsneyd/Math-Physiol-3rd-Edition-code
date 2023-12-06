@@ -1,5 +1,5 @@
 
-% Code to solve the circadian clock model of Tyson et al, 1999.
+% Code to solve the NNF circadian clock model of Tyson et al, 1999.
 % Used for Keener and Sneyd, Mathematical Physiology, Third Edition,
 % Chapter 10, Exercise ??
 
