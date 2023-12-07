@@ -1,8 +1,12 @@
 clear all
 close all
 clc
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0);
 global threshold
-threshold = false;  % do you want to threshold the bacteria at B<1?
+threshold = false;  % do you want to threshold the bacteria at B<1?  If so, set threshold = true
 
 init = [1 100 0 0];
 tspan = linspace(0,40,1000);
@@ -11,12 +15,20 @@ tspan = linspace(0,40,1000);
 B = Y(:,1); N = Y(:,2); A = Y(:,3); M = Y(:,4);
 subplot(2,2,1)
 plot(T,B,'r')
+xlabel('t')
+ylabel('B')
 subplot(2,2,2)
 plot(T,N,'g')
+ylabel('N')
+xlabel('t')
 subplot(2,2,3)
 plot(T,A,'b')
+xlabel('t')
+ylabel('A')
 subplot(2,2,4)
 plot(T,M,'k')
+xlabel('t')
+ylabel('M')
 
 writematrix([T B N A M],'T_cell_out.dat')
 

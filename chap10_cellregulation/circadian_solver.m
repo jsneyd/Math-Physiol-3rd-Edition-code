@@ -1,4 +1,5 @@
-%this routine solves a system of odes
+%this routine solves a system of odes;  Here is the Tyson et al. circadian
+%model
 function circadian_clock
 clear
 global vm vp km k3 k1 k2 J K A
