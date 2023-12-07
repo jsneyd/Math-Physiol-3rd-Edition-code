@@ -1,3 +1,4 @@
+% simulation of the 5 variable generic model of the cell cycle
 clear all
 close all
 clc
