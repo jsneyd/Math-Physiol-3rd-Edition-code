@@ -15,13 +15,13 @@ import sympy as sp
 x, ci, ce, k0, kap0, J, kNN, kmNN, v = sp.symbols('x ci ce k0 kap0 J kNN kmNN v')
 
 # N is the number of binding sites.
-N = 1
+N = 2
 
 eq = [sp.symbols('eq{}'.format(i)) for i in range(1, N)]
 k = [sp.symbols('k{}'.format(i)) for i in range(1, N+1)]
-kap = [sp.symbols('kap{}'.format(i)) for i in range(1, N+1)]
+kbar = [sp.symbols('kbar{}'.format(i)) for i in range(1, N+1)]
 km = [sp.symbols('km{}'.format(i)) for i in range(1,N+2)]
-kapm = [sp.symbols('kapm{}'.format(i)) for i in range(1,N+2)]
+kbarm = [sp.symbols('kbarm{}'.format(i)) for i in range(1,N+2)]
 c = [sp.symbols('c{}'.format(i)) for i in range(1, N+1)]
 
 # Define the endpoint equations
@@ -40,9 +40,11 @@ sol_J = sp.solve([eq0] + eq + [eqNN], [J]+c)
 print(sp.pretty(sp.simplify(sol_J[J])))
 
 
+
 # Solve for J in terms of c
 sol = sp.solve([eq0] + eq + [eqNN] + [eqcons], [J]+c+[x])
 print(sp.pretty(sp.simplify(sol[J])))
+
 
 
 # Make the rate constants functions of v = VF/RT
@@ -53,10 +55,14 @@ print(sp.pretty(sp.simplify(sol[J])))
 # If you can think of a better way to do this substitution, do please tell us.
 
 subs_V = [(k0, kap0 * sp.exp(v / (2 * (N + 1))))] + \
-          list(zip(k, [j * sp.exp(v / (2 * (N + 1))) for j in kap])) + \
-          list(zip(km, [j* sp.exp(v / (-2 * (N + 1))) for j in kapm])) 
+          list(zip(k, [j * sp.exp(v / (2 * (N + 1))) for j in kbar])) + \
+          list(zip(km, [j* sp.exp(v / (-2 * (N + 1))) for j in kbarm])) 
              
              
 # Substitute the expressions for k0, k, and km into the solution for J
 J_subs = sol[J].subs(subs_V)
 print(sp.pretty(sp.simplify(J_subs)))
+
+
+# For Exercise 3.5
+print('\n\nmax flux', (sp.simplify(sp.limit(sol[J],ci,sp.oo))))

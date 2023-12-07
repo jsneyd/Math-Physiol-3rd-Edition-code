@@ -1,7 +1,7 @@
 %-------------------------------------------------------------------
 
 % Matlab code to find analytic expressions for the flux through a
-% saturating barrier model of an ion channel, with N binding sites. Here,
+% saturating barrier model of an ion channel, with 2 binding sites. Here,
 % the channel can bind two ions at once.
 
 % For Chapter 3, Section 1.4.3 of
