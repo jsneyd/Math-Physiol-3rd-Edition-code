@@ -21,11 +21,18 @@ k9=0.1; k10=0.02;
 mu=0.005;
 
 npts=50; tend=1;
-tfinal=800; test=0;
+tfinal=300; test=0;
 
 y0(1)=0.0204; y0(2)=0.9148; y0(3)=0.05;
 y0(4)=0.0001; y0(5)=0.062; y0(6)=0.4943;
 
+% variables are (in this order)
+% cycB;
+% cdh ;
+% cdcT ;
+% cdcA ;
+% IEP ;
+% m ;
 for loop=1:tfinal
     keep(loop,1)=(loop-1)*tend;     % Keep the times here
     keep(loop,2:7)=y0;              % Keep the solutions here
@@ -38,10 +45,15 @@ for loop=1:tfinal
     end
     y0=Y(npts,1:6);
 end
+figure(1)
+plot(keep(:,1),keep(:,2),keep(:,1),keep(:,3),keep(:,1),keep(:,4), keep(:,1),keep(:,7),'linewidth',2)
 
-plot(keep(:,1),keep(:,2),keep(:,1),keep(:,7),'linewidth',2)
- 
-legend('[Cdc13_T]','m','fontsize',16)
+legend('[CycB]','[Cdh]','[Cdc_T]','m','fontsize',16)
+
+figure(2)
+plot(keep(:,7),keep(:,2))
+xlabel('m')
+ylabel('[CycB]')
 
 %%
 function dy=ccgen5odes(t,y)
