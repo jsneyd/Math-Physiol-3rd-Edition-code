@@ -1,7 +1,8 @@
 
 function neutropenia
 % this uses the Matlab routine dde23 to solve delay differential equations
-%  for cyclic neutropeniaclear all
+%  for cyclic neutropenia
+clear all
 close all
 clc
 set(0,                           ...
