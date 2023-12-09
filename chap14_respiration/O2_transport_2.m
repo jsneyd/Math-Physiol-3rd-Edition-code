@@ -42,7 +42,7 @@ hold on
 %% This next part is for one of the Exercises.
 
 % Find the solution without the equilibrium approximation. When solving
-% this way, be careful with  initial conditions, and as be sure 
+% this way, be careful with your initial conditions, and as be sure 
 % to start on the critical manifold. Otherwise, the solution takes some
 % time to catch up and there is an offset in the solution. 
 
