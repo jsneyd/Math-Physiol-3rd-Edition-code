@@ -4,7 +4,7 @@
 
 % The graph should be computed in concentrations and then converted to
 % pressures using the solubility. Be careful with the units. It is not a good idea
-% to work in units of Molar. The values for sigma are way too
+% to work in units of Molar. The values for sigma are much too
 % small, and the numerics start going a little weird. So   all
 % units are converted to microMolar. The code plays much more nicely.
 
