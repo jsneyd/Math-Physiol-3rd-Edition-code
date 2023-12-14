@@ -1,3 +1,5 @@
+%plot for Figure 14.4
+% 
 clear all
 close all
 clc
@@ -52,18 +54,4 @@ plot(A(:,2),A(:,1),'*',O2,100*Y,O2,25*SatY,'--')
 xlabel('Oxygen Partial Pressure (mm Hg)')
 ylabel('Saturation (%)')
 box off
-
-figure(2)
-
-x = [0:.01:10];
-Y=(x+3*x.^2+3*x.^3+x.^4)./(1+4*x+6*x.^2+4*x.^3+x.^4);
-
-K1 = 1000;
-K2 = 1250;
-K3 = 4.54;
-YMWC = (O2/K1.*(1+O2/K1).^3 + O2./K3.*(1+O2./K3).^3./K2)./((1+O2/K1).^4 +(1+O2./K3).^4./K2);
-
-plot(A(:,2),A(:,1),'*',O2,25*SatY,'--',O2,100*YMWC,'b')
-xlabel('Oxygen Partial Pressure (mm Hg)')
-ylabel('Saturation (%)')
-box off
+ 
