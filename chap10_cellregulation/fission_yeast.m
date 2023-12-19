@@ -1,3 +1,4 @@
+% simulation of the Tyson-Novak model of fission yeast cell cycle
 clear all
 close all
 clc
@@ -20,7 +21,8 @@ global k15p k15pp k16p k16pp J15 J16
 global mu 
 global kweep   kweepp   Vawee   Viweep Viweepp Jawee Jiwee  
 global k25p k25pp Va25p Va25pp Vi25 Ja25 Ji25 
-
+    
+formatSpecF = '%6.2f\n';
 K=100;
 k1=.03; k2p=.03; k2pp=1.; k2ppp=.1; 
 k3p=1.; k3pp=10.; k4p=2.; k4=35.; 
@@ -77,13 +79,16 @@ end
 % tspan=linspace(0,400,400);
 % [T,Y]=ode23tb(@cilibertoodes,tspan,y0);
 % plot(T,Y(:,10))
-figure(icase)
+figure( icase)
  
  plot(keep(:,1),keep(:,2),keep(:,1),keep(:,10),keep(:,1),keep(:,4),keep(:,1),keep(:,11)) 
         % Plot the mass,  MPF (or dum, the tracking variable),CDC_T and Ste9
 xlabel('time (min)')
 legend('[Cdc13_T','m','[Ste9]','[MPF]')
- axis([tlim(icase) 500 0 ylim(icase)])
+ title(strcat('Kwee1 = ',sprintf(formatSpecF,kweepp)),'fontsize',18)
+ axis([tlim(icase) 500 0 2])
+
+  
 end
 
   

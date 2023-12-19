@@ -4,7 +4,7 @@
 
 % The graph should be computed in concentrations and then converted to
 % pressures using the solubility. Be careful with the units. It is not a good idea
-% to work in units of Molar. The values for sigma are much too
+% to work in units of Molar. The values for sigma are way too
 % small, and the numerics start going a little weird. So   all
 % units are converted to microMolar. The code plays much more nicely.
 
@@ -42,7 +42,7 @@ hold on
 %% This next part is for one of the Exercises.
 
 % Find the solution without the equilibrium approximation. When solving
-% this way, be careful with  initial conditions, and as be sure 
+% this way, be careful with your initial conditions, and as be sure 
 % to start on the critical manifold. Otherwise, the solution takes some
 % time to catch up and there is an offset in the solution. 
 
