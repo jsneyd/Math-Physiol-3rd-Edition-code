@@ -1,5 +1,13 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+#   -------------------------------------------------------------------
+# 
+#   This is a simple ode integrator for the HH equations.
+# 
+#    For Chapter 5, Fig. 5.6 of
+#    Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+#  
+#    Written by James Keener and James Sneyd
+#  
+#   ------------------------------------------------------------------- 
 
 import numpy as np
 from scipy.integrate import solve_ivp

@@ -1,8 +1,20 @@
-% This code calculates the fundamental solution and several Green's
-% functions for the cable equation on a finite domain. The Green's functions are calculated
-% for sealed-end and closed-circuit ends (i.e., Neumann and Dirichlet BCs)
-% and are calculated by a sum of fundamental solutions and by Fourier
-% series. So there are several different curves.
+
+
+%  -------------------------------------------------------------------
+% 
+%   Matlab code to calculate the fundamental solution and several Green's
+%   functions for the cable equation on a finite domain. The Green's 
+%   functions are calculated
+%   for sealed-end and closed-circuit ends (i.e., Neumann and Dirichlet BCs)
+%   and are calculated by a sum of fundamental solutions and by Fourier
+%   series. So there are several different curves.
+% 
+%   For Chapter 4 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd
+% 
+%  -------------------------------------------------------------------
 
 clear all
 close all
@@ -97,10 +109,8 @@ xlabel('T'); ylabel('V')
 legend('method of images','','','Fourier expansion:t=0.001','t=0.01','t=0.05','Location','northwest','fontsize',16)
 set(gca,'FontSize',14)
 
-%%------------------------------------------
-%%----------------------------------------
 
-% Fundamental solution
+%% Fundamental solution
 function out = fund(t,x,xi,tau)
     d1 = 1./sqrt(4*pi*(t-tau));
     d2 = exp(-(x-xi).^2./(4*(t-tau)));
@@ -108,28 +118,28 @@ function out = fund(t,x,xi,tau)
     out = d1.*d2.*d3;
 end
 
-% Base term in Fourier expansion. Sealed ends.
+%% Base term in Fourier expansion. Sealed ends.
 function out = baseF(t,x,xi,tau,n,L)
     d1 = cos(n*pi*xi/L)*cos(n*pi*x/L);
     d2 = exp(-(1+(n*pi/L)^2)*(t-tau));
     out = d1.*d2/L;
 end
 
-% Base term in Fourier expansion. Short-circuit ends.
+%% Base term in Fourier expansion. Short-circuit ends.
 function out = baseFSC(t,x,xi,tau,n,L)
     d1 = sin(n*pi*xi/L)*sin(n*pi*x/L);
     d2 = exp(-(1+(n*pi/L)^2)*(t-tau));
     out = d1.*d2/L;
 end
 
-% Greens function, Method of Images, Sealed Ends
+%% Greens function, Method of Images, Sealed Ends
 function out = GMISE(T,X,xi,tau,L)
     out = fund(T,X,xi,tau) + ...
         fund(T,X,-xi,tau) + fund(T,X,2*L-xi,tau) + ...
         fund(T,X,2*L+xi,tau) + fund(T,X,-2*L+xi,tau);   % Only the first four corrections.
 end
 
-% Greens function, Method of Images, Short-Circuit Ends
+%% Greens function, Method of Images, Short-Circuit Ends
 function out = GMISC(T,X,xi,tau,L)
     out = fund(T,X,xi,tau) - fund(T,X,-xi,tau) + fund(T,X,2*L+xi,tau) - fund(T,X,-2*L-xi,tau) + ...
      fund(T,X,3*L+xi,tau) - fund(T,X,-3*L-xi,tau) ...
@@ -137,7 +147,7 @@ function out = GMISC(T,X,xi,tau,L)
      fund(T,X,4*L-xi,tau);
 end
 
-% Greens function, Fourier series, Sealed Ends
+%% Greens function, Fourier series, Sealed Ends
 function out = GFSSE(t,x,xi,tau,L)
 out = baseF(t,x,xi,tau,0,L);
 for i=1:20
@@ -145,7 +155,7 @@ for i=1:20
 end
 end
 
-% Greens function, Fourier series, short-ciruit Ends
+%% Greens function, Fourier series, short-ciruit Ends
 function out = GFSSC(t,x,xi,tau,L)
 out = baseFSC(t,x,xi,tau,0,L);
 for i=1:20

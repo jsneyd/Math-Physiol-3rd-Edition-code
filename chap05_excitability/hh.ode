@@ -1,4 +1,15 @@
-% this is the XPPAUT file for HH equations
+#  -------------------------------------------------------------------
+#
+#  This is a simple ode integrator for the HH equations.
+#
+#   For Chapter 5, of
+#   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#   Written by James Keener and James Sneyd
+# 
+#  ------------------------------------------------------------------- 
+
+
 v(0)=0.0
 m(0)=0.052934
 n(0)=0.31768
