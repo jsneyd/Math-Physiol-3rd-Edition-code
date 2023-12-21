@@ -1,3 +1,13 @@
+#   ------------------------------------------------------------------- 
+#    This is a simple ode integrator for the reduced HH equations (also called
+#    the fast-slow HH equations). 
+#
+#    For Chapter 5, Fig. 5.10 of
+#    Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+#  
+#    Written by James Keener and James Sneyd
+#  
+#   ------------------------------------------------------------------- 
 
 # initialize the variables. v is the deviation from rest.
 v(0)=-0.19571

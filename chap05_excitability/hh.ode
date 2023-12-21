@@ -1,6 +1,6 @@
 #  -------------------------------------------------------------------
 #
-#  This is a simple ode integrator for the HH equations.
+#  This is an ode integrator for the HH equations.
 #
 #   For Chapter 5, of
 #   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
