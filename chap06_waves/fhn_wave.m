@@ -31,6 +31,7 @@ x = linspace(0,L,n);
 v0 = zeros(1,n);   % initial condition
 w0 = zeros(1,n);
 v0(1:15) = 1;
+%v0(end-15:end)= 1;    % for starting a wave at each end
 tspan = linspace(0,200,10);
 [t,sol] = ode15s(@(t,v)bs_mol(t,v),tspan,[v0 w0]);
 tout = [2,5,8,10;];   % the output times
