@@ -39,8 +39,8 @@ namp0 = zeros(1,par.num);
 y0 = [nm0 nam0 namp0];
 
 % Use the method of lines (MoL) with upwinding
-t_end = 20;  % 
-tstep = 0.05;
+t_end = 1000;  % 
+tstep = 1;
 %specify the output points
 tspan = [0:tstep:t_end];
 tic
@@ -48,9 +48,15 @@ tic
 [T,S] = ode23(@(t,y)deRHS(t,y,par),tspan,y0 );  
 % for this problem, ode23 is fastest, ode15s is next and ode 23s is slowest
  toc
+
+ nm = S(:,1:par.num);
+nam = S(:,par.num+1:2*par.num);
+namp = S(:,2*par.num+1:3*par.num);
+ nmp = 1 - nm - nam - namp;
+
 figure(1)
 for j = 1:length(T)
-    plot(x,S(j,1:par.num),'linewidth',2) 
+    plot(x,nm(j,:),'linewidth',2) 
     
  hold on
 end
@@ -60,7 +66,7 @@ hold off
 
 figure(2)
 for j = 1:length(T)
-    plot(x,S(j,par.num+1:2*par.num),'linewidth',2) 
+    plot(x,nam(j,:),'linewidth',2) 
     
  hold on
 end
@@ -68,15 +74,34 @@ xlabel('x')
 ylabel('N_{AM}')
 hold off
 
-figure(3)
+figure(4)
 for j = 1:length(T)
-    plot(x,S(j,2*par.num+1:3*par.num),'linewidth',2) 
+    plot(x,namp(j,:),'linewidth',2) 
     
  hold on
 end
 xlabel('x')
 ylabel('N_{AM_p}')
 hold off
+
+figure(4)
+for j = 1:length(T)
+    plot(x,namp(j,:)+nam(j,:),'linewidth',2) 
+    
+ hold on
+end
+ 
+F =(namp +nam)*x'*par.dx;
+figure(5)
+plot(T,F)
+
+xlabel('t')
+ylabel('force')
+ 
+figure(6)
+plot(v(T),F)
+xlabel('v')
+ylabel('F')
 
 
   end
@@ -138,8 +163,8 @@ out = (x<0).*par.gL2 + (x>0).*par.gL1.*x;
 end
 
 function out = v(t)
-out = -0.6; 
-%out = sin(2*t);
+%out = -0.1; %-0.6
+out = -sin(0.01*t);
 end
 
 

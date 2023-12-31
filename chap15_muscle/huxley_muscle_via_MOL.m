@@ -26,8 +26,8 @@ N = length(x); % number of points in grid
 u0 =f(x)./(f(x)+g(x));
 
 % Use the method of lines (MoL) with upwinding
-t_end = 0.5;  % 
-tstep = 0.005;
+t_end = 1;  % 
+tstep = 0.001;
 %specify the output points
 tspan = [0:tstep:t_end];
 tic
@@ -76,9 +76,9 @@ ujmh = ([u;0]+[0;u])/2;  %u_{j-1/2} The zero fill is a ghost point outside the g
 Jmh = vjmh.*((vjmh>0).*[0;u]+(vjmh<0).*[u;0]);
 
 Fu = (Jmh(1:end-1)-Jmh(2:end))/dx;  %finite difference in x
+Rxn =  (1-u).*f(x')-u.*g(x');
  
- 
-s_prime =  (Fu + (1-u).*f(x')-u.*g(x'));
+s_prime =  Fu + Rxn;
 end
 
 % binding functions
@@ -100,6 +100,7 @@ function out=v(t)
 % specify the velocity as a function of t
 % in general this can be a functioin of x, t, and u
 
-out = -25*sin(50*t);
+out = -20*sin(10*t*pi);
+%out = -20*((t<20).*(t/20) +(t>20).*(2-t/20));
 end
 
