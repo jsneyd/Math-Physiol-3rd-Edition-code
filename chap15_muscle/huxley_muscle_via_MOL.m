@@ -3,7 +3,7 @@
 % to solve u_t + J_x= f(u), with MoL and upwinding (written in conservation
 % form, J = v*u), where v is a function of x, t, and u
 function pde_MoL_upwind
-global dx N x
+global dx N x f1 g1 g2
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
@@ -17,10 +17,7 @@ g2=209;
 f1=43.3;
 % put parameters into a structure so that they're accessible to the sub-functions
 p.h=1;
-p.g1=g1;
-p.g2=g2;
-p.f1=f1;
-
+ 
 % spatial grid
 dx = 0.01;
 x = [-2*p.h:dx:p.h];% grid points
@@ -72,7 +69,7 @@ ujmh = ([u;0]+[0;u])/2;  %u_{j-1/2} The zero fill is a ghost point outside the g
 
 %use xjmh and ujmh to evaluate v_{j-1/2} = v(xjmh,t,ujmh) 
 
-% here is where you evaluate v(x,u,t)
+% here is where you evaluate v(x,t,u)
  vjmh = v(t) ;
  
  %this is upwinding:
@@ -83,16 +80,18 @@ Fu = (Jmh(1:end-1)-Jmh(2:end))/dx;  %finite difference in x
  
 s_prime =  (Fu + (1-u).*f(x')-u.*g(x'));
 end
+
 % binding functions
 
  function  out = f(x)
-f1=43.3;
+global f1
+ 
 out = 0 + (x>0 & x<1).*(f1*x);
 end
 
 function  out = g(x)
-g1=10;
-g2=209;
+global g1 g2
+
 out = g2*(x<=0) + g1*x.*(x>0);
 end 
 
