@@ -30,7 +30,7 @@ par.delx = 1.2*par.h;   % distance between binding sites
  
 % spatial grid
 par.dx = 0.01;
-x = [-4*par.h:par.dx:par.h];% grid points
+x = [-4*par.h:par.dx:4*par.h];% grid points
 par.num = length(x) % number of points in spatial grid
 %initial data:
 nm0 = ones(1,par.num);
@@ -39,8 +39,8 @@ namp0 = zeros(1,par.num);
 y0 = [nm0 nam0 namp0];
 
 % Use the method of lines (MoL) with upwinding
-t_end = 1000;  % 
-tstep = 1;
+t_end = 30;  % 
+tstep = 0.01;
 %specify the output points
 tspan = [0:tstep:t_end];
 tic
@@ -164,7 +164,7 @@ end
 
 function out = v(t)
 %out = -0.1; %-0.6
-out = -sin(0.01*t);
+out = -sin(10*t);
 end
 
 

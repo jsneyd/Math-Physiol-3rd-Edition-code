@@ -1,4 +1,5 @@
-% this code is to solve the Huxley crossbridge mode using upwinding and the method of lines
+% this code is to solve the Huxley crossbridge mode using  the method of
+% characteristics
 
 % to solve u_t + J_x= f(u), with MoL and upwinding (written in conservation
 % form, J = v*u), where v is a function of x, t, and u
@@ -20,24 +21,27 @@ p.h=1;
  
 % spatial grid
 dx = 0.01;
-x = [-3*p.h:dx:3*p.h];% grid points
+x = [-4*p.h:dx:4*p.h];% grid points
 N = length(x); % number of points in grid
 %initial data:
 u0 =f(x)./(f(x)+g(x));
 
-% Use the method of lines (MoL) with upwinding
+% Use the method of characteristics
 t_end = 1;  % 
-tstep = 0.001;
+tstep = 0.005;
 %specify the output points
 tspan = [0:tstep:t_end];
 tic
 %solve the  MOL differential equations
-[T,S] = ode23(@deRHS,tspan, u0' );  
+[T,S] = ode23(@deRHS,tspan, [x,u0] );  
 % for this problem, ode23 is fastest, ode15s is next and ode 23s is slowest
  toc
+ x = S(:,1:N);
+ n = S(:,N+1:2*N);
+
 figure(1)
 for j = 1:length(T)
-    plot(x,S(j,:),'linewidth',2) 
+   plot(x(j,:),n(j,:),'linewidth',2) 
     
  hold on
 end
@@ -46,7 +50,8 @@ ylabel('h')
 hold off
 
 % calculate the force
- F = S*x'*dx;
+ F = sum(n.*x*dx,2);
+ 
  figure(2)
  plot(T,F)
 xlabel('t')
@@ -61,24 +66,15 @@ ylabel('F')
 %the right hand side for ode simulation:
 function s_prime=deRHS(t,u)
 global dx N x
- % by definition, J = v*u, where v = v(x,t,u) in general
-% first evaluate v_{j-1/2}
+  x = u(1:N);
+  n = u(N+1:2*N);
  
-xjmh = [x-dx/2,x(N)+dx/2]'; % (x_{j-1/2})
-ujmh = ([u;0]+[0;u])/2;  %u_{j-1/2} The zero fill is a ghost point outside the grid
-
-%use xjmh and ujmh to evaluate v_{j-1/2} = v(xjmh,t,ujmh) 
-
-% here is where you evaluate v(x,t,u)
- vjmh = v(t) ;
+ Fx = -v(t)*ones(N,1);
  
- %this is upwinding:
-Jmh = vjmh.*((vjmh>0).*[0;u]+(vjmh<0).*[u;0]);
-
-Fu = (Jmh(1:end-1)-Jmh(2:end))/dx;  %finite difference in x
-Rxn =  (1-u).*f(x')-u.*g(x');
- 
-s_prime =  Fu + Rxn;
+Rxn =  (1-n).*f(x)-n.*g(x);
+ size(Fx)
+ size(Rxn)
+s_prime =  [Fx ; Rxn];
 end
 
 % binding functions
