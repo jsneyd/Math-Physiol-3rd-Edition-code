@@ -12,9 +12,9 @@ set(0,                           ...
    'defaultpatchlinewidth', 0.7); 
 
 
-g1=10;
-g2=209;
-f1=43.3;
+par.g1=10;
+par.g2=209;
+par.f1=43.3;
 % put parameters into a structure so that they're accessible to the sub-functions
 p.h=1;
  
@@ -23,7 +23,7 @@ dx = 0.01;
 x = [-3*p.h:dx:3*p.h];% grid points
 N = length(x); % number of points in grid
 %initial data:
-u0 =f(x)./(f(x)+g(x));
+u0 =f(x,par)./(f(x,par)+g(x,par));
 
 % Use the method of lines (MoL) with upwinding
 t_end = 1;  % 
@@ -32,7 +32,7 @@ tstep = 0.001;
 tspan = [0:tstep:t_end];
 tic
 %solve the  MOL differential equations
-[T,S] = ode23(@deRHS,tspan, u0' );  
+[T,S] = ode23(@(t,y)deRHS(t,y,par),tspan, u0' );  
 % for this problem, ode23 is fastest, ode15s is next and ode 23s is slowest
  toc
 figure(1)
@@ -59,7 +59,7 @@ ylabel('F')
 
  end
 %the right hand side for ode simulation:
-function s_prime=deRHS(t,u)
+function s_prime=deRHS(t,u,par)
 global dx N x
  % by definition, J = v*u, where v = v(x,t,u) in general
 % first evaluate v_{j-1/2}
@@ -76,23 +76,20 @@ ujmh = ([u;0]+[0;u])/2;  %u_{j-1/2} The zero fill is a ghost point outside the g
 Jmh = vjmh.*((vjmh>0).*[0;u]+(vjmh<0).*[u;0]);
 
 Fu = (Jmh(1:end-1)-Jmh(2:end))/dx;  %finite difference in x
-Rxn =  (1-u).*f(x')-u.*g(x');
+Rxn =  (1-u).*f(x',par)-u.*g(x',par);
  
 s_prime =  Fu + Rxn;
 end
 
 % binding functions
 
- function  out = f(x)
-global f1
- 
-out = 0 + (x>0 & x<1).*(f1*x);
+ function  out = f(x,par)
+ out = 0 + (x>0 & x<1).*(par.f1*x);
 end
 
-function  out = g(x)
-global g1 g2
-
-out = g2*(x<=0) + g1*x.*(x>0);
+function  out = g(x,par)
+ 
+out = par.g2*(x<=0) + par.g1*x.*(x>0);
 end 
 
 function out=v(t)
