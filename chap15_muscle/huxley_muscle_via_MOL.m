@@ -1,4 +1,4 @@
-% this code is to solve the Huxley crossbridge mode using upwinding and the method of lines
+% this code is to solve the Huxley crossbridge model using upwinding and the method of lines
 
 % to solve u_t + J_x= f(u), with MoL and upwinding (written in conservation
 % form, J = v*u), where v is a function of x, t, and u
