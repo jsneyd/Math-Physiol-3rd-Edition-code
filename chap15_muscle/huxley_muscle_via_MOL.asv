@@ -98,10 +98,10 @@ function out=v(t)
 % specify the velocity as a function of t
 % in general this can be a function of x, t, and u
 % case 1
-%out = -50;
+out = -50;
 
 % case 2
-out = -50*sin(50*t);
+%out = -50*sin(50*t);
 %out = -20*((t<20).*(t/20) +(t>20).*(2-t/20));
 end
 
