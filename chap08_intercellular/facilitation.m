@@ -1,4 +1,19 @@
-% facilitation curve
+%  -------------------------------------------------------------------
+%
+%   Program to compute facilitation in a model of the residual bound
+%   calcium hypothesis of synaptic plasticity.
+%
+%   For Chapter 8, Fig. 8.9 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd
+% 
+%  ------------------------------------------------------------------- 
+
+clear all
+close all
+clc
+
  set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 2.0, ...
@@ -22,7 +37,6 @@ a3=exp(-km3*(T+tpcp/K3));
 
 Fmax = (1./(1-a1)).*(1./(1-a2)).*(1./(1-a3)); 
     
-
 semilogx(1000./T,Fmax)% the factor 1000 is to convert to Hertz  = s^{-1}
 xlabel('Stimulus Frequency (Hz)')
 ylabel('Facilitation')
