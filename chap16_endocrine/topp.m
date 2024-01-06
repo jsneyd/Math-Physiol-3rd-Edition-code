@@ -1,4 +1,9 @@
 close all; clear all; clc;
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 1.2, ...
+   'defaultlinelinewidth', 2.0); 
+
 global SI r1 EG0 R0 sigma alpha k d0 r2
 SI=1;
 EG0=1.44;
@@ -38,26 +43,15 @@ hold on
 dlmwrite('topp.dat',[beta' G']);
 
 %% solve the ode and plot solution
+Idataset = [100,100,12;100,100,17;400,100,50;500,100,25;500,100,15;600,100,10];
 tspan=linspace(0,100,10000);
-[t,sol] = ode15s(@(t,y)rhs(t,y),tspan,[100,100,12]);
+for j = 1:6
+ 
+[t,sol] = ode15s(@(t,y)rhs(t,y),tspan,Idataset(j,:));
 plot(sol(:,3),sol(:,1),'LineWidth',2)
-%dlmwrite('topp.dat',[sol(:,3) sol(:,1)],'-append','delimiter',' ','roffset',1);
-[t,sol] = ode15s(@(t,y)rhs(t,y),tspan,[100,100,17]);
-plot(sol(:,3),sol(:,1),'LineWidth',2)
-%dlmwrite('topp.dat',[sol(:,3) sol(:,1)],'-append','delimiter',' ','roffset',1);
-[t,sol] = ode15s(@(t,y)rhs(t,y),tspan,[400,100,50]);
-plot(sol(:,3),sol(:,1),'LineWidth',2)
-%dlmwrite('topp.dat',[sol(:,3) sol(:,1)],'-append','delimiter',' ','roffset',1);
-[t,sol] = ode15s(@(t,y)rhs(t,y),tspan,[500,100,25]);
-plot(sol(:,3),sol(:,1),'LineWidth',2)
-%dlmwrite('topp.dat',[sol(:,3) sol(:,1)],'-append','delimiter',' ','roffset',1);
-[t,sol] = ode15s(@(t,y)rhs(t,y),tspan,[500,100,15]);
-plot(sol(:,3),sol(:,1),'LineWidth',2)
-%dlmwrite('topp.dat',[sol(:,3) sol(:,1)],'-append','delimiter',' ','roffset',1);
-[t,sol] = ode15s(@(t,y)rhs(t,y),tspan,[600,100,10]);
-plot(sol(:,3),sol(:,1),'LineWidth',2)
-%dlmwrite('topp.dat',[sol(:,3) sol(:,1)],'-append','delimiter',' ','roffset',1);
-
+end
+ hold off
+ 
 %% the ODEs
 function out = rhs(t,y)
 global SI r1 EG0 R0 sigma alpha k d0 r2
