@@ -52,8 +52,7 @@ par.h3=2;
 
 lags = par.tau; 
 tspan = linspace(0,100,1000);
-u0 = [ 0,0,0]; 
-sol= dde23(@(t,u,z)ddeRHS(t,u,z,par),lags, @history, tspan) 
+ sol= dde23(@(t,u,z)ddeRHS(t,u,z,par),lags, @history, tspan) 
 LH = sol.y(2,:); 
 SeF = sol.y(6,:);
 L4 = sol.y(13,:);
