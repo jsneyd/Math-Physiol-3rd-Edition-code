@@ -2,11 +2,15 @@ function brown
 close all
 clear all
 clc
-
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 1.2, ...
+   'defaultlinelinewidth', 2.0);
+ 
 par.eps=1/50; par.c=0.2; par.k1=1; par.k2=1; par.k3=1; par.k4=1; par.rg=2.5;
 par.p1=100; par.p2=100; par.p3=0.3; par.rz=1;
 
-%solve_time_dependent_a(par)
+solve_time_dependent_a(par)
 solve_a_constant(par)
 
 end
@@ -65,7 +69,7 @@ ylim([-0.1,0.2])
 hold on
 
 % now solve for when a is held fixed for various lengths of time, and add
-% to plot. Do this simply by setting a large period, so the stimulus just
+% to plot. Do this simply by setting a large period, so the stimulus  
 % doesn't repeat
 par.stimperiod = 100;
 par.stimheight = a;
