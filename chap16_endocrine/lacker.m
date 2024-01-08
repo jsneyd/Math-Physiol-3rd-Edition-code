@@ -1,7 +1,7 @@
 
 
 % Solve the Lacker model for the control of ovulation number. The model is
-% solved in the transformed coordinates (gamma rather than xi) because it's
+% solved in the transformed coordinates (gamma rather than xi) because it is
 % much easier that way, as you avoid the solutions going to infinity in
 % finite time, which is a real pain
 
@@ -9,6 +9,10 @@ function lacker
 
 clear all; close all; clc;
 
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 1.2, ...
+   'defaultlinelinewidth', 2.0);
 par.n = 10;
 par.M1 = 4;
 par.M2 = 20;

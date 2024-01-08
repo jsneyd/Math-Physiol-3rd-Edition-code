@@ -7,9 +7,7 @@ set(0,                           ...
 
 global input Vp Vi Vg E tp ti td Rm a1 C1 C2 C3 C4 C5 Ub U0 Um Rg alpha beta
 
-% pick a glucose input level
 input = 216;
-%input = 208;
 Vp=3; Vi=11; Vg=10; E=0.2; tp=6; ti=100; td=12; Rm=209; a1=6.6; C1=300;
 C2=144; C3=100; C4=80; C5=25.86; Ub=72; U0=4; Um=94; Rg=180; alpha=7.5; beta=1.77;
 
@@ -21,11 +19,10 @@ tspan = linspace(0,2000,1000);
 figure(1)
 plot(tt,sol(:,1)/Vp)
 xlabel('time (minutes)')
-ylabel('insulin (mU/ml)')
 figure(2)
 plot(tt,sol(:,3)/(10*Vg))  % Output per dL, as in Sturis
 xlabel('time (minutes)')
-ylabel('Glucose (mg/dl)')
+ylabel('Glucose')
 save sturis.dat sol -ASCII
 
 %%
