@@ -49,10 +49,10 @@ def rhs(sol, t):
 
     return [v1p, wp, op, cp, o1p, o2p, o3p, o4p, xp, yp, ap, v2p]
 
-tmax = 15  # this is the length of the simulation
+tmax = 75  # this is the length of the run
 # FHN parameters
 Vr=-70             # resting potential 
-Tperiod =tmax      # period of stimulus
+Tperiod = 15       # period of stimulus
 Istim=100          # stimulus amplitude
 
 # Llinas parameters
@@ -108,7 +108,7 @@ Cm=1
 init = [-70, 0, 0.11, 1.4e-6, 0.14, 0.05, 0.0015, 0, 0, 0, 0, -70]
 
 # Time points
-t = np.arange(0, 15, 0.01)
+t = np.arange(0, tmax, 0.01)
 
 # Solve ODEs
 sol = odeint(rhs, init, t)

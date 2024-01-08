@@ -26,10 +26,10 @@ global   kp1  km1 kp2  km2  kp3  km3 kp4   km4
 global   bigA  bigB   bigN smalla  smallb k1m  k2m  ke 
 global Vs  gr  gs0 Cm Istim Tperiod  rho
 
-tmax = 15;  %this is the length of the simulation
+tmax = 75;  %this is the length of the simulation
 % FHN parameters
 Vr=-70;  % resting potential 
-Tperiod =tmax;  % period of stimulus
+Tperiod = 25;  % period of stimulus
 Istim=100; % stimulus amplitude
 
 % Llinas parameters

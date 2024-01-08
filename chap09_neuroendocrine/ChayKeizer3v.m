@@ -1,4 +1,16 @@
-%the 3 variable Chay Keizer model for beta cells
+
+%  -------------------------------------------------------------------
+%
+%   Code for the three-variable Chay-Keizer model of electrical bursting 
+%   in pancreatic beta cells.
+%
+%   For Chapter 9, Section 9.1.1 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd
+% 
+%  ------------------------------------------------------------------- 
+
 function CheyKeizer
 global   lam vca vk gk gca   vprime vstar gkca Kd
 global  vl cm   f alpha kca  gl 
