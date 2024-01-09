@@ -43,13 +43,13 @@ for i=1:n
  
  
     %hold on
-    init = [y(end,1),y(end,2)];
+    init = [y(end,1)];
     tspan = linspace(t(end),t(end) + 2*p.T,1000);  % integrate over two more periods
     [t,y] = ode15s(@(t,y)rhsq(t,y,p),tspan,[init,0],options);
     figure(1)
-    plot(y(:,1),y(:,2) ) %plot(t,y(:,2))
-    axis([0  0.6 0  0.2])
-    response(i) = y(end,3)/(2*p.T);
+    plot(t,y(:,1) ) %plot(t,y(:,2))
+   % axis([0  0.6 0  0.2])
+    response(i) = y(end,2)/(2*p.T);
 end
  
 figure(2)
@@ -67,7 +67,7 @@ B  = y(1);
 D= y(2);
  
 H = getH(t,p);
-out(1) = p.k1*H*(1-B-2*D)-p.km1*B+2*p.km2*D-2*p.km2*B^2;
+out(1) = p.k1*H*(10B-2*D)-p.km1*B+2*p.km2*D-2*p.km2*B^2;
  out(2) = -2*p.km2*D+2*p.km2*B^2;
  out=out';
 end
@@ -78,7 +78,7 @@ B  = y(1);
 D = y(2);
  
 H = getH(t,p);
-out(1) = p.k1*H*(1-B-2*D)-p.km1*B+2*p.km2*D-2*p.km2*B^2;
+out(1) = p.k1*H*(10B-2*D)-p.km1*B+2*p.km2*D-2*p.km2*B^2;
  out(2) = -2*p.km2*D+2*p.km2*B^2;
  out(3) = D;
  
