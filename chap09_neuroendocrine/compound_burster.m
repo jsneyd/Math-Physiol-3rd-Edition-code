@@ -1,7 +1,21 @@
-% The model for compound bursting. Wierschem and Bertram, 2004, BMB.
-% Original code provided by Richard Bertram. Modified slightly.
 
-function compound_burster
+
+%  -------------------------------------------------------------------
+%
+%   Code for the compound bursting model of Wierschem and Bertram, 2004.
+%   Original code was provided by Richard Bertram and modified slightly.
+%
+%   For Chapter 9, Section 9.1.2 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by Richard Bertram, James Keener and James Sneyd
+% 
+%  ------------------------------------------------------------------- 
+
+close all
+clear all
+clc
+
 global vn sn vm sm kd kadp gca vca gkca vk gkatp gk cm f alpha kc v1 tauc v2 taun
 
  
@@ -65,6 +79,8 @@ plot(T/60000,S(:,4))
 xlabel('t (s)')
 ylabel('ATP')
 
+
+%%
 function s_prime=deRHS(t,s)
 global vn sn vm sm kd kadp gca vca gkca vk gkatp gk cm f alpha kc v1 tauc v2 taun
 
@@ -73,7 +89,6 @@ n=s(2);
 c=s(3);
 atp=s(4);
 adp=s(5);
-
  
 % # Activation variables
 ninf = 1/(1+exp((vn-v)/sn));
@@ -98,4 +113,5 @@ cp = -f*(alpha*ica + kc*c);
 atpp=(v1-phi)/tauc;
 adpp=(phi-v2*adp)/tauc;
 
- s_prime = [vp;np;cp;atpp;adpp];
+s_prime = [vp;np;cp;atpp;adpp];
+end

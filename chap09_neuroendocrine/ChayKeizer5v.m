@@ -1,4 +1,15 @@
-% the full 5 variable Chay Keizer modelfunction CheyKeizer
+%  -------------------------------------------------------------------
+%
+%   Code for the five-variable Chay-Keizer model of electrical bursting 
+%   in pancreatic beta cells.
+%
+%   For Chapter 9, Section 9.1.1 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd
+% 
+%  ------------------------------------------------------------------- 
+
 function chayKeizer
 global vprime vstar gca vca gk gkca Kd vk gl vl cm k1 kca f 
  
@@ -33,7 +44,7 @@ n0    = 0.00044035
  u0 = [v0,mca0,hca0,n0,ca0];
  
  
-[T,S] = ode23(@deRHS,tspan, u0, odeset('maxstep',1));  
+[T,S] = ode15s(@deRHS,tspan, u0, odeset('maxstep',1));  
 
 figure(3)
 plot(S(:,5),S(:,1))
@@ -49,7 +60,7 @@ plot(T/1000,S(:,5))
 xlabel('t (s)')
 ylabel('Ca^{++}')
 
-
+%%
 function s_prime=deRHS(t,s)
 global vprime vstar gca vca gk gkca Kd vk gl vl cm k1 kca f 
 v=s(1);

@@ -1,3 +1,14 @@
+%  -------------------------------------------------------------------
+%
+%   Code to calculate the response of a synapse to repeated stimulation.
+%
+%   For Chapter 8, Section 8.1.3 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd
+% 
+%  ------------------------------------------------------------------- 
+
 close all
 clear all
 clc
@@ -42,7 +53,7 @@ semilogx(freq,nbar,freq,testfit,'LineWidth',2)
 ylim([0,1])
 xlabel('f\tau')
 
-save('STSD.mat','T','N','freq','nbar')
+%save('STSD.mat','T','N','freq','nbar')
 
 
 %%
