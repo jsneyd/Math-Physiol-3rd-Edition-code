@@ -1,5 +1,9 @@
 clear all; close all; clc;
 
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 1.2, ...
+   'defaultlinelinewidth', 2.0); 
 p.k1 = 0.5; p.k2 = 0.1;
 p.km1 = 0.25; p.km2 = 0.1;
 
@@ -14,7 +18,7 @@ p.h = stimweight;
 steady_response = y(end,2);
 
 % What is the response to an oscillatory input of the same total weight?
-n = 2; 
+n = 40; 
 response = zeros(1,n);
 logfreq = linspace(-3,0,n);
 freq = 10.^logfreq;
@@ -26,6 +30,9 @@ for i=1:n
     p.w = stimweight*p.T/p.h;
     options = odeset('RelTol',1e-8,'AbsTol',1e-10,'MaxStep',p.w/200);
     tspan = linspace(0,150*p.T,1000); % long enough to sit on the periodic solution
+    %this time could be shortened considerably by using better initial
+    %conditions for the integration, say, the last values from the previous
+    %integration
     init = [0 0];
     [t,y] = ode15s(@(t,y)rhs(t,y,p),tspan,init,options);
     %plot(t,y(:,2))
@@ -36,8 +43,14 @@ for i=1:n
     %plot(t,y(:,2))
     response(i) = mean(y(:,2));
 end
-plot(logfreq,response,logfreq,steady_response*ones(1,n))
-
+ 
+figure(1)
+semilogx( freq,response, freq,steady_response*ones(1,n),'--')
+box off
+xlabel('Frequency of stimulation (1/T)')
+ylabel('Average response over period')
+legend('boxoff')
+legend('pulsatile input','steady input')
 writematrix([freq' response'],'adaptation.dat','Delimiter',' ')
 
 
