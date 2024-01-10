@@ -13,9 +13,9 @@ stimweight = 35/1000;
 steady_response = 1 - GK(stimweight,p)
 
 % What is the response to an oscillatory input of the same total weight?
-n = 50; 
+n = 100; 
 response = zeros(1,n);
-logfreq = linspace(-3,0,n);
+logfreq = linspace(-2.4,0,n);
 freq = 10.^logfreq;
 period = 1./freq;
 
@@ -26,7 +26,7 @@ for i=1:n
     p.w = 1;
     p.h = stimweight*p.T/p.w;
     options = odeset('RelTol',1e-8,'AbsTol',1e-10,'MaxStep',p.w/200);
-    tspan = linspace(0,30*p.T,10000); % long enough to sit on the periodic solution
+    tspan = linspace(0,15*p.T,1000); % long enough to sit on the periodic solution
      
     [t,y] = ode15s(@(t,y)rhs(t,y,p),tspan,init,options);
  
