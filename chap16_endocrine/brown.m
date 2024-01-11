@@ -9,27 +9,35 @@ set(0,                           ...
  
 par.eps=1/50; par.c=0.2; par.k1=1; par.k2=1; par.k3=1; par.k4=1; par.rg=2.5;
 par.p1=100; par.p2=100; par.p3=0.3; par.rz=1;
+formatSpecF = '%6.2f\n';
 
-solve_time_dependent_a(par)
-solve_a_constant(par)
-
-end
+stimlist = [0.1,0.6,1];
+for j = 1:length(stimlist)
+ 
 
 %%
-function solve_time_dependent_a(par)
-par.stimperiod = 1;
+ 
+par.stimperiod = stimlist(j);
 par.stimwidth = 0.9*par.stimperiod;
 par.stimheight = 0.08;
 initial = [0.1 0 0];
-tspan = linspace(0,15,100000);
+tspan = linspace(0,15,1000);
 [tt,sol]=ode15s(@(t,y)brownfun(t,y,par),tspan,initial);
-figure(1)
+figure(2*j-1)
 plot(tt,sol(:,1))
-figure(2)
+xlabel('t')
+ylabel('v')
+figure(2*j)
 plot(tt,sol(:,3))
+xlabel('t')
+ylabel('z')
+ title(strcat('Period = ',sprintf(formatSpecF, par.stimperiod)),'fontsize',18)
+ 
 %save brown.dat sol -ASCII
 end
 
+solve_a_constant(par)
+end
 %%
 function dydt=brownfun(t,y,par)
 v=y(1); g=y(2); z=y(3);
@@ -60,7 +68,7 @@ g2 = par.k3*a + v;
 a = 3;
 g3 = v.*(par.c-v).*(v-1) + par.k2*a;
 g4 = par.k3*a + v;
-figure(3)
+figure(10)
 plot(v,g1,'r','HandleVisibility','off')  % don't include in legend
 hold on
 plot(v,g2,'r',v,g3,'b')
@@ -74,19 +82,18 @@ hold on
 par.stimperiod = 100;
 par.stimheight = a;
 initial = [0 0 0];
-tspan = linspace(0,10,100000);
-par.stimwidth = 0.1;
+tspan = linspace(0,10,1000);
+stimlist = [0.1,0.3,1];
+for j = 1:3
+
+par.stimwidth = stimlist(j);
 [tt,sol]=ode15s(@(t,y)brownfun(t,y,par),tspan,initial);
 plot(sol(:,1),sol(:,2),'LineWidth',2)
-par.stimwidth = 0.3;
-[tt,sol]=ode15s(@(t,y)brownfun(t,y,par),tspan,initial);
-plot(sol(:,1),sol(:,2),'LineWidth',2)
-par.stimwidth = 1;
-[tt,sol]=ode15s(@(t,y)brownfun(t,y,par),tspan,initial);
-plot(sol(:,1),sol(:,2),'LineWidth',2)
+end
+
 xlabel('v')
 ylabel('g')
-legend('nullclines for a=0','nullclines for a=3','a=3 for 0.1','a=3 for 0.3','a=3 for 1')
+legend('nullclines for a=0','nullclines for a=3','a=3 for t=0.1','a=3 for t=0.3','a=3 for t=1')
 ax = gca; 
 ax.FontSize = 14;
 end
