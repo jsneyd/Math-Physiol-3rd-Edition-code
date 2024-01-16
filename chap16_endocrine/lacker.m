@@ -2,7 +2,7 @@
 
 % Solve the Lacker model for the control of ovulation number. The model is
 % solved in the transformed coordinates (gamma rather than xi) because it is
-% much easier that way, as this avoids problem of  solutions going to infinity in
+% much easier that way, as this avoids the problem of  solutions going to infinity in
 % finite time, which is a real pain
 
 function lacker
