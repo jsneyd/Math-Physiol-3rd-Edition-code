@@ -30,7 +30,12 @@ Nmset = [10:5:200];
 
 for j = 1:length(Nmset)
     Nm = Nmset(j);
-     V(j) = bisect_function;
+    % guess a lower bound for the root
+a = -3.5;
+
+% guess an upper bound for the speed
+b = -0.01;
+     V(j) = bisect(@feval,a,b);
 end
 
 mu= KJUans(V);
@@ -47,22 +52,7 @@ ylabel('V(mV)')
 
 
 %%
-function root=bisect_function
- % a bisection root finder algorithm
-% 
-% guess a lower bound for the root
-a = -3.5;
-
-% guess an upper bound for the speed
-b = -0.01;
-
-%call the function bisect(a,b)
-
-root = bisect(a,b);
-end
-
-%%
-function root = bisect(a,b)
+function root = bisect(feval,a,b)
 
 ul = a;
 fl = feval(ul);

@@ -4,6 +4,10 @@
 
 clear
 
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0);
 %parameters
 kbar = 0.5;  
 cbar = exp(-kbar);
