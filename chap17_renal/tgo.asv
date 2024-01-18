@@ -54,15 +54,10 @@ plot(tbar(ndx),g(ndx))
 hold on
 end
 axis([0 0.3 0 20])
-xlabel('\tau') 
+ 
 ylabel('\gamma')
-text(0.1,19,'n=4','fontsize',18)
-text(0.17,15,'n=3','fontsize',18)
-text(0.2,5.5,'n=2','fontsize',18)
-text(.25,3,'n=1','fontsize',18)
-text(0.05,17,'unstable','fontsize',18)
-text(0.03,3,'stable','fontsize',18)
-
+text(0.1,19,'n=4')
+text()
 hold off
 
 
