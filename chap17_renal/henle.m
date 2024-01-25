@@ -10,10 +10,15 @@ p.DPd = 0.15;
 p.DPc = 0.22;
 p.Hd = 0.1;
 p.rd = 0.15;
-p.rc = 2.0;
+ 
 
-p.N=11; % number of grid points
+p.N=51; % number of grid points
 y = linspace(0,1,p.N);
+ 
+
+onebyrclist = [0,0.5];
+for j = 1:2
+    p.onebyrc=onebyrclist(j);
 
 % make up some initial guess
 Qa = -.5;
@@ -22,12 +27,113 @@ Sd=-(Qd -1)*(p.rd*p.Hd)+1-p.DPd*p.Hd*y ;
 Qc1=0.1;
 Qc = Qc1*y -Qa*(1-y);
 
-%figure(1)
-%plot(y,Qd,y,-Qa*ones(p.N,1),'--',y,Qc)
+ X0=[Sd,Qc,Qa,Qc1];
+ 
+[U]=fsolve(@(x)des(x,p),X0); 
+Sd = U(1:p.N);
+Qc = U(p.N+1:2*p.N);
+Qa = U(2*p.N+1);
+Qc1 = U(2*p.N+2);
+tm=(1-Sd-p.DPd*p.Hd*y)/(p.rd*p.Hd);
+Qd = 1+tm;
+
+figure(1)
+if (j==1)
+plot(y,Qd,'--')
+hold on 
+else 
+  plot(y,Qd,y,Qc,y,-Qa*ones(p.N,1))
+hold off
+xlabel('y')
+ylabel('Relative Flux')
+text(0.6,0.75,'Q_d','fontsize',18)
+text(0.6,0.58,'-Q_a','fontsize',18)
+text(0.8,0.3,'Q_d','fontsize',18)
+text(0.8,0.1,'Q_c','fontsize',18)
+box off
+end
+Cd=(1+p.rd*p.Hd*(1-Qd)-p.DPd*p.Hd*y)./Qd;
+Cd=Sd./Qd;
+Cs = (p.P+p.DPd*p.Hd).*(1-y)./(Qd+Qa)-p.rd*p.Hd;
+Ca=Cd(p.N)-p.P*(y-1)/Qa;
+
+ Cc=-Qa*Ca(1)./Qc;
+
+if(j==1)
+figure(2)
+ 
+plot(y,Cd,y,Ca,y,Cc)
+text(0.09,1.65,'C_d','fontsize',18)
+text(0.18,1 ,'C_a','fontsize',18)
+text(0.4,0.7,'C_c','fontsize',18)
+xlabel('y')
+ylabel('Relative Concentration')
+box off
+else
+    figure(3)
+   plot(y,Cd,y,Ca,y,Cc)
+   text(0.4,1.45,'C_d','fontsize',18)
+text(0.4,.9 ,'C_a','fontsize',18)
+text(0.4,0.35,'C_c','fontsize',18)
+xlabel('y')
+ylabel('Relative Concentration')
+box off
+axis([0 1 0 2])
+
+end
+ 
+end
+
+%now loop on rc for no ADH case:
+% make up some initial guess
+Qa = -.5;
+Qd = -Qa*y +(1-y);
+Sd=-(Qd -1)*(p.rd*p.Hd)+1-p.DPd*p.Hd*y ; 
+Qc1=0.1;
+Qc = Qc1*y -Qa*(1-y);
 
  
-X0=[Sd,Qc,Qa,Qc1];
-fsolve(@(x)des(x,p),X0)
+ X0=[Sd,Qc,Qa,Qc1];
+ p.P = 0.9;
+
+onebyrclist = [0.01:.02:2];
+  
+for j = 1:length(onebyrclist)
+   p.onebyrc = onebyrclist(j);
+ 
+[U]=fsolve(@(x)des(x,p),X0); 
+% use the solution as the initial guess for the next try
+X0=U;
+ 
+
+Sd = U(1:p.N);
+Qc = U(p.N+1:2*p.N);
+Qa = U(2*p.N+1);
+Qc1 = U(2*p.N+2);
+tm=(1-Sd-p.DPd*p.Hd*y)/(p.rd*p.Hd);
+Qd = 1+tm;
+QdP(j) = Qd(p.N);
+
+ Qc1j(j) = Qc1;
+ Cd1(j) = Sd(p.N)/Qd(p.N);
+ Cc=-Qa*Ca(1)./Qc;
+ Cc1(j)=Cc(p.N);
+ Cc0(j)=Cc(1);
+
+
+end
+figure(4)
+plot(onebyrclist,Qc1j,onebyrclist,QdP)
+xlabel('1/\rho_c')
+ylabel('Flow Rate')
+text(0.8,0.08,'Q_c(1)','fontsize',18)
+
+text(0.8,0.5,'Q_d(1)','fontsize',18)
+figure(5)
+plot(onebyrclist,Cd1,onebyrclist,Cc1,onebyrclist,Cc0)
+xlabel('1/\rho_c')
+ylabel('Relative Concentration')
+
 
 function out = des(U,p)
  
@@ -44,19 +150,20 @@ tm = (1-Sd-p.DPd*p.Hd*y)/(p.rd*p.Hd);
 Qs = -1-Qa-Qc+Qc(p.N) - tm ;
 Qd = 1+ tm;
 Fd = Ss./Qs-Sd./Qd;
-Fc = -p.DPc+Sc(1)./Qc-Ss./Qs;
 
-Cd=(1+p.rd*p.Hd(1-Qd)-p.DPd*p.Hd*y)./Qd;
-Cs = (p.P+p.DPd*p.Hd).*(11-y)./(Qd+Qa)-p.rd*p.Hd;
+Fc = -p.DPc+(Sd(p.N)-p.P)./Qc-Ss./Qs;
+
+Cd=(1+p.rd*p.Hd*(1-Qd)-p.DPd*p.Hd*y)./Qd;
+Cs = (p.P+p.DPd*p.Hd).*(1-y)./(Qd+Qa)-p.rd*p.Hd;
 
 
-eqSd =[Sd(1)-1,(Sd(3:N)-Sd(1:p.N-2))/(2*dy)-p.Hd*Fd(2:p.N-1), ...
-    (Sd( N)-Sd( p.N-1))/(dy)-p.Hd*Fd(p.N)];  
+eqSd =[Sd(1)-1,(Sd(2:p.N-1)-Sd(1:p.N-2))/(dy)-p.Hd*Fd(1:p.N-2), ...
+    (Sd(p.N)-Sd( p.N-1))/(dy)-p.Hd*Fd(p.N-1)];  
 % 
-eqQc = [Qc(1)+Qa,(Qc(3:p.N)-Qc(1:p.N-2))/(2*dy)-Fc(2:N-1)/p.rc, ...
-    (Qc(p.N)-Qc( p.N-1))/(dy)-Fc(N)/p.rc];
+eqQc = [Qc(1)+Qa,(Qc(2:p.N-1)-Qc(1:p.N-2))/(dy)-Fc(1:p.N-2)*p.onebyrc, ...
+    (Qc(p.N)-Qc( p.N-1))/(dy)-Fc(p.N-1)*p.onebyrc];
 
-eqQa = Sd(p.N)-1-(Qa+1)*p.rd*p.Hd+p.Drd*p.Hd;
+eqQa = Sd(p.N)-1-(Qa+1)*p.rd*p.Hd+p.DPd*p.Hd;
 eqQc1 = Qc1-Qc(p.N);
 
  
