@@ -94,32 +94,28 @@ Qc = Qc1*y -Qa*(1-y);
  
  X0=[Sd,Qc,Qa,Qc1];
  
-onebyrclist1 = [0.01:0.05:2];
+onebyrclist1 = [0.01:0.01:2];
   
-for k = 1:length(onebyrclist1)
-   p.onebyrc = onebyrclist1(k)
+for j = 1:length(onebyrclist1)
+   p.onebyrc = onebyrclist1(j);
  
-[V]=fsolve(@(x)des(x,p),X0); 
+[U]=fsolve(@(x)des(x,p),X0); 
 % use the solution as the initial guess for the next try
-X0=V;
+X0=U;
  
-Sd = V(1:p.N);
-Qc = V(p.N+1:2*p.N);
-Qa = V(2*p.N+1);
-Qc1 = V(2*p.N+2);
+Sd = U(1:p.N);
+Qc = U(p.N+1:2*p.N);
+Qa = U(2*p.N+1);
+Qc1 = U(2*p.N+2);
 tm=(1-Sd-p.DPd*p.Hd*y)/(p.rd*p.Hd);
 Qd = 1+tm;
- 
-Cd=Sd./Qd;
-Cs = (p.P+p.DPd*p.Hd).*(1-y)./(Qd+Qa)-p.rd*p.Hd;
-Ca=Cd(p.N)-p.P*(y-1)/Qa;
-QdP(k) = Qd(p.N);
+QdP(j) = Qd(p.N);
 
- Qc1j(k) = Qc1;
- Cd1(k) = Sd(p.N)/Qd(p.N);
+ Qc1j(j) = Qc1;
+ Cd1(j) = Sd(p.N)/Qd(p.N);
  Cc=-Qa*Ca(1)./Qc;
- Cc1(k)=Cc(p.N);
- Cc0(k)=Cc(1);
+ Cc1(j)=Cc(p.N);
+ Cc0(j)=Cc(1);
 
 
 end
@@ -131,12 +127,10 @@ text(0.8,0.08,'Q_c(1)','fontsize',18)
 
 text(0.8,0.5,'Q_d(1)','fontsize',18)
 figure(5)
-plot(onebyrclist1,Cc1,onebyrclist1,Cd1,onebyrclist1,Cc0)
+plot(onebyrclist1,Cd1,onebyrclist1,Cc1,onebyrclist1,Cc0)
 xlabel('1/\rho_c')
 ylabel('Relative Concentration')
-text(0.2,2.4,'C_d(1)','fontsize',18)
-text(0.54,1,'C_c(1)','fontsize',18)
-text(1,0.5,'C_c(0)','fontsize',18)
+
 
 function out = des(U,p)
  
