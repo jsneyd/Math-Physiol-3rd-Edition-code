@@ -34,8 +34,15 @@ Sd = U(1:p.N);
 Qc = U(p.N+1:2*p.N);
 Qa = U(2*p.N+1);
 Qc1 = U(2*p.N+2);
-tm=(1-Sd-p.DPd*p.Hd*y)/(p.rd*p.Hd);
-Qd = 1+tm;
+V = get_conc(U,p);
+ 
+Ss = V(1:p.N);
+Qs = V(p.N+1:2*p.N);
+Qd = V(2*p.N+1:3*p.N);
+Cd = V(3*p.N+1:4*p.N);
+Cs= V(4*p.N+1:5*p.N);
+Ca =  V(5*p.N+1:6*p.N);
+Cc=V(6*p.N+1:7*p.N); 
 
 figure(1)
 if (j==1)
@@ -52,13 +59,7 @@ text(0.8,0.3,'Q_d','fontsize',18)
 text(0.8,0.1,'Q_c','fontsize',18)
 box off
 end
-Cd=(1+p.rd*p.Hd*(1-Qd)-p.DPd*p.Hd*y)./Qd;
-Cd=Sd./Qd;
-Cs = (p.P+p.DPd*p.Hd).*(1-y)./(Qd+Qa)-p.rd*p.Hd;
-Ca=Cd(p.N)-p.P*(y-1)/Qa;
-
- Cc=-Qa*Ca(1)./Qc;
-
+ 
 if(j==1)
 figure(2)
  
@@ -99,25 +100,30 @@ onebyrclist1 = [0.01:0.05:2];
 for k = 1:length(onebyrclist1)
    p.onebyrc = onebyrclist1(k)
  
-[V]=fsolve(@(x)des(x,p),X0); 
+[U]=fsolve(@(x)des(x,p),X0); 
 % use the solution as the initial guess for the next try
-X0=V;
+X0=U;
  
-Sd = V(1:p.N);
-Qc = V(p.N+1:2*p.N);
-Qa = V(2*p.N+1);
-Qc1 = V(2*p.N+2);
-tm=(1-Sd-p.DPd*p.Hd*y)/(p.rd*p.Hd);
-Qd = 1+tm;
+Sd = U(1:p.N);
+Qc = U(p.N+1:2*p.N);
+Qa = U(2*p.N+1);
+Qc1 = U(2*p.N+2);
+
+V = get_conc(U,p);
  
-Cd=Sd./Qd;
-Cs = (p.P+p.DPd*p.Hd).*(1-y)./(Qd+Qa)-p.rd*p.Hd;
-Ca=Cd(p.N)-p.P*(y-1)/Qa;
+Ss = V(1:p.N);
+Qs = V(p.N+1:2*p.N);
+Qd = V(2*p.N+1:3*p.N);
+Cd = V(3*p.N+1:4*p.N);
+Cs= V(4*p.N+1:5*p.N);
+Ca =  V(5*p.N+1:6*p.N);
+Cc=V(6*p.N+1:7*p.N); 
+ 
 QdP(k) = Qd(p.N);
 
  Qc1j(k) = Qc1;
  Cd1(k) = Sd(p.N)/Qd(p.N);
- Cc=-Qa*Ca(1)./Qc;
+ 
  Cc1(k)=Cc(p.N);
  Cc0(k)=Cc(1);
 
@@ -148,16 +154,19 @@ Qc = U(p.N+1:2*p.N);
 Qa = U(2*p.N+1);
 Qc1 = U(2*p.N+2);
 
-Ss = p.P*(y-1) + Sd(p.N)-Sd;
-tm = (1-Sd-p.DPd*p.Hd*y)/(p.rd*p.Hd);
-Qs = -1-Qa-Qc+Qc(p.N) - tm ;
-Qd = 1+ tm;
+V = get_conc(U,p);
+ 
+Ss = V(1:p.N);
+Qs = V(p.N+1:2*p.N);
+Qd = V(2*p.N+1:3*p.N);
+Cd = V(3*p.N+1:4*p.N);
+Cs= V(4*p.N+1:5*p.N);
+Ca =  V(5*p.N+1:6*p.N);
+Cc=V(6*p.N+1:7*p.N); 
 Fd = Ss./Qs-Sd./Qd;
 
 Fc = -p.DPc+(Sd(p.N)-p.P)./Qc-Ss./Qs;
-
-Cd=(1+p.rd*p.Hd*(1-Qd)-p.DPd*p.Hd*y)./Qd;
-Cs = (p.P+p.DPd*p.Hd).*(1-y)./(Qd+Qa)-p.rd*p.Hd;
+ 
 
 
 eqSd =[Sd(1)-1,(Sd(2:p.N-1)-Sd(1:p.N-2))/(dy)-p.Hd*Fd(1:p.N-2), ...
@@ -174,3 +183,24 @@ out = [eqSd,eqQc,eqQa,eqQc1];
 
 end
 
+function out = get_conc(U,p)
+
+y = linspace(0,1,p.N);
+ 
+Sd = U(1:p.N);
+Qc = U(p.N+1:2*p.N);
+Qa = U(2*p.N+1);
+Qc1 = U(2*p.N+2);
+
+Ss = p.P*(y-1) + Sd(p.N)-Sd;
+tm = (1-Sd-p.DPd*p.Hd*y)/(p.rd*p.Hd);
+Qs = -1-Qa-Qc+Qc(p.N) - tm ;
+Qd = 1+ tm;
+
+Cd=Sd./Qd;
+Cs = (p.P+p.DPd*p.Hd).*(1-y)./(Qd+Qa)-p.rd*p.Hd;
+Ca=Cd(p.N)-p.P*(y-1)/Qa;
+ Cc=-Qa*Ca(1)./Qc;
+
+ out = [Ss,Qs,Qd,Cd,Cs,Ca,Cc];
+end
