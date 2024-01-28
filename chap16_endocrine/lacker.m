@@ -2,7 +2,7 @@
 
 % Solve the Lacker model for the control of ovulation number. The model is
 % solved in the transformed coordinates (gamma rather than xi) because it is
-% much easier that way, as you avoid the solutions going to infinity in
+% much easier that way, as this avoids the problem of  solutions going to infinity in
 % finite time, which is a real pain
 
 function lacker
@@ -17,7 +17,7 @@ par.n = 10;
 par.M1 = 4;
 par.M2 = 20;
 
-fol0 = sort(0.1*rand(1,par.n),'descend'); % They have to be ordered.
+fol0 = sort(0.1*rand(1,par.n),'descend'); % They must be ordered.
 xi10 = fol0(1);
 gam0 = fol0/fol0(1);  % initial conditions for the gammas.
 tspan = linspace(0,2,1000);
@@ -30,6 +30,8 @@ xi1 = y(:,par.n+1);
 t = y(:,par.n+2);
 figure(1)
 plot(tau,gam)
+xlabel('\tau')
+ylabel('\gamma_i')
 
 % Now reconstruct and plot the xi
 xi = gam.*xi1;
@@ -40,7 +42,8 @@ ov_num = sum(gam(end,:)>0.9)
 figure(2)
 plot(t,xi)
 ylim([0 5])
-
+xlabel('t')
+ylabel('\xi_i')
 
 
 end

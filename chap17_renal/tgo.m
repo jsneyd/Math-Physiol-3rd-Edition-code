@@ -1,30 +1,70 @@
 
 function main
 clear all
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 1.2, ...
+   'defaultlinelinewidth', 2.0); 
 global numx delx delt numtimesteps delay 
 global c K1 K2 Cop k
 
 numx=100; delx=1/numx; delt=0.001;
 numtimesteps=20000; delay=200;
 keepend=zeros(numtimesteps+delay,1);
-
+time = [1:numtimesteps+delay]*delt;
 c=zeros(numx,1);
 c(1)=1;
 
-gamma=2;
 k=1; Cop=exp(-k); 
-K1=1.5; K2=gamma/(K1*k*exp(-k));
+K1=1.5; 
 
 
+gammalist = [3,2];
+for jj = 1:length(gammalist)
+
+gamma=gammalist(jj);;
+K2=gamma/(K1*k*exp(-k));
 for i=1:numtimesteps
     keepend(i+delay)=c(numx);
+    
     c(2:numx) = c(2:numx) - ...
                 delt*k*c(2:numx) - phi(keepend(i))*(delt/delx)*(c(2:numx)-c(1:numx-1));
 end
 
-figure(1)
-plot(keepend)
+formatSpecF = '%6.2f\n';
+ figure(jj)
+plot(time,keepend)
+xlabel('time')
+ylabel('macula densa [Cl^-]')
 save('tgoosc.dat','-ascii','keepend')
+title(strcat('\gamma = ',sprintf(formatSpecF,gamma)))
+axis([0 20 0 0.7])
+
+end
+
+% stability curves
+tbar = [0:.001:.3];
+for n = 1:4
+w = n*pi./(tbar+1/2);
+g = (-1)^(n+1)*w./(2*sin(w/2));
+ndx = find(g>0);
+
+figure(3)
+plot(tbar(ndx),g(ndx))
+hold on
+end
+axis([0 0.3 0 20])
+xlabel('\tau') 
+ylabel('\gamma')
+text(0.1,19,'n=4','fontsize',18)
+text(0.17,15,'n=3','fontsize',18)
+text(0.2,5.5,'n=2','fontsize',18)
+text(.25,3,'n=1','fontsize',18)
+text(0.05,17,'unstable','fontsize',18)
+text(0.03,3,'stable','fontsize',18)
+
+hold off
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
