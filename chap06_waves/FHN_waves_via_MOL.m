@@ -10,6 +10,10 @@
 % 
 %  -------------------------------------------------------------------  
 
+clear all
+close all
+clc
+
 set(0,                           ...
 'defaultaxesfontsize', 20,   ...
 'defaultaxeslinewidth', 1.2, ...
