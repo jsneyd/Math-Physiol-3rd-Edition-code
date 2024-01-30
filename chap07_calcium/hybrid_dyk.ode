@@ -1,0 +1,97 @@
+#
+# XPPAUT file for the hybrid model of Ca oscillations.
+# Keener and Sneyd, Mathematical Physiology, 3rd Edition.
+# Chapter 7, Section 7.4.3.
+# Written by James Keener and James Sneyd
+
+#  Pure Class I. Set Kplc = eta = 0.
+#  Pure Class II. Set tauy = 1000
+#  Positive feedback only. Set Kplc = 0.2, eta = 0.
+#  Negative feedback only. Set Kplc = 0, eta = 1.
+
+
+c(0)=0.3
+y(0)=0.47
+ct(0) = 2
+p(0)=0.2
+
+# Parameter values
+
+param Vplc=0
+
+# Kplc = 0 is no positive feedback 
+# Kplc = 0.2 is with positive feedback
+param Kplc=0.2
+
+# eta = 0 is no negative feedback
+# eta = 1 is with negative feedback
+param eta=0
+
+# buffer = 1 means no buffer. Decrease this to simulate the addition of exogenous buffer.
+param buffer=1
+
+# This is a fake parameter that does nothing but speed up y relative to the other variables.
+# Use it to get rid of the time dependence of IPR inactivation.
+param timefiddle = 1
+
+k1=400
+km1=52
+k2=0.2
+km2=0.21
+k3=400
+km3=377.2
+k4=0.2
+km4=0.029
+k5=20
+km5=1.64
+
+bigK1=km1/k1
+bigK2=km2/k2
+bigK3=km3/k3
+bigK4=km4/k4
+bigK5=km5/k5
+
+gamma = 5.5
+Vpm = 0.1
+Kpm = 0.3
+kf=1.11
+Vs=0.9
+ks=0.1
+Kbar = 2e-7
+alpha0=.005
+Vsocc=.03
+Ksocc = 150
+param delta=5
+
+param k5P=0.66
+param K3K = 0.4
+
+
+# Define the functions used in the model
+
+ce=gamma*(ct-c)
+Jserca=Vs*(c*c - Kbar*ce*ce)/(c*c+Ks*Ks)
+Jpm = Vpm*c^2/(Kpm^2+c^2)
+Jin = alpha0 + Vsocc*Ksocc^4/(ce^4+Ksocc^4)
+
+Po= ( p*c*(1-y)/((p+bigK1)*(c+bigK5)) )^3
+phi1 = (km4*bigK2*bigK1 + km2*p*bigK4)*c/(bigK4*bigK2*(p+bigK1))
+phi2 = (km2*p + km4*bigK3)/(p+bigK3)
+
+
+# Define the differential equations here
+#
+dc/dt = buffer*((kf*Po)*(ce-c)-Jserca + delta*(Jin - Jpm))
+dy/dt = timefiddle*(phi1*(1-y) - phi2*y)
+dct/dt = delta*(Jin - Jpm)
+dp/dt = Vplc*c^2/(Kplc^2+c^2) - k5P*(eta*c^2/(K3K^2+c^2) + (1-eta))*p
+
+aux ce=gamma*(ct-c)
+
+@ total=400,dt=0.05,xp=t,yp=c,xlo=0,xhi=400,ylo=0,yhi=2,meth=gear,bounds=1000
+@ ntst=250,nmax=200000,npr=200000,dsmin=0.001,dsmax=0.05,ds=0.002
+@ parmin=0,parmax=1
+@ autoxmin=0,autoxmax=1,autoymin=0,autoymax=2,nmax=20000
+@ epsl=1e-8, epsu=1e-8, epss=1e-8
+
+done

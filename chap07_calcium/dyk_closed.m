@@ -1,5 +1,6 @@
 % simple closed cell oscillations
-function closed_cell
+
+
 close all
 clear all
 clc
@@ -35,9 +36,9 @@ p.K5=p.km5/p.k5;
 p.K2 = p.km2/p.k2;
 p.K3=p.km3/p.k3;
 p.K4=p.km4/p.k4;
-p.Vplc = 0.4;
 
- init = [0.5 ,0.55];
+
+init = [0.5 ,0.55];
 dt=0.1;
 tend=50;
 
@@ -49,28 +50,28 @@ plot(t,sol(:,1),'r',t,sol(:,2),'b')  % time series
 xlabel('Time')
 legend('c','y')
 formatSpecF = '%6.2f\n';
- 
- title(strcat('p = ',sprintf(formatSpecF,p.p),' c_T = ',sprintf(formatSpecF,p.ct)),'fontsize',18)
- 
+
+title(strcat('p = ',sprintf(formatSpecF,p.p),' c_T = ',sprintf(formatSpecF,p.ct)),'fontsize',18)
+
 % nullclines 
- 
+
 c = [0.001:0.001:p.ct-0.001];
 ph1  = (p.km4*p.K1*p.K2+p.km2*p.K4*p.p).*c./(p.K4*p.K2*(p.p+p.K1));
 ph2 =  (p.km2*p.p+p.km4*p.K3)/(p.K3+p.p);
 
- y1=ph1./(ph1  +ph2);
- 
- ce=p.gm*(p.ct-c); % this is how ct is defined in this code, ce must be positive
- 
- Jserca = p.Vserca*(c.^2-p.Kbar*ce.^2)./(p.Kserca^2+c.^2);
+y1=ph1./(ph1  +ph2);
+
+ce=p.gm*(p.ct-c); % this is how ct is defined in this code, ce must be positive
+
+Jserca = p.Vserca*(c.^2-p.Kbar*ce.^2)./(p.Kserca^2+c.^2);
 Po=Jserca./(p.kf*(ce-c));
- cdx = find(Po>0);
-  
+cdx = find(Po>0);
+
 tmp=((p.p+p.K1).*(c+p.K5).*Po.^(1/3))./(p.p*c);
 y2=1- tmp;
- 
 
- figure(2)  % phase portrait
+
+figure(2)  % phase portrait
 semilogx(sol(:,1),sol(:,2),c,y1,'--',c(cdx),y2(cdx),'b--')
 xlabel('c')
 ylabel('y')
@@ -78,8 +79,12 @@ axis([0.02 max(c(cdx)) 0.4 1])
 text(1,0.9,'dy/dt=0','fontsize',18)
 text(3.5,0.5,'dc/dt=0','fontsize',18)
 formatSpecF = '%6.2f\n';
- 
- title(strcat('p = ',sprintf(formatSpecF,p.p),' c_T = ',sprintf(formatSpecF,p.ct)),'fontsize',18)
+
+title(strcat('p = ',sprintf(formatSpecF,p.p),' c_T = ',sprintf(formatSpecF,p.ct)),'fontsize',18)
+
+
+
+%% the differential equations
 function out=coscrhs(t,x,p)
 
 c=x(1); % calcium
@@ -100,4 +105,6 @@ out(2) = ph1*(1-y) -ph2*y;
 %out(3) = p.Vplc-p
 % and then the steady state for p is p.Vplc
 out = out';
+
+end
  

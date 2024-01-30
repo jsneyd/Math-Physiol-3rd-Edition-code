@@ -1,0 +1,370 @@
+#===== gnrh_burst.ode ==========================================================
+
+# Article title: A unified model for two modes of bursting in GnRH neurons
+# Journal: J. Comp Neurosci 
+# Authors: Spencer Moran, Suzanne M. Moenter, Anmar Khadra
+# Corresponding authors: Anmar Khadra (anmar.khadra@mcgill.ca), McGill University, Montreal, QC
+
+# Source file author: Spencer Moran (spencer.moran@mail.mcgill.ca)
+
+# Description:
+#
+# Implementation of a model for parabolic and irregular bursting in GnRH neurons. 
+# Simulations can be run deterministically or stochastically, which is controlled
+# using XPP parameter sets. 
+#
+# Three different types of noise models can be simulated:
+#
+#   1) a. Additive current noise (Wiener process), set=simple_noise
+#       b. Additive current noise (OU Process), set=ou_noise
+#   2) Subunit noise on ms (Wiener process), set=subunit_noise
+#
+# To turn off noise altogether, select the set "no_noise".
+# The preferred method for adding noise to the system is the OU method.
+#
+# Note: integration of stochastic differential equations should be carried
+# out using METH=euler in order to accurately simulate the effect
+# of noise. However, for the purposes of testing only, other methods can
+# be used to relax the small time step constraint of the standard Euler method.
+#
+# To switch between burst modes, load the appropriate set file (gnrh_x.ode.set)
+# where x='parabolic' or x='irregular'. For an example of how the affect of acute 
+# estradiol can be simulated, load the file gnrh_estradiol.ode.set.
+#
+# The default behaviour of this .ode file is to simulate a deterministic
+# stable steady-state of the irregular bursting model. Irregular bursting can be
+# simulated by loading either of the parameter sets 'ou_noise" or 'subunit_noise' once
+# this file is opened in XPP. Loading gnrh_irregular.ode.set will revert
+# back to the default behaviour. So this file can be edited without losing
+# the default functionality.
+#
+# The set file for parabolic bursting (gnrh_parabolic.ode.set) will change
+# the initial conditions and some maximum conductance parameters to generate
+# the burst pattern.
+#
+# The set file gnrh_estradiol.ode.set will load a parameter set and initial
+# conditions that intially simulate subthreshold oscillations with non-zero
+# sodium conductances. The effect of estradiol is time dependent, and switched on
+# at time te. The effectiveness of estradiol saturates with time constant taue. 
+#
+# This version of the file also contains two tentative models
+# for I_Kir and I_m which are disabled (gir=gm=0) by default,
+# but can be activated for verification purposes.
+#===============================================================================   
+
+par ms = 0.1
+par ca = 0.3
+
+#===============================================================================               
+# Kirchoff equation               
+#===============================================================================          
+dv/dt=ts*(1/cm)*(-Iion + Icn + I_app)     
+        
+#===============================================================================              
+# Gating ODEs               
+#===============================================================================        
+#Naf                     
+dc/dt=ts*(bnaf*o+r3*(1-c-o)-(anaf+r4)*c)  
+do/dt=ts*(anaf*c+r2*(1-c-o)-(r1+bnaf)*o)
+dob/dt=-ts*ob 
+ 
+#Nap               
+dhnap/dt=ts*(hnapinf-hnap)/tauhnap               
+dmnap/dt=ts*(mnapinf-mnap)/taumnap          
+        
+#A               
+dha/dt=ts*(hainf-ha)/tauha          
+dhas/dt=ts*(hainf-has)/tauhas          
+dma/dt=ts*(mainf-ma)/tauma         
+        
+#K                            
+dmk/dt=ts*(mkinf-mk)/taumk          
+        
+#HVA               
+dmhva/dt=ts*(mhvainf-mhva)/taumhva             
+dhhva/dt=ts*(hhvainf-hhva)/tauhhva        
+dhhvas/dt=ts*(hhvainf-hhvas)/tauhhvas          
+        
+#LVA              
+dmlva/dt=ts*(mlvainf-mlva)/taumlva             
+dhlva/dt=ts*(hlvainf-hlva)/tauhlva               
+                
+#Ih               
+dhh1/dt=ts*(hh1inf-hh1)/tauhh1              
+dhh2/dt=ts*(hh2inf-hh2)/tauhh2           
+       
+#Kir      
+dhkir/dt=ts*(hkirinf-hkir)/tauhkir        
+      
+#Km      
+dmkm/dt=ts*(mkminf-mkm)/taumkm      
+      
+# Ornstein-Uhlenbeck (OU) process        
+deta/dt=ts*(1/tc)*(-eta + oune*sqrt(2*d*tc)*n01)    
+    
+# Ionic currents        
+inaf = gnaf*o^3*(v-(vna-vs))   
+inap = gnap*mnap*hnap*(v-(vna-vs))    
+ia = ga*(1-ega*eapp(t))*ma*(f1a*ha+(1-f1a)*has)*(v-(vk-vs))   
+ik = gk*(1-egk*eapp(t))*mk^Nk*(v-(vk-vs))        
+ihva = ghva*mhva*(f1hva*hhva+(1-f1hva)*hhvas)*(v-(vca-vs))         
+ilva = glva*mlva^2*hlva*(v-(vca-vs))            
+is = gs*(1-egs*eapp(t))*ms*(v-(vca-vs))   
+ih = gh*(1-egh*eapp(t))*(fhh1*hh1 + (1-fhh1)*hh2)*(v-(vh-vs))         
+ikca = gkca*(1-egkca*eapp(t))*(ca^nkca/(kkca^nkca+ca^nkca))*(v-(vk-vs))    
+il = gl*(v-(vl-vs))        
+Ikir=gkir*hkir*(v-(vk-vs))      
+Im=gm*mkm*(v-(vk-vs))      
+Iion=Inaf+Inap+Ia+Ik+Ihva+Ilva+Is+Ih+Ikca+Il+Im+Ikir    
+        
+# Current noise (Gaussian white noise and exponentially correlated noise)        
+Icn=currentne*sigma*n01_2 + oune*eta        
+
+#===============================================================================     
+# Initial conditions      
+#===============================================================================
+init V=-61.717 C=0.97522 O=0.015055 OB=0 HNAP=0.85067 MNAP=0.0012938 HA=0.22901 HAS=0.22901
+init MA=0.014106 MK=0.11871 MHVA=0.00071307 HHVA=0.93712 HHVAS=0.93712 MLVA=0.37171 HLVA=0.020034  
+init HH1=0.15358 HH2=0.15358 HKIR=0.21442 MKM=0.0047573 ETA=0
+        
+#===============================================================================             
+# Tabular data (uncomment for usage)              
+#===============================================================================    
+vp=(1/cm)*(-Iion + I_app + Icn)    
+    
+aux I_naf=Inaf        
+aux I_nap=Inap        
+aux I_a=Ia        
+aux I_k=Ik        
+aux I_hva=Ihva        
+aux I_lva=Ilva               
+aux I_s=Is        
+aux I_h=Ih        
+aux I_kca=Ikca        
+aux I_l=Il        
+#aux I_ca=Ilva+Ihva+Is          
+aux I_ion=Iion       
+#aux I_spike=Inaf+Ik      
+#aux I_kir=Ikir      
+#aux I_m=Im    
+#aux I_cn=Icn    
+aux v_p=vp       
+#aux mkca=ca^nkca/(kkca^nkca+ca^nkca)        
+#aux mcap=ca^kpn/(kp^kpn+ca^kpn)        
+        
+                   
+        
+#===============================================================================            
+# Voltage-dependent gating and time constant functions         
+#===============================================================================             
+# steady state (in)activation curve                 
+boltzmann(vh,k,v)=1/(1+exp((v-vh)/k))          
+          
+# emperical time constant functions          
+#emperical(V,a,b,k)=(a*V+b)/(1-exp((V+(b/a))/k))          
+emperical1(a,b,c,d,e,v)=1/(a*exp(b*v)+c*exp(d*v))+e          
+emperical2(a,b,c,d,v)=d+c*exp(-((v-a)/b)^2)          
+emperical3(a,b,c,d,e,f,v)=e/(exp((a+v)/b)+exp((c+v)/d))+f             
+emperical4(a,b,v)=a*v+b          
+        
+#===============================================================================              
+# Inaf gating              
+#===============================================================================                     
+anaf=ap1/(1+exp((v+av1+vs)/av2))               
+bnaf=bp1/(1+exp((v+bv1+vs)/bv2))        
+r3=cp1/(1+exp((v+cv1+vs)/cv2))   
+ 
+#===============================================================================              
+# Inap gating          
+#===============================================================================              
+mnapinf=boltzmann(vhmnap-vs,mnapk,v)               
+hnapinf=boltzmann(vhhnap-vs,hnapk,v)               
+tauhnap=emperical3(ahnap+vs,bhnap,chnap+vs,dhnap,ehnap,fhnap,v)          
+        
+#===============================================================================              
+# Ia gating               
+#===============================================================================              
+mainf=boltzmann(vhma-vs,kma,v)    
+hainf=boltzmann(vhha-vs,kha,v)          
+          
+tauma=emperical3(ama+vs,bma,cma+vs,dma,ema,fma,v)                    
+tauha=dbha     
+#emperical4(daha,dbha,v)          
+tauhas=dbhas     
+#emperical4(daha,dbhas,v)          
+          
+#===============================================================================               
+# Ik gating               
+#===============================================================================               
+mkinf=boltzmann(vhmk-vs,kmk,v)^(1/Nk)                      
+taumk=emperical3(amk+vs,bmk,cmk+vs,dmk,emk,fmk,v)                  
+      
+#===============================================================================      
+# Im gating (Roberts Model)     
+#===============================================================================      
+mkminf=boltzmann(vhmkm-vs,kmkm,v)      
+taumkm=emperical3(amkm+vs,bmkm,cmkm+vs,dmkm,emkm,fmkm,v)      
+      
+#===============================================================================               
+# Ikir gating (Izhikevich Model)            
+#===============================================================================       
+hkirinf=boltzmann(vhhkir-vs,khkir,v)      
+        
+#===============================================================================              
+# Ihva gating              
+#===============================================================================         
+mhvainf=boltzmann(vhmhva-vs,kmhva,v)               
+hhvainf=boltzmann(vhhhva-vs,khhva,v)          
+taumhva=emperical3(amhva+vs,bmhva,cmhva+vs,dmhva,emhva,fmhva,v)        
+        
+#===============================================================================              
+# Ilva gating              
+#===============================================================================             
+mlvainf=boltzmann(vhmlva-vs,kmlva,v)               
+hlvainf=boltzmann(vhhlva-vs,khlva,v)          
+taumlva=emperical3(amlva+vs,bmlva,cmlva+vs,dmlva,emlva,fmlva,v)                
+        
+#===============================================================================              
+# Is gating              
+#===============================================================================            
+msinf = boltzmann(vhms*(1-evhms*eapp(t))-vs,kms*(1-ekms*eapp(t)),v)          
+        
+#===============================================================================              
+# Ih rate/time constants               
+#===============================================================================             
+hh1inf=boltzmann(vhh1-vs,khh1,v)           
+hh2inf=boltzmann(vhh1-vs,khh1,v)           
+          
+tauhh1=emperical2(ahh1-vs,bhh1,chh1,dhh1,v)           
+tauhh2=emperical2(ahh2-vs,bhh2,chh2,dhh2,v)           
+        
+#===============================================================================               
+# Parameter sets  (used to control noise types)    
+#===============================================================================                      
+set no_noise {subunitne=0, currentne=0, oune=0, dt=0.2, meth=gear, total=60000,nout=1}           
+set simple_noise {subunitne=0,oune=0,currentne=1,dt=0.01,meth=euler,sigma=1, total=60000,nout=5}  
+set ou_noise {oune=1,subunitne=0,currentne=0,dt=0.01,meth=euler,tc=1500,d=1,total=60000,nout=5} 
+set simple+ou {subunitne=0,oune=1,currentne=1,dt=0.01,meth=euler,d=1,tc=1500,sigma=1,total=60000,nout=5}
+set subunit_noise {subunitne=1,oune=0,currentne=0,dt=0.01,meth=euler,ns=250, total=60000,nout=5} 
+
+#===============================================================================
+# Model time-scaling and voltage-shifting parameters (ts=1,vs=0) => no change
+#===============================================================================
+p ts=1 vs=0 
+
+#===============================================================================
+# Electrical parameters
+#===============================================================================
+p cm=20 gnaf=500 gnap=0.68 ga=45 gk=150 ghva=8
+p glva=0.2 gs=0.18 gh=1 gkca=1.18 gl=0  gm=0 gkir=0
+p vna=54 vk=-101 vca=82.5 vh=-40 vl=-65
+
+#===============================================================================
+# Gating/time constant parameters
+#===============================================================================
+#Inaf
+p r1=1 r2=0.2 r4=0.05 ap1=55 av1=33 av2=-7 bp1=60 
+p bv1=32 bv2=10 cp1=30 cv1=77.47 cv2=12
+
+#Inap
+p ahnap=67.31 bhnap=-27.5 chnap=67.31 dhnap=27.5 ehnap=574.478 fhnap=62.57 
+p vhmnap=-41.5233  mnapk=-3.0371 vhhnap=-47.427 hnapk=8.21289 
+p taumnap=0.4
+
+#Ih
+p ahh1=-89.81 bhh1=11.57 chh1=35.8 dhh1=7.551 
+p ahh2=-82.55 bhh2=25.73 chh2=370.9 dhh2=54.1
+p khh1=9.218 vhh1=-77.45 fhh1=0.364469
+
+#Ia
+p ama=-40 bma=26.5 cma=43 dma=-8.4 ema=1 fma=0.1
+p vhma=-15 kma=-11 vhha=-69  p kha=6 
+p daha=0 dbha=30 dbhas=500 f1a=0.8
+
+#Ik
+p Nk=4 
+p amk=-43 bmk=18.5 cmk=144 dmk=-49 emk=0.38 fmk=0.01
+p vhmk=15 kmk=-9
+
+#Ikir
+p vhhkir=-76 khkir=11 tauhkir=1 
+
+#Im
+p vhmkm=-35 kmkm=-5 amkm=30 bmkm=15 cmkm=30 dmkm=-15 emkm=16  fmkm=0 
+
+#Ilva
+p amlva=50 bmlva=9 cmlva=50 dmlva=-9 emlva=7 fmlva=0.5 
+p vhmlva=-56.1 kmlva=-10.7 vhhlva=-80 khlva=4.7 tauhlva=20
+
+#Ihva
+p amhva=20 bmhva=-10 cmhva=20 dmhva=10 emhva=1 fmhva=0.6 
+p vhmhva=-11 kmhva=-7  vhhhva=-32 khhva=11 
+p tauhhva=45 tauhhvas=950 f1hva=0.2
+
+#Is
+p vhms=-45 kms=-12 taums=1500 
+
+#Ikca
+p kkca=1 nkca=2
+
+#===============================================================================
+# Calcium handling parameters
+#===============================================================================
+p kc=0.265  beta=1 volume=2800 free=0.0025 Faraday=96485.3 kp=1.2 kpn=2
+
+#===============================================================================               
+# Noise Parameters      
+#===============================================================================
+p subunitne=0 currentne=0  oune=0 
+p sigma=1 tc=1500 d=1 ns=250
+
+# Generate random samples from N(0,1) distribution        
+wiener n01      
+wiener n01_2  
+  
+#===============================================================================        
+# Applied current        
+#===============================================================================        
+p amp=0 ton=300 toff=1500 
+p Iapp=0 
+
+step(x)=.5*(1+tanh(x*80))    
+Ipulse=amp*(step(t-ton)-step(t-toff))               
+#Iramp=a_ramp*heav(t-ton)*heav(toff-t)*m_ramp*(t-ton)            
+I_app=Iapp+Ipulse    
+ 
+#===============================================================================
+# Estradiol setup (set eon=1 to activate)
+#===============================================================================
+# Effectiveness function
+eapp(t) = eon*heav(t-te)*(1-exp(-(t-te)/taue)) 
+
+#Effectiveness parameters
+p te=1.5e5 taue=1e5 eon=0
+
+#Values of parameters at full effect
+p gkcaf=1.18 gsf=0.2 glf=0. gkf=150 
+p ghf=0.5 gaf=35 vhmsf=-45 kmsf=-12 
+
+# Estradiol multipliers
+!egkca=(gkca-gkcaf)/gkca
+!egs=(gs-gsf)/gs
+!ega=(ga-gaf)/ga
+!egk=(gk-gkf)/gk
+!egh=(gh-ghf)/gh
+#!egl=(gl-glf)/gl
+!evhms=(vhms-vhmsf)/vhms
+!ekms=(kms-kmsf)/kms
+
+#===============================================================================              
+# XPP options (use meth=euler for noisy models)               
+#===============================================================================              
+@ XLO=0,XHI=60000,YLO=-85,YHI=45,        
+@ BOUND=30000,TOTAL=60000,NOUT=1,METH=gear,dt=.1,MAXSTOR=1000000               
+@ NPLOT=1,XP1=t,YP1=V               
+@ NTST=75,DSMIN=1e-5,DSMAX=.5,DS=0.01        
+@ parmin=0,parmax=5,autoxmin=0,autoxmax=1 autoymin=-80,autoymax=40            
+@ EPSU=1e-7, EPSL=1e-7, EPSS=1e-5                   
+@ Nmax=100000, NPr=10000           
+    
+done 
