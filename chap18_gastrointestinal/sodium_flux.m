@@ -1,11 +1,17 @@
 % Fluid absorption as a function of lumenal Na concentration,
 % in nondimensional variables.
 
-% Just reproducing a figure in the gastrointestinal chapter.
+%Reproducing   figure 18.3 in the gastrointestinal chapter.
 
 clear all
 close all
 clc
+
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 1.0, ...
+   'defaultlinelinewidth', 1.2, ...
+   'defaultpatchlinewidth', 0.7);
 
 beta = 1;
 
@@ -23,7 +29,7 @@ c = ui - u0 + (1-gam)*beta*fi;
 y = (-b + (b.^2 - 4*a*c).^0.5)./(2*a);
 
 plot(ul,y,'LineWidth',2)
-xlabel('lumenal sodium concentration, u_l')
-ylabel('flow rate, y')
-set(gca,'FontSize',14)
+xlabel('lumenal Na^+ concentration, u_l')
+ylabel('Flow rate, y')
+set(gca,'FontSize',16)
 box off

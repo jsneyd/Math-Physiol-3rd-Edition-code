@@ -1,14 +1,26 @@
 % code to solve the standing gradient water transport equations via
-% shooting and bisection
+% shooting  
 
-function bisect_function
+function standing_gradient
 global D P r c0 alp L N0
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 1.0, ...
-   'defaultlinelinewidth', 1.2, ...
+   'defaultlinelinewidth', 2.0, ...
    'defaultpatchlinewidth', 0.7);
 
+%parameters
+D=1000;
+r=0.05;
+c0 = 0.3;
+P=0.2;
+L=100;
+ 
+alp=0.1;
+
+N0list = [0.1,0.3];
+for j = 1:length(N0list)
+N0 = N0list(j);
 % guess a lower bound for the unknown initial value
 a = 0.1;
 
@@ -16,14 +28,42 @@ a = 0.1;
 b = 2;
 
 %call the function bisect(a,b,@fval)
+tic
 root = bisect(a,b,@transport_eqs)
+toc
 % now plot the solution 
 [X,S] = desolve(root);
 Nb = alp*L;
 figure(2)
+
+ yyaxis right
+ plot(X,S(:,1), '--','linewidth',2)
+ ylabel('v (mm/s)')
+ yyaxis left
 plot(X,S(:,2),[Nb,Nb],[0,root],'--','linewidth',2)
  ylabel('c(x) (mM)','fontsize',20)
  xlabel('x (mm)','fontsize',20)
+hold on
+end
+hold off
+ 
+ % Now solve the BVP for variable L
+ Llist = [10:0.501:100];
+ for j = 1:length(Llist)
+     L = Llist(j);
+
+     N0 = 0.1;
+ 
+root = bisect(a,b,@transport_eqs);
+
+[X,S] = desolve(root);
+ce(j) = S(end,2)-D*S(end,3)/S(end,1);
+ end
+ figure(3)
+ plot(Llist,ce)
+xlabel('L (mm)')
+ylabel('c_e (mM)')
+axis([10 100 0 3])
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % the function transport_eqs(c) solves the initial value problem with
 % initial value c and calculates the error for the boundary value condition
@@ -37,18 +77,9 @@ fval = S(end,2)-c0;
 function [X,S] = desolve(c)
 global D P r c0 alp L N0
 
-%parameters
-D=1000;
-r=0.05;
-c0 = 0.3;
-P=0.2;
-L=100;
-axis([0 L 0 5])
- 
-alp=0.1;
-N0 = 0.3;
 
-xstep = 0.1; % integration step size
+
+xstep = L/100; % integration step size
 x_end = L; % length of  interval
 xspan = [0:xstep:x_end];
 
@@ -58,10 +89,11 @@ xspan = [0:xstep:x_end];
  stop_cond = odeset('Events',@stopping);   % The stopping conditions for the integration
  %this is needed since for some initial conditions, the integrator cannot
  %integrate all the way to x=L
-[X,S] = ode15s(@deRHS,xspan,y0,stop_cond); 
-figure(1) 
-plot(X,S(:,2))
-hold on
+[X,S] = ode23(@deRHS,xspan,y0,stop_cond);
+% to save time, don't plot these solutions
+% figure(1) 
+% plot(X,S(:,2))
+% hold on
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  % specify the right hand side of the differential equation system

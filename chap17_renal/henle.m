@@ -34,15 +34,8 @@ Sd = U(1:p.N);
 Qc = U(p.N+1:2*p.N);
 Qa = U(2*p.N+1);
 Qc1 = U(2*p.N+2);
-V = get_conc(U,p);
+[Ss,Qs,Qd,Cd,Cs,Ca,Cc] = get_conc(U,p);
  
-Ss = V(1:p.N);
-Qs = V(p.N+1:2*p.N);
-Qd = V(2*p.N+1:3*p.N);
-Cd = V(3*p.N+1:4*p.N);
-Cs= V(4*p.N+1:5*p.N);
-Ca =  V(5*p.N+1:6*p.N);
-Cc=V(6*p.N+1:7*p.N); 
 
 figure(1)
 if (j==1)
@@ -72,10 +65,10 @@ ylabel('Relative Concentration')
 box off
 else
     figure(3)
-   plot(y,Cd,y,Ca,y,Cc)
-   text(0.4,1.45,'C_d','fontsize',18)
-text(0.4,.9 ,'C_a','fontsize',18)
-text(0.4,0.35,'C_c','fontsize',18)
+   plot(y,Cd,y,Ca,'--',y,Cc)
+   legend('C_d','C_a','C_c','location','northwest')
+
+ 
 xlabel('y')
 ylabel('Relative Concentration')
 box off
@@ -95,7 +88,7 @@ Qc = Qc1*y -Qa*(1-y);
  
  X0=[Sd,Qc,Qa,Qc1];
  
-onebyrclist1 = [0.01:0.05:2];
+onebyrclist1 = [0.01:0.025:2];
   
 for k = 1:length(onebyrclist1)
    p.onebyrc = onebyrclist1(k)
@@ -109,16 +102,9 @@ Qc = U(p.N+1:2*p.N);
 Qa = U(2*p.N+1);
 Qc1 = U(2*p.N+2);
 
-V = get_conc(U,p);
+[Ss,Qs,Qd,Cd,Cs,Ca,Cc] = get_conc(U,p);
  
-Ss = V(1:p.N);
-Qs = V(p.N+1:2*p.N);
-Qd = V(2*p.N+1:3*p.N);
-Cd = V(3*p.N+1:4*p.N);
-Cs= V(4*p.N+1:5*p.N);
-Ca =  V(5*p.N+1:6*p.N);
-Cc=V(6*p.N+1:7*p.N); 
- 
+  
 QdP(k) = Qd(p.N);
 
  Qc1j(k) = Qc1;
@@ -140,9 +126,10 @@ figure(5)
 plot(onebyrclist1,Cc1,onebyrclist1,Cd1,onebyrclist1,Cc0)
 xlabel('1/\rho_c')
 ylabel('Relative Concentration')
-text(0.2,2.4,'C_d(1)','fontsize',18)
-text(0.54,1,'C_c(1)','fontsize',18)
-text(1,0.5,'C_c(0)','fontsize',18)
+legend('C_c(1)','C_d(1)','C_c(0)')
+% text(0.2,2.4,'C_d(1)','fontsize',18)
+% text(0.54,1,'C_c(1)','fontsize',18)
+% text(1,0.5,'C_c(0)','fontsize',18)
 
 function out = des(U,p)
  
@@ -154,15 +141,9 @@ Qc = U(p.N+1:2*p.N);
 Qa = U(2*p.N+1);
 Qc1 = U(2*p.N+2);
 
-V = get_conc(U,p);
+[Ss,Qs,Qd,Cd,Cs,Ca,Cc] = get_conc(U,p);
  
-Ss = V(1:p.N);
-Qs = V(p.N+1:2*p.N);
-Qd = V(2*p.N+1:3*p.N);
-Cd = V(3*p.N+1:4*p.N);
-Cs= V(4*p.N+1:5*p.N);
-Ca =  V(5*p.N+1:6*p.N);
-Cc=V(6*p.N+1:7*p.N); 
+ 
 Fd = Ss./Qs-Sd./Qd;
 
 Fc = -p.DPc+(Sd(p.N)-p.P)./Qc-Ss./Qs;
@@ -183,7 +164,7 @@ out = [eqSd,eqQc,eqQa,eqQc1];
 
 end
 
-function out = get_conc(U,p)
+function [Ss,Qs,Qd,Cd,Cs,Ca,Cc] = get_conc(U,p)
 
 y = linspace(0,1,p.N);
  
@@ -200,7 +181,8 @@ Qd = 1+ tm;
 Cd=Sd./Qd;
 Cs = (p.P+p.DPd*p.Hd).*(1-y)./(Qd+Qa)-p.rd*p.Hd;
 Ca=Cd(p.N)-p.P*(y-1)/Qa;
+ % using a na-dependent ATPase:
+ %Ca = Cd(p.N)*sqrt(2*Qa./(p.P*Cd(p.N)^2.*(y-1)+2*Qa));
  Cc=-Qa*Ca(1)./Qc;
-
- out = [Ss,Qs,Qd,Cd,Cs,Ca,Cc];
+ 
 end
