@@ -1,12 +1,16 @@
 
-% This solves a closed-cell version of the calcium/secretion model, in a
+% This code solves a closed-cell version of the calcium/secretion model, in a
 % Class I version.
 
 %% First find the steady state and plot the approach. Just for checking, basically
 
 function main
  close all; clear all; clc; format longg; 
-
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 1.0, ...
+   'defaultlinelinewidth', 2.0, ...
+   'defaultpatchlinewidth', 0.7);
 % The data file can be found at 
 % https://github.com/jsneyd/Math-Physiol-3rd-Edition-code/blob/main/chap18_gastrointestinal/saliva_secretion_parameters.mat
  
@@ -15,15 +19,15 @@ function main
         vplc = 0.00;        % No agonist stimulation, to calculate the steady state for resting calcium       
         M = eye(16);
         
-%%%% Use these two lines if you're running this code with Octave, which doesn't deal with
-## DAEs very well at all. You'll see that electroneutrality is not kept very
-## well, as the cell capacitance is so high.
+%%%% Use these two lines if you are running this code with Octave, which does not deal with
+%% DAEs very well at all. You'll see that electroneutrality is not kept very
+%% well, as the cell capacitance is so high.
         M(13,13)=0.01; M(14,14)=0.01;   % 2 ODEs for Va and Vb. Capacitance is much too high for accuracy.
         options = odeset('Mass',M);
 
 %%%% Use these two lines if you're running this code with Matlab
-        %M(13,13)=0; M(14,14)=0;   % 2 DAEs for Va and Vb        
-        %options = odeset('Mass',M,'RelTol', 1e-11, 'AbsTol', 1e-11);
+        M(13,13)=0; M(14,14)=0;   % 2 DAEs for Va and Vb        
+        options = odeset('Mass',M,'RelTol', 1e-11, 'AbsTol', 1e-11);
 
         Nal_0     = 136.9;                                  % Na in the lumen
         Kl_0      = 6.868;                                  % K in the lumen
@@ -245,23 +249,23 @@ PrKb = KCbd*PrKb;
 PrKa = KCad*PrKa;
 
 JHCO = 0.3 * par.GCl * PrCl * ( Va + VHCO ) / par.F;  
-JCl = par.GCl * PrCl * ( Va + VCl ) / par.F;                         % fS.micro-metres^2.mV.mol.C^-1
+JCl = par.GCl * PrCl * ( Va + VCl ) / par.F;                         % fS.micro-meters^2.mV.mol.C^-1
 JKb = par.GK * PrKb * ( Vb - VKb ) / par.F;                          % basal KCa flux
 JKa = 0.5*par.GK * PrKa * ( Va - VKa ) / par.F;                          % apical KCa flux
 
 %%%%%%%%%%%%%%%%
 % Tight Junction Na+ and K+ currents
 
-JtNa = par.GtNa * par.St * ( Vt - VtNa ) / par.F;                        % fS.micro-metres^2.mV.mol.C^-1
-JtK  = par.GtK * par.St * ( Vt - VtK ) / par.F;                          % fS.micro-metres^2.mV.mol.C^-1 
+JtNa = par.GtNa * par.St * ( Vt - VtNa ) / par.F;                        % fS.micro-meters^2.mV.mol.C^-1
+JtK  = par.GtK * par.St * ( Vt - VtK ) / par.F;                          % fS.micro-meters^2.mV.mol.C^-1 
 
 %%%%%%%%%%%%%%
 % Water fluxes (apical, basal and tight junction)
 
-Qa =  par.La * ( 2 * ( Nal + Kl + Hl - Na - K - H ) - par.CO20 + par.Ul );    % micro-metres^3.s^-1
+Qa =  par.La * ( 2 * ( Nal + Kl + Hl - Na - K - H ) - par.CO20 + par.Ul );    % micro-meters^3.s^-1
 Qb =  par.Lb * ( 2 * ( Na + K + H ) + par.CO20 -par.Ie);
-Qt =  par.Lt * ( 2 * ( Nal + Kl + Hl ) + par.Ul - par.Ie);                    % micro-metres^3.s^-1
-Qtot=(Qa+Qt);                                                            % micro-metres^3.s^-1
+Qt =  par.Lt * ( 2 * ( Nal + Kl + Hl ) + par.Ul - par.Ie);                    % micro-meters^3.s^-1
+Qtot=(Qa+Qt);                                                            % micro-meters^3.s^-1
 
 %%%%%%%%%%%%%
 % Na+ K+ 2Cl- co-transporter (Nkcc1)
