@@ -33,8 +33,8 @@ axlist=[15,35];
 
 c = linspace(0.01,1.5,500);  % for the nullcline plots
 
-igornullclines = c';        % for external plotting
-igorplots = zeros(2000,1);  % for external plotting
+%igornullclines = c';        % for external plotting
+%igorplots = zeros(2000,1);  % for external plotting
 
 for j =1:length(parlist)
     p.p=parlist(j);%the bifurcation parameter
@@ -52,7 +52,7 @@ for j =1:length(parlist)
     Jin = p.a0+p.a1*p.p;
     ce1=(Jserca-p.del*(Jin-Jpm))./(p.kf*Po+p.a)+c;
     ce2= Jserca./(p.kf*Po+p.a)+c;
-    igornullclines = [igornullclines ce1' ce2'];    % for external plotting
+    %igornullclines = [igornullclines ce1' ce2'];    % for external plotting
     
     % integrate the ode
     init = [c0,ce0]; %initial data for the ode
@@ -81,14 +81,14 @@ for j =1:length(parlist)
     
     figure(2*j) % a time sequence
     plot(T,C,T,Ce,'linewidth',2)
-    igorplots = [igorplots T C Ce];     % for external plotting
+    %igorplots = [igorplots T C Ce];     % for external plotting
     
     xlabel('Time','fontsize',20)
     legend('Ca^{++}','Ca^{++}_e')
     title(strcat('p =',sprintf(formatSpecF,p.p),'\mu M'),'fontsize',18)
 end
-writematrix(igornullclines,'igornullclines.dat')    % for external plotting
-writematrix(igorplots,'igorplots.dat')              % for external plotting
+%writematrix(igornullclines,'igornullclines.dat')    % for external plotting
+%writematrix(igorplots,'igorplots.dat')              % for external plotting
 
 
 % now integrate the pde
@@ -140,8 +140,8 @@ legend('boxoff')
 legend('dc/dt=0','dc_e/dt=0')
 title(strcat('p =',sprintf(formatSpecF,p.p),'\mu M'),'fontsize',18)
 
-igorpde = [X S(j,p.N+1:2*p.N)' S(j,2*p.N+1:3*p.N)'];      % for external plotting
-writematrix(igorpde,'igorpde.dat')                      % for external plotting
+%igorpde = [X S(j,p.N+1:2*p.N)' S(j,2*p.N+1:3*p.N)'];      % for external plotting
+%writematrix(igorpde,'igorpde.dat')                      % for external plotting
 
  
 % plot full solution as a surface
