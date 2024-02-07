@@ -20,12 +20,12 @@ set(0,                           ...
         M = eye(16);
         
 %%%% Use these two lines if you are running this code with Octave, which does not deal with
-%% DAEs very well at all. You'll see that electroneutrality is not kept very
+%% DAEs very well at all. You will see that electroneutrality is not kept very
 %% well, as the cell capacitance is so high.
         M(13,13)=0.01; M(14,14)=0.01;   % 2 ODEs for Va and Vb. Capacitance is much too high for accuracy.
         options = odeset('Mass',M);
 
-%%%% Use these two lines if you're running this code with Matlab
+%%%% Use these two lines if you are running this code with Matlab
         M(13,13)=0; M(14,14)=0;   % 2 DAEs for Va and Vb        
         options = odeset('Mass',M,'RelTol', 1e-11, 'AbsTol', 1e-11);
 
@@ -87,92 +87,95 @@ end
         Qt =  par.Lt * ( 2 * ( Nal + Kl ) + par.Ul - par.Ie );
         Qtot=(Qa+Qt);
         
-        figure
-        subplot(4,5,1)
+        figure(1)
+        subplot(2,2,1)
         plot(t,Qtot,'LineWidth',2)
         ylabel('fluid flow')
         mean_fluid_flow = mean(Qtot(floor(end/2):end))
 
-        subplot(4,5,2)
+        subplot(2,2,2)
         plot(t,Ca,'LineWidth',2)
-        ylabel('Calcium')
+        ylabel('Ca^{2+}')
 
-        subplot(4,5,3)
+        subplot(2,2,3)
         plot(t,w,'LineWidth',2)
         ylabel('cell volume')
 
-        subplot(4,5,4)
+        subplot(2,2,4)
         plot(t,Nal + Kl - Cll - HCOl,'LineWidth',2)
         ylabel('electroneutrality')
         %ylim([0 140])
         
-        subplot(4,5,6)
-        plot(t,Nal,'LineWidth',2)
-        ylabel('Na (lumen)')
-        %ylim([0 140])
-
-        subplot(4,5,7)
-        plot(t,Kl,'LineWidth',2)
-        ylabel('K (lumen)')
-        %ylim([0 140])
-
-        subplot(4,5,8)
-        plot(t,Cll,'LineWidth',2)
-        ylabel('Cl (lumen)')
-        %ylim([0 140])
         
-        subplot(4,5,9)
-        plot(t,HCOl,'LineWidth',2)
-        ylabel('HCO (lumen)')
-        
-        subplot(4,5,10)
-        plot(t,Nal+Kl+Cll+HCOl+par.Ul,'LineWidth',2)
-        ylabel('Osmolarity (lumen)')
-        %ylim([0 140])
-        
-        subplot(4,5,11)
-        plot(t,log10(Hl*1e-3),'LineWidth',2)
-        ylabel('pH (lumen)')
-        %ylim([0 140])
-        
-        subplot(4,5,12)
+        figure(4)
+        subplot(3,3,1)
         plot(t,Va,'LineWidth',2)
-        ylabel('Va')
+        ylabel('V_a')
 
-        subplot(4,5,13)
+        subplot(3,3,2)
         plot(t,Vb,'LineWidth',2)
         %ylim([-60 -20])
-        ylabel('Vb')
+        ylabel('V_b')
         
-        subplot(4,5,14)
+        subplot(3,3,3)
         plot(t,Va-Vb,'LineWidth',2)
-        ylabel('Vt')
+        ylabel('V_t')
         
-        subplot(4,5,15)
+        subplot(3,3,4)
         plot(t,log10(H*1e-3),'LineWidth',2)
         ylabel('pH')
         %ylim([0 140])
 
-        subplot(4,5,16)
+        subplot(3,3,5)
         plot(t,K,'LineWidth',2)
-        ylabel('K')
+        ylabel('K^+')
         
-        subplot(4,5,17)
+        subplot(3,3,6)
         plot(t,Na,'LineWidth',2)
-        ylabel('Na')
+        ylabel('Na^+')
         
-        subplot(4,5,18)
+        subplot(3,3,7)
         plot(t,Cl,'LineWidth',2)
-        ylabel('Cl')
+        ylabel('Cl^-')
         
-        subplot(4,5,19)
+        subplot(3,3,8)
         plot(t,HCO,'LineWidth',2)
         ylabel('HCO')
         %ylim([-60 -20])
         
-        subplot(4,5,20)
+        subplot(3,3,9)
         plot(t,2*Na+2*K,'LineWidth',2)
         ylabel('Osmolarity Cell ')
+        %ylim([0 140])
+        
+        figure(3)
+        subplot(3,2,1)
+        plot(t,Nal,'LineWidth',2)
+        ylabel('Na^+ (lumen)')
+        %ylim([0 140])
+
+        subplot(3,2,2)
+        plot(t,Kl,'LineWidth',2)
+        ylabel('K^+ (lumen)')
+        %ylim([0 140])
+
+        subplot(3,2,3)
+        plot(t,Cll,'LineWidth',2)
+        ylabel('Cl^- (lumen)')
+        %ylim([0 140])
+        
+        subplot(3,2,4)
+        plot(t,HCOl,'LineWidth',2)
+        ylabel('HCO_3^- (lumen)')
+        
+        subplot(3,2,5)
+        plot(t,Nal+Kl+Cll+HCOl+par.Ul,'LineWidth',2)
+        ylabel('Osmolarity (lumen)')
+        %ylim([0 140])
+        
+        subplot(3,2,6)
+        plot(t,log10(Hl*1e-3),'LineWidth',2)
+        ylabel('pH (lumen)')
         %ylim([0 140])
         
         end
