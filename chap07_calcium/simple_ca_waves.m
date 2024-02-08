@@ -1,6 +1,14 @@
-% code to simulate calcium waves (with diffusing IP3) for a simple 2 variable calcium
-% model
-% use method of lines
+%  -------------------------------------------------------------------
+%
+%   Use the method of lines to compute a traveling calcium wave. This
+%   version uses a particularly simple wave model.
+%
+%   For Chapter 7, Section 7.7.2 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd.
+% 
+%  ------------------------------------------------------------------- 
 
 clear all
 close all
@@ -185,10 +193,6 @@ scu = p.du/p.h^2;
 P = s(1:p.N);
 C = s(p.N+1:2*p.N);
 ce = s(2*p.N+1:3*p.N);
-
-% this is method of lines
-% evaluate the ode part
-%[Fp;Fc;Fy;Fce]=
  
 out=coscrhs(t,s(p.N+1:3*p.N),p);
  
