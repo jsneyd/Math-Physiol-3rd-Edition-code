@@ -8,14 +8,13 @@ set(0,                           ...
    'defaultlinelinewidth', 1.2, ...
    'defaultpatchlinewidth', 0.7);
 N = 32; % number of coupled oscillators
-% pick a value of delta
-% 
  
  x1mG1 = 20;
  Omega = -10/31;
  num=[1:N];
  nat_freq = x1mG1+Omega*(num-1);
-
+% pick a value of delta
+% 
 deltalist = [32,18];
 for j = 1:length(deltalist)
     delta = deltalist(j);
