@@ -1,5 +1,14 @@
-% code to simulate calcium waves with diffusing IP3
-% use method of lines
+%  -------------------------------------------------------------------
+%
+%   Use the method of lines to compute a traveling calcium wave. This
+%   version includes IP3 diffusion, and is used to demonstrate phase waves.
+%
+%   For Chapter 7, Section 7.9 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd.
+% 
+%  ------------------------------------------------------------------- 
 
 clear all
 close all
@@ -14,11 +23,10 @@ p.Vserca = 0.9;
 p.Kbar = 2.e-7;
 p.kf=1.11;
 p.Kserca = 0.1;
-p.Kp = 0.3;
  
-p.gm = 5.5;
-p.p = 0; %0.4;  %ip3 parameter 
-p.ct = 15; %2.11;  % total calcium
+p.gam = 5.5;
+p.p = 0;            % background ip3  
+p.ct = 1.85;        % total calcium
 p.k1 = 400;
 p.k2 = 0.2;
 p.k3 = 400;
@@ -36,8 +44,9 @@ p.K3=p.km3/p.k3;
 p.K4=p.km4/p.k4;
  
 %% integrate the ode
+% variables are P, C, and y, in that order. Ce is found by conservation.
 
-init = [0.35 ,0.2,1.,9]; %initial data for the ode
+init = [0.35 ,0.2,1.]; %initial data for the ode
 tstep = 1;
 t_end = 200;
  
@@ -49,7 +58,7 @@ p.N=1;
 P = S(:,1);
 C = S(:,2);
 y = S(:,3);
-Ce = S(:,4);
+Ce = p.gam*(p.ct-C);
  
 figure(1)
 plot(T,P,T,C,T,Ce,T,y,'linewidth',2)
@@ -67,16 +76,13 @@ p.dv =  0.001; % diffusion coefficient for Ca
 
 p.sc = [1;2*ones(p.N-2,1);1];
 X = p.h*(1:p.N)';
-%set initial data
-ipmx = 3;
-U = P(end)*ones(p.N,1)+ipmx*exp(-3*X.^2);  % initial ip3 concentration
-V =C(end)*ones(p.N,1); % ca concentration
-y0=y(end)*ones(p.N,1);
-ce0=Ce(end)*ones(p.N,1);
-init = [U;V;y0;ce0];
-size(init)
-%plot the solution at each time step
+% set initial data to be the final point of the ode solve
+U  = P(end)*ones(p.N,1)+3*exp(-3*X.^2);  % initial ip3 concentration has a blob at one end
+V  = C(end)*ones(p.N,1); % ca concentration
+y0 = y(end)*ones(p.N,1);
+init = [U;V;y0];
 
+% plot the initial condition
 figure(3)
 subplot(2,1,1)
 plot(X,V,'--','linewidth',2)
@@ -87,20 +93,16 @@ subplot(2,1,2)
 plot(X, U,'--','linewidth',2)
 xlabel('x','fontsize',20)
 ylabel('u(x,t)','fontsize',20)
-%axis([0 L  0 0.5])
-% axis([0 L 0 1])
 
- 
+% specify the output points
 tstep = 0.5; % time between plots
-t_end = 150; %total time to run simulation
- 
-%specify the output points
+t_end = 150; % total time to run simulation
 tspan = [0:tstep:t_end];
 
-% integrate the system of ode's:
+% integrate the system of odes:
 [T,S] = ode23( @(t,x)pdeRHS(t,x,p),tspan,init, odeset('maxstep',1));  
 
-% plot the solution at each time step
+% plot the solution at each time step to make a simple movie
 for j = 1:length(T)
     figure(3)
     subplot(2,1,1)
@@ -112,16 +114,17 @@ for j = 1:length(T)
     plot(X, S(j,1:p.N),'linewidth',2)
     xlabel('x','fontsize',20)
     ylabel('IP_3(x,t)','fontsize',20)
-     axis([0 max(X) 0 ipmx])
+    axis([0 max(X) 0 3])
 end
  
-figure(5) %plot the final solution
+figure(5) % plot the final solution
 plot(X, S(end,1:p.N),X,S(end,p.N+1:2*p.N),'linewidth',2)
 legend('IP_3','Ca^{++}','fontsize',20)
 xlabel('x','fontsize',20)
 
+% plot a time course
 figure(6)
-%plot a time course
+
 plot(T,S(:,3*p.N/2))
 xlabel('time')
 ylabel('Ca^{++}(L/2)')
@@ -153,21 +156,19 @@ scv = p.dv/p.h^2;
 P = s(1:p.N);
 C = s(p.N+1:2*p.N);
 y = s(2*p.N+1:3*p.N);
-ce = s(3*p.N+1:4*p.N);
+ce = p.gam*(p.ct - C);
 
 % this is method of lines
 % evaluate the ode part
-%[Fp;Fc;Fy;Fce]=
 out=coscrhs(t,s,p);
  
 Fp=out(1:p.N);
 Fc=out(p.N+1:2*p.N);
 Fy=out(2*p.N+1:3*p.N);
-Fce=out(3*p.N+1:4*p.N);
-FP = scu*(-p.sc.*P+[0;P(1:end-1)]+[P(2:end);0]);%+Fp; % no IP3 feedback
-FC = scv*(-p.sc.*C+[0;C(1:end-1)]+[C(2:end);0]) +Fc ;
+FP = scu*(-p.sc.*P+[0;P(1:end-1)]+[P(2:end);0]); % no IP3 reaction terms
+FC = scv*(-p.sc.*C+[0;C(1:end-1)]+[C(2:end);0]) + Fc ;
  
-s_prime = [FP;FC;Fy;Fce];
+s_prime = [FP;FC;Fy];
  
 end
    
@@ -180,7 +181,7 @@ function out=coscrhs(t,s,p)
 IP3 = s(1:p.N); %IP3
 c = s(p.N+1:2*p.N); % calcium
 y = s(2*p.N+1:3*p.N);  % inactivation
-ce = s(3*p.N+1:4*p.N); %ER calcium
+ce = p.gam*(p.ct - c);
 
 Po = (IP3.*c.*(1-y)./((IP3+p.K1).*(c+p.K5))).^3; %open probability
 ph1  = (p.km4*p.K1*p.K2+p.km2*p.K4*IP3).*c./(p.K4*p.K2*(IP3+p.K1));
@@ -191,9 +192,8 @@ Jserca = p.Vserca*(c.^2-p.Kbar*ce.^2)./(p.Kserca^2+c.^2);
 Fp = zeros(p.N,1);  % IP3 is not reacting
 Fc = Jipr-Jserca;
 Fy = ph1.*(1-y) - ph2.*y; 
-Fce = -p.gm*Fc;
 
-out = [Fp;Fc;Fy;Fce];
+out = [Fp;Fc;Fy];
 end
 
 

@@ -1,3 +1,15 @@
+
+%  -------------------------------------------------------------------
+%
+%   Compute a stochastic train of spikes in a simple model.
+%
+%   For Chapter 7, Section 7.10.1 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd.
+% 
+%  ------------------------------------------------------------------- 
+
 clear all
 close all
 clc
@@ -5,11 +17,10 @@ clc
 N = 50000;
 delt = 0.01;
 k = 0.5;
-x0 = 1; %0.01;
+x0 = 0.01;  % The system can be reactivated only when x<x0
 
-nthresh = 20; % 40 for a mu/sigma plot;
-thresh = linspace(0.7,0.99,nthresh);
-% thresh = linspace(0.997,0.9995,nthresh);          % for a mu/sigma plot
+nthresh = 5; % 40 for a mu/sigma plot;
+thresh = linspace(0.997,0.9995,nthresh);          % for a mu/sigma plot
 % thresh = linspace(0.999,0.999,nthresh);           % for a single run
 
 mu = zeros(nthresh,1);                              % initialisation
@@ -31,8 +42,8 @@ for j = 1:nthresh
         end
         Xkeep(i) = init;
     end
-    %figure(j)
-    %plot(Xkeep)
+    figure(j)
+    plot(Xkeep)
     
     ISI = Tkeep(2:end) - Tkeep(1:end-1);            % the interspike intervals
     mu(j) = mean(ISI)
