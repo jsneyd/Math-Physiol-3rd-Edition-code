@@ -1,4 +1,16 @@
-  
+#  -------------------------------------------------------------------
+#
+#   Solve the model of bursting in GnRH neurons.
+#   Simplified version of the model of Duan et al, 
+#           Journal of Theoretical Biology 276 (2011) 22–34
+#
+#   For Chapter 9, Section 9.2 of
+#   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#   Written by James Keener and James Sneyd.
+# 
+#  ------------------------------------------------------------------- 
+
 V(0) =  -47.439744033440896
 Hnaf(0) =  0.150875059704950
 Nkm(0) =   0.068499547036174
@@ -8,32 +20,38 @@ h(0) =   0.061113223260552
 Ow(0) =   0.000000002523211
 Ow_star(0) =   0.000049694789395
 
+
 par IP3=0.15
 
-Kf=1.92e-1
-
 # Ca and IPR parameters
- tau_max=1000
- Ktau=0.1
- tauP=0.5
- Kc=0.2
- Kh=0.08
+tau_max=10
+Ktau=0.1
+Kc=0.2
+Kh=0.08
+Vserca=0.1
+kserca=0.2
+Kbar=0.00001957
+Vp=0.0042 
+Kf=1
+Kp=0.425
+delta=0.5  
+gamma=27  
+alpha0=4.8e-3
+alpha1=2e-5 
 
- gnaf= 280
- gsk=0.3
- gw=950
- gcal=0.05 
- Prate=1
- Vp=0.0042 
+# conductances
+gnaf= 280
+gsk=0.3
+gw=950
+gcal=0.05 
+gkm=8  
+gleak=0.04
 
- number gkm=8  gleak=0.04 
- number Cm=16  Vna=60  Vca=100  Vk=-80  Vleak=100 							
- number k_sk=1  n_sk=2  k11=1e-7  k_11=1.2  k22=0.5  k33=3e-5 	
+# resting potentials 
+number Cm=16  Vna=60  Vca=100  Vk=-80  Vleak=100 	
 
- number rho=0.5  gamma=27  
- number a1=1e-4  a2=35  a3=300  a4=7  a5=35 
- number alpha=4.8e-3   Kp=0.425  beta=2e-5  Jer=4e-7  Knaca=0.05  
-
+# Isk and Iw channel parameters						
+number k_sk=1  n_sk=2  k11=1e-7  k_11=1.2  k22=0.5  k33=3e-5 	
 
 
 # Current submodel
@@ -67,32 +85,34 @@ beta_IPR = phi_p*phi_c*h
 alpha_IPR = phi_p_down*(1-phi_c*h_inf)
 Po=beta_IPR/(beta_IPR + 0.4*(beta_IPR+alpha_IPR))
 
-Jrelease = ( Kf*Po+ Jer)*(ce-c)
-Jserca =  Prate*(c- a1*ce)/( a2+ a3*c+ a4*ce+ a5*c*ce)
-Jin = - alpha*(Ical)+ beta* IP3
+JIPR = Kf*Po*(ce-c)
+Jserca = Vserca*(c*c-Kbar*ce*ce)/(c*c+kserca*kserca)
+Jin = - alpha0*(Ical)+ alpha1*IP3
 Jpm =  Vp*c^2/( Kp^2+c^2)
-
 
 
 aux XX = Ow + Ow_star
 aux tsec = t/1000
 
 
-# Differential equations
+########## Differential equations ######
 
 V' = (-1/ Cm)*(Iionic+Isk+Iw)
 Hnaf' = (Hnaf_inf-Hnaf)/Thnaf
 Nkm' = (Nkm_inf-Nkm)/Tnkm
+c' =  delta*(Jin - Jpm) + (JIPR - Jserca) 
 
-c' =  rho*(Jin - Jpm) + (Jrelease - Jserca) 
-h'  = 0.001*((h_inf-h)/tau)
-ce' =  gamma*(Jserca - Jrelease)
-
+# the factor of 1/1000 is because time is in ms, not s
+h'  = 0.001*(h_inf-h)/tau   
+ 
+ce' =  gamma*(Jserca - JIPR)
 Ow' = -Ow* k_11-Ow* k22+ k11*c*(1-Ow-Ow_star)
 Ow_star' =  k22*Ow- k33*Ow_star
 
-@ XLO=0,XHI=60,YLO=-85,YHI=45,        
-@ BOUND=30000,TOTAL=60000,NOUT=1,METH=gear,dt=.1,MAXSTOR=1000000               
+##### XPPAUT parameters
+
+@ XLO=52,XHI=58,YLO=-85,YHI=45,        
+@ BOUND=30000,TOTAL=60000,NOUT=1,METH=gear,dt=1,MAXSTOR=1000000               
 @ NPLOT=1,XP1=tsec,YP1=V               
 @ NTST=75,DSMIN=1e-5,DSMAX=.5,DS=0.01        
 @ parmin=0,parmax=5,autoxmin=0,autoxmax=1 autoymin=-80,autoymax=40            
