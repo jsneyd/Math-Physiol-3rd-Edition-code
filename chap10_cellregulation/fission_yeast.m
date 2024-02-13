@@ -1,4 +1,15 @@
-% simulation of the Tyson-Novak model of fission yeast cell cycle
+% 
+%  -------------------------------------------------------------------
+%
+%   Simulation of the Tyson-Novak model of the fission yeast cell cycle.
+%
+%   For Chapter 10, Section 10.4.2 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd.
+% 
+%  ------------------------------------------------------------------- 
+
 clear all
 close all
 clc

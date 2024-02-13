@@ -1,3 +1,14 @@
+%  -------------------------------------------------------------------
+%
+%   The feedforward motif.
+%
+%   For Chapter 10, Section 10.1.3 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd.
+% 
+%  ------------------------------------------------------------------- 
+
 clear all
 close all
 clc
@@ -35,7 +46,7 @@ n=2;
 K=2;
 S =  (t>10) +  (t>20) + (t>30);
 phi = K*X^n/(K+X^n);
-%phi = X; % for execise 1.9
+%phi = X; % for exercise 1.9
 out(1) = S - phi*R;
 out(2) = S - X;
 out = out';

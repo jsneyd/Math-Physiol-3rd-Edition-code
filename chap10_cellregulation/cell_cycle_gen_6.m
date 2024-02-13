@@ -1,4 +1,15 @@
-% simulation of the 5 variable generic model of the cell cycle
+
+%  -------------------------------------------------------------------
+%
+%   Simulation of the 6-variable generic model of the cell cycle
+%
+%   For Chapter 10, Section 10.4.1 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd.
+% 
+%  ------------------------------------------------------------------- 
+
 clear all
 close all
 clc
@@ -34,13 +45,13 @@ y0(4)=0.0001; y0(5)=0.062; y0(6)=0.4943;
 % IEP ;
 % m ;
 for loop=1:tfinal
-    keep(loop,1)=(loop-1)*tend;     % Keep the times here
-    keep(loop,2:7)=y0;              % Keep the solutions here
+    keep(loop,1)=(loop-1)*tend;         % Keep the times here
+    keep(loop,2:7)=y0;                  % Keep the solutions here
     tspan=linspace(0,tend,npts);
     [T,Y] = ode45(@ccgen5odes,tspan,y0);
-    if (Y(npts,1)>0.4) test=1; end
+    if (Y(npts,1)>0.4) test=1; end      % check condition for CycB concentration
     if ((Y(npts,1)<0.05) & (test==1)) 
-        Y(npts,6)=Y(npts,6)/2.0;  % Reset the mass for cell division
+        Y(npts,6)=Y(npts,6)/2.0;        % Reset the mass for cell division
         test=0;
     end
     y0=Y(npts,1:6);

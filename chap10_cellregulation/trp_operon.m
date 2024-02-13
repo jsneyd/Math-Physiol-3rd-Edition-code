@@ -1,5 +1,17 @@
-% trp operon
+%  -------------------------------------------------------------------
+%
+%   The trp operon.
+%
+%   For Chapter 10, Section 10.2.4 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd.
+% 
+%  ------------------------------------------------------------------- 
 
+clear all
+close all
+clc
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 2.0, ...
