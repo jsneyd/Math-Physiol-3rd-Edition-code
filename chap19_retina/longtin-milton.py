@@ -1,4 +1,4 @@
-# Python code to solve the Longtoin-Milton delay differential model of the pupil
+# Python code to solve the Longtin-Milton delay differential model of the pupil
 # light reflex.
 
 from pylab import *
