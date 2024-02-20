@@ -54,7 +54,7 @@ set(0,                           ...
 
 %%  Now solve for a given agonist stimulation
         IC = U(end,:)';         % Start at the end point of the previous run, which will be very close to the resting steady state
-        vplc = 0.0016;          % Turn on agonist stimulation for this second set of plot
+        vplc = 0.0016;          % Turn on agonist stimulation for this second set of plots
         f_secretion = @(t,x) Secretion_rhs(t,x,par,vplc,apicalarea,basalarea);
         [t,U] = ode15s(f_secretion, [0,150], IC);
 
