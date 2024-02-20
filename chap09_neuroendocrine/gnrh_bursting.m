@@ -1,6 +1,16 @@
-% Bursting in GnRH neurons.
-% Simplified version of the model of Duan et al, Journal of Theoretical Biology 276 (2011) 22–34
-% For Keener and Sneyd, third edition
+
+%  -------------------------------------------------------------------
+%
+%   Solve the model of bursting in GnRH neurons.
+%   Simplified version of the model of Duan et al, Journal of Theoretical Biology 276 (2011) 22–34
+%
+%   For Chapter 9, Section 9.2 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd.
+% 
+%  ------------------------------------------------------------------- 
+
 close all
 clear all
 clc
@@ -9,12 +19,37 @@ set(0,                           ...
    'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0); 
 
-%parameters
-clear all; close all; clc
-format long;
-
+% parameters
 global p
+p.IP3=0.15;
+p.Kf=1;
 
+% Ca and IPR parameters
+p.tau_max=10; p.Ktau=0.1;
+p.tauP=0.5;  p.Kc=0.2; p.Kh=0.08; p.Kp=0.425;
+p.delta=0.5; p.gamma=27;
+p.alpha0=4.8*10^(-3);   p.alpha1=2*10^(-5); 
+p.Vp=0.0042;
+p.Vserca=0.1;
+p.kserca=0.2;
+p.Kbar=0.00001957;
+
+% conductances
+p.gnaf= 280; p.gsk=0.3; 
+p.gw=950;  p.gcal=0.05;   
+p.gkm=8; p.gleak=0.04; 
+
+% Resting potentials
+p.Cm=16; p.Vna=60; p.Vca=100; 
+p.Vk=-80; p.Vleak=100;   
+
+% Isk and Iw channel parameters
+p.k_sk=1; p.n_sk=2; p.k11=1*10^(-7); 
+p.k_11=1.2; p.k22=0.5; p.k33=3*10^(-5); 
+
+
+
+% Solve the ODEs
 init = [     
  -47.439744033440896
    0.150875059704950
@@ -25,28 +60,8 @@ init = [
    0.000000002523211
    0.000049694789395
 ];
-
-p.IP3=0.15;
-p.Kf=1.92*10^(-1);
-
-% Ca and IPR parameters
-p.tau_max=1000; p.Ktau=0.1;
-p.tauP=0.5;  p.Kc=0.2; p.Kh=0.08;
-
-p.gnaf= 280; p.gsk=0.3; 
-p.gw=950;  p.gcal=0.05; 
-p.Prate=1; p.Vp=0.0042; 
-
-p.gkm=8; p.gleak=0.04; 
-p.Cm=16; p.Vna=60; p.Vca=100; p.Vk=-80; p.Vleak=100; %Resting potentials  
-p.k_sk=1; p.n_sk=2; p.k11=1*10^(-7); p.k_11=1.2; p.k22=0.5; p.k33=3*10^(-5); %Isk and Iw channel parameters
-
-p.rho=0.5; p.gamma=27;%Compartment converting parameters and sometimes rho values can be modified for TTX result
-p.a1=1*10^(-4); p.a2=35; p.a3=300; p.a4=7; p.a5=35; %SERCA pump parameters 
-p.alpha=4.8*10^(-3);  p.Kp=0.425; p.beta=2*10^(-5); p.Jer=4*10^(-7); p.Knaca=0.05; %Fluxes parameters
-tic
 [Time,soln1]=ode15s(@Model,[0 60000],init); 
-toc
+
 V = soln1(:,1);
 Hnaf = soln1(:,2);
 Nkm = soln1(:,3);
@@ -58,38 +73,38 @@ Ow_star = soln1(:,8);
 
 X = Ow + Ow_star;
 
-tsec = Time/1000;
 figure(1)
 %
-plot(tsec,V)
+plot(Time/1000,V)
 ylabel('V (mV')
 xlabel('t (s)')
-axis([39 46 -65 30])
+axis([52 58 -65 30])
 
 yyaxis('right')
-plot(tsec,c)
+plot(Time/1000,c)
 ylabel('[Ca^{++}] (\muM')
 
-figure(2)
-plot(c,ce)
-ylabel('c_e (mM')
-xlabel('c (mM')
+% figure(2)
+% plot(c,ce)
+% ylabel('c_e (mM')
+% xlabel('c (mM')
+% 
+% figure(3)
+% plot(c,V)
+% ylabel('V (mV')
+% xlabel('c (mM')
+% 
+% figure(4)
+% plot(tsec,c,tsec,ce)
+% legend('boxoff')
+% legend('c','c_e')
+% xlabel('t (s)')
 
-figure(3)
-plot(c,V)
-ylabel('V (mV')
-xlabel('c (mM')
-
-figure(4)
-plot(tsec,c,tsec,ce)
-legend('boxoff')
-legend('c','c_e')
-xlabel('t (s)')
-
+%% stuff for external plotting
 % Create a table with the data and variable names
-T = table(tsec,V,c,ce,X, 'VariableNames', {'tsec', 'V', 'c', 'ce','X'});
+% T = table(Time/1000,V,c,ce,X, 'VariableNames', {'tsec', 'V', 'c', 'ce','X'});
 % Write data to text file
-writetable(T, 'temp.txt')
+% writetable(T, 'temp.txt')
 
 %%
 function sys = Model(Time,S,p)
@@ -116,7 +131,6 @@ Isk = p.gsk*(c^(p.n_sk)/(c^(p.n_sk)+p.k_sk^(p.n_sk)))*(V-p.Vk);
 Iw = p.gw*(Ow+Ow_star)*(V-p.Vk);
 
 Iionic = Inaf+Ikm+Ical+Ileak;
-Total_calcium = Ical;
 
 % calcium submodel
 phi_c=c^4/(c^4+p.Kc^4);
@@ -129,19 +143,17 @@ beta = phi_p*phi_c*h;
 alpha = phi_p_down*(1-phi_c*h_inf);
 Po=beta/(beta + 0.4*(beta+alpha));
 
-Jrelease = (p.Kf*Po+p.Jer)*(ce-c); 
-Jserca = p.Prate*(c-p.a1*ce)/(p.a2+p.a3*c+p.a4*ce+p.a5*c*ce);
-Jin = -p.alpha*(Total_calcium)+p.beta*p.IP3;
+JIPR= p.Kf*Po*(ce-c); 
+Jserca = p.Vserca*(c*c-p.Kbar*ce*ce)/(c*c+p.kserca*p.kserca);
+Jin = -p.alpha0*(Ical)+p.alpha1*p.IP3;
 Jpm = p.Vp*c^2/(p.Kp^2+c^2);
 
 dVdt = (-1/p.Cm)*(Iionic+Isk+Iw);
 dHnafdt = (Hnaf_inf-Hnaf)/Thnaf;
 dNkmdt = (Nkm_inf-Nkm)/Tnkm;
-
-dcdt = p.rho*(Jin - Jpm) + (Jrelease - Jserca); 
-dhdt  = 0.001*((h_inf-h)/tau);
-dcedt = p.gamma*(Jserca - Jrelease);
-
+dcdt = p.delta*(Jin - Jpm) + (JIPR - Jserca); 
+dhdt  = 0.001*(h_inf-h)/tau;   % Note the factor of 1/1000, since time is in ms, not s.
+dcedt = p.gamma*(Jserca - JIPR);
 dOwdt = -Ow*p.k_11-Ow*p.k22+p.k11*c*(1-Ow-Ow_star);
 dOw_stardt = p.k22*Ow-p.k33*Ow_star;
 

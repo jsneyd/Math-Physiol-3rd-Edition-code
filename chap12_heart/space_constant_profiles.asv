@@ -55,8 +55,8 @@ ylabel('Potential', 'fontsize',18)
 text(.05,0,'V_e','fontsize',18)
 text(.05,-18,'V','fontsize',18)
 text(.05,-10,'V_i','fontsize',18)
-box off
 
+box off
 %test=[y' Vi' Ve'];
 %save('test.dat','-ascii','test')
 

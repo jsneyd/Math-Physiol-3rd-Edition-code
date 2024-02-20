@@ -1,3 +1,15 @@
+
+#  -------------------------------------------------------------------
+#
+#   An open-cell model for calcium oscillations based on the modal model of the IP3R.
+#
+#   For Chapter 7, Section 7.5.1 of
+#   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#   Written by James Keener and James Sneyd.
+# 
+#  ------------------------------------------------------------------- 
+
 # Initial conditions are the steady state for p=0
 #
 c(0)=0.073622

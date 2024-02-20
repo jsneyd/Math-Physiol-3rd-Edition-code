@@ -1,7 +1,14 @@
 
-% Code to solve the SNF circadian clock model of Kim and Forger.
-% Used for Keener and Sneyd, Mathematical Physiology, Third Edition,
-% Chapter 10,  
+%  -------------------------------------------------------------------
+%
+%   Code to solve the SNF circadian clock model of Kim and Forger.
+%
+%   For Chapter 10, Section 10.3.1 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd.
+% 
+%  ------------------------------------------------------------------- 
 
 
 clear all

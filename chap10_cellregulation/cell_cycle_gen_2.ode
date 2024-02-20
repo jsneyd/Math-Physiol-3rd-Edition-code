@@ -1,3 +1,14 @@
+#  -------------------------------------------------------------------
+#
+#   A simple generic cell cycle model.
+#
+#   For Chapter 10, Section 10.4.1 of
+#   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#   Written by James Keener and James Sneyd.
+# 
+#  ------------------------------------------------------------------- 
+
 cycB(0)=0.0
 cdh(0)=1.0
 

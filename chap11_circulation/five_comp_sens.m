@@ -1,4 +1,17 @@
-% code to calculate sensitivies in the nine variable circulation model
+
+%  -------------------------------------------------------------------
+%
+%   Calculate sensitivies in the five-compartment circulation model
+%
+%   For Chapter 11, Section 11.5.4 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd.
+% 
+%  ------------------------------------------------------------------- 
+clear all
+close all
+clc
 
 % first identify the variables, set nominal values
 V(1)=100; %Psa
@@ -13,7 +26,7 @@ V(9) = 5.6% Q
 sens=zeros(9,9);
 
 %get the nominal parameters
-P=getparams(V)
+P=getparams(V);
 P(9)=80;
 %this checks the calculation
 Vn=getpressures(P); 
@@ -21,25 +34,25 @@ Vn=getpressures(P);
 
 % now calculate sensitivites;
 for j=1:9
-    %specfiy a   perturbation for each parameter
+    % specfiy a perturbation for each parameter
     frac=0.001;
-
-del=P(j)*frac;
-Pdel=P;
-Pdel(j) = P(j)+del;
-Vdel=getpressures(Pdel);
-sens(:,j)=(Vdel-V)./(frac*V);
+    del=P(j)*frac;
+    Pdel=P;
+    Pdel(j) = P(j)+del;
+    Vdel=getpressures(Pdel);
+    sens(:,j)=(Vdel-V)./(frac*V);
 end
 
 % the sensitivity matrix is:
 sens
 
-
+%%
 function params = getparams(V)
-% for the inputted variables find the corresponding parameters
+% for the input variables find the corresponding parameters
 V0s= 0.94;
 V0p = 0.26;
 F=80;
+
 Psa=V(1);
 Ps = V(2);
 Psv = V(3);
@@ -50,7 +63,7 @@ Vsv=V(7);
 Vp=V(8);
 Q=V(9);
 
-%now the equations
+% now the equations
 Rsa = (Psa-Ps)/Q;
 Cld = Q/(F*Ppv);;
 Csa = 2*(Vsa-V0s)/(Psa+Ps);
@@ -63,8 +76,9 @@ params = [Csa,Csv,Cp,Rsa,Rsv,Rp,Cld,Crd];
 
 end
 
+%%
 function out = getpressures(P)
-%input parameters and get pressures and volumes
+% input parameters and get pressures and volumes
 Csa=P(1);
 Csv=P(2);
 Cp=P(3);

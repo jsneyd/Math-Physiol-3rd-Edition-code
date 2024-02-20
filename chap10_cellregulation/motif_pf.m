@@ -1,6 +1,17 @@
-% motif_PF
+%  -------------------------------------------------------------------
+%
+%   Calculate the steady state curves for the Positive feedback motif.
+%
+%   For Chapter 10, Section 10.1.1 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd.
+% 
+%  ------------------------------------------------------------------- 
 
-% calculate the steady state curves for the Positive feedback motif
+close all
+clear all
+clc
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 2.0, ...
