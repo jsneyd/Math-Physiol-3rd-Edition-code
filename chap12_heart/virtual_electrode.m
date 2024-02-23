@@ -1,5 +1,21 @@
-% this is the calculation to find   virtual electrodes in a bidomain model
-clear
+% this is the calculation to 
+
+%  -------------------------------------------------------------------
+%
+%   Find virtual electrodes in a bidomain model
+%
+%   For Chapter 12, Section 12.4.3 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd.
+% 
+%  ------------------------------------------------------------------- 
+
+
+clear all
+close all
+clc
+
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 1.5, ...
@@ -124,26 +140,30 @@ phi_e = reshape(phi_e,N,N);
 phi = phi_i-phi_e;
 
 figure(1)
-K = 16;
- 
-vmax = max(max(phi));
-vmin = min(min(phi));
-rm = min(abs(vmax),abs(vmin));
-dv = 4*rm/K;
-v = -2*rm +[0:K]*dv;
-contour(phi,v,'linewidth',1.5)
-colorbar
-text(50,52,'+','fontsize',18)
-text(50,63,'-','fontsize',20)
-text(50,39,'-','fontsize',20)
-box off
+    K = 16;
+    vmax = max(max(phi));
+    vmin = min(min(phi));
+    rm = min(abs(vmax),abs(vmin));
+    dv = 4*rm/K;
+    v = -2*rm +[0:K]*dv;
+    contour(phi,v,'linewidth',1.5)
+    colorbar
+    text(50,52,'+','fontsize',18)
+    text(50,63,'-','fontsize',20)
+    text(50,39,'-','fontsize',20)
+    box off
+
+    % save for external plotting
+    contoursave = contour(phi,v);
+    writematrix(contoursave','contours.dat')
 
 figure(2)
-contour(phi_i,20,'linewidth',1.5);
-colorbar
+    contour(phi_i,20,'linewidth',1.5);
+    colorbar
+
 figure(3) 
-contour(phi_e,20,'linewidth',1.5)
-colorbar
+    contour(phi_e,20,'linewidth',1.5)
+    colorbar
 
 
 

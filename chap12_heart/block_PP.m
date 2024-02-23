@@ -1,4 +1,15 @@
-% phase portrait for blocking propagation failure
+
+%  -------------------------------------------------------------------
+%
+%   Phase portrait for blocking propagation failure.
+%
+%   For Chapter 12, Section 12.4.2 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd.
+% 
+%  ------------------------------------------------------------------- 
+
 clear all
 close all
 clc
