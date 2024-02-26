@@ -1,16 +1,6 @@
-
-
-%  -------------------------------------------------------------------
-%
 % This file looks at solutions of the standard FHN model
 % in a 2d region  with a double stimulus (the Winfree protocol)
-%
-%   For Chapter 12, Sections 12.5.3 and 12.5.6 of
-%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
-%   Written by James Keener and James Sneyd.
-% 
-%  ------------------------------------------------------------------- 
+
 
 clear all
 close all
@@ -30,7 +20,7 @@ d = 0.05;
 six=1;
 siy = 1;
 
-N=300; %number of grid points in each direction 
+N=90; %number of grid points in each direction 
 % must be divisible by 3 and 2
 Nsq = N^2;
 dx = L/N;
@@ -110,30 +100,31 @@ s0 = [V0;W0 ];
 [T,S] = ode23(@deRHS,tspan, s0, odeset('maxstep',1));  
 for j = 1:length(T)
     V = reshape(S(j,1:Nsq),N,N);
-    W = reshape(S(j,Nsq+1:2*Nsq),N,N);
+    W=reshape(S(j,Nsq+1:2*Nsq),N,N);
     
     figure(1)    
-        %mesh(X,Y,V)
-        pic = pcolor(X,Y,V);
-        pic.LineStyle = 'none';
-        xlabel('x')
-        ylabel('y')
-        zlabel('v')
-        axis([0 L 0 L -.25 1])    
-        formatSpecF = '%6.2f\n';      
-        title(strcat('t=',sprintf(formatSpecF,T(j))),'fontsize',18) 
-            
-%    figure(2)
-%        plot(V(N/2,:),W(N/2,:),Vt,Vn,'--',Vt,Wn,'--');
-%        axis([-.25 1,-.2 .2])
+    %mesh(X,Y,V)
+    pcolor(X,Y,V)
+    
+    xlabel('x')
+    ylabel('y')
+    zlabel('v')
+    axis([0 L 0 L -.25 1])
+    
+    formatSpecF = '%6.2f\n';
+    % 
+    title(strcat('t=',sprintf(formatSpecF,T(j))),'fontsize',18) 
+    % 
+    
+    figure(2)
+    plot(V(N/2,:),W(N/2,:),Vt,Vn,'--',Vt,Wn,'--');
+    axis([-.25 1,-.2 .2])
     
     pause(0.01)
     T(j)
 end
 
-save('doublespiral.mat')    % save all parameters and variables, to be used in twoD_defib.m
-time=cputime-time;          % outputs the cpu time taken to solve the equations
-
+time=cputime-time;        % outputs the cpu time taken to solve the equations
 
 %%
 %the right hand side for ode simulation:
