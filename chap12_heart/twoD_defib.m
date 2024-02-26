@@ -6,8 +6,8 @@
 % in a 2d region following a defibrillating stimulus
 %
 % All the parameters are set in FHN_Winfree_2D.m, so if you want to change anything (such as the
-% resolution) you will need to rerun that code first. The transfer is done
-% through the file 'doublespiral.mat'.
+% resolution) you will need to rerun that code first, otherwise you'll get a mismatch.
+% The transfer is done through the file 'doublespiral.mat'.
 %
 %   For Chapter 12, Sections 12.5.3 and 12.5.6 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
@@ -91,14 +91,14 @@ for ja = 1:length(amplist)
         pause(0.2)  
     end
     
-    keep = zeros(N,N);
-    % save for external plotting
-    jout = [1, 10, 30, 40];
-    for j = 1:length(jout)
-        V = reshape(S(jout(j),1:Nsq),N,N);
-        name = strcat('test',num2str(ja),'_',num2str(j),'.mat');
-        save(name,'V');
-    end
+%     keep = zeros(N,N);
+%     % save for external plotting
+%     jout = [1, 10, 30, 40];
+%     for j = 1:length(jout)
+%         V = reshape(S(jout(j),1:Nsq),N,N);
+%         name = strcat('test',num2str(ja),'_',num2str(j),'.mat');
+%         save(name,'V');
+%     end
 end
 
 

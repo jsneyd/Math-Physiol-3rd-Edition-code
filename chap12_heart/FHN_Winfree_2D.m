@@ -40,6 +40,7 @@ eps = .05;
 alf = .1;
 gam = 2;
 
+
 X = dx*(1:N)';
 Y = X; % a square grid
 [X,Y]=meshgrid(dx*(1:N),dx*(1:N));
@@ -131,7 +132,9 @@ for j = 1:length(T)
     T(j)
 end
 
-save('doublespiral.mat')    % save all parameters and variables, to be used in twoD_defib.m
+% save V and W (and other stuff) to be used in twoD_defib.m
+save('doublespiral.mat','V','W','L','d','six','siy','N','Nsq','dx','eps','alf','gam')    
+
 time=cputime-time;          % outputs the cpu time taken to solve the equations
 
 
