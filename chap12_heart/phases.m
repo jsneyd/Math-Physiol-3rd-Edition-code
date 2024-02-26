@@ -14,13 +14,12 @@ Pf =  2.*P.*(1-P);
 
 smth=exp(-rad/scale)+Pf;
 figure(1)
- mxsm = max(max(smth));
- smth=smth/mxsm;
+mxsm = max(max(smth));
+smth=smth/mxsm;
 pcolor(smth)
  
 
 %create the Nsq x Nsq coupling matrix
-
 
 offdiag = [ones(N-1,1)]; % off-diagonal 
 for j = 1:N-1

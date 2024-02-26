@@ -1,4 +1,13 @@
-%this  file calculates the potentials in a passive cardiac cable.
+%  -------------------------------------------------------------------
+%
+%   Calculate the potentials in a passive cardiac cable.
+%
+%   For Chapter 12, Section 12.4.2 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+% 
+%   Written by James Keener and James Sneyd.
+% 
+%  ------------------------------------------------------------------- 
 
 %The sawtooth potential
 clear all
@@ -22,16 +31,13 @@ ratc=qi/Q;
 E = exp(sQ);
 LAM = 2*(mu-E)*(mu-1/E)/(mu*(E-1/E));
 
-A=-E/(E^2*LAM + 2*E^2 - 4*E*m - LAM + 2)
- 
+A=-E/(E^2*LAM + 2*E^2 - 4*E*m - LAM + 2);
 B=A;
 C= -(2*E^2*LAM*m^2 + 2*E^2*m^2*ratc - 2*E^2*LAM*m + 2*E^2*m^2 - 4*E*m^3 ...
     - 4*E*m^2*ratc - 4*E^2*m - 2*E^2*ratc + 8*E*m^2 - 2*LAM*m^2 ...
     + 2*m^2*ratc + 2*E^2 - 4*E*m + 4*E*ratc + 2*LAM*m + 2*m^2 - 4*m - 2*ratc + 2) ...
-    /((E^2*LAM + 2*E^2 - 4*E*m - LAM + 2)*(m^2 - 2*m + 1))
+    /((E^2*LAM + 2*E^2 - 4*E*m - LAM + 2)*(m^2 - 2*m + 1));
  
-
-
 x = [0:.05:1]*L;
 % for positive n
 phi = (mu-1/E)*exp(lambda*x) + (mu - E)*exp(-lambda*x);
@@ -52,14 +58,11 @@ Vi = [];
 Ve = [];
 y = [];
 
- 
 for j =  -25:-1
-Vi = [Vi,B*mu^(-j)*phi_in+1+C];
- Ve=[Ve,B*mu^(-j)*phi_en+C];
-y=[y,j*L+x];
+    Vi = [Vi,B*mu^(-j)*phi_in+1+C];
+    Ve=[Ve,B*mu^(-j)*phi_en+C];
+    y=[y,j*L+x];
 end
-
-
 
 for j = 0:25
     Vi = [Vi,A*mu^j*phi_i];
