@@ -1,4 +1,4 @@
-% Code to simulate the direction detection model
+% Code to simulate the Reichardt direction detection model
 clear all
 close all
 clc
