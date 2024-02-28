@@ -1,3 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
-*.m eol=lf
+[core]
+    autocrlf = false
+    eol = lf
