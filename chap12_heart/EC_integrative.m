@@ -5,17 +5,20 @@
 %
 %   For Chapter 12, Section 12.3.3 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd.
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
+
+function EC_integrative
+
 close all
 clear all
 clc
 set(0,                           ...
    'defaultaxesfontsize', 18,   ...
    'defaultaxeslinewidth', 2.0, ...
-   'defaultlinelinewidth', 2.0); 
+   'defaultlinelinewidth', 2.0);
 
 
 % The variables are, in order:
@@ -52,12 +55,13 @@ p.g=2;
 % uniform distribution and then calculate the responses for all Vstim
 Nsample = 100;
 for j = 1:Nsample
+    j                                       % just to track progress
     % first find the unstimulated steady state (at Vm = -75)
     p.Vm = -75;
     p.kL = 2*VGCC_sig*rand + VGCC_mean - VGCC_sig;
     p.kRyR = 2*kRyR_sig*rand + kRyR_mean - kRyR_sig;
     dt = 0.01;
-    tend=250;    
+    tend=250;
     init = [0.0041, 0.4, 0.006469, 0.75559, 0.006];
     tspan = [0:dt:tend];
     [t,sol] = ode15s(@(t,x)Ltrhs(t,x,p),tspan,init);
@@ -70,13 +74,13 @@ for j = 1:Nsample
     for i = 1:n
         p.Vm = Vstim(i);
         dt = 0.01;
-        tend=10;    
+        tend=10;
         tspan = [0:dt:tend];
         [t,sol] = ode15s(@(t,x)Ltrhs(t,x,p),tspan,init);
         op = sol(:,1);
         cd = sol(:,3);
         Obar = sol(:,4);
-    
+
         % pull out the peak fluxes for plotting
         peak_JRyR(j,i) = max(RyR_flux(Obar,cd,p));
         peak_Ltype(j,i) = max(-Ltype(op,p));
@@ -97,7 +101,7 @@ p.Vm = -75;
 p.kL = VGCC_mean;
 p.kRyR = kRyR_mean;
 dt = 0.01;
-tend=250;    
+tend=250;
 init = [0.0041, 0.4, 0.006469, 0.75559, 0.006];
 tspan = [0:dt:tend];
 [t,sol] = ode15s(@(t,x)Ltrhs(t,x,p),tspan,init);
@@ -110,7 +114,7 @@ Vstim = linspace(-74,65,n);             % stimulating voltage clamp levels
 for i = 1:n
     p.Vm = Vstim(i);
     dt = 0.01;
-    tend=10;    
+    tend=10;
     tspan = [0:dt:tend];
     [t,sol] = ode15s(@(t,x)Ltrhs(t,x,p),tspan,init);
     op = sol(:,1);
@@ -125,43 +129,44 @@ plot(Vstim, peak_JRyR_fix, Vstim, peak_Ltype_fix,'LineWidth',2)
 
 %save EC_integrated.mat Vstim peak_JRyR_mean peak_JRyR_fix peak_Ltype_mean peak_Ltype_fix
 
+end % of main
 
-%% 
+%%
 function out=Ltrhs(t,x,p)
 
-op=x(1);
-n3=x(2);
-c3=1-n3-op;
-cd = x(3);
-Obar = x(4);
-c = x(5);
+    op=x(1);
+    n3=x(2);
+    c3=1-n3-op;
+    cd = x(3);
+    Obar = x(4);
+    c = x(5);
 
-p.alpha = 2*exp(0.012*(p.Vm-35)); 
-p.beta = 0.0882*exp(-0.05*(p.Vm-35)); 
-p.gamma = 0.44*cd;
-p.fbar = p.alpha*p.f/(p.alpha+p.beta);
-p.omegabar = p.omega*(p.beta/2+p.alpha)/(2*p.alpha+p.beta/2);
-p.gammabar = p.gamma*(p.beta+2*p.alpha)/(p.alpha+p.beta);
+    p.alpha = 2*exp(0.012*(p.Vm-35));
+    p.beta = 0.0882*exp(-0.05*(p.Vm-35));
+    p.gamma = 0.44*cd;
+    p.fbar = p.alpha*p.f/(p.alpha+p.beta);
+    p.omegabar = p.omega*(p.beta/2+p.alpha)/(2*p.alpha+p.beta/2);
+    p.gammabar = p.gamma*(p.beta+2*p.alpha)/(p.alpha+p.beta);
 
-% Ca fluxes
-JLtype = Ltype(op,p);  
-Jpm = p.Vc*c^2/(p.Kc^2 + c^2);
-JRyR = RyR_flux(Obar,cd,p);
+    % Ca fluxes
+    JLtype = Ltype(op,p);
+    Jpm = p.Vc*c^2/(p.Kc^2 + c^2);
+    JRyR = RyR_flux(Obar,cd,p);
 
-% L-type channel
-dopdt = -p.g*op+p.fbar*n3;
-dn3dt =-(p.fbar+p.gammabar)*n3 +p.omegabar*c3+p.g*op;
+    % L-type channel
+    dopdt = -p.g*op+p.fbar*n3;
+    dn3dt =-(p.fbar+p.gammabar)*n3 +p.omegabar*c3+p.g*op;
 
-% cd equation
-dcddt = -JLtype + JRyR - p.D*(cd - c);
+    % cd equation
+    dcddt = -JLtype + JRyR - p.D*(cd - c);
 
-% RyR equation
-dObardt = p.km2*(1-Obar) - p.k2*cd*Obar;
+    % RyR equation
+    dObardt = p.km2*(1-Obar) - p.k2*cd*Obar;
 
-% cytosolic calcium equation
-dcdt = p.Vf*p.D*(cd-c) - Jpm;
- 
-out=[dopdt; dn3dt; dcddt; dObardt; dcdt];
+    % cytosolic calcium equation
+    dcdt = p.Vf*p.D*(cd-c) - Jpm;
+
+    out=[dopdt; dn3dt; dcddt; dObardt; dcdt];
 end
 
 %% L-type current
@@ -177,4 +182,4 @@ end
 
 
 
- 
+
