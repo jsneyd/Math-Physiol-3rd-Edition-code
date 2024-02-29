@@ -6,10 +6,12 @@
 %
 %   For Chapter 12, Section 12.6 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd.
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
+
+function oneDstimulus
 
 clear all
 close all
@@ -34,7 +36,7 @@ Wn = Vt/gam;
 N=2000 ; % number of  grid points
 K = 10; %number of grid points per cell
 Nc = N/K;  %number of cells  (must be an integer)
-L=Nc;  
+L=Nc;
 
 dx = 1/K;
 x=[1:N]'*dx;
@@ -56,45 +58,49 @@ for icase = 1:3
     end
     %remark: we only use N-1 elements of Rc
     R=1./(re+Rc)';
-    
+
     A=  -spdiags([0;R(1:N-1)],0,N,N) +spdiags(R ,-1,N,N)-spdiags([R(1:N-1);0],0,N,N)  +spdiags([0;R(1:N-1)],1,N,N);
     Jcol = re*([R(1:N-1);0]-[0;R(1:N-1)])/dx;
-    
-    t1=2;   
+
+    t1=2;
     tspan = [0,1,4,6];
     s0 = zeros(2*N,1);
     [T,S] = ode23(@deRHS,tspan, s0);  % Remark ode23s and ode15s are significantly slower for this problem
-    
+
     for j=1:length(tspan)
         v = S(j,1:N);
         w = S(j,N+1:2*N);
-        
+
         figure(2*icase-1)
             plot(x,v)
             axis([0 L -0.2 1.2])
             xlabel('Cell Number')
             ylabel('V')
             formatSpecF = '%6.2f\n';
-            % 
+            %
             hold on
             keep = [keep x v'];  % for external plotting
-        
+
 %         figure(2*icase)
 %             plot(v,w,Vt,Vn,'--',Vt,Wn,'--')
 %             axis([-0.3 1 -1 1.5 ])
     end
-    
+
     figure(2*icase-1)
-        title(strcat('r_g=',sprintf(formatSpecF,rg),', I_{amp} =',sprintf(formatSpecF,Iamp)),'fontsize',18) 
+        title(strcat('r_g=',sprintf(formatSpecF,rg),', I_{amp} =',sprintf(formatSpecF,Iamp)),'fontsize',18)
         box off
         legend('t=0','t=1','t=4','t=6')
         hold off
-    
+
 end
 
-writematrix(keep,'oneDstimulus.dat')   % for external plotting
+%writematrix(keep,'oneDstimulus.dat')   % for external plotting
 
-%% 
+end % of main
+
+
+
+%%
 %the right hand side for ode simulation:
 function s_prime=deRHS(t,u)
     global Dscal A Jcol N gam eps t1 Iamp
@@ -102,13 +108,13 @@ function s_prime=deRHS(t,u)
     v=u(1:N);
     w=u(N+1:2*N);
     % use method of lines
-    b= Iamp*(t<=t1)*(t1^2-t^2);    
+    b= Iamp*(t<=t1)*(t1^2-t^2);
     vp= Dscal*A*v +  f(v)-w +Jcol*b;
     wp=eps*(v-gam*w);
-    
+
     s_prime =[vp;wp];
 
-end 
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function out = f(u)

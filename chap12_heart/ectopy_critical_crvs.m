@@ -44,12 +44,11 @@ for j = 1:15
         alps=alf +(b-alf)*(exp(-(x/scale).^2));
         A = -2*diag(ones(N,1)) + diag([2;ones(N-2,1)],1) + diag([ ones(N-2,1);2],-1);
         V0=alps;
-
         tstep =  1;
         t_end = 10;
         tspan = [0:tstep:t_end];
         s0 = V0;
-        [T,S] = ode23(@deRHS,tspan, s0, odeset('maxstep',1));
+        [T,S] = ode15s(@deRHS,tspan, s0, odeset('maxstep',1));
         u = S(end,:);
 
         % find the eigenvalues
@@ -58,8 +57,7 @@ for j = 1:15
 
         % Now the spherical case
         A =  diag([-2*ones(N-1,1);-2+2*dx/L]) + diag([ ones(N-1,1)],1) + diag([ ones(N-2,1);2],-1);
-
-        [T,S] = ode23(@deRHSspher,tspan, s0, odeset('maxstep',1));
+        [T,S] = ode15s(@deRHSspher,tspan, s0, odeset('maxstep',1));
         u = S(end,:);
 
         % find the eigenvalues
@@ -80,7 +78,7 @@ text(0.05,0.5,'stable','fontsize',20)
 text(0.15,2,'unstable','fontsize',20)
 
 
-end
+end % of main
 
 % ---------------------------------------------------
 
