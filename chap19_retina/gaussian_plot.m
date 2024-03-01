@@ -1,4 +1,13 @@
-% plot of excitatory and inhibitoy surround function
+% Matlab/Octave code to plot excitatory and inhibitory surround function
+ 
+% For Figure 23, Chapter 19 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%-------------------------------------------------------------------
+
+
 
 clear all
 close all

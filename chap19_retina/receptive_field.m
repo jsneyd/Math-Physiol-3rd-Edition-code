@@ -1,4 +1,11 @@
-% Code to solve exercises on receptive fields in Chapter 19
+% Code for receptive fields (and exercises) in Chapter 19
+ % The Matlab/Octave file used to generate the image in Fig. 24 of Chapter
+% 19 
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clear all
 close all
