@@ -1,4 +1,14 @@
-% code to examine phase synchrony
+
+%  -------------------------------------------------------------------
+%
+%   Code to examine phase synchrony
+%
+%   For Chapter 12, Section 12.4.4 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%   Written by James Keener and James Sneyd.
+%
+%  -------------------------------------------------------------------
 
 N = 30; % size of grid
 Nsq=N^2;
@@ -22,8 +32,9 @@ pcolor(smth)
 %create the Nsq x Nsq coupling matrix
 
 offdiag = [ones(N-1,1)]; % off-diagonal 
+
 for j = 1:N-1
-offdiag = [offdiag;0;ones(N-1,1)];
+    offdiag = [offdiag;0;ones(N-1,1)];
 end
 A=diag(offdiag,1)+diag(offdiag,-1)+diag(ones(N*(N-1),1),N)+diag(ones(N*(N-1),1),-N);
 Ad = sum(A);

@@ -3,14 +3,19 @@
 %  -------------------------------------------------------------------
 %
 % This file looks at solutions of the standard FHN model
-% in a 2d region  with a double stimulus (the Winfree protocol)
+% in a 2d region  with a double stimulus (the Winfree protocol).
+
+% Useful variables are saved in doublespiral.mat for subsequent use
+% in twoD_defib.m.
 %
 %   For Chapter 12, Sections 12.5.3 and 12.5.6 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd.
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
+
+function main
 
 clear all
 close all
@@ -30,7 +35,7 @@ d = 0.05;
 six=1;
 siy = 1;
 
-N=300; %number of grid points in each direction 
+N = 60; %number of grid points in each direction
 % must be divisible by 3 and 2
 Nsq = N^2;
 dx = L/N;
@@ -77,7 +82,7 @@ Vt=[-0.2:0.01:1];
 Vn = -Vt.*(Vt-1).*(Vt-alf);
 Wn = Vt/gam;
 
-V0=zeros(Nsq,1);  % Initial values for V 
+V0=zeros(Nsq,1);  % Initial values for V
 W0 = zeros(Nsq,1);  % Initial values for W
 
 % uses method of lines to solve the diffusion equation
@@ -93,7 +98,7 @@ end
 spoffdiag1 = [offdiag1;0];
 spoffdiag2 = [0;offdiag2];
 
-offdiag3 = [ones(N*(N-2),1);2*ones(N,1)]; 
+offdiag3 = [ones(N*(N-2),1);2*ones(N,1)];
 spoffdiag3 = offdiag3;
 offdiag4 = [2*ones(N,1);ones(N*(N-2),1)];
 spoffdiag4 = [zeros(N,1);offdiag4];
@@ -105,52 +110,53 @@ A = (-2*(six+siy)*spdiags(ones(Nsq,1),0,Nsq,Nsq)+six*spdiags(spoffdiag2,1,Nsq,Ns
 
 tstep =  1;
 t_end = 75;
-
 tspan = [0:tstep:t_end];
 s0 = [V0;W0 ];
-[T,S] = ode23(@deRHS,tspan, s0, odeset('maxstep',1));  
+[T,S] = ode15s(@deRHS,tspan, s0, odeset('maxstep',1));
 for j = 1:length(T)
     V = reshape(S(j,1:Nsq),N,N);
     W = reshape(S(j,Nsq+1:2*Nsq),N,N);
-    
-    figure(1)    
+
+    figure(1)
         %mesh(X,Y,V)
         pic = pcolor(X,Y,V);
-        pic.LineStyle = 'none';
+        shading interp;
         xlabel('x')
         ylabel('y')
         zlabel('v')
-        axis([0 L 0 L -.25 1])    
-        formatSpecF = '%6.2f\n';      
-        title(strcat('t=',sprintf(formatSpecF,T(j))),'fontsize',18) 
-            
+        axis([0 L 0 L -.25 1])
+        formatSpecF = '%6.2f\n';
+        title(strcat('t=',sprintf(formatSpecF,T(j))),'fontsize',18)
+
 %    figure(2)
 %        plot(V(N/2,:),W(N/2,:),Vt,Vn,'--',Vt,Wn,'--');
 %        axis([-.25 1,-.2 .2])
-    
+
     pause(0.01)
     T(j)
 end
 
 % save V and W (and other stuff) to be used in twoD_defib.m
-save('doublespiral.mat','V','W','L','d','six','siy','N','Nsq','dx','eps','alf','gam')    
+save('doublespiral.mat','V','W','L','d','six','siy','N','Nsq','dx','eps','alf','gam')
 
 time=cputime-time;          % outputs the cpu time taken to solve the equations
 
+
+end
 
 %%
 %the right hand side for ode simulation:
 function s_prime=deRHS(t,u)
     global  A gam eps S1 S2 S3 Nsq alf Iamp1 Iamp2 Iamp3 t1 t2 t3
-    
+
     V=u(1:Nsq);
     W=u(Nsq+1:2*Nsq);
     %FHN_dynamics;
     Fw = eps*(V-gam*W);
     Fv  = 10*(-V.*(V-1).*(V-alf)-W);
-    
+
     Fin = Iamp1/cosh(5*(t-t1))*S1 +Iamp2/cosh(5*(t-t2))*S2 +Iamp3/cosh(5*(t-t3))*S3;
-    
+
     Vt =   A*V + (Fv+Fin);
     s_prime= [Vt;Fw];
 end

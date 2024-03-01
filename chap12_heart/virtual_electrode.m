@@ -1,4 +1,3 @@
-% this is the calculation to 
 
 %  -------------------------------------------------------------------
 %
@@ -6,10 +5,10 @@
 %
 %   For Chapter 12, Section 12.4.3 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd.
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
 
 
 clear all
@@ -24,7 +23,7 @@ N=101; % number of grid points (must be odd)
 Nsq = N^2;
 dx = 14/N;
 
-%Here are a number of cases to consider 
+%Here are a number of cases to consider
 %conductances; anisotropy ratios are unequal
 six = 1;
 siy = 0.09;
@@ -72,7 +71,7 @@ end
 spoffdiag1 = [offdiag1;0];
 spoffdiag2 = [0;offdiag2];
 
-offdiag3 = [ones(N*(N-2),1);2*ones(N,1)]; 
+offdiag3 = [ones(N*(N-2),1);2*ones(N,1)];
 spoffdiag3 = offdiag3;
 offdiag4 = [2*ones(N,1);ones(N*(N-2),1)];
 spoffdiag4 = [zeros(N,1);offdiag4];
@@ -109,7 +108,7 @@ indx = (Nsq+1)/2; %uses an odd number of points
 
 Rhs(Nsq+1:2*Nsq) = -1/(Nsq-1); % remove current everywhere else
 Rhs(indx+Nsq) = 1; % add current at the center
- 
+
 indx1 = Nsq + [1:N];
 indx2 = Nsq + (N-1)*N+[1:N];
 indx3 = Nsq + [1:N]*N - N + 1;
@@ -154,14 +153,14 @@ figure(1)
     box off
 
     % save for external plotting
-    contoursave = contour(phi,v);
-    writematrix(contoursave','contours.dat')
+    %contoursave = contour(phi,v);
+    %writematrix(contoursave','contours.dat')
 
 figure(2)
     contour(phi_i,20,'linewidth',1.5);
     colorbar
 
-figure(3) 
+figure(3)
     contour(phi_e,20,'linewidth',1.5)
     colorbar
 

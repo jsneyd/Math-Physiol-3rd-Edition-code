@@ -5,10 +5,12 @@
 %
 %   For Chapter 12, Section 12.5.2 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd.
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
+
+function circle_map
 
 clear all
 close all
@@ -21,21 +23,21 @@ set(0,                           ...
 
 global gam del
 
-% set parameters 
+% set parameters
 del = 1;
 gamlist=[0.75,0.694,0.67,0.55];  % a list of parameter values to use
 
 for ngam = 1:length(gamlist)
     clear t1 t2 t3 tk Gkj Tk
     gam=gamlist(ngam);
-    
-    delt=0.001; % This determines the resolution 
-    t=[0:delt:6];  
-    F = evalF(t);    
+
+    delt=0.001; % This determines the resolution
+    t=[0:delt:6];
+    F = evalF(t);
     G=evalG(t);
-    
+
     % iterate the map
-    
+
     tk(1) = 0.;
     N=0;
     j=1;
@@ -50,7 +52,7 @@ for ngam = 1:length(gamlist)
             ndx = min(find(F>=Gkj));
             tk(j) =t(ndx);
         end
-    end 
+    end
     N=j;
     gk(1) = 0;
     for j = 1:N
@@ -59,7 +61,7 @@ for ngam = 1:length(gamlist)
         Tk(2*j-1) = tk(j);
         Tk(2*j) = tk(j);
     end
-    
+
     %this shows an example of the map
     figure(2*ngam-1)
         plot(t,G,t,F,Tk,gk(1:2*N),'k--')
@@ -72,25 +74,25 @@ for ngam = 1:length(gamlist)
         text(1.3,5.95,'t_2','fontsize',18)
         formatSpecF = '%6.2f\n';
         title(strcat('\gammaT = ',sprintf(formatSpecF,gam)),'fontsize',18)
-    
-    % plot some circle maps (on the circle)    
+
+    % plot some circle maps (on the circle)
     t=[0:delt:1];
-    F = evalF(t); 
+    F = evalF(t);
     [M,I]=max(F);
     ti=[0:delt:t(I)];
-    Gkj=evalG(ti); 
+    Gkj=evalG(ti);
     t1=[0:delt:3];  %this must be large enough to get the whole range, but not too large
     F1=evalF(t1);
     for j=1:I
-        j1=min(find(F1>=Gkj(j)));  
+        j1=min(find(F1>=Gkj(j)));
         t2(j)= t1(j1);
     end
     t3=mod(t2,1);
-        
+
     % track a trajectory
     tk(1)=0.35; % starting value
     t=[0:delt:15];
-    F = evalF(t); 
+    F = evalF(t);
     N=0;
     j=1;
     while N==0
@@ -105,8 +107,8 @@ for ngam = 1:length(gamlist)
         end
     end
     N=j;
-    
-    for j = 1:N        
+
+    for j = 1:N
         Tk(2*j-1) = tk(j);
         Tk(2*j) = tk(j);
     end
@@ -117,15 +119,19 @@ for ngam = 1:length(gamlist)
         axis([min(t3) max(t3) min(t3) max(t3)])
     else
         plot(ti(1:Istop),t3(1:Istop),'r',ti(Istop+1:end),t3(Istop+1:end),'r',t3,t3,'b--',mod(Tk(1:end-1),1),mod(Tk(2:end),1),'k--')
-        axis([min(t3) max(t3) min(t3) max(t3)]) 
+        axis([min(t3) max(t3) min(t3) max(t3)])
     end
-    
+
     xlabel('\Psi_n')
     ylabel('\Psi_{n+1}')
     box off
     formatSpecF = '%6.2f\n';
     title(strcat('\gammaT = ',sprintf(formatSpecF,gam)),'fontsize',18)
 end
+
+end % of main
+
+
 
 %% here is where the functions F and G are specified
 function F = evalF(t)
@@ -134,9 +140,9 @@ function F = evalF(t)
 end
 
 function G = evalG(t)
-    global gam del 
+    global gam del
     G = evalF(t)+del*exp(gam*t);
 end
 
 
- 
+

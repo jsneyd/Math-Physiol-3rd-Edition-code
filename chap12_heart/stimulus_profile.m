@@ -1,6 +1,18 @@
-%this code is to plot the response to a stimulus in a bidomain cable.
 
-%These are the same parameters as used in the space constant calculation
+
+%  -------------------------------------------------------------------
+%
+%  This code is to plot the response to a stimulus in a bidomain cable.
+%  It uses the same parameters as used in the space constant calculation.
+%
+%   For Chapter 12, Sections 12.4.1 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%   Written by James Keener and James Sneyd.
+%
+%  -------------------------------------------------------------------
+
+
 clear all
 close all
 clc
@@ -61,7 +73,7 @@ x = [0:1/nx:1]*L;
 n = (nx+1)*(N+1);
 
 gamma(1) = 0;
-for j = 1:N 
+for j = 1:N
     gamma(j+1) = gamma(j) + (sQ*rc*J +re*Kg*(J*(1-C)+C*cfs(1,j)+S*b(j)))/(re+rc);
 end
 
@@ -102,5 +114,6 @@ ylabel('Potential','fontsize',16)
 
 figure(2)
 plot(y,phi_i,y,phi_e)
+
 
 
