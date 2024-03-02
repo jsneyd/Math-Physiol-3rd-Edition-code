@@ -1,8 +1,15 @@
 
 % Code to solve a simple version of the Longtin-Milton model of the pupil
-% light reflex. This doesn't run under Octave, which hasn't yet implemented
+% light reflex. This does not run under Octave, which has not yet implemented
 % the delay differential equation solver, dde23.
+ 
+% The Matlab/Octave file used to generate the image in Fig. 25 of Chapter
+% 19 
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
 
+% Written by James Keener and James Sneyd
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function longtin_milton
     clear all
     close all
