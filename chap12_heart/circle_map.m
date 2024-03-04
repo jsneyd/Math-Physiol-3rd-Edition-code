@@ -25,7 +25,7 @@ global gam del
 
 % set parameters
 del = 1;
-gamlist=[0.75,0.694,0.67,0.55];  % a list of parameter values to use
+gamlist=[0.8,0.695,0.67,0.55];  % a list of parameter values to use
 
 for ngam = 1:length(gamlist)
     clear t1 t2 t3 tk Gkj Tk
@@ -75,10 +75,13 @@ for ngam = 1:length(gamlist)
         formatSpecF = '%6.2f\n';
         title(strcat('\gammaT = ',sprintf(formatSpecF,gam)),'fontsize',18)
 
+
+
+
     % plot some circle maps (on the circle)
     t=[0:delt:1];
     F = evalF(t);
-    [M,I]=max(F);
+    [M,I]=max(F)
     ti=[0:delt:t(I)];
     Gkj=evalG(ti);
     t1=[0:delt:3];  %this must be large enough to get the whole range, but not too large
@@ -127,6 +130,7 @@ for ngam = 1:length(gamlist)
     box off
     formatSpecF = '%6.2f\n';
     title(strcat('\gammaT = ',sprintf(formatSpecF,gam)),'fontsize',18)
+
 end
 
 end % of main

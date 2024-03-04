@@ -1,7 +1,19 @@
 
-function neutropenia_2
-% this uses the Matlab routine dde23 to solve delay differential equations
+%  -------------------------------------------------------------------
+%
+%  This uses the Matlab routine dde23 to solve delay differential equations
 %  for the extended cyclic neutropenia model
+%
+%   For Chapter 13, Section 13.1.2 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%   Written by James Keener and James Sneyd.
+%
+%  -------------------------------------------------------------------
+
+
+function neutropenia_2
+
 clear all
 close all
 clc
@@ -36,20 +48,20 @@ lags = [tauR,tauN];;
 sol= dde23(@ddeRHS,lags, @history, tspan) 
  
 figure(1)
-plot(sol.x,sol.y(1,:),'r' ,sol.x,sol.y(2,:),'b' ,'linewidth',2)
-xlabel('t','fontsize',16)
-legend('boxoff')
-legend('R','N')
- title(strcat('\gamma = ',sprintf(formatSpecF,gam)),'fontsize',18)
+    plot(sol.x,sol.y(1,:),'r' ,sol.x,sol.y(2,:),'b' ,'linewidth',2)
+    xlabel('t','fontsize',16)
+    legend('boxoff')
+    legend('R','N')
+    title(strcat('\gamma = ',sprintf(formatSpecF,gam)),'fontsize',18)
    
  
 set(gca,'linewidth',2.0)
 box off
  
 figure(2)
- plot(sol.y(1,:), sol.y(2,:))
- xlabel('R')
- ylabel('N')
+    plot(sol.y(1,:), sol.y(2,:))
+    xlabel('R')
+    ylabel('N')
 
 end
 

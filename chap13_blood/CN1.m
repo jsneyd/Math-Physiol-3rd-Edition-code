@@ -1,5 +1,17 @@
-%% DDE-Biftool Mackey CN model
-% Be sure to add DDE_Biftool to your Matlab path.
+
+
+%% Be sure to add DDE_Biftool to your Matlab path.
+
+%  -------------------------------------------------------------------
+%
+%   Use DDE-Biftool to solve the Mackey CN model.
+%
+%   For Chapter 13, Section 13.1.2 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%   Written by James Keener and James Sneyd.
+%
+%  -------------------------------------------------------------------
 
 clear all
 close all

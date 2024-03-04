@@ -5,12 +5,12 @@
 %
 %   For Chapter 7, Section 7.4.4 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd.
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
 
-
+function RyR_Stern
 %% symbolic calculation and plotting of the steady state
 
 clear all
@@ -19,7 +19,7 @@ clc
 set(0,                           ...
    'defaultaxesfontsize', 18,   ...
    'defaultaxeslinewidth', 2.0, ...
-   'defaultlinelinewidth', 2.0); 
+   'defaultlinelinewidth', 2.0);
 
 syms k1 km1 k2 km2 R O I RI c
 global k1val km1val k2val km2val
@@ -87,11 +87,11 @@ end
 
 figure(2)
 plot(cc,peak,'k')
- 
+
 % for external plotting
 % writematrix([cc',peak'],'test2.dat')
 
-
+end % of main
 
 %%
 function out = rhs(t,x,c)

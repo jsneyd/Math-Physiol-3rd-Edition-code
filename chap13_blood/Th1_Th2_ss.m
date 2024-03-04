@@ -22,7 +22,7 @@ x1=[0.287:.001:5];
 % select a value of S1
 S1 = 0;
 
-f1 = (-beta + mu*x1)./(alpha*x1.^n/(kap^n+x1.^n) +sig*S1/(rho+S1)) ;
+f1 = (-beta + mu*x1)./(alpha*x1.^n./(kap^n+x1.^n) +sig*S1/(rho+S1)) ;
 
 x2=(g2./f1)-g2;
 

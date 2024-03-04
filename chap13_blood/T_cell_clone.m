@@ -1,3 +1,17 @@
+
+%  -------------------------------------------------------------------
+%
+%   Compute solutions of the T-cell model.
+%
+%   For Chapter 13, Section 13.3 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%   Written by James Keener and James Sneyd.
+%
+%  -------------------------------------------------------------------
+
+function T_cell_clone
+
 clear all
 close all
 clc
@@ -11,6 +25,7 @@ threshold = false;  % do you want to threshold the bacteria at B<1?  If so, set 
 init = [1 100 0 0];
 tspan = linspace(0,40,1000);
 
+warning("off")
 [T,Y] = ode15s(@(t,x)rhs(t,x),tspan,init);
 B = Y(:,1); N = Y(:,2); A = Y(:,3); M = Y(:,4);
 subplot(2,2,1)
@@ -30,8 +45,9 @@ plot(T,M,'k')
 xlabel('t')
 ylabel('M')
 
-writematrix([T B N A M],'T_cell_out.dat')
+%writematrix([T B N A M],'T_cell_out.dat')   % for external plotting
 
+end % of main
 
 %%
 function out=rhs(t,x)
@@ -46,15 +62,15 @@ N = x(2);
 A = x(3);
 M = x(4);
 
-sigma = 0; 
-rN = 0; 
+sigma = 0;
+rN = 0;
 dN = 0.001;
 aN = 1;
 dA = 1;
 m = 0.005;
 rM = 0;
 aM = 0;
-dM = 0; 
+dM = 0;
 
 p = 2;
 r = 5;
