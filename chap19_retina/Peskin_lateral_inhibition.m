@@ -1,4 +1,11 @@
+
+% The Matlab/Octave file used to generate the image in Fig. 15 of Chapter 19
 % Solutions of the Peskin lateral inhibition  model 
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear all
 close all
 clc
