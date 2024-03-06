@@ -27,7 +27,7 @@ global n tauR  b0 K1 gam p0 K2 m tauN A alpha
 gam = 0.04;
 n = 1;
 tauR= 2.8;
- K1 = 0.095;
+K1 = 0.095;
 b0 = 8;
 p0 = 0.8;
 K2 = 0.36;
@@ -65,32 +65,31 @@ figure(2)
 
 end
 
- %%%%%%%%%%%%%%%%%%
- function out = ddeRHS(t,Y,Z)
-global  gam A alpha tauR
-R=Y(1);
-N = Y(2);
-RlagR = Z(1,1);
-NlagN = Z(2,2);
-RlagN = Z(1,2);
+%%
+function out = ddeRHS(t,Y,Z)
+    global  gam A alpha tauR
+    R=Y(1);
+    N = Y(2);
+    RlagR = Z(1,1);
+    NlagN = Z(2,2);
+    RlagN = Z(1,2);
+    
+    dRdt = 2*exp(-gam*tauR)*beta(RlagR)*RlagR - (phi(N)+beta(R))*R;
+    dNdt = A*phi(NlagN)*RlagN-alpha *N;
+     
+    out=[dRdt;dNdt];
 
-dRdt = 2*exp(-gam*tauR)*beta(RlagR)*RlagR - (phi(N)+beta(R))*R;
-dNdt = A*phi(NlagN)*RlagN-alpha *N;
- 
-out=[dRdt;dNdt];
-
- end 
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+end 
+%%
 function gbout = beta(x)
-global K1 n  b0
-
-gbout = b0* K1^n/(K1^n+x^n);
+    global K1 n  b0
+    gbout = b0* K1^n/(K1^n+x^n);
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function gpout = phi(x)
-global K2 m  p0
 
-gpout = p0* K2^m/(K2^m+x^m);
+%%
+function gpout = phi(x)
+    global K2 m  p0
+    gpout = p0* K2^m/(K2^m+x^m);
 end
 
 function s = history(t)

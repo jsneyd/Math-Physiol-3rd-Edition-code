@@ -30,7 +30,7 @@ f = [2 * f1 * y(0,t-tau) * np.exp(-gam * tau) - (del_ + f2) * y(0)]
 
 dde = jitcdde(f)
 
-ts = np.linspace(0, 200, 10000)
+ts = np.linspace(0, 75, 10000)
 dde.constant_past([4.7])
 ys = []
 for t in ts:
