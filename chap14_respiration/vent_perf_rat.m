@@ -1,4 +1,16 @@
-%Ventilation-perfusion ratio
+
+%  -------------------------------------------------------------------
+%
+%  Plot the ventilation-perfusion ratio
+%
+%   For Chapter 14, Section 14.5 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%   Written by James Keener and James Sneyd.
+%
+%  -------------------------------------------------------------------
+
+function vent_perf_rat
 
 clearvars
 close all
@@ -29,13 +41,15 @@ Tv = sigmao2*PvO2+4*THb*f(PvO2);
 VbyQO= RT*(Ta-Tv)./(PiO2-PaO2);
 
 figure(1)
-plot(VbyQ,Paco2,VbyQO,PaO2)
-axis([0 2 30 130])
-xlabel('Ventilation-perfusion ratio')
-ylabel('Alveolarpartial pressure (mm Hg)')
-text(1.5,43,'CO_2','fontsize',18)
-text(1.5,120,'O_2','fontsize',18)
-box off
+    plot(VbyQ,Paco2,VbyQO,PaO2)
+    axis([0 2 30 130])
+    xlabel('Ventilation-perfusion ratio')
+    ylabel('Alveolarpartial pressure (mm Hg)')
+    text(1.5,43,'CO_2','fontsize',18)
+    text(1.5,120,'O_2','fontsize',18)
+    box off
+
+end  % of main
 
 function out = f(PO)
 Ko2 = 30;

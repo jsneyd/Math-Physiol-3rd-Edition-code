@@ -1,4 +1,13 @@
-% MG stability plot
+%  -------------------------------------------------------------------
+%
+%  Mackey-Glass stability plot.
+%
+%   For Chapter 14, Section 14.6 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%   Written by James Keener and James Sneyd.
+%
+%  -------------------------------------------------------------------
 
 clearvars
 close all

@@ -1,4 +1,13 @@
-%plot for Figure 14.4
+%  -------------------------------------------------------------------
+%
+%   Plot two approximations to the hemoglobin saturation function.
+%
+%   For Chapter 14, Section 14.2.2 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%   Written by James Keener and James Sneyd.
+%
+%  -------------------------------------------------------------------
 % 
 clear all
 close all
