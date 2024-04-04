@@ -1,3 +1,17 @@
+
+#   -------------------------------------------------------------------
+# 
+#  Hai-Murphy-Huxley model of smooth muscle. Use the method of
+#  characteristics to compute the distributions as functions of space and
+#  time. Use two different versions of the model.
+# 
+#    For Chapter 15, Section 15.9.1 of
+#    Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#    Written by James Keener and James Sneyd.
+# 
+#   -------------------------------------------------------------------
+
 import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt

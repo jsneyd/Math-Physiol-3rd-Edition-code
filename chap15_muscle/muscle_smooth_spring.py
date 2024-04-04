@@ -1,3 +1,16 @@
+
+#   -------------------------------------------------------------------
+# 
+#    Hai-Murphy-Huxley model of smooth muscle contracting against a
+#    linear spring.
+# 
+#    For Chapter 15, Section 15.9.2 of
+#    Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#    Written by James Keener and James Sneyd.
+# 
+#   -------------------------------------------------------------------
+
 import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
@@ -72,4 +85,4 @@ for i in range(0,numt):
     p[i] = np.trapz( x*(nam+namp),x )
 plt.plot(soln.t,p)
 
-np.savetxt('test.dat',np.transpose([soln.t,p]),delimiter=' ')
+#np.savetxt('test.dat',np.transpose([soln.t,p]),delimiter=' ')

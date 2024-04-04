@@ -1,3 +1,15 @@
+
+#   -------------------------------------------------------------------
+# 
+#    The simplified Grodins model of respiratory regulation.
+# 
+#    For Chapter 14, Section 14.6.1 of
+#    Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#    Written by James Keener and James Sneyd.
+# 
+#   -------------------------------------------------------------------
+
 Pa(0) = 50.0
 PB(0) = 50.0
 PT(0) = 50.0

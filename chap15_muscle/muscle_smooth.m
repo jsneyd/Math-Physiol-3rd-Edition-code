@@ -1,8 +1,18 @@
 
+%  -------------------------------------------------------------------
+%
 % Hai-Murphy-Huxley model of smooth muscle. Use the method of
 % characteristics to compute the distributions as functions of space and
 % time. Use two different versions of the model.
+%
+%   For Chapter 15, Section 15.9.1 of
+%   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%   Written by James Keener and James Sneyd.
+%
+%  -------------------------------------------------------------------
 
+function muscle_smooth
 close all
 clear all
 clc
@@ -63,6 +73,7 @@ plot(tout2,force2,'LineWidth',2)
 % tout2 = tout2';
 % save('temp.mat','tout1','force1','tout2','force2')
 
+end % of main
 
 
 %% RHS of odes for the method of characteristics. Simple version.

@@ -1,3 +1,13 @@
+#   -------------------------------------------------------------------
+# 
+#    Post-inhibitory rebound in coupled HH models.
+# 
+#    For Chapter 14, Section 14.7.2 of
+#    Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#    Written by James Keener and James Sneyd.
+# 
+#   -------------------------------------------------------------------
 
 V1(0)=0
 h1(0)=0
