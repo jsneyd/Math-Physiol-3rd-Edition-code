@@ -1,4 +1,14 @@
-%The selgrade menstrual cycle model
+
+%    -------------------------------------------------------------------
+%
+%     Solution of the Selgrade menstrual cycle model.
+%
+%     For Chapter 16, Section 16.3.1 of
+%     Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%     Written by James Keener and James Sneyd.
+%
+%    -------------------------------------------------------------------
 
 function selgrade
 % this uses the Matlab routine dde23 to solve delay differential equations
@@ -52,7 +62,7 @@ par.h3=2;
 
 lags = par.tau; 
 tspan = linspace(0,100,1000);
- sol= dde23(@(t,u,z)ddeRHS(t,u,z,par),lags, @history, tspan) 
+sol = dde23(@(t,u,z)ddeRHS(t,u,z,par),lags, @history, tspan) ;
 LH = sol.y(2,:); 
 SeF = sol.y(6,:);
 L4 = sol.y(13,:);
@@ -61,7 +71,7 @@ PrF = sol.y(7,:);
 figure(1)
 plot(sol.x,LH)
 xlabel('days')
-ylabel('LH (mg/L)')
+ylabel('LH (\mu g/L)')
 
 Est=par.e0 + par.e1*SeF + par.e2*PrF + par.e3*L4;
 figure(2)

@@ -1,4 +1,16 @@
 
+#    -------------------------------------------------------------------
+#
+#     Solution of the Selgrade menstrual cycle model.
+#
+#     For Chapter 16, Section 16.3.1 of
+#     Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+#
+#     Written by James Keener and James Sneyd.
+#
+#    -------------------------------------------------------------------
+
+
 LHR(0)=600
 LH(0)=25.34
 FSHR(0)=352

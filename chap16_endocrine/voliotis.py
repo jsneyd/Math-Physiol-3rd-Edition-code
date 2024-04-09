@@ -1,5 +1,16 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
+#     -------------------------------------------------------------------
+# 
+#      Model of GnRH pulse generator by Voliotis et al.
+# 
+#      For Chapter 16, Section 16.2.3 of
+#      Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#      Written by James Keener and James Sneyd.
+# 
+#     -------------------------------------------------------------------
+
+
 
 import numpy as np
 from scipy.integrate import solve_ivp
@@ -35,7 +46,7 @@ Kv2 = 1200
 y0 = [0.7,0,0] 
 tout = np.linspace(0,140,10000)
 # solve the odes
-soln = solve_ivp(deriv,[0, 140],y0,method='Radau',t_eval=tout,rtol=10e-6,atol=10e-9)
+soln = solve_ivp(deriv,[0, 140],y0,method='LSODA',t_eval=tout)
 plt.plot(soln.t,soln.y[2])
 
-np.savetxt('test.dat', np.transpose([soln.t,soln.y[0],soln.y[2]]) )
+#np.savetxt('test.dat', np.transpose([soln.t,soln.y[0],soln.y[2]]) )

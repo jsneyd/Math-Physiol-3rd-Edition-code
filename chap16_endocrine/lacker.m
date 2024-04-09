@@ -1,9 +1,17 @@
 
-
+%    -------------------------------------------------------------------
+%
 % Solve the Lacker model for the control of ovulation number. The model is
 % solved in the transformed coordinates (gamma rather than xi) because it is
 % much easier that way, as this avoids the problem of  solutions going to infinity in
 % finite time, which is a real pain
+%
+%     For Chapter 16, Section 16.3.2 of
+%     Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%     Written by James Keener and James Sneyd.
+%
+%    -------------------------------------------------------------------
 
 function lacker
 
