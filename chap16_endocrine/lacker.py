@@ -24,8 +24,8 @@ def rhs(t, y):
     xi1 = y[n]
     GG = np.sum(gam)
     gam_deriv = gam * (1 - gam) * (M1 * M2 * (1 + gam) - GG * (M1 + M2))
-    xi_deriv = (1 / xi1) * (1 - xi1 ** 2 * (GG - M1) * (GG - M2))
-    time_deriv = 1 / (xi1 ** 2)
+    xi_deriv = (1 / xi1) * (1 - xi1**2 * (GG - M1) * (GG - M2))
+    time_deriv = 1 / (xi1**2)
     return np.concatenate((gam_deriv, [xi_deriv, time_deriv]))
 
 
@@ -44,7 +44,7 @@ y0 = np.concatenate((gam0, [xi10, 0]))
 tspan = [0, 2]
 tout=np.linspace(tspan[0], tspan[1], 1000)
 # Solve the ODE system
-sol = solve_ivp(rhs, tspan, y0, method='LSODA', t_eval=tout)
+sol = solve_ivp(rhs, tspan, y0, method='BDF', t_eval=tout,atol=1e-7,rtol=1e-7)
 
 # Extract the results
 gam = sol.y[:n]
@@ -53,7 +53,8 @@ t = sol.y[n + 1]
 
 # Plot the results
 plt.figure(1)
-plt.plot(t, gam.T)
+for i in range(n):
+    plt.plot(sol.t, gam[i])
 plt.xlabel('tau')
 plt.ylabel('gamma_i')
 
@@ -64,9 +65,11 @@ print("Ovulation time:", t_ov)
 print("Number of ovulations:", ov_num)
 
 plt.figure(2)
-plt.plot(t, xi1 * gam.T)
+for i in range(n):
+    plt.plot(t, xi1*gam[i])
 plt.xlabel('t')
 plt.ylabel('xi_i')
 plt.ylim([0, 5])
+plt.xlim([0, t_ov+0.05])
 
 plt.show()

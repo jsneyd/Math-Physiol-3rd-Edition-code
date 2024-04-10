@@ -1,3 +1,16 @@
+
+#     -------------------------------------------------------------------
+# 
+#      Solve the Topp model for the pathway to diabetes.
+# 
+#      For Chapter 16, Section 16.7.2 of
+#      Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#      Written by James Keener and James Sneyd.
+# 
+#     -------------------------------------------------------------------
+
+
 G(0)=31.166
 I(0)=36.504
 beta(0)=7881.6

@@ -1,9 +1,22 @@
-function main
+
+%    -------------------------------------------------------------------
+%
+%     Solve the Sturis model for pulsatile insulin secretion.
+%
+%     For Chapter 16, Section 16.7.3 of
+%     Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%     Written by James Keener and James Sneyd.
+%
+%    -------------------------------------------------------------------
+
+
+function sturis
 clear all; close all; clc;
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 1.2, ...
-   'defaultlinelinewidth', 2.0); 
+   'defaultlinelinewidth', 2.0);
 
 global input Vp Vi Vg E tp ti td Rm a1 C1 C2 C3 C4 C5 Ub U0 Um Rg alpha beta
 
@@ -26,13 +39,13 @@ figure(2)
 plot(tt,sol(:,3)/(10*Vg))  % Output per dL, as in Sturis
 xlabel('time (minutes)')
 ylabel('Glucose (mg/dl)')
-save sturis.dat sol -ASCII
+%save sturis.dat sol -ASCII
 
 %%
 function dydt=sturisfun(t,y)
 global Vp Vi E tp ti td input
 
-Ip=y(1); Ii=y(2); G=y(3); h1=y(4); h2=y(5); h3=y(6); 
+Ip=y(1); Ii=y(2); G=y(3); h1=y(4); h2=y(5); h3=y(6);
 
 dydt = [eff1(G) - (Ip/Vp-Ii/Vi)*E - Ip/tp
         (Ip/Vp-Ii/Vi)*E - Ii/ti
@@ -44,12 +57,12 @@ dydt = [eff1(G) - (Ip/Vp-Ii/Vi)*E - Ip/tp
 
 %%
 function out=eff1(z)
-global  Vg  Rm a1 C1 
+global  Vg  Rm a1 C1
 out=Rm/(1+exp(-z/(C1*Vg) + a1));
 
 %%
 function out=eff2(z)
-global  Vg  C2 Ub 
+global  Vg  C2 Ub
 out=Ub*(1-exp(-z/(C2*Vg)));
 
 %%
@@ -65,5 +78,5 @@ out=U0 + (Um-U0)/( 1+(kappa*z)^(-beta) );
 
 %%
 function out=eff5(z)
-global Vp  C5  Rg alpha 
+global Vp  C5  Rg alpha
 out=Rg/(1+exp(alpha*(z/(C5*Vp)-1)));

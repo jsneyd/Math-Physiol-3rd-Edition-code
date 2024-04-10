@@ -1,3 +1,17 @@
+
+%    -------------------------------------------------------------------
+%
+%     Solve the Topp model for the pathway to diabetes.
+%
+%     For Chapter 16, Section 16.7.2 of
+%     Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%     Written by James Keener and James Sneyd.
+%
+%    -------------------------------------------------------------------
+
+
+function topp
 close all; clear all; clc;
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
@@ -39,38 +53,36 @@ lam2 = r2*alpha*alpha/d0;
 G = linspace(50,1000,1000);
 beta = (alpha^2 + G.*G)./(sigma*G.*G) .* k/SI .*(R0./G - EG0);
 figure(1)
-plot(beta,G,'--',beta, G1*ones(1,length(beta)),'k--',beta,...
-    G2*ones(1,length(beta)),'k--',zeros(1,length(G)),G,'k--', ...
-    beta1,G1,'k*',0,R0/EG0,'k*')
-xlim([-5,100])
-xlabel('\beta')
-ylabel('G')
-hold on
+    plot(beta,G,'--',beta, G1*ones(1,length(beta)),'k--',beta,...
+        G2*ones(1,length(beta)),'k--',zeros(1,length(G)),G,'k--', ...
+        beta1,G1,'k*',0,R0/EG0,'k*')
+    xlim([-5,100])
+    xlabel('\beta')
+    ylabel('G')
+    hold on
 %dlmwrite('topp.dat',[beta' G']);
 
 %% solve the ode and plot solution
 Idataset = [100,100,10;600,100,12;100,100,17;600,100,17]; %400,100,50;500,100,25;500,100,15;600,100,10];
 tspan=linspace(0,100,10000);
 for j = 1:4
- 
-[t,sol] = ode15s(@(t,y)rhs(t,y),tspan,Idataset(j,:));
-
-figure(1)
-plot(sol(:,3),sol(:,1),'LineWidth',2)
-hold on
-figure(2)
-plot(t,sol(:,1))
-hold on
-
+    [t,sol] = ode15s(@(t,y)rhs(t,y),tspan,Idataset(j,:));
+    figure(1)
+        plot(sol(:,3),sol(:,1),'LineWidth',2)
+        hold on
+    figure(2)
+        plot(t,sol(:,1))
+        hold on
 end
+
 figure(1)
+    hold off
+    figure(2)
+    xlabel('t')
+    ylabel('G')
 
- hold off
- figure(2)
- xlabel('t')
-ylabel('G')
 
-
+end % of main
 %% the ODEs
 function out = rhs(t,y)
 global SI r1 EG0 R0 sigma alpha k d0 r2
