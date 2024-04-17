@@ -10,13 +10,16 @@ num = 200;
 L = 3.5;   % Units of cm
 l = 0.35;
 lam = 1.5;
-x = linspace(0,1,num);
-k = (1.e7)*exp(-lam*x*L);   % don't forget that x is scaled by L
+xi = linspace(0,1,num);
+k = (1.e7)*exp(-lam*xi*L);   % don't forget that  x=xi*L  
 mass = 0.05;
-r = 3000*exp(-lam*x*L);
+r = 3000*exp(-lam*xi*L);
 % two cases:
-% w = 1500;
-w = 800;
+wlist=[800,1500];
+
+for wj = 1:2
+    w = wlist(wj);
+
 
 Z = 1i*w*mass + r -1i* k/w;
 W = -1i*Z/(w*L);
@@ -34,8 +37,8 @@ for n=0:N
     nn = n+1;
     for m = 0:N
         mm = m+1;
-        alpha(mm,nn) = 2*cosh(n*pi*sigma)*trapz(x,cos(n*pi*x).*cos(m*pi*x)./W);
-        f(mm) = -trapz(x,x.*(2-x).*cos(m*pi*x)./W);
+        alpha(mm,nn) = 2*cosh(n*pi*sigma)*trapz(xi,cos(n*pi*xi).*cos(m*pi*xi)./W);
+        f(mm) = -trapz(xi,xi.*(2-xi).*cos(m*pi*xi)./W);
     end
     alpha(nn,nn) = alpha(nn,nn) + n*pi*sinh(n*pi*sigma)/2;
 end
@@ -47,35 +50,40 @@ A  = alpha\f;
  
 % construct phi on y=0
 y = 0.0;   % evaluate eta on the membrane
-phi = x.*(1-x/2) - sigma*y.*(1-y/(2*sigma));
+phi = xi.*(1-xi/2) - sigma*y.*(1-y/(2*sigma));
 for n=0:N
-    phi = phi + A(n+1)*cosh(n*pi*(sigma-y))*cos(n*pi*x);
+    phi = phi + A(n+1)*cosh(n*pi*(sigma-y))*cos(n*pi*xi);
 end
 
 Fhat = 1;   % driving force
 phi = phi/(1i*w*L*Fhat);
 eta = 2*phi./W;
 
-figure(2)
-plot(x,real(eta),'r' )
+figure(2*wj-1)
+plot(xi,real(eta),'r' )
 hold on
-plot(x,abs(eta),'--b',x,-abs(eta)','--b','LineWidth',2)
- xlabel('normalized distance along the cochlea')
+plot(xi,abs(eta),'--b',xi,-abs(eta)','--b','LineWidth',2)
+ xlabel('\xi = x/L')
    ylabel('normalized amplitude')
+   formatSpecF = '%6.0f\n';
+ 
+   title(strcat('\omega = ',sprintf(formatSpecF,w),'/s'))
    box off
 
 % animate the wave, just for fun 
 N = 200;
 times = linspace(0,10/w,N);
-figure(3)
+figure(2*wj)
 for j=1:N
     etawave = eta*exp(1i*w*times(j));
-    plot(x,real(etawave),'r',x,abs(etawave),'--b',x,-abs(etawave),'--b')
-   xlabel('normalized distance along the cochlea')
+    plot(xi,real(etawave),'r',xi,abs(etawave),'--b',xi,-abs(etawave),'--b')
+   xlabel('\xi = x/L')
    ylabel('normalized amplitude')
    box off
    drawnow
     pause(0.02)
+end
+
 end
 
 
