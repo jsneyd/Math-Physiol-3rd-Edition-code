@@ -44,6 +44,7 @@ formatSpecF = '%6.0f\n';
  
    title(strcat('\omega = ',sprintf(formatSpecF,w),'/s'))
    ylabel('normalized amplitude')
+   xlabel('x (cm)')
 end
 % figure(2)
 % % test with the analytic solution
