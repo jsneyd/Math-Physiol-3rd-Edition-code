@@ -37,7 +37,7 @@ box off
 formatSpecF = '%6.0f\n';
  
    title(strcat('\omega = ',sprintf(formatSpecF,w),'/s'))
-   ylabel('nirmalized amplitude')
+   ylabel('normalized amplitude')
 end
 %igorout = [x' real(eta/max(eta))' abs(eta/max(eta))' -abs(eta/max(eta))'];
 %writematrix(igorout,'shallow_800.dat')
