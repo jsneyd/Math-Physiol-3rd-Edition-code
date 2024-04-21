@@ -60,13 +60,13 @@ phi = phi/(1i*w*L*Fhat);
 eta = 2*phi./W;
 
 figure(2*wj-1)
-plot(xi,real(eta),'r' )
+plot(xi*L,real(eta),'r' )
 hold on
-plot(xi,abs(eta),'--b',xi,-abs(eta)','--b','LineWidth',2)
- xlabel('\xi = x/L')
+plot(xi*L,abs(eta),'--b',xi*L,-abs(eta)','--b','LineWidth',2)
+ xlabel('x (cm)')
    ylabel('normalized amplitude')
    formatSpecF = '%6.0f\n';
- 
+ xlim([0,L])
    title(strcat('\omega = ',sprintf(formatSpecF,w),'/s'))
    box off
 
@@ -76,10 +76,11 @@ times = linspace(0,10/w,N);
 figure(2*wj)
 for j=1:N
     etawave = eta*exp(1i*w*times(j));
-    plot(xi,real(etawave),'r',xi,abs(etawave),'--b',xi,-abs(etawave),'--b')
-   xlabel('\xi = x/L')
+    plot(xi*L,real(etawave),'r',xi*L,abs(etawave),'--b',xi*L,-abs(etawave),'--b')
+   xlabel('x (cm)')
    ylabel('normalized amplitude')
    box off
+   xlim([0,L])
    drawnow
     pause(0.02)
 end
