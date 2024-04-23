@@ -64,9 +64,10 @@ plot(xi*L,real(eta),'r' )
 hold on
 plot(xi*L,abs(eta),'--b',xi*L,-abs(eta)','--b','LineWidth',2)
  xlabel('x (cm)')
-   ylabel('normalized amplitude')
+   ylabel('amplitude')
+    xlim([0,L])
    formatSpecF = '%6.0f\n';
- xlim([0,L])
+
    title(strcat('\omega = ',sprintf(formatSpecF,w),'/s'))
    box off
 
@@ -78,7 +79,7 @@ for j=1:N
     etawave = eta*exp(1i*w*times(j));
     plot(xi*L,real(etawave),'r',xi*L,abs(etawave),'--b',xi*L,-abs(etawave),'--b')
    xlabel('x (cm)')
-   ylabel('normalized amplitude')
+   ylabel('amplitude')
    box off
    xlim([0,L])
    drawnow
