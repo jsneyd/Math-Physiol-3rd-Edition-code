@@ -15,8 +15,8 @@ clc
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.0, ...
-   'defaultlinelinewidth', 1.2, ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0, ...
    'defaultpatchlinewidth', 0.7);
 
 w = linspace(0,1,100);
@@ -32,7 +32,8 @@ plot(vrat,w,'--b','LineWidth',2)
 
 K1 = 0.1; K2 = 1.2;
 vrat = (1-w).*(K1+w)./((w.*(K2+1-w)));
+figure(1)
 plot(vrat,w,'--g','LineWidth',2)
-
+box off
 xlabel('v_1/v_2')
 ylabel('w')
