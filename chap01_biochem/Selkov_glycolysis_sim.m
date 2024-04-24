@@ -19,7 +19,7 @@ set(0,                           ...
    'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0);
  
-% this code is to simulate the Selkov enzyme model
+% this code is used to simulate the Selkov enzyme model
 
 %parameters
  
