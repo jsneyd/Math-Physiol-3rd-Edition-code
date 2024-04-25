@@ -1,4 +1,4 @@
-% code to simulate cochlear wave with the Lesser-Berkley model
+% code to simulate cochlear waves with the Lesser-Berkley model
 % 
 % % For Figure  20.7 of
 % Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
