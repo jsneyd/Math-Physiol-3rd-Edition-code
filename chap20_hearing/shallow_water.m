@@ -1,4 +1,11 @@
-clear all
+% code to simulate cochlear wave with the shallow water appproximation
+% 
+% % For Figure  20.9 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%-------------------------------------------------------------------clear all
 close all
 clc
 set(0,                           ...
