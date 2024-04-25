@@ -2,7 +2,7 @@
 
 % Matlab code for simulating the Sel'kov model of glycolytic oscillations.
 
-% For Chapter 1 of
+% For Chapter 1 Figs. 1.9, 1.10 of
 % Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
 
 % Written by James Keener and James Sneyd
@@ -24,7 +24,7 @@ set(0,                           ...
 %parameters
  
 par.nu=0.0285;
-par.eta=0.08;
+par.eta=0.1;
 par.alph=1.0;
 par.g=2;
 
@@ -40,6 +40,7 @@ legend('boxoff')
 legend('\sigma_1','\sigma_2','fontsize',18,'location','northwest')
 xlabel('time','fontsize',18)
 ylabel('concentration','fontsize',18)
+box off
 
 % plot the phase portrait
 figure(2)
@@ -54,6 +55,8 @@ legend('solution','\sigma_1 nullcline','\sigma_2 nullcline','fontsize',20)
 xlabel('\sigma_1','fontsize',20)
 ylabel('\sigma_2','fontsize',20)
 axis([0 1.4 0 1])
+box off
+
  eta = ones(51,1)*[0:.01:1];
 nu = [0:.01:0.5]'*ones(1,101);
 

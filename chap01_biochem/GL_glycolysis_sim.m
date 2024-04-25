@@ -28,7 +28,7 @@ set(0,                           ...
  par.nu=190;
  par.eta=120;
  
-
+ 
 % set up the integration
 tspan = [0:0.0005:1];            % time interval for the solution
 IC = [37,1];                        % initial condition
@@ -82,6 +82,6 @@ u=y(1);
 w=y(2);
 f =u*(1+w)^2;
 Fu = par.nu-f;
-Fw = f -par.eta*w;
+Fw =  f -par.eta*w;
  
 out = [Fu Fw]';

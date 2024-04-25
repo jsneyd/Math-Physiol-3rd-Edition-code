@@ -46,7 +46,7 @@ vrat = (1-w).*(K1+w)./((w.*(K2+1-w)));
 plot(vrat,w,'g--','LineWidth',2)
 hold on
 xlim([0,4])
- 
+ legend('boxoff')
   legend('K_1=0.1, K_2=0.05','K_1=1.1, K_2=1.2','K_1=0.1, K_2=1.2')
  box off
 xlabel('v_1/v_2')
