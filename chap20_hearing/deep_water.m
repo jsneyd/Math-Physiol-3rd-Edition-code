@@ -1,5 +1,13 @@
+% code to simulate cochlear waves with the deep water appproximation
+% 
+% % For Figure  20.10 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%-------------------------------------------------------------------
 clear all
-%close all
+close all
 clc
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
