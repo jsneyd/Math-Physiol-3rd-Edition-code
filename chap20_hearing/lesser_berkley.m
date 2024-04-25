@@ -1,3 +1,11 @@
+% code to simulate cochlear wave with the Lesser-Berkley model
+% 
+% % For Figure  20.7 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+
+% Written by James Keener and James Sneyd
+
+%-------------------------------------------------------------------
 clear all
 close all
 clc
@@ -81,6 +89,9 @@ for j=1:N
    xlabel('x (cm)')
    ylabel('amplitude')
    box off
+    formatSpecF = '%6.0f\n';
+
+   title(strcat('\omega = ',sprintf(formatSpecF,w),'/s'))
    xlim([0,L])
    drawnow
     pause(0.02)
