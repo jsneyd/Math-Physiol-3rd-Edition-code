@@ -1,4 +1,16 @@
 
+#     -------------------------------------------------------------------
+# 
+#      Solve the standing gradient water transport equations.
+# 
+#      For Chapter 18, Section 18.3 of
+#      Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#      Written by James Keener and James Sneyd.
+# 
+#     -------------------------------------------------------------------
+
+
 import numpy as np
 from scipy.integrate import solve_bvp
 import matplotlib.pyplot as plt

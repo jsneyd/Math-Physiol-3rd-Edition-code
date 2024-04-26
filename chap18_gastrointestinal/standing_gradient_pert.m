@@ -1,6 +1,15 @@
-%plot the singular perturbation solution of the sttanding gradient osmotic
-% solution
-function standing_gradient
+
+%    -------------------------------------------------------------------
+%
+% Plot the singular perturbation solution of the standing gradient osmotic
+% solution.
+%
+%     For Chapter 18, Section 18.3.1 of
+%     Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%     Written by James Keener and James Sneyd.
+%
+%    -------------------------------------------------------------------
  
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
