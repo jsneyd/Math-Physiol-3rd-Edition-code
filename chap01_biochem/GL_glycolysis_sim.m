@@ -2,7 +2,7 @@
 
 % Matlab code for simulating the Goldbeter-Lefever model of glycolytic oscillations.
 
-% For Chapter 1 of
+% For Chapter 1, Figure 1.14 of
 % Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
 
 % Written by James Keener and James Sneyd
