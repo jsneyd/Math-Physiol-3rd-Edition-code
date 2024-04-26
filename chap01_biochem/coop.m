@@ -15,8 +15,8 @@ clc
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.0, ...
-   'defaultlinelinewidth', 1.2, ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0, ...
    'defaultpatchlinewidth', 0.7);
 
 e0 = 1; k2 = 1; k4 = 2;
@@ -34,6 +34,8 @@ plot(s,V,'--b','LineWidth',2)
 K1 = 0.5; K2 = 100;
 V = (k2*K2 + k4*s)*e0.*s./(K1*K2 + K2*s + s.^2);
 plot(s,V,'--g','LineWidth',2)
-
-xlabel('s')
-ylabel('V')
+box off
+xlabel('substrate concentration, s')
+ylabel('reaction velocity, V')
+legend('boxoff')
+legend('positive cooperativity', 'no cooperativity','negative cooperativity','location','northwest')

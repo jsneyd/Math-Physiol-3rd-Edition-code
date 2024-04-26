@@ -3,7 +3,7 @@
 % Matlab code for simulating the quasi-steady-state approximation (QSSA)
 % of enzyme kinetics.
 
-% For Chapter 1 of
+% For Chapter 1 Figure 1.16 of
 % Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
 
 % Written by James Keener and James Sneyd
