@@ -45,7 +45,7 @@ ylabel('Oxygen Concentration','fontsize',20)
 text(0.1,2.4,'Total','fontsize',20)
 text(0.1,0.45,'Bound','fontsize',20)
 text(0.1,1.3,'Free','fontsize',20)
- 
+ box off
 figure(2)
 plot(xi,sigp,xi,rho*up,'--','linewidth',2)
 text(0.3,5,'Bound Oxygen Flux','fontsize',20)
@@ -53,7 +53,7 @@ text(0.3,2.6,'Free Oxygen Flux','fontsize',20)
 axis([0 1 0 7])
 xlabel('y','fontsize',20)
 ylabel('Oxygen Flux','fontsize',20)
- 
+ box off 
 rho = 5;
 gam = sig+rho*u;
 
@@ -64,6 +64,7 @@ xlabel('Oxygen Consumption','fontsize',20)
 ylabel('Critical external oxygen concentration','fontsize',20)
 text(6,2.1,'\rho = 5','fontsize',20)
 text(6,5.8,'\rho = 0','fontsize',20)
+ box off
  
 r = rho;
 g = 14;
@@ -80,8 +81,9 @@ figure(4)
 plot(xi1,sig0,xi,sig,'g',xi0,sig,'r--','linewidth',2)
 xlabel('Radius','fontsize',20)
 ylabel('Free Oxygen','fontsize',20)
+legend('boxoff')
 legend('\rho=5','\rho=5, critical external concentration','\rho=0, critical external concentration', ...
     'Location','northwest')
 axis([0 1 0 14])
-
+box off
  
