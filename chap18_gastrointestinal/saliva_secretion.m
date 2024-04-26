@@ -5,34 +5,34 @@
 %% First find the steady state and plot the approach. Just for checking, basically
 
 function main
- close all; clear all; clc; format longg; 
+ close all; clear all; clc; format longg;
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 1.0, ...
    'defaultlinelinewidth', 2.0, ...
    'defaultpatchlinewidth', 0.7);
-% The data file can be found at 
+% The data file can be found at
 % https://github.com/jsneyd/Math-Physiol-3rd-Edition-code/blob/main/chap18_gastrointestinal/saliva_secretion_parameters.mat
- 
+
         load('saliva_secretion_parameters.mat')            % loads all the model parameters.
-        par.Ul = 10;                                      
-        vplc = 0.00;        % No agonist stimulation, to calculate the steady state for resting calcium       
+        par.Ul = 10;
+        vplc = 0.00;        % No agonist stimulation, to calculate the steady state for resting calcium
         M = eye(16);
-        
-%%%% Use these two lines if you are running this code with Octave, which does not deal with
+
+%% Use these two lines if you are running this code with Octave, which does not deal with
 %% DAEs very well at all. You will see that electroneutrality is not kept very
 %% well, as the cell capacitance is so high.
         M(13,13)=0.01; M(14,14)=0.01;   % 2 ODEs for Va and Vb. Capacitance is much too high for accuracy.
         options = odeset('Mass',M);
 
-%%%% Use these two lines if you are running this code with Matlab
-        M(13,13)=0; M(14,14)=0;   % 2 DAEs for Va and Vb        
-        options = odeset('Mass',M,'RelTol', 1e-11, 'AbsTol', 1e-11);
+%% Use these two lines if you are running this code with Matlab
+        %M(13,13)=0; M(14,14)=0;   % 2 DAEs for Va and Vb
+        %options = odeset('Mass',M,'RelTol', 1e-11, 'AbsTol', 1e-11);
 
         Nal_0     = 136.9;                                  % Na in the lumen
         Kl_0      = 6.868;                                  % K in the lumen
         HCOl_0    = 28.44;                                  % HCO in the lumen
-        Hl_0      = 7.7e-5;                                 % Hl in the lumen   
+        Hl_0      = 7.7e-5;                                 % Hl in the lumen
         Cll_0     = Nal_0+Kl_0-HCOl_0;                      % Cl in the lumen
         w_0       = volume;                                 % cell volume
         Na_0      = 28.13;                                  % Na in the cell
@@ -41,7 +41,7 @@ set(0,                           ...
         HCO_0     = 10.16;                                  % bicarbonate in the cell
         H_0       = 0.0001461;                              % H ions in the cell (determines the pH)
         c_init    = 0.0708;                                 % calcium concentration in the cytoplasm
-        IP_0      = 0;                                      % IP3 concentration 
+        IP_0      = 0;                                      % IP3 concentration
         HH_0      = 0.619;                                  % The IPR inactivation variable
         Va_0      = -50.71;                                 % apical membrane potential
         Vb_0      = -51.35;                                 % basal membrane potential
@@ -59,7 +59,7 @@ set(0,                           ...
         [t,U] = ode15s(f_secretion, [0,150], IC);
 
         doplots(t,U,4,par)
-        
+
 end
 
 
@@ -82,11 +82,11 @@ end
         Vb      = U(:,14);
         HCOl    = U(:,15);
         Hl    = U(:,16);
-              
-        Qa =  par.La*0.9 * ( 2 * ( Nal + Kl - Na - K - H ) - par.CO20 + par.Ul);  
+
+        Qa =  par.La*0.9 * ( 2 * ( Nal + Kl - Na - K - H ) - par.CO20 + par.Ul);
         Qt =  par.Lt * ( 2 * ( Nal + Kl ) + par.Ul - par.Ie );
         Qtot=(Qa+Qt);
-        
+
         figure(1)
         subplot(2,2,1)
         plot(t,Qtot,'LineWidth',2)
@@ -105,8 +105,8 @@ end
         plot(t,Nal + Kl - Cll - HCOl,'LineWidth',2)
         ylabel('electroneutrality')
         %ylim([0 140])
-        
-        
+
+
         figure(4)
         subplot(3,3,1)
         plot(t,Va,'LineWidth',2)
@@ -116,11 +116,11 @@ end
         plot(t,Vb,'LineWidth',2)
         %ylim([-60 -20])
         ylabel('V_b')
-        
+
         subplot(3,3,3)
         plot(t,Va-Vb,'LineWidth',2)
         ylabel('V_t')
-        
+
         subplot(3,3,4)
         plot(t,log10(H*1e-3),'LineWidth',2)
         ylabel('pH')
@@ -129,25 +129,25 @@ end
         subplot(3,3,5)
         plot(t,K,'LineWidth',2)
         ylabel('K^+')
-        
+
         subplot(3,3,6)
         plot(t,Na,'LineWidth',2)
         ylabel('Na^+')
-        
+
         subplot(3,3,7)
         plot(t,Cl,'LineWidth',2)
         ylabel('Cl^-')
-        
+
         subplot(3,3,8)
         plot(t,HCO,'LineWidth',2)
         ylabel('HCO')
         %ylim([-60 -20])
-        
+
         subplot(3,3,9)
         plot(t,2*Na+2*K,'LineWidth',2)
         ylabel('Osmolarity Cell ')
         %ylim([0 140])
-        
+
         figure(3)
         subplot(3,2,1)
         plot(t,Nal,'LineWidth',2)
@@ -163,21 +163,21 @@ end
         plot(t,Cll,'LineWidth',2)
         ylabel('Cl^- (lumen)')
         %ylim([0 140])
-        
+
         subplot(3,2,4)
         plot(t,HCOl,'LineWidth',2)
         ylabel('HCO_3^- (lumen)')
-        
+
         subplot(3,2,5)
         plot(t,Nal+Kl+Cll+HCOl+par.Ul,'LineWidth',2)
         ylabel('Osmolarity (lumen)')
         %ylim([0 140])
-        
+
         subplot(3,2,6)
         plot(t,log10(Hl*1e-3),'LineWidth',2)
         ylabel('pH (lumen)')
         %ylim([0 140])
-        
+
         end
 
 %--------------------------------------------------------------------
@@ -222,13 +222,13 @@ NaKbasalfactor = 0.7;                                                       % Fr
 JNaKb = NaKbasalfactor*basalarea * par.aNaK * ( par.r * par.Ke^2 * Na^3 ...
                   / ( par.Ke^2 + par.alpha1 * Na^3 ) );
 JNaKa = (1-NaKbasalfactor)*apicalarea * par.aNaK * ( par.r * Kl^2 * Na^3 ...
-                  / ( Kl^2 + par.alpha1 * Na^3 ) ); 
+                  / ( Kl^2 + par.alpha1 * Na^3 ) );
 
 %%%%%%%%%%%%%%%%%
-VCl = par.RTF * log( Cll / Cl );    
+VCl = par.RTF * log( Cll / Cl );
 VHCO = par.RTF * log( HCOl / HCO3 );                                      % Nernst Potentials
-VKb = par.RTF * log( par.Ke / K );                                        % basal K 
-VKa = par.RTF * log( Kl / K ) ;                                           % apical K 
+VKb = par.RTF * log( par.Ke / K );                                        % basal K
+VKa = par.RTF * log( Kl / K ) ;                                           % apical K
 VtNa = par.RTF * log( Nal / par.Nae );                                    % tight junction Na
 VtK = par.RTF * log( Kl / par.Ke );                                       % tight junction K
 
@@ -245,13 +245,13 @@ KCad = 1;                                           % 1 for equal apical and bas
 KCbd = (total_KCa - apicalarea*KCad)/basalarea;
 
 
-PrCl = TMEMfiddle*1 ./ ( 1 + ( par.KCaCC ./ Ca ).^par.eta1 );  
-PrKa = 1 ./ ( 1 + ( par.KCaKC ./ Ca ).^par.eta2 );    
-PrKb = 1 ./ ( 1 + ( par.KCaKC ./ (Ca) ).^par.eta2 );  
-PrKb = KCbd*PrKb;  
+PrCl = TMEMfiddle*1 ./ ( 1 + ( par.KCaCC ./ Ca ).^par.eta1 );
+PrKa = 1 ./ ( 1 + ( par.KCaKC ./ Ca ).^par.eta2 );
+PrKb = 1 ./ ( 1 + ( par.KCaKC ./ (Ca) ).^par.eta2 );
+PrKb = KCbd*PrKb;
 PrKa = KCad*PrKa;
 
-JHCO = 0.3 * par.GCl * PrCl * ( Va + VHCO ) / par.F;  
+JHCO = 0.3 * par.GCl * PrCl * ( Va + VHCO ) / par.F;
 JCl = par.GCl * PrCl * ( Va + VCl ) / par.F;                         % fS.micro-meters^2.mV.mol.C^-1
 JKb = par.GK * PrKb * ( Vb - VKb ) / par.F;                          % basal KCa flux
 JKa = 0.5*par.GK * PrKa * ( Va - VKa ) / par.F;                          % apical KCa flux
@@ -260,7 +260,7 @@ JKa = 0.5*par.GK * PrKa * ( Va - VKa ) / par.F;                          % apica
 % Tight Junction Na+ and K+ currents
 
 JtNa = par.GtNa * par.St * ( Vt - VtNa ) / par.F;                        % fS.micro-meters^2.mV.mol.C^-1
-JtK  = par.GtK * par.St * ( Vt - VtK ) / par.F;                          % fS.micro-meters^2.mV.mol.C^-1 
+JtK  = par.GtK * par.St * ( Vt - VtK ) / par.F;                          % fS.micro-meters^2.mV.mol.C^-1
 
 %%%%%%%%%%%%%%
 % Water fluxes (apical, basal and tight junction)
@@ -274,19 +274,19 @@ Qtot=(Qa+Qt);                                                            % micro
 % Na+ K+ 2Cl- co-transporter (Nkcc1)
 
 JNkcc1 = par.aNkcc1 * basalarea * ( par.a1 - par.a2 * Na * K * Cl^2 ) ...
-                                             / ( par.a3 + par.a4 * Na * K * Cl^2 );     
+                                             / ( par.a3 + par.a4 * Na * K * Cl^2 );
 
 %%%%%%%%%%%%
 % (Na+)2 HCO3-/Cl- Anion exchanger (Ae4)
 
 JAe4 = basalarea * par.G4 * ( ( par.Cle / ( par.Cle + par.KCl ) ) * ( Na / ( Na + par.KNa ) ) ...
-             * ( HCO3 / ( HCO3 + par.KB ) )^2 );       
+             * ( HCO3 / ( HCO3 + par.KB ) )^2 );
 
 %%%%%%%%%%%%
 % Na+ / H+ Anion exchanger (Nhe1)
 
 JNhe1 = basalarea * par.G1 * ( ( par.Nae / ( par.Nae + par.KNa ) ) * ( H / ( par.KH + H ) )...
-                          - ( Na / ( Na + par.KNa ) ) * ( par.He / ( par.KH + par.He ) ) ); 
+                          - ( Na / ( Na + par.KNa ) ) * ( par.He / ( par.KH + par.He ) ) );
 
 %%%%%%%%%%%%%%
 % Bicarbonate Buffer (Reaction Term)
@@ -328,7 +328,7 @@ dx(11) = (vplc-par.V_5K*Ip)-Jw*Ip / w;
 dx(12) = (H_inf - HH) / TAU;
 dx(13) = -JCl -JHCO - JNaKa - JKa - JtK - JtNa;
 dx(14) = -JKb - JNaKb       + JtK + JtNa;
-dx(15) = ( JBBA - JHCO - Qtot * HCOl ) / par.wl; 
+dx(15) = ( JBBA - JHCO - Qtot * HCOl ) / par.wl;
 dx(16) = ( JBBA - Qtot * Hl) / par.wl;
 
 dx = dx';

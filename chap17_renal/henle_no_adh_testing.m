@@ -23,18 +23,18 @@ p.DPc = 0.22;
 p.Hd = 0.1;
 p.rd = 0.15;
 p.Ka = 0.2;
-p.N=51; % number of grid points
+p.N=151; % number of grid points
 p.y = linspace(0,1,p.N);
 
 % make up some initial guess
-Qa = -.22;
+Qa = -.9;
 Qd = -Qa*p.y +(1-p.y);
 Sd=-(Qd -1)*(p.rd*p.Hd)+1-p.DPd*p.Hd*p.y ;
 X0=[Sd, Qa];
 options = optimset('Display','off');
 [U]=fsolve(@(x)des(x,p),X0,options);
+Qa = U(end)
 [Qd,Qs,Sd,Sa,Ss,Cd,Ca,Cs]=get_fs(U, p);
-U(end)
 
 figure(1)
     plot(p.y,Qd,'--')
@@ -52,36 +52,7 @@ figure(2)
     box off
 
 
-% now loop on P for no ADH case:
-% make up an initial guess
-Qa = -.22;
-Qd = -Qa*p.y +(1-p.y);
-Sd=-(Qd -1)*(p.rd*p.Hd)+1-p.DPd*p.Hd*p.y ;
-X0=[Sd, Qa];
 
-% You need to start with P = 1 and go down, otherwise your initial condition
-% isn't good enough for Octave. It works in Matlab (and Python), but not Octave.
-Plist = linspace(1,0.01,50);
-
-for j = 1:length(Plist)
-    p.P = Plist(j);
-    [U]=fsolve(@(x)des(x,p),X0,options);
-    % use the solution as the initial guess for the next try
-    X0=U;
-    Sd = U(1:p.N);
-    Qa = U(p.N+1)
-    [Qd,Qs,Sd,Sa,Ss,Cd,Ca,Cs]=get_fs(U, p);
-
-    QdP(j) = Qd(p.N);
-    Ca0(j) = Ca(1);
-    Cd1(j) = Cd(p.N);
-end
-
-figure(3)
-    plot(Plist,Ca0,Plist,QdP, Plist,Cd1)
-    xlabel('P')
-    legend('boxoff')
-    legend('C_a(0)','Q_d(1)','C_d(1)','location','northwest')
 
 end % of main
 

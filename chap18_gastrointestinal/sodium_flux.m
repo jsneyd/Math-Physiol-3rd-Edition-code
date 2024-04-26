@@ -1,7 +1,14 @@
-% Fluid absorption as a function of lumenal Na concentration,
-% in nondimensional variables.
-
-%Reproducing   figure 18.3 in the gastrointestinal chapter.
+%    -------------------------------------------------------------------
+%
+%     Fluid absorption as a function of lumenal Na concentration,
+%     in nondimensional variables.
+%
+%     For Chapter 18, Fig. 18.3 of
+%     Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%     Written by James Keener and James Sneyd.
+%
+%    -------------------------------------------------------------------
 
 clear all
 close all

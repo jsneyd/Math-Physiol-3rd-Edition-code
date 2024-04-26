@@ -1,4 +1,15 @@
-% co-current/countercurrent comparison
+
+%    -------------------------------------------------------------------
+%
+%     Co-current/countercurrent comparison.
+%
+%     For Chapter 17, Section 17.2 of
+%     Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%     Written by James Keener and James Sneyd.
+%
+%    -------------------------------------------------------------------
+
 clear all; close all; clc;
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
