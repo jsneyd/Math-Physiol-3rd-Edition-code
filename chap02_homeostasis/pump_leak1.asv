@@ -71,7 +71,7 @@ box off
  figure(4)
 plot(rho,v,'r',rho,vna,'b',rho,vk,'g','linewidth',2)
 legend('boxoff')
-legend('V','V_{Na}','V_K','fontsize',18,'location', 'best')
+legend('V','V_{Na}','V_K','fontsize',18,'location', 'EastNorthEast')
 xlabel('Pump rate \rho','fontsize',20)
 ylabel('Potential (mV)','fontsize',20)
  axis([0 400 -80 60])
