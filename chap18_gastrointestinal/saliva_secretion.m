@@ -1,6 +1,18 @@
 
-% This code solves a closed-cell version of the calcium/secretion model, in a
-% Class I version.
+
+
+%    -------------------------------------------------------------------
+%
+%     This code solves a closed-cell version of the calcium/secretion model, in a
+%     Class I version.
+%
+%     For Chapter 18, Section 18.4.3 of
+%     Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%     Written by James Keener and James Sneyd.
+%
+%    -------------------------------------------------------------------
+
 
 %% First find the steady state and plot the approach. Just for checking, basically
 

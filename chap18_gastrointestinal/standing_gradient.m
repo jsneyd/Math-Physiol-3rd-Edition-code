@@ -12,6 +12,9 @@
 %    -------------------------------------------------------------------
 
 function standing_gradient
+close all
+clear all
+clc
 global D P r c0 alp L N0
 set(0,                           ...
 'defaultaxesfontsize', 20,   ...
