@@ -14,9 +14,14 @@ clear all
 close all
 clc
 
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0, ...
+   'defaultpatchlinewidth', 0.7);
 Nm = linspace(10,210,50);
 x0 = [20 100 0.1 -2];
-
+ RTbyF = 25.8;
 for i=1:50
 x = fsolve(@(x)KJUfun(x,Nm(i)),x0);
 x0 = x;
@@ -26,15 +31,15 @@ mu(i) = x(3);
 v(i) = x(4);
 end
 
-subplot(1,2,1)
+figure(2)
 plot(Nm,mu)
-xlabel('N_m')
-ylabel('scaled volume')
-subplot(1,2,2)
-plot(Nm,v)
-xlabel('N_m')
-ylabel('scaled membrane potential')
-
+xlabel('mucosal [Na^+], N_m (mM)')
+ylabel('\mu (scaled cell volume)')
+figure(1)
+plot(Nm,RTbyF*v)
+xlabel('mucosal [Na^+], N_m (mM)')
+ylabel('V (mV)')
+ylim([-80,0])
 end
 
 %%

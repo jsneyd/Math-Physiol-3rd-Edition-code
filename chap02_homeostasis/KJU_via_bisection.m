@@ -9,7 +9,9 @@
 % Written by James Keener and James Sneyd
 
 %-------------------------------------------------------------------
-
+clear all
+close all
+clc
 
 
 set(0,                           ...
