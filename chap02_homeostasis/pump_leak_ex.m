@@ -20,6 +20,10 @@
 
 close all; clear all; clc; format longg; 
 
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0);
 par.Ke = 0.06;
 par.Nae = 1-par.Ke;     % Choose external solution to be electroneutral
 par.z = -1;              
