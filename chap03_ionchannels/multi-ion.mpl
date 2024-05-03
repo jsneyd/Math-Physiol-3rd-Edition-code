@@ -21,4 +21,3 @@ od
 Js:=subs(EmVby2=1,J);
 factor(Js);
 simplify(limit(J,cibyKeq=infinity));
-NULL;
