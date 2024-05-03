@@ -9,7 +9,7 @@ eq4:=p1+p2+p3+p4-1;
 solve({eq1,eq2,eq3,eq4},{p1,p2,p3,p4});
 assign(%);
 J:=p2*k42-p4*k24;
-factor(J);
+factor(J); limit(J,cibyKeq=infinity);
 k42:=kpEmdG/EmVby2;
 k24:=kpEmdG*EmVby2;
 numer(J);
