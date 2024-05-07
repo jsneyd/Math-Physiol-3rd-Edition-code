@@ -1,9 +1,14 @@
 
-% The Matlab/Octave file used to generate the image in Fig. 2 of Chapter 19
- 
-% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-
-% Written by James Keener and James Sneyd
+%    -------------------------------------------------------------------
+%
+%     Mach bands.
+%
+%     For Chapter 19, Fig. 19.2 of
+%     Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%     Written by James Keener and James Sneyd.
+%
+%    -------------------------------------------------------------------
 
 clear all
 close all 

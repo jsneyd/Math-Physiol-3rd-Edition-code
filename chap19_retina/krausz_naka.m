@@ -1,14 +1,14 @@
 
+% ---------------------------
 % Solutions of the Krausz-Naka model of photoreceptor cell/horizontal cell
 % interactions in the catfish retina. 
-
-% The Matlab/Octave file used to generate the image in Fig. 17 of Chapter
-% 19 
+%
+% Used to generate the image in Fig. 17 of Chapter 19 of
 % Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-
+%
 % Written by James Keener and James Sneyd
+% ---------------------------
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear all
 close all
 clc
@@ -35,17 +35,18 @@ L = length(t);              % signal length
 
 k = (3/tau)*exp(-(t-t0)/tau).*(1 - exp(-(t-t0)/tau) ).^2;   % From the Krausz-Naka paper.
 figure(1)
-plot(t,k)
-ylabel('k(t)')
-xlabel('t')
+    plot(t,k)
+    ylabel('k(t)')
+    xlabel('t')
 
 n = 2^nextpow2(L);          % Extend sample length and pad with zeros
 khat = fft(k,n)/n;          % Take the FFT.
 f = Fs*(0:(n/2))/n;         % Define the frequencies for the frequency domain
 figure(2)
-plot(f,abs(khat(1:n/2+1)))
-%ylabel('\hat{k}(t)')
-xlabel('frequency')
+    plot(f,abs(khat(1:n/2+1)))
+    %ylabel('\hat{k}(t)')
+    xlabel('frequency')
+
 % Once we know the FT of k, we can then calculate alpha(w).
 alpha = (1 + A*khat).^0.5/lh;
 alpha0 = (1+A*khat(1))^0.5/lh;      % The zero frequency value of alpha
@@ -54,15 +55,14 @@ fullfield = 1/(alpha0^2*lh^2)       % The full-field response. Used as a check, 
 %% Computation of the frequency response of the bar/field ratio at x=0
 R = 0.1;           % Set the width of the bar. R=1 is a wide bar. R=0.1 is a thin bar
 x = 0;
-
 F = (2 - exp(-alpha.*(x+R)) - exp(alpha.*(x-R)));  % F as defined in the text
 ratio = F/2;
 
 figure(3)
-loglog(f,abs(ratio(1:n/2+1)))
-xlabel('frequency (Hz)')
-ylabel('bar/field response ratio')
-box off
+    loglog(f,abs(ratio(1:n/2+1)))
+    xlabel('frequency (Hz)')
+    ylabel('bar/field response ratio')
+    box off
 %% Response to a steady bar of width 2R, by direct calculation and then by convolution. Plot on same graph, to compare
 
 % To get a steady response, choose alpha to be the value at 0 frequency. So
@@ -76,18 +76,18 @@ lower = upper;
 x1 = linspace(-lower,-R,500);
 G1 = (1/(2*alpha0*alpha0*lh*lh))*abs(exp(-alpha0*abs(x1+R)) - exp(-alpha0*abs(R-x1)));
 figure(4)
-plot(x1,G1,'LineWidth',2)
-hold on
-
-x2 = linspace(-R,R,500);
-G2 = (1/(2*alpha0*alpha0*lh*lh))*( 2 - (exp(alpha0*(x2-R)) + exp(-alpha0*(x2+R)) ) );
-plot(x2,G2,'LineWidth',2)
-
-x3 = linspace(R,upper,500);
-G3 = (1/(2*alpha0*alpha0*lh*lh))*abs(exp(-alpha0*abs(x3+R)) - exp(-alpha0*abs(R-x3)));
-plot(x3,G3,'LineWidth',2)
-ylabel('Response to a steady bar of width 2R')
-xlabel('x')
+    plot(x1,G1,'LineWidth',2)
+    hold on
+    
+    x2 = linspace(-R,R,500);
+    G2 = (1/(2*alpha0*alpha0*lh*lh))*( 2 - (exp(alpha0*(x2-R)) + exp(-alpha0*(x2+R)) ) );
+    plot(x2,G2,'LineWidth',2)
+    
+    x3 = linspace(R,upper,500);
+    G3 = (1/(2*alpha0*alpha0*lh*lh))*abs(exp(-alpha0*abs(x3+R)) - exp(-alpha0*abs(R-x3)));
+    plot(x3,G3,'LineWidth',2)
+    ylabel('Response to a steady bar of width 2R')
+    xlabel('x')
 
 % Now find the response by convolution
         
