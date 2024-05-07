@@ -42,9 +42,9 @@ Ch = [-1,1;1,-1;0,-1];  %What happens to s, c  when a reaction occurs:
 s = N* ones(K,1); % start with N substrate molecules
 c = zeros(K,1); %start zero complex molecules
 
-S = s ; %This will keep track of the trajectories
+S = s ; %This   keeps track of the trajectories
 C = c;
-T = zeros(K,1);  %This will track the transition times
+T = zeros(K,1);  %This   tracks the transition times
 j = 1; % number of reaction steps
 rk = [];
 

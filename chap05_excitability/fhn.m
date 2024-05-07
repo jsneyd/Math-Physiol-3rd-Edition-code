@@ -14,7 +14,7 @@ close all
 clear all
 clc
 set(0,                           ...
-   'defaultaxesfontsize', 18,   ...
+   'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0); 
 
@@ -24,7 +24,7 @@ p.gamma = 0.5;
 p.Iapp = 0;
 
 dt = 0.001;
-tend=4;
+tend=2;
 
 init = [0.2,0];
 tspan = [0:dt:tend];
@@ -33,6 +33,7 @@ tspan = [0:dt:tend];
 figure(1)   % time series
 plot(t,sol(:,1),'r',t,sol(:,2),'b')  % time series
 xlabel('Time'); ylabel('v');
+box off
 
 figure(2)  % phase plane
 v = linspace(-0.4,1.4,100);
@@ -41,7 +42,9 @@ w2 = v/p.gamma;
 plot(v,w1,'g--',v,w2,'b--',sol(:,1),sol(:,2),'r')
 ylim([-0.1,1.2*max(w1)]);
 xlabel('v'); ylabel('w');
-legend('dv/dt=0','dn/dt=0')
+box off
+legend('boxoff')
+legend('dv/dt=0','dv/dt=0')
 
 %% the differential equations
 
