@@ -1,13 +1,14 @@
-% Code to simulate the Reichardt direction detection model
- 
-% The Matlab/Octave file used to generate the image in Fig. 20 of Chapter
-% 19 
+
+% ---------------------------
+% The Reichardt direction detection model 
+%
+% Used to generate the image in Fig. 20 of Chapter 19 of
 % Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-
+%
 % Written by James Keener and James Sneyd
+% ---------------------------
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+function direction_detection
 clear all
 close all
 clc
@@ -39,9 +40,10 @@ box off
 
 hold off
 
+end % of main
 
-function out =S(x)
-
-out = 10*(1+exp(-(x-1).^2) + 0.8*exp(-(x+0.2).^2));
+%%
+function out = S(x)
+    out = 10*(1+exp(-(x-1).^2) + 0.8*exp(-(x+0.2).^2));
 end
 

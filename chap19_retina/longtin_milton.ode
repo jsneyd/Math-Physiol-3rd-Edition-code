@@ -1,4 +1,13 @@
-# File to solve the Longtin-Milton model of pupillary light reflex cycling.
+#  -----------------------------------------------
+#  Code to solve a simple version of the Longtin-Milton model of the pupil
+#  light reflex. This does not run under Octave, which has not yet implemented
+#  the delay differential equation solver, dde23.
+#  
+#  For Chapter 19, Section 19.7 of 
+#  Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#  Written by James Keener and James Sneyd
+#  -----------------------------------------------
 
 lam = 30
 par n = 7

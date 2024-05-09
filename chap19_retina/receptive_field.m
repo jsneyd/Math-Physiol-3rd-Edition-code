@@ -1,11 +1,13 @@
-% Code for receptive fields (and exercises) in Chapter 19
- % The Matlab/Octave file used to generate the image in Fig. 24 of Chapter
-% 19 
+
+% ------------------------------------------------
+% Responses of receptive fields to moving bars and steps.
+%
+% For Chapter 19, Section 19.6, as well as a number of exercises.
+%
 % Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-
 % Written by James Keener and James Sneyd
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ------------------------------------------------
 
 clear all
 close all
@@ -30,16 +32,16 @@ R = (g1/2)*(1 + erf(s1*c*t)) - (g2/2)*(1 + erf(s2*c*t));                    % re
 % Calculate moving bar response numerically. You can probably do this more
 % efficiently.  
 for i=1:100
-steady_f(i) = integral(f,-Inf,c*t(i));
-transient_f(i) = integral(@(x)transient(x,t(i)),-Inf,c*t(i));
+    steady_f(i) = integral(f,-Inf,c*t(i));
+    transient_f(i) = integral(@(x)transient(x,t(i)),-Inf,c*t(i));
 end
 
 figure(1)
-plot(t,R,'LineWidth',2)
-hold on
-%plot(t,steady_f,'r--','LineWidth',2)
-plot(t,steady_f + transient_f,'r--','LineWidth',2)
-hold off
+    plot(t,R,'LineWidth',2)
+    hold on
+    %plot(t,steady_f,'r--','LineWidth',2)
+    plot(t,steady_f + transient_f,'r--','LineWidth',2)
+    hold off
 
 %% Now calculate the response to a moving bar, width w
 
@@ -48,15 +50,14 @@ w = 5;
 clist = [1,10];
 for j = 1:2
     c=clist(j);
-R =  (g1/2)*erf(s1*c*t) - (g2/2)*erf(s2*c*t) - (g1/2)*erf(s1*(c*t-w)) + (g2/2)*erf(s2*(c*t-w)); 
- 
-figure(2)
-plot(t,R, 'LineWidth',2)
-set(gca,'Fontsize',14)
-xlabel('t')
-ylabel('r(t)')
-box off
-hold on
+    R =  (g1/2)*erf(s1*c*t) - (g2/2)*erf(s2*c*t) - (g1/2)*erf(s1*(c*t-w)) + (g2/2)*erf(s2*(c*t-w)); 
+    figure(2)
+        plot(t,R, 'LineWidth',2)
+        set(gca,'Fontsize',14)
+        xlabel('t')
+        ylabel('r(t)')
+        box off
+        hold on
 end
 
 legend('c=1','c=10')
@@ -73,16 +74,16 @@ t = linspace(-2,20,n);
 imp = @(t)(1.2*t.*exp(-t) - 0.45*t.^2.*exp(-t)).*heaviside(t);
 
 for i = 1:n
-step_response(i) = integral(@(s)imp(t(i)-s),0,t(i));
+    step_response(i) = integral(@(s)imp(t(i)-s),0,t(i));
 end
 
 figure(3)
-plot(t,imp(t),t,step_response,'LineWidth',2)
-set(gca,'Fontsize',14)
-xlabel('t')
-ylabel('r(t)')
-box off
-legend('impulse response','step response')
+    plot(t,imp(t),t,step_response,'LineWidth',2)
+    set(gca,'Fontsize',14)
+    xlabel('t')
+    ylabel('r(t)')
+    box off
+    legend('impulse response','step response')
 %saveas(3,'../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/receptive_field_2.png')
 
 
@@ -96,23 +97,19 @@ n = 50;
 t = linspace(-2,20,n);
 clist=[1,0.5,3];
 for j = 1:3
-    c=clist(j);
-  
- stim = @(x,t)(heaviside(t-x/c) - heaviside(t-x/c-w/c));
- for i = 1:n
-bar_response(i) = integral2(@(s,x)stim(x,t(i)).*imp(t(i)-s).*f(x),-Inf,t(i),-Inf,Inf);
- 
+    c=clist(j); 
+    stim = @(x,t)(heaviside(t-x/c) - heaviside(t-x/c-w/c));
+    for i = 1:n
+        bar_response(i) = integral2(@(s,x)stim(x,t(i)).*imp(t(i)-s).*f(x),-Inf,t(i),-Inf,Inf);
+    end   
+    figure(4)
+        plot(t,bar_response,'LineWidth',2)
+        set(gca,'Fontsize',18)
+        xlabel('t')
+        ylabel('r(t)')
+        box off
+        hold on
 end
-
-figure(4)
-plot(t,bar_response,'LineWidth',2)
-set(gca,'Fontsize',18)
-xlabel('t')
-ylabel('r(t)')
-box off
-hold on
-end
-
 legend('c=1','c=0.5','c=3')
 hold off
 %saveas(4,'../../Math-Physiol-3rd-Edition/figures/chap_19_retina/exercises/receptive_field_3.png')

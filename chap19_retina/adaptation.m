@@ -1,8 +1,7 @@
  
 %    -------------------------------------------------------------------
 %
-%     Model of light adaptation in
-%     in cones.
+%     Model of light adaptation in cones.
 %
 %     For Chapter 19, Section 19.2.2 and Exercise 19.3 of
 %     Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.

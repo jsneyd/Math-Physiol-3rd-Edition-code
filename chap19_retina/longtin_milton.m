@@ -1,34 +1,34 @@
 
+% -----------------------------------------------
 % Code to solve a simple version of the Longtin-Milton model of the pupil
 % light reflex. This does not run under Octave, which has not yet implemented
 % the delay differential equation solver, dde23.
- 
-% The Matlab/Octave file used to generate the image in Fig. 25 of Chapter
-% 19 
+% 
+% For Chapter 19, Section 19.7 of 
 % Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-
+%
 % Written by James Keener and James Sneyd
+% -----------------------------------------------
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function longtin_milton
-    clear all
-    close all
-    clc
-    
-    options = ddeset('Reltol',0.000005);  % To get output at a decent resolution
-    tau = 1;   % here is where you set the time delay
-    tspan = (0:10);
-    sol = dde23(@ddefun, tau, @history, tspan,options);
-    area = areafun(sol.y);
-    plot(sol.x,sol.y,'b-o',sol.x,area,'r-o')
-    xlabel('Time (s)');
-    ylabel('Pupil area (mm^2)');
-    legend('muscle activity','pupil area')
 
-    % output stuff, for convenience
-    % xx = sol.x; yy = sol.y;
-    % save('longtin_milton','xx','yy','area')
-end
+clear all
+close all
+clc
+
+options = ddeset('Reltol',0.000005);  % To get output at a decent resolution
+tau = 1.2;   % here is where you set the time delay
+tspan = (0:20);
+sol = dde23(@ddefun, tau, @history, tspan,options);
+area = areafun(sol.y);
+plot(sol.x,sol.y,'b',sol.x,area,'r')
+xlabel('Time (s)');
+ylabel('Pupil area (mm^2)');
+legend('muscle activity','pupil area')
+
+% output stuff, for convenience
+% xx = sol.x; yy = sol.y;
+% save('longtin_milton','xx','yy','area')
+
 
 %%
 function dydt = ddefun(t,y,Z)
@@ -42,13 +42,13 @@ end
 
 %%
 function s = history(t)
-  s = 10*ones(1,1);
+    s = 10*ones(1,1);
 end
 
 %% 
 function out=capF(x)
-out = heaviside(x)*x;
-%out = x;
+    out = heaviside(x)*x;
+    %out = x;
 end
 
 %%
