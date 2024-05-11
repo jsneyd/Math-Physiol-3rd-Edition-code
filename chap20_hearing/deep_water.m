@@ -1,11 +1,14 @@
-% code to simulate cochlear waves with the deep water appproximation
-% 
-% % For Figure  20.10 of
-% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-
-% Written by James Keener and James Sneyd
-
 %-------------------------------------------------------------------
+%
+% Simulate deep-water waves in the cochlea.
+% 
+% For Chapter 20, Section 20.2.4 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+% Written by James Keener and James Sneyd
+%
+%-------------------------------------------------------------------
+
 clear all
 close all
 clc
@@ -19,41 +22,46 @@ l = 3.5;
 N = 1000;
 x = linspace(0,L,N);
 wlist = [800,1500];
+igorout = [];
 for wj=1:2
-    w=wlist(wj);
+    w=wlist(wj);    
+    sigma = l/L;    
+    k0 = 1e7;
+    r0 = 3000;
+    F0 = 1000;
+    lam = 1.5;
+    rho = 1;
+    k = k0*exp(-lam*x); 
+    r = r0*exp(-lam*x);
+    Z = (r + k/(1i*w));
+    Z0 = (r0 + k0/(1i*w));
+    Y = 2./Z;
+    eta0 = F0/Z0;
+    
+    intY = 2*1i*w*(exp(lam*x) - 1)/(lam*(1i*w*r0 + k0));
+    eta = -1i*rho*eta0.*Y.*exp(-w*rho*intY);
+       
+    figure(wj)
+        plot(x,eta/max(abs(eta)),'r')
+        hold on
+        plot(x,abs(eta)/max(abs(eta)),'--b','LineWidth',2)
+        plot(x,-abs(eta)/max(abs(eta)),'--b','LineWidth',2)
+        hold off
+        xlim([0,L])
+        box off
+        formatSpecF = '%6.0f\n'; 
+        title(strcat('\omega = ',sprintf(formatSpecF,w),'/s'))
+        ylabel('normalized amplitude')
+        xlabel('x (cm)')
 
-sigma = l/L;
-
-k0 = 1e7;
-r0 = 3000;
-F0 = 1000;
-lam = 1.5;
-rho = 1;
-k = k0*exp(-lam*x); 
-r = r0*exp(-lam*x);
-Z = (r + k/(1i*w));
-Z0 = (r0 + k0/(1i*w));
-Y = 2./Z;
-eta0 = F0/Z0;
-
-intY = 2*1i*w*(exp(lam*x) - 1)/(lam*(1i*w*r0 + k0));
-eta = -1i*rho*eta0.*Y.*exp(-w*rho*intY);
-
-
-figure(wj)
-plot(x,eta/max(eta),'r')
-hold on
-plot(x,abs(eta)/max(abs(eta)),'--b','LineWidth',2)
-plot(x,-abs(eta)/max(abs(eta)),'--b','LineWidth',2)
-hold off
-xlim([0,L])
-box off
-formatSpecF = '%6.0f\n';
- 
-   title(strcat('\omega = ',sprintf(formatSpecF,w),'/s'))
-   ylabel('normalized amplitude')
-   xlabel('x (cm)')
+    igorout = [igorout x' real(eta/max(abs(eta)))' abs(eta/max(eta))' -abs(eta/max(eta))'];
 end
+
+%writematrix(igorout,'deep.dat')  % for external plotting
+
+
+
+
 % figure(2)
 % % test with the analytic solution
 % beta = 2*rho*(w^2)*(w*r0 + 1i*k0)/(lam*(k0^2 + w^2*r0^2));

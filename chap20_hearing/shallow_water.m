@@ -1,12 +1,14 @@
-% code to simulate cochlear waves with the shallow water appproximation
-% 
-% % For Figure  20.9 of
-% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-
-% Written by James Keener and James Sneyd
 
 %-------------------------------------------------------------------
-
+%
+% Simulate shallow-water waves in the cochlea.
+% 
+% For Chapter 20, Section 20.2.4 of
+% Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+% Written by James Keener and James Sneyd
+%
+%-------------------------------------------------------------------
 clear all
 close all
 clc
@@ -38,7 +40,7 @@ x = linspace(0,L,2000);
 eta = exp(3*lam*x/4 - 2*ai*exp(lam*x/2)/lam + 2*1i*ar*exp(lam*x/2)/lam);
 
 figure(wj)
-plot(x,eta/max(eta),'r',x,abs(eta)/max(abs(eta)),'--b',x,-abs(eta)/max(abs(eta)),'--b')
+plot(x,eta/max(abs(eta)),'r',x,abs(eta)/max(abs(eta)),'--b',x,-abs(eta)/max(abs(eta)),'--b')
 xp = -2*log(4*ai/(3*lam))/lam;
 xlim([0,L])
 xlabel('x (cm)')
