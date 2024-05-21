@@ -16,7 +16,7 @@ clc
 
 set(0,                           ...
 'defaultaxesfontsize', 20,   ...
-'defaultaxeslinewidth', 1.2, ...
+'defaultaxeslinewidth', 2.0, ...
 'defaultlinelinewidth', 2.0, ...
 'defaultpatchlinewidth', 0.7); 
 
@@ -24,7 +24,7 @@ set(0,                           ...
 
 p.Iapp=0;
 p.alpha=0.2;
-p.eps=0.05;
+p.eps=0.1;
 p.gamma=0.5 ;
 
 % for the continuous cable MOL
@@ -52,13 +52,15 @@ u = [-0.3:.01:1];
 w1=(6*u.*(u-p.alpha).*(1-u)+p.Iapp) ;
 w2=u/p.gamma;
 
-j=250;
+j = 250;
 
 figure(1)
 plot(u,w1,'--',u,w2,'--',S(j,1:p.N),S(j,p.N+1:2*p.N),'linewidth',2)
 axis([-0.3 1 -0.2 1])
 xlabel('v')
 ylabel('w')
+box off
+legend('boxoff')
 legend('dv/dt=0','dw/dt=0')
 
 
@@ -87,9 +89,12 @@ speedest = q(1);
 
 
 figure(2)
-j=250;  % this is an arbitrary value to make a nice graph
+j=250;  % this value is chosen to make a nice graph
 plot(X,S(j,1:p.N),X,S(j,p.N+1:2*p.N))
 xlabel('x')
+box off
+legend('boxoff')
+
 legend('v','w')
 formatSpecF = '%5.2f\n';
 title(strcat('Speed = ',sprintf(formatSpecF,speedest)),'fontsize',18)
