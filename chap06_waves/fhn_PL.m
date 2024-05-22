@@ -15,7 +15,7 @@
 global lam c eps pr 
 % parameters
 
-c = 1
+c = 0.3
 eps = 0.05;
 
 % find roots of the polynomial
@@ -37,8 +37,9 @@ end
 
 lam
 pr = pprime(lam)
- h(0.99)
- h(0.00001)
+s = [0.001:.01:.99];
+plot(s,h(s))
+fsolve(@h,0.5)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 function out = h(s)
@@ -47,7 +48,7 @@ out = 2-s+pr(1)*exp(-lam(2)*log(s)/lam(1))/pr(2) +pr(1)*exp(-lam(3)*log(s)/lam(1
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function ppr =pprime(x)
-global lam c eps
+global c eps
 
 ppr = 3*eps^2*x.^2 +2*c*eps*x -1;
 end
