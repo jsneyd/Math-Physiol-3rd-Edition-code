@@ -15,43 +15,42 @@
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0, ...
-   'defaultpatchlinewidth', 0.7);  
+   'defaultpatchlinewidth', 0.7); clear all; close all; clc;
  
 
 global lam c eps pr x1
 % parameters
 
-
+clist = [0.01:.01:2];
 epslist = [0.5,0.1,0.01];
 
 for jk = 1:3
     eps = epslist(jk);
-    clist = [sqrt(eps):0.002:2];
 for jj = 1:length(clist)
     c=clist(jj);
 % find roots of the polynomial
- 
 lam = findlam(c, eps);
  pr = pprime(lam);
  
-x=[0:.01:10];
- 
+
 %find the root by bisection
- % guess a lower bound for the root
-a = 0.0001;
+ % guess a lower blound for the root
+a = 1.e-14;
 
 % guess an upper bound for the root
-b = 10;
-   xans(jj)  = bisect(@h,a,b);
-   alp(jj) = (1-exp(lam(1)*xans(jj)))/( pr(1));
+b = 0.99999;
+   sans(jj)  = bisect(@h,a,b);
+   alp(jj) = (1-sans(jj))/( pr(1));
 
 end
-figure(1)
-plot(alp,clist)
-hold on 
+
+ndx=find((sans>10*a) & (sans <0.9999));
+ 
+ figure(1)
+ plot(alp(ndx),clist(ndx))
+ hold on
 end
 figure(1)
-clist=[0:.01:2];
 alp0 = clist./sqrt(clist.^2+4);
 plot((1-alp0)/2,clist,'--')
 xlabel('\alpha')
@@ -62,39 +61,28 @@ legend('\epsilon=0.5','\epsilon=0.1','\epsilon=0.01')
 
 % now plot profiles of the traveling wave solution
 % specify c and epsilon
- clist = [0.34,2.66];
- xend=[1,6];
- xlow=[-1.5,-15];
-  for j =1:2
-      c=clist(j);
+ 
+c = 0.5;
 eps = 0.1;
 lam = findlam(c,eps);
 pr = pprime(lam);
  lam(1)*lam(2)*lam(3)*c*eps^2
 %find the root by bisection
  
-   x1  = bisect(@h,a,b);
-   
-   alf = (1-exp(lam(1)*x1))/(pr(1))
-x = [xlow(j):.01:xend(j)];
+   san  = bisect(@h,a,b);
+   x1=log(san)/lam(1) ;
+   alf = (1-san)/(pr(1))
+x = [-2:.01:2];
 [v,w] = profiles(x);
-figure(1+j)
-plot(x,w,'--',x,v)
-box off
-xlabel('x')
-legend('boxoff')
-legend('v','w','location','northwest')
- formatSpecF = '%5.3f\n';
- 
-    title(strcat('\alpha = ',sprintf(formatSpecF,alf),', c = ',sprintf(formatSpecF,c)))
-  end
+figure(3)
+plot(x,v,x,w)
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
-function out = h(x)
+function out = h(s)
 global lam pr
-out = 2- exp(lam(1)*x)+pr(1)*exp(-lam(2)*x)/pr(2) +pr(1)*exp(-lam(3)*x)/pr(3);
+out = 2-s+pr(1)*exp(-lam(2)*log(s)/lam(1))/pr(2) +pr(1)*exp(-lam(3)*log(s)/lam(1))/pr(3);
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function ppr =pprime(x)
@@ -107,22 +95,22 @@ end
 function [v,w] = profiles(x)
 global lam pr x1 c
 l1 = lam(1);
-l2 = lam(2);
+l2 = lam(2)
 l3 = lam(3);
 
-A = -l2*l3*(exp(l1*x1) - 1)/(exp(l1*x1)*(l1 - l3)*(l1 - l2));
-    B1 = -l2*l3/((l1 - l3)*(l1 - l2));
-    B2 = l3*l1/((l2 - l3)*exp(l2*x1)*(l1 - l2));
-    B3 = -l1*l2/((l1*l2 - l1*l3 - l2*l3 + l3^2)*exp(l3*x1));
-    C2 = -l1*l3*(-1 + exp(l2*x1))/(exp(l2*x1)*(l2 - l3)*(l1 - l2));
-    C3 = l1*l2*(exp(l3*x1) - 1)/((l1*l2 - l1*l3 - l2*l3 + l3^2)*exp(l3*x1))
+A = -eps^2*l2*l3*(1-exp(-l1*x1) - 1)/( pr(1))
+B1 = -eps^2*l2*l3/(pr(1))
+B2 = -eps^2*l3*l1/( exp(l2*x1)*pr(2))
+B3 = -eps^2*l1*l2/(pr(3)*exp(l3*x1))
+C2 = eps^2*l1*l3*(1  exp(-l2*x1))/(pr(2))
+C3 = eps^2*l1*l2*(exp(-l3*x1) 1)/(pr(3)*exp(l3*x1))
  
 % create w
-w = (x>=x1).*A.*exp(l1*x)+ ((x<x1)&(x>=0)).*(1+B1.*exp(l1*x)+B2.*exp(l2*x)+B3.*exp(l3*x)) ...
+w = (x>=x1).*A.*exp(l1*x)+ ((x<x1)&(x>=0)).*(B1.*exp(l1*x)+B2.*exp(l2*x)+B3.*exp(l3*x)) ...
     +(x<0).*(C2.*exp(l2*x)+C3.*exp(l3*x));  
    
 % create v = -c *w'
-v = -c*((x>=x1).*A.*exp(l1*x)*l1+ ((x<x1)&(x>=0)).*( l1.*B1.*exp(l1*x)+B2.*l2.*exp(l2*x)+B3.*l3.*exp(l3*x)) ...
+v = -c*((x>=x1).*A.*exp(l1*x)*l1+ ((x<x1)&(x>=0)).*(1+l1.*B1.*exp(l1*x)+B2.*l2.*exp(l2*x)+B3.*l3.*exp(l3*x)) ...
     +(x<0).*(C2.*l2.*exp(l2*x)+C3.*l3.*exp(l3*x))); 
 
 end
