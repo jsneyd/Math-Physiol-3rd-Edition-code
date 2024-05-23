@@ -9,16 +9,15 @@
 % Written by James Keener and James Sneyd
 
 %-------------------------------------------------------------------
+function KJU_via_bisection
 clear all
 close all
 clc
-
-
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0);
-  
+
 global  Ks Cs z rhon rhok Nm
 
 % set parameters
@@ -39,9 +38,8 @@ a = -3.5;
 b = -0.01;
      V(j) = bisect(@feval,a,b);
 end
-
 mu= KJUans(V);
- 
+
 figure(2)
 plot(Nmset,mu,'linewidth',2)
 xlabel('mucosal [Na^+], N_m (mM)')
@@ -52,6 +50,8 @@ plot(Nmset,RTbyF*V,'linewidth',2)
 xlabel('mucosal [Na^+], N_m (mM)')
 ylabel('V(mV)')
 
+end % of main
+
 
 %%
 function root = bisect(feval,a,b)
@@ -61,7 +61,7 @@ fl = feval(ul);
 uu = b;
 fu = feval(uu);
 
-% we make the assumption, without checking, that 
+% we make the assumption, without checking, that
 % fu*fl<0
 
 % if not, the algoritm fails to find a root.
