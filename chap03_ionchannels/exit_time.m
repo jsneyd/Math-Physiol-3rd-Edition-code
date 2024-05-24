@@ -1,5 +1,5 @@
 
-function main
+function exit_time
 clear all
 global dG tt
 
@@ -8,35 +8,35 @@ deltaG = linspace(dGlow,dGhigh,Ntot);
 tt=1;
 
 for count=1:Ntot
-dG=deltaG(count);
+    dG=deltaG(count);
 
-tau_off = 0; tau_on=0; Ns=20;
-for i=1:Ns
-       s=(i-1)/(Ns-1);
-       tau_off = tau_off + (1/tt)*exp(UU(s)/tt)*inner_int(s)*(1/Ns);
-end
-koff(count)=1/tau_off;
-koff_approx(count) = ((-UUpp(0)*UUpp(1))^0.5/(tt*pi))*exp(-dG/tt);
+    tau_off = 0; tau_on=0; Ns=20;
+    for i=1:Ns
+           s=(i-1)/(Ns-1);
+           tau_off = tau_off + (1/tt)*exp(UU(s)/tt)*inner_int(s)*(1/Ns);
+    end
+    koff(count)=1/tau_off;
+    koff_approx(count) = ((-UUpp(0)*UUpp(1))^0.5/(tt*pi))*exp(-dG/tt);
 
-for i=1:Ns
-       s=(i-1)/(Ns-1);
-       tau_on = tau_on + (1/tt)*exp(UU_on(s)/tt)*inner_int_on(s)*(1/Ns);
-end
-kon(count)=1/tau_on;
-kon_approx(count) =  ((-UUpp_on(0)*UUpp_on(1))^0.5/(tt*pi))*exp(-2*dG/tt);
+    for i=1:Ns
+           s=(i-1)/(Ns-1);
+           tau_on = tau_on + (1/tt)*exp(UU_on(s)/tt)*inner_int_on(s)*(1/Ns);
+    end
+    kon(count)=1/tau_on;
+    kon_approx(count) =  ((-UUpp_on(0)*UUpp_on(1))^0.5/(tt*pi))*exp(-2*dG/tt);
 end
 
 figure(1)
-subplot(2,2,1); semilogy(deltaG,koff,deltaG,koff_approx,'red')
-xlabel('Delta G')
-ylabel('koff')
-subplot(2,2,2); semilogy(deltaG,kon,deltaG,kon_approx,'red')
-xlabel('Delta G')
-ylabel('kon')
-fiddle=((-UUpp_on(0)*UUpp_on(1))^0.5)/((-UUpp(0)*UUpp(1))^0.5);
-subplot(2,2,3); semilogy(deltaG,kon./koff,deltaG,fiddle*exp(-deltaG),'red')
-xlabel('Delta G')
-ylabel('kon/koff')
+    subplot(2,2,1); semilogy(deltaG,koff,deltaG,koff_approx,'red')
+    xlabel('Delta G')
+    ylabel('koff')
+    subplot(2,2,2); semilogy(deltaG,kon,deltaG,kon_approx,'red')
+    xlabel('Delta G')
+    ylabel('kon')
+    fiddle=((-UUpp_on(0)*UUpp_on(1))^0.5)/((-UUpp(0)*UUpp(1))^0.5);
+    subplot(2,2,3); semilogy(deltaG,kon./koff,deltaG,fiddle*exp(-deltaG),'red')
+    xlabel('Delta G')
+    ylabel('kon/koff')
 
 
 dump = [deltaG' koff' koff_approx' kon' kon_approx' kon'./koff' fiddle*exp(-deltaG)'];
@@ -48,22 +48,22 @@ dG = 1;
 temp=linspace(templow,temphigh,Ntot);
 
 for count=1:Ntot
-tt=temp(count);
+    tt=temp(count);
 
-tau_off = 0; tau_on=0; Ns=20;
-for i=1:Ns
-       s=(i-1)/(Ns-1);
-       tau_off = tau_off + (1/tt)*exp(UU(s)/tt)*inner_int(s)*(1/Ns);
-end
-koff(count)=1/tau_off;
-koff_approx(count) = ((-UUpp(0)*UUpp(1))^0.5/(pi))*exp(-dG/tt);
+    tau_off = 0; tau_on=0; Ns=20;
+    for i=1:Ns
+           s=(i-1)/(Ns-1);
+           tau_off = tau_off + (1/tt)*exp(UU(s)/tt)*inner_int(s)*(1/Ns);
+    end
+    koff(count)=1/tau_off;
+    koff_approx(count) = ((-UUpp(0)*UUpp(1))^0.5/(pi))*exp(-dG/tt);
 
-for i=1:Ns
-       s=(i-1)/(Ns-1);
-       tau_on = tau_on + (1/tt)*exp(UU_on(s)/tt)*inner_int_on(s)*(1/Ns);
-end
-kon(count)=1/tau_on;
-kon_approx(count) =  ((-UUpp_on(0)*UUpp_on(1))^0.5/(pi))*exp(-2*dG/tt);
+    for i=1:Ns
+           s=(i-1)/(Ns-1);
+           tau_on = tau_on + (1/tt)*exp(UU_on(s)/tt)*inner_int_on(s)*(1/Ns);
+    end
+    kon(count)=1/tau_on;
+    kon_approx(count) =  ((-UUpp_on(0)*UUpp_on(1))^0.5/(pi))*exp(-2*dG/tt);
 end
 
 figure(2)
@@ -74,8 +74,8 @@ subplot(1,2,2); semilogy(1./temp,kon,1./temp,kon_approx,'red')
 xlabel('1/T')
 ylabel('kon')
 
-dump = [temp' koff' koff_approx' kon' kon_approx'];
-save('delT.dat','-ascii','dump')
+%dump = [temp' koff' koff_approx' kon' kon_approx'];
+%save('delT.dat','-ascii','dump')
 
 %%%%%%%%%%%%%%%%%%%%%%%
 function out=inner_int(s)
