@@ -1,14 +1,15 @@
-% 
+%
 %  -------------------------------------------------------------------
 %
 %  This is an ode integrator for the FitzHugh-Nagumo equations.
 %
 %   For Chapter 5 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
+function fhn
 
 close all
 clear all
@@ -16,10 +17,10 @@ clc
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 2.0, ...
-   'defaultlinelinewidth', 2.0); 
+   'defaultlinelinewidth', 2.0);
 
-p.eps = 0.01; 
-p.alpha = 0.1; 
+p.eps = 0.01;
+p.alpha = 0.1;
 p.gamma = 0.5;
 p.Iapp = 0;
 
@@ -45,6 +46,9 @@ xlabel('v'); ylabel('w');
 box off
 legend('boxoff')
 legend('dv/dt=0','dv/dt=0')
+
+end % of main
+
 
 %% the differential equations
 
