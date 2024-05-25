@@ -86,6 +86,8 @@ plot(X,Tc,spest,Tc,'--')
 xlabel('x')
 ylabel('t')
 speedest = q(1);
+formatSpecF = '%5.2f\n';
+title(strcat('Speed = ',sprintf(formatSpecF,speedest)),'fontsize',18)
 
 
 figure(2)

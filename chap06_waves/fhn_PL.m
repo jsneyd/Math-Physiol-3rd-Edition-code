@@ -79,7 +79,7 @@ pr = pprime(lam);
 x = [xlow(j):.01:xend(j)];
 [v,w] = profiles(x);
 figure(1+j)
-plot(x,w,'--',x,v)
+plot(x,w,'--',x,v,x,zeros(length(x),1),'k--')
 box off
 xlabel('x')
 legend('boxoff')
