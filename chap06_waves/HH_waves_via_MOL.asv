@@ -55,7 +55,7 @@ n = 0.3177;
 Gm = gnabar*m^3*h + gkbar*n^4+gl;
 Rm = 1/Gm;
 taum = Cm*Rm  % the time constant  in ms
-%taum = 0.434;  % this is a fudged value of taum
+
  sc = [1;2*ones(N-2,1);1]; % diagonal entries for the diffusion matrix
 % initial data
   V0 =  20.1*(1-tanh(X/2)) ;
@@ -132,6 +132,7 @@ Ion = -INa - IK - Icl;
  
 Fv =  dg*(-sc.*V+[0;V(1:end-1)]+[V(2:end);0])/taum +Ion/Cm ;
  
+
 s_prime = [Fv ;Fm ;Fh ;Fn];
 
 end
