@@ -32,7 +32,9 @@ for jj = 1:length(clist)
 % find roots of the polynomial
  
 lam = findlam(c, eps);
- pr = pprime(lam);
+ 
+ prc = [3*eps^2 2*c*eps  -1];
+ pr = polyval(prc,lam);
  
 x=[0:.01:10];
  
@@ -69,9 +71,12 @@ legend('\epsilon=0.5','\epsilon=0.1','\epsilon=0.01')
       c=clist(j);
 eps = 0.1;
 lam = findlam(c,eps);
-pr = pprime(lam);
+ prc = [3*eps^2 2*c*eps  -1];
+ pr = polyval(prc,lam);
+ 
  lam(1)*lam(2)*lam(3)*c*eps^2
-%find the root by bisection
+
+ %find the root by bisection
  
    x1  = bisect(@h,a,b);
    
@@ -96,12 +101,7 @@ function out = h(x)
 global lam pr
 out = 2- exp(lam(1)*x)+pr(1)*exp(-lam(2)*x)/pr(2) +pr(1)*exp(-lam(3)*x)/pr(3);
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function ppr =pprime(x)
-global c eps
-
-ppr = 3*eps^2*x.^2 +2*c*eps*x -1;
-end
+ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [v,w] = profiles(x)

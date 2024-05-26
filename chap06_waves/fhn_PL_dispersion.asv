@@ -60,12 +60,26 @@ end
 
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%
-function f = h(x)
-global lam alp eps 
-lamX=lam'*x;
+function out = h(x)
+global lam alp c 
+lamX=lam'*x
 E=exp(lamX);
-rat = (E(:,2)-E(:,1))./(pr.*(E(:,2)-1));
-f(1) = sum(rat./E(:,1))+eps^2*alp;
-f(2) = sum(rat)+eps^2*alp;
+rat = (E(:,2)-E(:,1))./(pr.*(E(:,2)-1))
+x1=x(1);
+x2=x(2);
+
+%two equations to solve
+l1=lam(1);
+l2=lam(2)
+l3=lam(3);
+
+out(1)=-c*(-(exp(l1*x2) - exp(l1*x1))*l2*l3*l1/((exp(l1*x2)*l1 - exp(l1*x2)*l3 - l1 + l3)*exp(l1*x1)*(l1 - l2)) ...
+    + l1*l3*(exp(l2*x2) - exp(l2*x1))*l2/((exp(l2*x2)*l2 - exp(l2*x2)*l3 - l2 + l3)*exp(l2*x1)*(l1 - l2)) ...
+    - l1*l2*(exp(l3*x2) - exp(l3*x1))*l3/((l1*l2 - l1*l3 - l2*l3 + l3^2)*(exp(l3*x2) - 1)*exp(l3*x1))) - alp;
+ 
+
+out(2) = -c*(-(exp(l1*x2) - exp(l1*x1))*l2*l3*l1/((exp(l1*x2)*l1 - exp(l1*x2)*l3 - l1 + l3)*(l1 - l2))  ...
+    + l1*l3*(exp(l2*x2) - exp(l2*x1))*l2/((exp(l2*x2)*l2 - exp(l2*x2)*l3 - l2 + l3)*(l1 - l2)) ...
+    - l1*l2*(exp(l3*x2) - exp(l3*x1))*l3/((l1*l2 - l1*l3 - l2*l3 + l3^2)*(exp(l3*x2) - 1))) - alp ;
  
 end
