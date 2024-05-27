@@ -13,7 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def deff(l, delta):
-    N = 100
+    N = 50
     A = np.zeros((N, N))
     R = np.zeros(N)
     P = np.zeros(N)

@@ -5,10 +5,12 @@
 %
 %   For Chapter 8, Section 8.1.2 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
+
+function Llinas
 
 clear all
 close all
@@ -36,9 +38,9 @@ figure(1)
 for j = 1:length(Vlist)
     V = Vlist(j);
     oh = prob(t,V);
-    currents= fCa(V,oh);   
+    currents= fCa(V,oh);
     ICa=currents(1,:);
-    
+
     plot(t,-ICa,'LineWidth',2)
     xlabel('time (ms)')
     ylabel('-I_{Ca}(pA/(\mum)^2)')
@@ -48,29 +50,29 @@ for j = 1:length(Vlist)
 end
 legend('V=-40mV','V=-10mV','V=20mV','V=50mV','V=120mV')
 
-save('Llinas.mat','t','ICa_save')   % for external plotting
+%save('Llinas.mat','t','ICa_save')   % for external plotting
 
 x = linspace(-70,70,1000);  % units mV
-	
 phi_x=2*FbyRT*x;
 Jss=PCa*2*F*phi_x.*(ci-ce*exp(-phi_x))./(1-exp(-phi_x));
 Oss=k10*exp(FbyRT*z1*x).*(1./(k10*exp(FbyRT*z1*x)+k2));
 ICass=Jss.*(s0/n).*((Oss).^n);
 
 figure(2)
-yyaxis left
-plot(x,ICass,x,Jss,'LineWidth',2)
-ylabel('I_{Ca}')
+[hax, h1, h2] = plotyy(x,ICass,x,Oss);
+ylabel(hax(1),'I_{Ca}')
+ylim(hax(2),[0,1])
 xlim([-70,70])
-yyaxis right
-plot(x,Oss,'LineWidth',2)
 xlabel('V (mV)')
-% ylabel('\hat{o}')
-legend('boxoff') 
-legend('I_{Ca}','j','\delta','Location','northwest','fontsize',18)
-ylim([0,1])
+hold on
+plot(x,Jss,'--');
 
-save('Llinas.mat','x','ICass','Jss','Oss',"-append")  % for external plotting
+% ylabel('\hat{o}')
+legend('boxoff')
+legend('I_{Ca}','j','\delta','Location','northwest','fontsize',18)
+
+
+%save('Llinas.mat','x','ICass','Jss','Oss',"-append")  % for external plotting
 
 for j = 1:length(Vlist)
     V = Vlist(j);
@@ -80,24 +82,24 @@ for j = 1:length(Vlist)
 
     ICa_save2(j,:) = ICa;       % for external plotting
     oh_save2(j,:) = oh;          % for external plotting
-     
+
     figure(3)
     semilogy(t,-ICa,'LineWidth',2)
     xlabel('time (ms)')
     ylabel('-I_{Ca}(pA/(\mum)^2)')
     hold on
     legend('boxoff')
-    
+
     figure(4)
     plot(t,oh)
     hold on
     legend('boxoff')
-    
+
     xlabel('time (ms)')
     ylabel('open probability')
 end
-            
-save('Llinas.mat','ICa_save2','oh_save2',"-append")   % for external plotting
+
+%save('Llinas.mat','ICa_save2','oh_save2',"-append")   % for external plotting
 
 
 figure(3)
@@ -108,11 +110,11 @@ legend('V=-40mV','V=-10mV','V=20mV','V=50mV','V=120mV')
 hold off
 
 
-
+end % of main
 
 %%     Calculate oh analytically
 function oh=prob(t,V)
-global k10 k2 z1  ohss FbyRT 
+global k10 k2 z1  ohss FbyRT
 
 k1=k10*exp(FbyRT*z1*V);
 oh=k1./(k1+k2)*(1-exp(-(k1+k2)*t))+ohss*exp(-(k1+k2)*t);
@@ -132,7 +134,7 @@ end
 
 %%  Calculate oh using the differential equation
 function oh=probde(t,V)
-global k10 k2 z1  Vss tsw FbyRT k2 
+global k10 k2 z1  Vss tsw FbyRT k2
 
 k1=k10*exp(FbyRT*z1*Vss);
 ohss= k1/(k1+k2);
@@ -154,4 +156,4 @@ k1=k10*exp(FbyRT*z1*Vt);
 
 out = k1.*(1-s)-k2*s;
 end
-  
+

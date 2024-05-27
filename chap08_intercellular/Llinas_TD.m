@@ -1,15 +1,17 @@
 %  -------------------------------------------------------------------
 %
-%   Program to solve the Llinas model of synaptic suppression, with a 
+%   Program to solve the Llinas model of synaptic suppression, with a
 %   time-dependent voltage input. The voltage is computed as a solution of
 %   the FHN equations.
 %
 %   For Chapter 8, Section 8.1.2 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
+
+function Llinas_TD
 
 clear all
 close all
@@ -29,7 +31,7 @@ FbyRT = F/(R*Tp*1000);  % units of mV^(-1)
 k1=k10*exp(FbyRT*z1*Vss);
 ohss= k1/(k1+k2);
 Vr=-70;
- 
+
 
 % solve the odes
 tt=[0:.01:3];
@@ -42,20 +44,19 @@ currents= fCa(V,oh);
 % plot the solutions
 ICa=currents;
 figure(1)
-plot(T,V, 'LineWidth',2)
+[hax, h1, h2] = plotyy (T, V, T, ICa);
 xlabel('time (ms)')
- ylabel('V (mV)')
-
-yyaxis right
-plot(T,ICa, 'LineWidth',2)
-ylabel('I_{Ca}(pA/(\mum)^2)')
+ylabel(hax(1),'V (mV)')
+ylabel(hax(2),'I_{Ca}(pA/(\mum)^2)')
 
 figure(2)
 plot(T,oh)
 xlabel('time (ms)')
 ylabel('open probability')
 
-save('Llinas_TD.mat','T','V','ICa','oh')   % for external plotting
+%save('Llinas_TD.mat','T','V','ICa','oh')   % for external plotting
+
+end % of main
 
 
 %%
@@ -82,10 +83,10 @@ op=s(3);
 v1p=100*(0.0001*(v1-Vr)*(70-(v1-Vr))*((v1-Vr)-7)-w);
 wp =0.25*(v1-Vr-5*w);
 
-%Linas ode for open probability 
+%Linas ode for open probability
 k1=k10*exp(FbyRT*z1*v1);
 op = k1.*(1-op)-k2*op;
 
 out  =[v1p,wp,op]';
 end
- 
+

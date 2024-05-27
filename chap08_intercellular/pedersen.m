@@ -4,10 +4,12 @@
 %
 %   For Chapter 8, Section 8.2 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
+
+function pedersen
 
 clear all
 close all
@@ -32,11 +34,9 @@ h = Y(:,1:p.ng);
 intinf = trapz(p.g,h');
 
 figure(1)
-plot(T,F)
-ylabel('insulin secretion (\mug/min)')
-yyaxis ('right')
-plot(T,glucose(T),'--')
-ylabel('glucose (mg/100 ml)')
+[hax,h1,h2] = plotyy(T,F,T,glucose(T));
+ylabel(hax(1),'insulin secretion (\mug/min)')
+ylabel(hax(2),'glucose (mg/100 ml)')
 xlabel('time(min)')
 xlim([0,21])
 legend('boxoff')
@@ -55,21 +55,24 @@ F = Y(:,p.ng+1);
 I = Y(:,p.ng+2);
 
 figure(2)
-plot(T,F)
-ylabel('insulin secretion (\mug/min)')
-yyaxis ('right')
-plot(T,glucose(T),'--')
-ylabel('glucose (mg/100 ml)')
+[hax,h1,h2] = plotyy(T,F,T,glucose(T));
+ylabel(hax(1),'insulin secretion (\mug/min)')
+ylabel(hax(2),'glucose (mg/100 ml)')
 xlabel('time(min)')
 
 %save('pedersen2.mat','T','F')
+
+end % of main
+
+
+
 
 %% glucose stimulation as a function of time
 function out=glucose(t)
 global p
 if p.stim_choose==1
-    G = [0,50,100 150 200];     % glucose levels  
-    times = [0 2 7 12 17];     % times of step application 
+    G = [0,50,100 150 200];     % glucose levels
+    times = [0 2 7 12 17];     % times of step application
     out = G(1)*(heaviside(t-times(1)) - heaviside(t-times(2))) + ...
           G(2)*(heaviside(t-times(2)) - heaviside(t-times(3))) + ...
           G(3)*(heaviside(t-times(3)) - heaviside(t-times(4))) + ...
@@ -78,7 +81,7 @@ if p.stim_choose==1
 end
 
 if p.stim_choose==2
-    G = [0,300,0,300];     % glucose levels  
+    G = [0,300,0,300];     % glucose levels
     times = [0 5 60 65];     % times of step application
     out = G(1)*(heaviside(t-times(1)) - heaviside(t-times(2))) + ...
       G(2)*(heaviside(t-times(2)) - heaviside(t-times(3))) + ...
@@ -99,7 +102,7 @@ I = x(p.ng+2);
 p.glucose = glucose(t);
 M = p.M1*p.glucose^p.m/(p.KM^p.m + p.glucose^p.m) + p.M0;
 
-int = trapz(p.g(p.g<p.glucose),h(p.g<p.glucose));
+int = trapz(p.g(p.g<p.glucose),h(p.g<p.glucose)');
 intinf = trapz(p.g,h);
 out(1:p.ng) = p.pplus*I*p.phi - p.pminus*h - p.fplus*h.*(p.glucose>p.g);
 out(p.ng+1) = p.fplus*int - p.k*F;

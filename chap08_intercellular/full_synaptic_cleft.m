@@ -6,10 +6,12 @@
 %
 %   For Chapter 8, Section 8.1.7 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
+
+function full_synaptic_cleft
 
 clear all
 close all
@@ -17,18 +19,18 @@ clc
 set(0,                           ...
     'defaultaxesfontsize', 20,   ...
     'defaultaxeslinewidth', 2.0, ...
-    'defaultlinelinewidth', 2.0); 
+    'defaultlinelinewidth', 2.0);
 
 %parameters
-global Vr k10  k20  z1  n ce PCa s0 
-global FbyRT  F  kout  factor  
-global   kp1  km1 kp2  km2  kp3  km3 kp4   km4 
-global   bigA  bigB   bigN smalla  smallb k1m  k2m  ke 
+global Vr k10  k20  z1  n ce PCa s0
+global FbyRT  F  kout  factor
+global   kp1  km1 kp2  km2  kp3  km3 kp4   km4
+global   bigA  bigB   bigN smalla  smallb k1m  k2m  ke
 global Vs  gr  gs0 Cm Istim Tperiod  rho
 
 tmax = 75;  %this is the length of the simulation
 % FHN parameters
-Vr=-70;  % resting potential 
+Vr=-70;  % resting potential
 Tperiod = 25;  % period of stimulus
 Istim=100; % stimulus amplitude
 
@@ -55,11 +57,11 @@ kout = 3; % calcium withdrawal rate
 
 % Calcium-stimulated secretion parameters for o_j dynamics
 kp1=3.75e-3;
-km1=4e-4;   
-%km1=1e-4;%these rates are extremely slow.   
-kp2=2.5e-3; 
-km2=1e-3;   
-%km2 = 5e-2; %these rates are extremely slow.  
+km1=4e-4;
+%km1=1e-4;%these rates are extremely slow.
+kp2=2.5e-3;
+km2=1e-3;
+%km2 = 5e-2; %these rates are extremely slow.
 kp3=5e-4;
 km3=0.1;
 kp4=7.5e-3;
@@ -70,14 +72,14 @@ rho = 3e6;
 bigA=0.008;
 bigB=1.43;
 bigN=10;  %dimensionless
-smalla=0.00315; 
+smalla=0.00315;
 smallb=1;
-k1m=1000; %ms^(-1) 
+k1m=1000; %ms^(-1)
 k2m=500; %mM ms^(-1)
 ke=10;% rate of ACh degradation
 
 % Postsynaptic voltage parameters
-Vs=-15; 
+Vs=-15;
 gr=10;
 gs0 = 10;
 Cm=1;
@@ -98,7 +100,7 @@ o4=sol(:,8);
 Pr = o1.*o2.*o3.*o4;
 
 x = sol(:,9);
-y=sol(:,10); 
+y=sol(:,10);
 a = sol(:,11);
 v2=sol(:,12);
 
@@ -125,7 +127,7 @@ xlabel('t (ms)')
 
 figure(5)
 plot(T,Pr)
-ylabel('P_R') 
+ylabel('P_R')
 xlabel('t (ms)')
 
 figure(6)
@@ -142,17 +144,22 @@ xlabel('t (mV)')
 figure(8)
 plot(T,v1,T,v2,'--')
 legend('boxoff')
-legend('presynaptic,','postsynaptic')   
+legend('presynaptic,','postsynaptic')
 xlabel('t (mV)')
 ylabel('Membrane Potential (ms)')
+
+end % of main
+
+
+
 
 
 %% the 12 equations of the model %%%%%%%%%%%%
 function out = rhs(t,sol)
-global Vr k10  k20  z1  n ce PCa s0 
+global Vr k10  k20  z1  n ce PCa s0
 global FbyRT  F  kout  factor
-global   kp1  km1 kp2  km2  kp3  km3 kp4   km4 
-global   bigA  bigB   bigN smalla  smallb k1m  k2m  ke 
+global   kp1  km1 kp2  km2  kp3  km3 kp4   km4
+global   bigA  bigB   bigN smalla  smallb k1m  k2m  ke
 global Vs  gr  Cm gs0 rho Tperiod Istim
 
 %there are 12 variables
@@ -171,7 +178,7 @@ v2 = sol(12);
 R=o1*o2*o3*o4;
 
 
-% Llinas functions  
+% Llinas functions
 k1=k10*exp(z1*v1*FbyRT);
 fac=2*v1*FbyRT;
 

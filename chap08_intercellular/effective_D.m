@@ -4,10 +4,12 @@
 %
 %   For Chapter 8, Figure 8.21 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
+
+function effective_D
 
 clear all
 close all
@@ -29,16 +31,16 @@ for delj = 1:3
         l=llist(j);
        Deff(j) =  deff(l,del);
     end
-    
+
     figure(1)
     plot(llist,Deff)
     hold on
     xlabel('l/L')
     ylabel('D_{eff}/D')
 end
- 
+
 text(0.8,0.5,'\Delta=0.2','fontsize',18)
-text(1.2,0.3,'\Delta=0.1','fontsize',18)  
+text(1.2,0.3,'\Delta=0.1','fontsize',18)
 text(2,0.135,'\Delta=0.01','fontsize',18)
 hold off
 
@@ -56,7 +58,7 @@ for lj=1:3
         p=dellist.*(Deff-1);
         q=polyfit(dellist(5:end-1),p(5:end-1),1)
         pfit=polyval(q,dellist);
-    
+
         figure(3)
         plot(dellist,p, dellist,pfit,'--')
     end
@@ -66,25 +68,28 @@ for lj=1:3
    hold on
    xlabel('\Delta')
    ylabel('D_{eff}/D')
-  
+
 end
 
 text(0.1,0.97,'l/L=0','fontsize',18)
 text(0.08,0.8,'l/L=0.2','fontsize',18)
 text(0.18,0.5,'l/L=0.5','fontsize',18)
 hold off
-       
+
+end % of main
+
+
 %%
 function out=deff(l,del)
-N=450;
+N=50;  % Make N bigger to get a more accurate curve, but at the cost of running a lot slower.
 for kj = 1:N
-    for n = 1:N 
+    for n = 1:N
         k = 1+2*(kj-1);
         A(kj,n) = (2*n*tanh(2*n*pi*l*del)/(k*tanh(k*pi*l*(1-del)))+1)*n/(4*n^2-k^2);
     end
     R(kj) = 1/(2*pi*k^2);
     P(kj) = tanh(2*kj*pi*l*del);
-end 
+end
 C=A\R';
 out =P*C/l+del;
 end

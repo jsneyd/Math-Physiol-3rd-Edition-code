@@ -4,10 +4,12 @@
 %
 %   For Chapter 8, Section 8.1.3 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
+
+function STSD
 
 close all
 clear all
@@ -55,6 +57,7 @@ xlabel('f\tau')
 
 %save('STSD.mat','T','N','freq','nbar')
 
+end % of main
 
 %%
 function out = rhs(t,n)
