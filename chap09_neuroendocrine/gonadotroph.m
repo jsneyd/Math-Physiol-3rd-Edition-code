@@ -7,6 +7,8 @@
 %
 % ----------------------------------
 
+function gonadotroph
+
 close all
 clear all
 clc
@@ -16,7 +18,7 @@ set(0,                           ...
    'defaultaxeslinewidth', 2.0, ...
  'defaultlinelinewidth', 2.0);
 
-global ip3b ip3p tpulse gnav gca gk gkca gL gkir ek eca ena vL alpha Cm sigmaER  sigmaD kp tau 
+global ip3b ip3p tpulse gnav gca gk gkca gL gkir ek eca ena vL alpha Cm sigmaER  sigmaD kp tau
 global tauhna taun kca fcyt Kdiff  kleak kf ki  ka Kd  Aip3 fer Vpmca  Kpmca Vserca Kserca pnorm
 
 % parameters
@@ -46,7 +48,7 @@ kp=0.04;
 tauhna=2;
 taun=20;
 tau=175000;
-pnorm=4*tau^2*exp(-2);  % sets a time scale for the ip3 input 
+pnorm=4*tau^2*exp(-2);  % sets a time scale for the ip3 input
 Vserca=0.16;
 Kserca=0.2;
 Kdiff=0.6;
@@ -61,7 +63,7 @@ ki=1;
 ka=.8;
 Kd=.8;
 Aip3=0.002;
- 
+
 for j = 1:4
     ip3p=ip3mx(j);; % This sets the maximum value of the IP3 pulse input
     %%%%%  initial Conditions %%%%%%%%%%%%%%%
@@ -69,45 +71,44 @@ for j = 1:4
     c0=0.0881;
     cer0=124.49;
     cd0=0.130;
-    
+
     hna0=0.637;
     n0=0.0;
-    
+
     hip3r0=0.862;
-    
+
     init =[v0,c0,cer0,cd0,hna0,n0,hip3r0];
-    
+
     total=60000;
     tstep =  1;
     tic
     %specify the output points
     tspan = [0:tstep:total];
-    [T,S] = ode23(@deRHS,tspan,init  , odeset('maxstep',10));  
+    [T,S] = ode23(@deRHS,tspan,init  , odeset('maxstep',10));
     toc
     figure(2*j-1)
-    
-    plot(T/1000,S(:,1))
-    ylabel('V (mV)')
+
+    [hax,h1,h2] = plotyy(T/1000,S(:,1), T/1000, ip3b+ip3p*ip3pulse(T));
+    ylabel(hax(1),'V (mV)')
     xlabel('t (s)')
-    yyaxis('right')
-    plot(T/1000, ip3b+ip3p*ip3pulse(T))
-    ylabel('IP_3')
-    
+    ylabel(hax(2),'IP_3')
+
     figure(2*j)
-    plot(T/1000,S(:,2))
+    [hax,h1,h2] = plotyy(T/1000,S(:,2),T/1000,S(:,3));
     xlabel('t (s)')
-    ylabel('c(\muM}')
-    yyaxis('right')
-    plot(T/1000,S(:,3))
-    ylabel('C_e (\muM)')
+    ylabel(hax(1),'c (\mu M)')
+    ylabel(hax(2),'C_e (\mu M)')
 
 end
 
+end % of main
+
+
 
 %% The equations
-function s_prime=deRHS(t,sol) 
+function s_prime=deRHS(t,sol)
 
-global ip3b ip3p  gnav gca gk gkca gL gkir ek eca ena vL alpha   Cm  sigmaER  sigmaD 
+global ip3b ip3p  gnav gca gk gkca gL gkir ek eca ena vL alpha   Cm  sigmaER  sigmaD
 global tauhna taun kca fcyt Kdiff  kleak kf ki  ka Kd  Aip3 fer Vpmca  Kpmca Vserca Kserca
 
 %there are 7 variables
@@ -127,7 +128,7 @@ vnsdrive=v-vL;
 %%%%%% cell geometry %%%%%%%%%%%%
 
 %%%%%%% smooth pulse profiles %%%%%%%%%%%%
-% time to peak is 2*tau, peak value is 1. 
+% time to peak is 2*tau, peak value is 1.
 
 
 %%%%%% sodium %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -210,7 +211,7 @@ end
 
 %% IP3 pulse
 function ip3out=ip3pulse(t)
-global tpulse   pnorm kp   
+global tpulse   pnorm kp
 
 delpulse=t-tpulse;
 pulse=delpulse.^2./pnorm.*(delpulse>0);
