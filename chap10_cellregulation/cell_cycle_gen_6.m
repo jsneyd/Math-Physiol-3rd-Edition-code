@@ -5,10 +5,12 @@
 %
 %   For Chapter 10, Section 10.4.1 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd.
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
+
+function cell_cycle_gen_6
 
 clear all
 close all
@@ -50,7 +52,7 @@ for loop=1:tfinal
     tspan=linspace(0,tend,npts);
     [T,Y] = ode45(@ccgen5odes,tspan,y0);
     if (Y(npts,1)>0.4) test=1; end      % check condition for CycB concentration
-    if ((Y(npts,1)<0.05) & (test==1)) 
+    if ((Y(npts,1)<0.05) & (test==1))
         Y(npts,6)=Y(npts,6)/2.0;        % Reset the mass for cell division
         test=0;
     end
@@ -65,6 +67,9 @@ figure(2)
 plot(keep(:,7),keep(:,2))
 xlabel('m')
 ylabel('[CycB]')
+
+end % of main
+
 
 %%
 function dy=ccgen5odes(t,y)
@@ -88,6 +93,6 @@ dy(4)=k7*IEP*(cdcT-cdcA)/(J7+cdcT-cdcA) - k8*cdcA/(J8+cdcA) - k6*cdcA;
 dy(5)=k9*cycB*(1.0-IEP) - k10*IEP;
 dy(6)=mu*m;
 end
- 
+
 %save gen6.dat keep -ascii
 

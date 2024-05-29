@@ -4,10 +4,12 @@
 %
 %   For Chapter 10, Section 10.1.3 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd.
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
+
+function motif_FF
 
 clear all
 close all
@@ -35,7 +37,10 @@ legend('R','S','location','southeast')
 set(gca,'linewidth',1.5)
 box off
 out = [T R S];
-save('test.dat','out','-ascii')
+%save('test.dat','out','-ascii')
+
+end % of main
+
 
 %%
 function out = rhs(t,Y)
