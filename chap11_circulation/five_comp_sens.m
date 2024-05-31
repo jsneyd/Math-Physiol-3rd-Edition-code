@@ -5,10 +5,13 @@
 %
 %   For Chapter 11, Section 11.5.4 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd.
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
+
+function five_comp_sens
+
 clear all
 close all
 clc
@@ -29,7 +32,7 @@ sens=zeros(9,9);
 P=getparams(V);
 P(9)=80;
 %this checks the calculation
-Vn=getpressures(P); 
+Vn=getpressures(P);
 
 
 % now calculate sensitivites;
@@ -45,6 +48,9 @@ end
 
 % the sensitivity matrix is:
 sens
+
+end % of main
+
 
 %%
 function params = getparams(V)
@@ -96,7 +102,7 @@ Vt = 5;
 Ve=Vt-V0s-V0p;
 
 alp=Rsv*(Csa+Csv/2)+Rsa*Csa/2+Cp*Rp/2;
- 
+
 Q=Ve/(alp+Cp/(F*Cld)+(Csv+Csa)/(F*Crd));
 Psa=Q*(1/(F*Crd)+Rsa+Rsv);
 Ps = Q*(1/(F*Crd)+Rsv);
