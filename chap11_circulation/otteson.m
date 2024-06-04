@@ -5,10 +5,11 @@
 %
 %   For Chapter 11, Section 11.6.2 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
-% 
+%
 %   Written by James Keener and James Sneyd.
-% 
-%  ------------------------------------------------------------------- 
+%
+%  -------------------------------------------------------------------
+
 
 clear all
 close all
@@ -17,7 +18,7 @@ set(0,                           ...
    'defaultaxesfontsize', 20,   ...
    'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0);
-global n tau ca R Vs alpha  beta mu 
+global n tau ca R Vs alpha  beta mu
 
 n = 7;
 tau= 2;
@@ -36,7 +37,7 @@ H0=0.8026246;
 tspan = [0:.01:200];
 
 %specify initial data
-lags = tau; 
+lags = tau;
 init=[P0,H0]; %init is not used
 
 sol = dde23(@ddeRHS,lags, @history, tspan);
@@ -59,19 +60,19 @@ ylabel('P')
 
 %%
 function out = ddeRHS(t,Y,Z)
-    global   ca R Vs alpha  beta  
+    global   ca R Vs alpha  beta
     P=Y(1);
     H = Y(2);
     ylag = Z(1);
-    
+
     dPdt = -P/(ca*R) + (Vs/ca)*H;
     dHdt = alpha*gs(ylag) - beta*(1-gs(P));
     out=[dPdt;dHdt];
-    end 
+    end
 
  %%
 function gsout = gs(x)
-    global mu n 
+    global mu n
     gsout = mu^n/(mu^n+x^n);
     end
 
@@ -79,4 +80,4 @@ function gsout = gs(x)
 function s = history(t)
     s = ones(2,1);
     end
- 
+
