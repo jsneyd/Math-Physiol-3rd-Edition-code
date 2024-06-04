@@ -16,27 +16,95 @@
    'defaultpatchlinewidth', 0.7);  
  
 
-global lam c eps  
+global lamm c eps xi2 pr alp
 
 % parameters
 
 
-epslist = [ 0.1,0.01];
+epslist = [0.1 ];
+alp = 0.1; %target value of alpha
 
-for jk = 1:length(epslist)
-    eps = epslist(jk);
-    clist = [sqrt(eps):0.002:2];
+for jk = 1: length(epslist)
+    eps = epslist(jk)
+    clist =  [0.005:0.005:2.5];
+%clist=[1.33];
+    % question: what happens at c=0.34/0.345 when ep = 0.1?
 for jj = 1:length(clist)
     c=clist(jj);
 % find roots of the polynomial
  
-lam = findlam(c, eps);
+lam = findlam(c, eps)
+lamst(jj,:) = lam;
   prc = [3*eps^2 2*c*eps  -1];
  pr = polyval(prc,lam);
+lamm(1) = lam(1);
+lamm(2) = -lam(2);
+lamm(3) = -lam(3);
+
+% find xi2 for this value of c and alpha
+%  % a test:
+% xi2list = [0.01:.001:10];
+% xi2 = 5;
+% xi1list=[0:.01:xi2];
+%     for jk = 1:length(xi1list)
+% f(jk) = h(xi1list(jk));
+% 
+%  end
+% figure(3)
+% plot(xi1list,f,xi2-xi1list,f,'--')
+% 
+% stop
+% % 
+% 
+P(jj) = bisect2(@getalp,0.1,20);
+ 
+xi2 = P(jj);
+a=1.e-6;
+b = xi2- 0.01;
+ 
+  x1(jj) = bisect(@h,a,b);
+  
+  % try fsolve   ( I can't get fsolve to work)
+ 
+ % % X=fsolve(@hh,[x1(jj),P(jj)]);
+ % %  Xi1(jj)=X(1);
+ % %   Xi2(jj) =X(2); 
+
+  
+end
+ 
+figure(1)
+plot(P./clist,clist,'*')
+xlabel('T')
+ylabel('c')
+hold on
+%axis([0 10 0 3])
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+figure(2)
+ plot(P, clist ,'*' )
+ xlabel('\xi_2')
+ ylabel('c')
+ hold on
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+figure(3)
+  plot(P,x1,'*')
+ % hold on
+ figure(4)
+ plot(clist,lamst)
 
 end
-end
+ % The singular dispersion curve
+   w0=[0:.01:(1-2*alp)/2];
+   apw = alp+w0;
+   w1=1-2*alp-w0;
+   sp=(1-2*apw)./sqrt(apw-apw.^2);
+   T = log(((1-w0).*w1)./((1-w1).*w0));
 
+   % figure(1)
+   % plot(T,sp,'--')
+   % hold off
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  function lam = findlam(c,eps)
@@ -61,11 +129,123 @@ end
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%
 function f = h(x)
-global lam alp eps 
-lamX=lam'*x;
-E=exp(lamX);
-rat = (E(:,2)-E(:,1))./(pr.*(E(:,2)-1));
-f(1) = sum(rat./E(:,1))+eps^2*alp;
-f(2) = sum(rat)+eps^2*alp;
+ 
+r = getrat(x);
+f = r(1)-r(2);
+
+end
+
+%  %%%%%%%%%%%%%%%%%%%%%%%%%%
+% function f = hh(x)
+% global xi2 alp
+% 
+%  xi1=x(1);
+%  xi2 = x(2);
+% r = getrat(x);
+% f(1) =  r(2)+alp;
+% f(2) = r(1)+alp;
+% 
+%  end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function r = getrat(x)
+global lamm  xi2 pr
+xi = [x, xi2,xi2-x];
+% real part of lam(1) <0
+% real part of lam(2,3) >0
+
+%This is necessary because real parts of Lam(2) and lam(3) are positve
+% and can give large exponentials
+
+
+lamX=lamm'*xi;
+E=exp(lamX);  % These are all the exponentials needed;  they are all less than 1;
+
+Fac = [1,E(1,1);E(2,1),1;E(3,1),1];
+ 
+rat = (1-E(:,3))./(pr'.*(1-E(:,2)))  ;
+ 
+r = rat'*Fac;
+
  
 end
+
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%
+ function afc  = getalp(x)
+global alp xi2
+% x is a guess for xi2
+ 
+xi2 = x;
+a=0.01;
+b = x- 0.01;
+b = x/2;
+  
+  x1 = bisect(@h,a,b)
+  
+
+r = getrat(x1)
+afc = r(1)+alp;
+ 
+end
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% this is the bisection algorithm
+function root = bisect(feval,a,b)
+
+ul = a;
+fl = feval(ul);
+uu = b;
+fu = feval(uu);
+
+% we make the assumption, without checking, that 
+% fu*fl<0
+
+% if not, the algorithm fails to find a root.
+
+N = 20;  % number of iterates
+% the main bisection algorithm
+for j = 1:N
+u = (ul+uu)/2;
+fc = feval(u);
+ftest = (fc*fl>=0);
+ul = ftest*u+(1-ftest)*ul;
+fl = ftest*fc + (1-ftest)*fl;
+
+uu = (1-ftest)*u+ ftest*uu;
+fu = (1-ftest)*fc + ftest*fu;
+end
+root = u;
+end
+
+% this is the bisection algorithm
+% another copy of the bisection algorithm
+function root = bisect2(feval,a,b)
+
+ul = a;
+fl = feval(ul);
+uu = b;
+fu = feval(uu);
+
+% we make the assumption, without checking, that 
+% fu*fl<0
+
+% if not, the algorithm fails to find a root.
+
+N = 20;  % number of iterates
+% the main bisection algorithm
+for j = 1:N
+u = (ul+uu)/2;
+fc = feval(u);
+ftest = (fc*fl>=0);
+ul = ftest*u+(1-ftest)*ul;
+fl = ftest*fc + (1-ftest)*fl;
+
+uu = (1-ftest)*u+ ftest*uu;
+fu = (1-ftest)*fc + ftest*fu;
+end
+root = u;
+end
+
+

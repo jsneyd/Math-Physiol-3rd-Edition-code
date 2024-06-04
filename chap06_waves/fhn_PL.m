@@ -26,7 +26,7 @@ epslist = [0.5,0.1,0.01];
 
 for jk = 1:3
     eps = epslist(jk);
-    clist = [sqrt(eps):0.002:2];
+    clist = [sqrt(eps):0.02:2];
 for jj = 1:length(clist)
     c=clist(jj);
 % find roots of the polynomial
