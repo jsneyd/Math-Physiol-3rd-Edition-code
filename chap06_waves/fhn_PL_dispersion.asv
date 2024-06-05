@@ -15,6 +15,7 @@
    'defaultlinelinewidth', 2.0, ...
    'defaultpatchlinewidth', 0.7);  
  
+
 global lamm c eps xi2 pr alp
 
 % parameters
@@ -24,7 +25,7 @@ alp = 0.1; %target value of alpha
 
 for jk = 1: length(epslist)
     eps = epslist(jk)
-    clist =  [0.005:0.0075:2.7];
+    clist =  [0.005:0.01:3.0];
     P=[];
     cl = [];
  
@@ -41,7 +42,9 @@ lamst(jj,:) = lam;
 % and can give large exponentials
 % real part of lam(1) <0
 % real part of lam(2,3) >0
+
  
+
 lamm(1) = lam(1);
 lamm(2) = -lam(2);
 lamm(3) = -lam(3);
@@ -96,7 +99,7 @@ end
    T = log(((1-w0).*w1)./((1-w1).*w0));
 
    figure(1)
-    plot(T,sp,'k--')
+    plot(T,sp,'--')
     box off
     legend('boxoff')
     legend('\epsilon=0.1','\epsilon = 0.01','asymptotic limit','location','northwest')
