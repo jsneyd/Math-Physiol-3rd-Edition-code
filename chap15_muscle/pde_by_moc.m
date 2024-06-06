@@ -1,7 +1,7 @@
 
 %  -------------------------------------------------------------------
 %
-%   Solve the pde u_y +f(u,t,x) u_x = g(u,t,x) by method of
+%   Solve the pde u_y +f(u,t,x) u_x = g(u,t,x) by the method of
 %   characteristics.
 %
 %   For Chapter 15, Section 15.12.1 of
