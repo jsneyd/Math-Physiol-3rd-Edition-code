@@ -38,7 +38,8 @@ end
 
 % event function
 function [value,isterminal,direction]=events(t,s)
- 
+
+
 value = (abs(s)-100); 
 isterminal = 1;
 direction = 0;
