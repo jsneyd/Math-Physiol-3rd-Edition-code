@@ -1,4 +1,4 @@
-% Cde to find the dispersion curve for the piecewise linear FHN
+% Code to find the dispersion curve for the piecewise linear FHN
 
 %
 %   For Chapter 6, Figure 1.12,   of
@@ -49,7 +49,6 @@ lamm(3) = -lam(3);
 
 % find xi2 for this value of c and alpha
  % 
- % find the range of xi2
  
      newalp= alproot;
  P = [P,newalp];
