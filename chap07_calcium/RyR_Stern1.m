@@ -11,7 +11,7 @@
 %  -------------------------------------------------------------------
 
 function RyR_Stern
-%% symbolic calculation and plotting of the steady state
+%%   plotting of the steady state
 
 clear all
 close all
