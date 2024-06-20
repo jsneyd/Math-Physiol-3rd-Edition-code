@@ -18,18 +18,18 @@ set(0,                           ...
     'defaultaxeslinewidth', 2.0, ...
     'defaultlinelinewidth', 2.0);
 
+global x0
 N = 50000;
 delt = 0.01;
 k = 0.5;
- x0 = 0.01;  % The system can be reactivated only when x<x0
+x0 = 0.01;  % The system can be reactivated only when x<x0
 
 nthresh = 5; %# of different runs % use 40 for a mu/sigma plot, 
 % but it takes a lot of time
 thresh = linspace(0.997,0.9995,nthresh); 
 % for a mu/sigma plot
 % thresh = linspace(0.999,0.999,nthresh);           % for a single run
-%thresh = [0.95,0.99];
-mu = zeros(nthresh,1);                              % initialization
+ mu = zeros(nthresh,1);                              % initialization
 sig = mu;                                           % initialization
 
 for j = 1:nthresh
@@ -50,20 +50,28 @@ Xkeep = [0];
         if(~isempty(nn))
         ndx = min(nn);  % this is how many time steps to take
 newt = [1:ndx]*delt;
-Xkeep  = [Xkeep x1*exp(-k*newt)];
+
+% integrate the de until the next spike time:
+ % tspan = [0 newt];
+        %[dT,X] = ode15s(@(t,x)rhs(t,x,k),tspan,x1);
+Xkeep  = [Xkeep x1*exp(-k*newt)]; %no need to integrate when the analytical solution is known
 T = [T tend+newt];
 tend = T(end);
 Tkeep = [Tkeep tend];
 x1=Xkeep(end)+1;  % add the jump
  %here we are using that decay is exponential.  For a more complicated de,
  %numerical integration is required
- dt=-log(x0/x1)/k; %time to get back to recovery
+ % integrate the de until threshold x0 is reached
+ %tspan = [0:delt:100]; % we only use a fraction of these times
+  %[dT,X] = ode15s(@(t,x)rhs(t,x,k),tspan,x1, options);
+
+ dt=-log(x0/x1)/k; %time to get back to recovery, since the analytical solution is known
  
- ndt = fix(dt/delt);
+ ndt = fix(dt/delt); % number of time step to get back to recovery
  newt = [1:ndt]*delt;
  Xkeep = [Xkeep x1*exp(-k*newt)];
  T = [T tend+newt];
- tend = T(end); %x will be below threshold on the next time step
+ tend = T(end); % x will be below threshold on the next time step
  i = length(T);
  x1 = Xkeep(end);  % this is the starting value for the next integration
         else
@@ -92,4 +100,17 @@ plot(xp,polyval(p,xp));
 xlabel('\mu')
 ylabel('\sigma')
 
- 
+%% ode equations
+
+function out = rhs(t,x,k)
+out = -k*x;
+end 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [f,direction, isterminal] = event(t,x)
+
+global x0
+direction = 1;
+f = x-x0;
+isterminal = 1;
+end
