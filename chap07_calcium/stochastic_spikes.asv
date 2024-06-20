@@ -23,8 +23,7 @@ delt = 0.01;
 k = 0.5;
 x0 = 0.01;  % The system can be reactivated only when x<x0
 
-nthresh = 5; %# of different runs % use 40 for a mu/sigma plot, 
-% but it takes a lot of time
+nthresh = 5; %# of different runs % 40 for a mu/sigma plot;
 thresh = linspace(0.997,0.9995,nthresh);          % for a mu/sigma plot
 % thresh = linspace(0.999,0.999,nthresh);           % for a single run
 
@@ -50,7 +49,7 @@ for j = 1:nthresh
     figure(j)
     plot(Xkeep)
     xlabel('time')
-    ylabel('x')
+    ylabel
     ISI = Tkeep(2:end) - Tkeep(1:end-1);            % the interspike intervals
     mu(j) = mean(ISI)
     sig(j) = std(ISI)

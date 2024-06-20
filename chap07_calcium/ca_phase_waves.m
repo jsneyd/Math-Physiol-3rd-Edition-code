@@ -72,8 +72,9 @@ p.N=100;  % number of spatial grid points
 p.L=5;
 p.h=p.L/p.N;
 p.du = 0.05; % diffusion coefficient for IP3
-p.dv =  0.001; % diffusion coefficient for Ca
-
+% select a diffusion coefficient:
+  p.dv =  0.001; % diffusion coefficient for Ca
+ p.dv =  0.0; % diffusion coefficient for Ca
 p.sc = [1;2*ones(p.N-2,1);1];
 X = p.h*(1:p.N)';
 % set initial data to be the final point of the ode solve
