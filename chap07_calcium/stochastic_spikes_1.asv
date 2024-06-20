@@ -21,13 +21,14 @@ set(0,                           ...
 N = 50000;
 delt = 0.01;
 k = 0.5;
-x0 = 0.01;  % The system can be reactivated only when x<x0
+ x0 = 0.01;  % The system can be reactivated only when x<x0
 
-nthresh = 1; %# of different runs % use 40 for a mu/sigma plot, 
+nthresh = 5; %# of different runs % use 40 for a mu/sigma plot, 
 % but it takes a lot of time
-thresh = linspace(0.997,0.9995,nthresh);          % for a mu/sigma plot
+thresh = linspace(0.997,0.9995,nthresh); 
+% for a mu/sigma plot
 % thresh = linspace(0.999,0.999,nthresh);           % for a single run
-
+%thresh = [0.95,0.99];
 mu = zeros(nthresh,1);                              % initialization
 sig = mu;                                           % initialization
 
@@ -35,20 +36,37 @@ for j = 1:nthresh
     threshold = thresh(j);
     In = rand(N,1);
     init = 0;  % first starting point
-    Tkeep = 0;
-    
-    for i = 1:N
-        tspan = linspace(0,delt,2);
-        [T,X] = ode15s(@(t,x)rhs(t,x,k),tspan,init);
-        init = X(end);
-        if (In(i)>threshold & init<x0)
-            init = X(end)+1;
-            Tkeep = [Tkeep i*delt];                 % record the time of the spike
-        end
-        Xkeep(i) = init;
+    x1=0;
+   
+    Tkeep = [0];
+    i = 0;
+T = [0];
+tend = T(end);
+Xkeep = [0];
+
+    while i<N
+        % find the next spike time
+        ndx = min(find(In(i+1:end)>threshold))  % this is how many time steps to take
+newt = [1:ndx]*delt;
+Xkeep  = [Xkeep x1*exp(-k*newt)];
+T = [T tend+newt];
+tend = T(end);
+Tkeep = [Tkeep tend];
+x1=Xkeep(end)+1;  % add the jump
+ dt=-log(x0/x1)/k; %time to get back to recovery
+ ndt = fix(dt/delt)+1;
+ newt = [1:ndt]*delt;
+ Xkeep = [Xkeep x1*exp(-k*newt)];
+ T = [T tend+newt];
+ tend = T(end); %x is now below threshold
+ i = length(T)-1;
+ x1 = Xkeep(end);
+ 
     end
+ 
+    Tkeep
     figure(j)
-    plot(Xkeep)
+    plot(T,Xkeep)
     xlabel('time')
     ylabel('x')
     ISI = Tkeep(2:end) - Tkeep(1:end-1);            % the interspike intervals
