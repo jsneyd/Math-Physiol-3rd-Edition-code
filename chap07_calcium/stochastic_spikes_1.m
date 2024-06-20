@@ -48,7 +48,7 @@ Xkeep = [0];
         % find the next spike time
         nn = find(In(i+1:end)>threshold);
         if(~isempty(nn))
-        ndx = min(nn)  % this is how many time steps to take
+        ndx = min(nn);  % this is how many time steps to take
 newt = [1:ndx]*delt;
 Xkeep  = [Xkeep x1*exp(-k*newt)];
 T = [T tend+newt];
@@ -65,20 +65,20 @@ x1=Xkeep(end)+1;  % add the jump
  T = [T tend+newt];
  tend = T(end); %x will be below threshold on the next time step
  i = length(T);
- x1 = Xkeep(end);
+ x1 = Xkeep(end);  % this is the starting value for the next integration
         else
-            i=N
+            i=N;
         end
     end
  
-    Tkeep
+   
     figure(j)
     plot(T,Xkeep)
     xlabel('time')
     ylabel('x')
     ISI = Tkeep(2:end) - Tkeep(1:end-1);            % the interspike intervals
-    mu(j) = mean(ISI)
-    sig(j) = std(ISI)
+    mu(j) = mean(ISI);
+    sig(j) = std(ISI);
 end
 
 figure(10)
@@ -89,5 +89,7 @@ hold on
 p = polyfit(mu,sig,1)
 xp = linspace(9,35,100);
 plot(xp,polyval(p,xp));
+xlabel('\mu')
+ylabel('\sigma')
 
  
