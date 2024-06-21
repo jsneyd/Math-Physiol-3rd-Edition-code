@@ -31,15 +31,14 @@ Kblist = [0.01:0.1:20];
 
 for k = 1:length(Kblist)
     Kb = Kblist(k);
- 
 
     c =  bisect(@getc,cinf,einf);
-J(k)=fluxw(c,Dc,cinf);
+    J(k)=fluxw(c,Dc,cinf);
  
 end
 figure(1)
 plot(Kblist,J/(rho*(einf-cinf)))
-xlabel('K_d')
+xlabel('K_b')
 ylabel('Permeability/\rho')
 hold on
 
@@ -51,19 +50,19 @@ box off
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function out = getc(c)
-global Dc   cinf einf rho Jc
+global Dc cinf einf rho Jc
 % first step
 % for a given value of c, find e
 Jc=fluxw(c,Dc,cinf);
-e =    bisect2(@gete,c ,einf);
+e = bisect2(@gete,c ,einf);
 
 out = rho*(e-c)-Jc;
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
     function out = gete(e)
-     global   De  einf Jc
-Je = -fluxw(e,De,einf);
+     global   De einf Jc
+Je = fluxw(e,De,einf);
 out=Je+Jc;
     end
 
