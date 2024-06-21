@@ -22,7 +22,7 @@ Dbbt = 5;
  
  rho = 2;
 cinf = 0.5;
- 
+einf = 1.5;
  elist = [1,5,10];
  
 Kblist = [0.01:0.1:20];
@@ -44,11 +44,7 @@ ylabel('Permeability/\rho')
 hold on
 
  end
-text(2,0.336,'e_\infty=1','fontsize',18)
-text(2,0.362,'e_\infty=5','fontsize',18)
-text(8,0.362,'e_\infty=10','fontsize',18)
-box off
-
+text()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function out = getc(c)
 global Dc   cinf einf rho Jc
