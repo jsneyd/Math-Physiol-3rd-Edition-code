@@ -62,13 +62,16 @@ x1=Xkeep(end)+1;  % add the jump
  %here we are using that decay is exponential.  For a more complicated de,
  %numerical integration is required
  % integrate the de until threshold x0 is reached
- %tspan = [0:delt:100]; % we only use a fraction of these times
-  %[dT,X] = ode15s(@(t,x)rhs(t,x,k),tspan,x1, options);
-
+ %tspan = [0:delt:10]; % we only use a fraction of these times
+ 
+  %[dT,X] = ode15s(@(t,x)rhs(t,x,k),tspan,x1, odeset('Events',@events));
+%dt =dT(end);
  dt=-log(x0/x1)/k; %time to get back to recovery, since the analytical solution is known
  
- ndt = fix(dt/delt); % number of time step to get back to recovery
+ ndt = fix(dt/delt); % number of time steps to get back to recovery
  newt = [1:ndt]*delt;
+ %Xkeep = [Xkeep X(1:end-1)]; using the integrated solution
+
  Xkeep = [Xkeep x1*exp(-k*newt)];
  T = [T tend+newt];
  tend = T(end); % x will be below threshold on the next time step
@@ -107,10 +110,10 @@ out = -k*x;
 end 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [f,direction, isterminal] = event(t,x)
-
+function [value, isterminal,direction] = events(t,x)
+  
 global x0
-direction = 1;
-f = x-x0;
+direction = 0;
+value = x-x0;
 isterminal = 1;
 end
