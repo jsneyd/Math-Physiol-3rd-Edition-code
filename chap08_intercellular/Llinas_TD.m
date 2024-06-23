@@ -48,12 +48,12 @@ figure(1)
 xlabel('time (ms)')
 ylabel(hax(1),'V (mV)')
 ylabel(hax(2),'I_{Ca}(pA/(\mum)^2)')
-
+box off
 figure(2)
 plot(T,oh)
 xlabel('time (ms)')
 ylabel('open probability')
-
+box off
 %save('Llinas_TD.mat','T','V','ICa','oh')   % for external plotting
 
 end % of main

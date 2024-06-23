@@ -49,11 +49,11 @@ O = 1-c0-c1-c2-D1-D2;
 simpleO = 1-simpleC;
  
 plot(1000*T,O,1000*T,simpleO,'--')
-xlabel('time(ms)')
-ylabel('faction of open channels')
+xlabel('t (ms)')
+ylabel('O, Fraction of open channels')
 legend('boxoff')
 legend('full model','simple model')
-
+box off
 %% evaluate the ode dynamics
 function out=rhs(t,s,p)
 

@@ -45,6 +45,7 @@ for j = 1:length(Vlist)
     xlabel('time (ms)')
     ylabel('-I_{Ca}(pA/(\mum)^2)')
     legend('boxoff')
+    box off
     hold on
     ICa_save(j,:) = ICa;            % for external plotting
 end
@@ -64,6 +65,7 @@ ylabel(hax(1),'I_{Ca}')
 ylim(hax(2),[0,1])
 xlim([-70,70])
 xlabel('V (mV)')
+box off
 hold on
 plot(x,Jss,'--');
 
@@ -87,6 +89,7 @@ for j = 1:length(Vlist)
     semilogy(t,-ICa,'LineWidth',2)
     xlabel('time (ms)')
     ylabel('-I_{Ca}(pA/(\mum)^2)')
+    box off
     hold on
     legend('boxoff')
 
@@ -94,9 +97,10 @@ for j = 1:length(Vlist)
     plot(t,oh)
     hold on
     legend('boxoff')
-
+box off
     xlabel('time (ms)')
     ylabel('open probability')
+ 
 end
 
 %save('Llinas.mat','ICa_save2','oh_save2',"-append")   % for external plotting
@@ -106,9 +110,9 @@ figure(3)
 legend('V=-40mV','V=-10mV','V=20mV','V=50mV','V=120mV')
 hold off
 figure(4)
-legend('V=-40mV','V=-10mV','V=20mV','V=50mV','V=120mV')
+legend('V=-40mV','V=-10mV','V=20mV')
 hold off
-
+ 
 
 end % of main
 

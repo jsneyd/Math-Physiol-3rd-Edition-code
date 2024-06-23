@@ -37,6 +37,7 @@ for delj = 1:3
     hold on
     xlabel('l/L')
     ylabel('D_{eff}/D')
+    box off
 end
 
 text(0.8,0.5,'\Delta=0.2','fontsize',18)
@@ -58,9 +59,12 @@ for lj=1:3
         p=dellist.*(Deff-1);
         q=polyfit(dellist(5:end-1),p(5:end-1),1)
         pfit=polyval(q,dellist);
-
+q(1)
         figure(3)
         plot(dellist,p, dellist,pfit,'--')
+        xlabel('\Delta')
+        ylabel('\Delta(D_e/D-1)')
+box off
     end
 
    figure(2)
@@ -68,7 +72,7 @@ for lj=1:3
    hold on
    xlabel('\Delta')
    ylabel('D_{eff}/D')
-
+box off
 end
 
 text(0.1,0.97,'l/L=0','fontsize',18)

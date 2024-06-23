@@ -28,7 +28,7 @@ global   kp1  km1 kp2  km2  kp3  km3 kp4   km4
 global   bigA  bigB   bigN smalla  smallb k1m  k2m  ke
 global Vs  gr  gs0 Cm Istim Tperiod  rho
 
-tmax = 75;  %this is the length of the simulation
+tmax = 15;  %this is the length of the simulation
 % FHN parameters
 Vr=-70;  % resting potential
 Tperiod = 25;  % period of stimulus
@@ -108,46 +108,53 @@ figure(1)
 plot(T,v1)
 xlabel('t (ms)')
 ylabel('V_1 (ms)')
+box off
 
 figure(2)
 plot( T,op)
 ylabel('o')
 xlabel('t (ms)')
+box off
 
 figure(3)
 plot(T,c)
 ylabel('c (\muM)')
 xlabel('t (ms)')
+box off
 
 figure(4)
 plot(T,o1,T,o2,T,o3,T,o4 )
 legend('boxoff')
 legend('o_1','o_2','o_3','o_4')
 xlabel('t (ms)')
+box off
 
 figure(5)
 plot(T,Pr)
 ylabel('P_R')
 xlabel('t (ms)')
+box off
 
 figure(6)
 plot(T,a )
 xlabel('t (ms)')
 ylabel('a (mM)')
+box off
 
 figure(7)
 plot(T,x,T,y,'--')
 legend('boxoff')
 legend('x','y')
 xlabel('t (mV)')
+box off
 
 figure(8)
 plot(T,v1,T,v2,'--')
 legend('boxoff')
 legend('presynaptic,','postsynaptic')
 xlabel('t (mV)')
-ylabel('Membrane Potential (ms)')
-
+ylabel('Membrane Potential V (mV)')
+box off
 end % of main
 
 
