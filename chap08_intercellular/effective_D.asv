@@ -57,17 +57,17 @@ for lj=1:3
     end
     if(lj==1)
         p=dellist.*(Deff-1);
-        q=polyfit(dellist(5:end-1),p(5:end-1),1)
+        q=polyfit(1-dellist(5:end-1),p(5:end-1),1)
 
 
-        fj = sum((1-dellist(5:end-1)).*(p(5:end-1)));
+        fj = sum(1-dellist(5:end-1).*(p(5:end-1)));
         xj = sum((1-dellist(5:end-1)).^2);
         a = fj/xj
 
-        pfit=polyval(q, dellist);
+        pfit=polyval(q,1-dellist);
 q(1)
         figure(3)
-        plot(dellist,p, dellist,a*(1-dellist),'b--')
+        plot(1-dellist,p,1-dellist,pfit,'--',p,a*(1-dellist),'*')
         xlabel('\Delta')
         ylabel('\Delta(D_e/D-1)')
 box off
