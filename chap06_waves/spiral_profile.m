@@ -1,7 +1,5 @@
 % shooting to find spiral wave profile
-
  
-%
 %   For Chapter 6, Figure 1.14,   of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
 % 
@@ -85,8 +83,8 @@ hold off
     plot(2*pi./T,sp,'--',1./T,ccrit)
     box off
     axis([0 10 0 3])
-    xlabel('frequency')
-    ylabel('speed')
+    xlabel('Frequency, 2\pi/T')
+    ylabel('Speed, c')
     box off
 text(1.8,2.3,'dispersion curve','fontsize',18)
 text(7,.9,'critical curve','fontsize',18)
