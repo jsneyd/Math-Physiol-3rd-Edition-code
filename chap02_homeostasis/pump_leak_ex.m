@@ -47,7 +47,7 @@ IC = [mu_0,n_0,k_0,c_0,v_0];                                % The initial condit
 
 singlesolution(IC,par,options)
 
-% If you want to calculate the response to an osmolarity increase,
+% To calculate the response to an osmolarity increase,
 % uncomment the next line
 osmolarity_increase(IC,par,options)
 
@@ -186,44 +186,44 @@ figure(1)
 subplot(2,4,1)
 plot(t,c,'LineWidth',2)
 ylabel('Cl')
-xlabel('time')
+xlabel('t')
 set(gca,'FontSize',14)
 
 subplot(2,4,2)
 plot(t,mu,'LineWidth',2)
 ylabel('cell volume')
-xlabel('time')
+xlabel('t')
 set(gca,'FontSize',14)
 
 subplot(2,4,3)
 plot(t,v,'LineWidth',2)
 ylabel('V')
 ylim([-5,0])
-xlabel('time')
+xlabel('t')
 set(gca,'FontSize',14)
 
 subplot(2,4,4)
 plot(t,k,'LineWidth',2)
 ylabel('K')
-xlabel('time')
+xlabel('t')
 set(gca,'FontSize',14)
 
 subplot(2,4,5)
 plot(t,n,'LineWidth',2)
 ylabel('Na')
-xlabel('time')
+xlabel('t')
 set(gca,'FontSize',14)
 
 subplot(2,4,6)
 plot(t,check,'LineWidth',2)
 ylabel('conservation')
-xlabel('time')
+xlabel('t')
 set(gca,'FontSize',14)
 
 subplot(2,4,7)
 plot(t,electrocheck,'LineWidth',2)
 ylabel('electroneutrality')
-xlabel('time')
+xlabel('t')
 set(gca,'FontSize',14)
 
 set(gcf,'position',[900,500,1400,800])

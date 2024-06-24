@@ -38,7 +38,7 @@ figure(1)
 plot(t,U(:,1),'r',t,U(:,2),'b--','linewidth',2)
 legend('boxoff')
 legend('\sigma_1','\sigma_2','fontsize',18,'location','northwest')
-xlabel('time','fontsize',18)
+xlabel('t','fontsize',18)
 ylabel('concentration','fontsize',18)
 box off
 

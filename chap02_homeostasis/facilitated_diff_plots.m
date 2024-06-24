@@ -60,7 +60,7 @@ gam = sig+rho*u;
 figure(3)
 plot(gam,sig,sig,sig,'--','linewidth',2)
 axis([0 10 0 10])
-xlabel('Oxygen Consumption','fontsize',20)
+xlabel('Oxygen Consumption, \gamma/4c_1','fontsize',20)
 ylabel('Critical external oxygen concentration','fontsize',20)
 text(6,2.1,'\rho = 5','fontsize',20)
 text(6,5.8,'\rho = 0','fontsize',20)
@@ -79,7 +79,7 @@ xi1 = sqrt(abs(gam0-s0-r*s0/(1+s0))/g);
 figure(4)
 
 plot(xi1,sig0,xi,sig,'g',xi0,sig,'r--','linewidth',2)
-xlabel('Radius','fontsize',20)
+xlabel('y','fontsize',20)
 ylabel('Free Oxygen','fontsize',20)
 legend('boxoff')
 legend('\rho=5','\rho=5, critical external concentration','\rho=0, critical external concentration', ...

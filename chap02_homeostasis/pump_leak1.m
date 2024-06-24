@@ -39,15 +39,15 @@ v= -RTbyF*log(y);
 figure(1)
 plot(p,mu,'r','linewidth',2)
 axis([0 14 0 5])
-xlabel('Pump rate','fontsize',20)
-ylabel('Cell Volume','fontsize',20)
+xlabel('Pump rate, P','fontsize',20)
+ylabel('Cell Volume, \mu','fontsize',20)
 box off
 
 figure(2)
 plot(p,v,'r',p,vna,'b',p,vk,'g','linewidth',2)
 legend('boxoff')
 legend('V','V_{Na}','V_K','fontsize',18)
-xlabel('Pump rate P','fontsize',20)
+xlabel('Pump rate, P','fontsize',20)
 ylabel('Potential (mV)','fontsize',20)
 axis([0 14 -100 100])
  box off
@@ -64,8 +64,8 @@ rho=p./ u.^3;
 figure(3)
 plot(rho,mu,'r','linewidth',2)
 axis([0 4  0 5])
-xlabel('Pump rate','fontsize',20)
-ylabel('Cell Volume','fontsize',20)
+xlabel('Pump rate, \rho','fontsize',20)
+ylabel('Cell Volume, \mu','fontsize',20)
 box off
  
 
@@ -73,7 +73,7 @@ box off
 plot(rho,v,'r',rho,vna,'b',rho,vk,'g','linewidth',2)
 legend('boxoff')
 legend('V','V_{Na}','V_K','fontsize',18,'location', 'best')
-xlabel('Pump rate \rho','fontsize',20)
+xlabel('Pump rate, \rho','fontsize',20)
 ylabel('Potential (mV)','fontsize',20)
  axis([0 400 -80 60])
  box off
