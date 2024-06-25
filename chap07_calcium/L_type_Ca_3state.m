@@ -48,8 +48,8 @@ for j=1:length(Vmlist)
     figure(1)
     plot(t,op )
     hold on
-    xlabel('Time (ms)')
-    ylabel('Open probability')
+    xlabel('t (ms)')
+    ylabel('Open Probability, o')
 end
 legend('boxoff')
 legend('V=-75','V=-55','V=-35','V=-15','V=5','V=25','V=45')

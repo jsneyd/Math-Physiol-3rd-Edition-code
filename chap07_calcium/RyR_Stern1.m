@@ -63,7 +63,7 @@ end
 box off
 legend('boxoff')
 legend('c=1 \mu M','c=2 \mu M','c=3 \mu M')
-xlabel('time (ms)')
+xlabel('t (ms)')
 ylabel('O')
  hold off
 
@@ -82,6 +82,7 @@ figure(2)
 plot(cc,peak,'k')
 xlabel('c (\mu M)')
 ylabel('O')
+box off
   text(0.2,0.14,'steady response','fontsize',18)
 text(0.25,0.75,'peak response','fontsize',18)
 
