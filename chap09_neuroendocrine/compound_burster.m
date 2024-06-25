@@ -22,7 +22,7 @@ global vn sn vm sm kd kadp gca vca gkca vk gkatp gk cm f alpha kc v1 tauc v2 tau
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.2, ...
+   'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0, ...
    'defaultpatchlinewidth', 0.7);
 
@@ -67,17 +67,19 @@ figure(1)
 ylabel(hax(1),'V')
 xlabel('t (s)')
 ylabel(hax(2),'ATP')
+box off
 
 figure(2)
 plot(T/1000,S(:,3))
 xlabel('t (s)')
 ylabel('Ca^{++}')
+box off
 
 figure(3)
 plot(T/60000,S(:,4))
 xlabel('t (s)')
 ylabel('ATP')
-
+box off
 end % of main
 
 

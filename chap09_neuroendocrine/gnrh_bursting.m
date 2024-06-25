@@ -76,14 +76,16 @@ X = Ow + Ow_star;
 figure(1)
 %
 plot(Time/1000,V)
-ylabel('V (mV')
+ylabel('V (mV)')
 xlabel('t (s)')
 axis([52 58 -65 30])
 
 yyaxis('right')
 plot(Time/1000,c)
 ylabel('[Ca^{++}] (\muM')
-
+box off
+legend('boxoff')
+legend('V','[Ca^{2+}]','location','north')
 % figure(2)
 % plot(c,ce)
 % ylabel('c_e (mM')

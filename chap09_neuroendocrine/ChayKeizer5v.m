@@ -50,11 +50,12 @@ figure(3)
 plot(S(:,5),S(:,1))
 ylabel('V')
 xlabel('Ca^{++}')
+box off
 figure(1)
 plot(T/1000,S(:,1))
 xlabel('t (s)')
 ylabel('V')
-
+box off
 figure(2)
 plot(T/1000,S(:,5))
 xlabel('t (s)')

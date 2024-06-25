@@ -45,10 +45,12 @@ for j=1:length(Ilist)
     legend('boxoff')
     legend('x','z')
     ylabel('x')
-    xlabel('t')
-    
+    xlabel('T')
+    box off
+
     figure(2*j)
     plot(S(:,3),S(:,1) )
+    box off
     formatSpecF = '%6.2f\n';
      
     title(strcat('I_{app} = ',sprintf(formatSpecF,Iapp)),'fontsize',18)

@@ -23,9 +23,12 @@ global Iapp
 
 %parameters
 % change Iapp to see different phase portraits:
-Iapp=0;
+ Iapplist=[0,0.4,2 ];
 
-% make a phase plane
+ for j = 1:3
+     Iapp=Iapplist(j);
+
+ % make a phase plane
 x  = [-2:.01:2];
 y1 = x.^3 - 3*x.^2 - Iapp ;
 y2 = 1 - 5*x.^2;
@@ -41,21 +44,26 @@ tstep = 0.01;
 tspan = [0:tstep:total];
 [T,S] = ode23(@deRHS,tspan, init, odeset('maxstep',10));
 
-figure(1)
+ 
+figure(j)
 plot(S(:,1),S(:,2),x,y1,'--',x,y2,'--')
 axis([-2 2 -8 2])
+box off 
 legend('boxoff')
 legend('solution trajectory','dx/dt=0','dy/dt=0','location','northwest')
 ylabel('y')
 xlabel('x')
+formatSpecF = '%6.2f\n';
+     
+    title(strcat('I_{app} = ',sprintf(formatSpecF,Iapp)),'fontsize',18)
 if (Iapp==0)
     hold on
     text(x1,ys1,'*','fontsize', 25)
     text(x2,ys2,'*','fontsize', 25)
     hold off
 end
-
-end % of main
+ end
+ end % of main
 
 
 %%

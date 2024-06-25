@@ -92,13 +92,13 @@ for j = 1:4
     ylabel(hax(1),'V (mV)')
     xlabel('t (s)')
     ylabel(hax(2),'IP_3')
-
+box off
     figure(2*j)
     [hax,h1,h2] = plotyy(T/1000,S(:,2),T/1000,S(:,3));
     xlabel('t (s)')
     ylabel(hax(1),'c (\mu M)')
     ylabel(hax(2),'C_e (\mu M)')
-
+box off
 end
 
 end % of main
