@@ -59,12 +59,12 @@ figure(1)
 plot(T /1000,S(:,1))
 ylabel('V (mV)')
 xlabel('t (s)')
-
+box off
 figure(2)
 plot(S(:,3),S(:,1))
 ylabel('V (mV)')
 xlabel('Ca^{++}')
-
+box off 
 end % of main
 
 
