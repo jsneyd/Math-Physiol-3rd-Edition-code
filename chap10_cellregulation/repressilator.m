@@ -45,12 +45,12 @@ legend('m_1','m_2','m_3','location','northwest')
 box off
 
 %%
-function s_prime=deRHS(t,sol) 
+function s_prime=deRHS(t,s) 
 global  alpha n 
 
-m1=sol(1); 
-m2=sol(2);
-m3=sol(3);
+m1=s(1); 
+m2=s(2);
+m3=s(3);
 
 m1p =  alpha/(1+m2^n) - m1;
 m2p =  alpha/(1+m3^n) - m2;
