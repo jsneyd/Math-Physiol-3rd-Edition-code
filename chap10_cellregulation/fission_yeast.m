@@ -96,7 +96,10 @@ figure( icase)
 
  plot(keep(:,1),keep(:,2),keep(:,1),keep(:,10),keep(:,1),keep(:,4),keep(:,1),keep(:,11))
         % Plot the mass,  MPF (or dum, the tracking variable),CDC_T and Ste9
-xlabel('time (min)')
+xlabel('t (min)')
+box off
+ 
+
 legend('[Cdc13_T','m','[Ste9]','[MPF]')
  title(strcat('Kwee1 = ',sprintf(formatSpecF,kweepp)),'fontsize',18)
  axis([tlim(icase) 500 0 2])
