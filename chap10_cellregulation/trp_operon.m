@@ -35,5 +35,12 @@ plot(T,F,T,mbyk1*T,'--',T,mbk2*T,'--')
 text(4,60,'F(T)','fontsize',20)
 text(29,75,'\mu/K=2','fontsize',20)
 text(40,36,'\mu/K=1','fontsize',20)
+xlabel('T')
 
+figure(2)
+mbyK = F./T;
+plot(mbyK,T)
+ylabel('T')
+xlabel('\mu/K')
+axis([0 100 0 10])
 
