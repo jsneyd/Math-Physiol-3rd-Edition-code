@@ -45,7 +45,7 @@ figure(1)
 plot(T,Y(:,1), T,Y(:,2), T, Y(:,3),'linewidth',2)
  title(strcat('K_1 = ',sprintf(formatSpecF,Kd),', \alpha_1 = ',sprintf(formatSpecF,alpha1)),'fontsize',18)
 
-xlabel('time','fontsize',16)
+xlabel('t','fontsize',18)
 legend('boxoff')
 legend('M','P_c','P_T')
 %text(16,3,'PER','fontsize',16)

@@ -52,6 +52,7 @@ plot(T,Y(:,1), T,Y(:,2),T,Y(:,3),'linewidth',2)
  axis([0 20 0 3])
  legend('boxoff')
  legend('M','P_c','P_T')
+ xlabel('t','fontsize',18)
 set(gca,'linewidth',2)
 box off
 

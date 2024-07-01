@@ -60,13 +60,15 @@ for loop=1:tfinal
 end
 figure(1)
 plot(keep(:,1),keep(:,2),keep(:,1),keep(:,3),keep(:,1),keep(:,4), keep(:,1),keep(:,7),'linewidth',2)
-
+legend('boxoff')
 legend('[CycB]','[Cdh]','[Cdc_T]','m','fontsize',16)
-
+xlabel('t')
+box off
 figure(2)
 plot(keep(:,7),keep(:,2))
 xlabel('m')
 ylabel('[CycB]')
+box off
 
 end % of main
 
