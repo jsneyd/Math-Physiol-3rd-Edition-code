@@ -16,7 +16,7 @@ M'=aM*(1.0+Kaa*(A)^2)/(K+Kaa*(A)^2) - (gamM)*M
 B'=aB*M-(gamB)*B
 P'=aP*M-(gamP)*P
 A'=aA*B*L/(KL+L)-bA*B*A/(KA+A)-(gamA)*A
-L'=aL*P*Le/(KLe+Le)-aA*B*L/(KL+L)-(gamL)*L
+L'=aL*P*(Le-L)/(KLe+Le+L)-aA*B*L/(KL+L)-(gamL)*L
 
 
 @ autovar=A,ntst=50,nmax=20000,npr=50000,dsmin=0.0001,dsmax=0.0005,ds=0.0002,parmin=0,parmax=0.08
