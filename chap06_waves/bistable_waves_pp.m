@@ -73,6 +73,8 @@ text(3.5,0.85,'U(\zeta)','fontsize',20)
  xlabel('\zeta','fontsize',20)
  axis([-10 10 0 1])
  box off
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function s_prime=deRHS(t,s)
 global alf c
 v = s(1);
@@ -84,6 +86,7 @@ Fw = c*w-v*(1-v)*(v-alf);
 s_prime = [Fv Fw]';
 end
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % event function
 function [value,isterminal,direction]=events(t,s)
 v = s(1);
