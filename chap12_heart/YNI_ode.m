@@ -63,12 +63,16 @@ d = S(:,6);
 
 
 figure(1)
-subplot(2,1,1)
+ 
 plot(T,V,'linewidth',2)
-subplot(2,1,2)
+ xlabel('t (ms)')
+ ylabel('V (mV)')
+
+ box off
+ figure(2)
 plot(T,f,'b',T,h,'r',T,p,'g',T,q,T,d,'linewidth',2)
 legend('f','h','p','q','d','fontsize',16)
-
+ xlabel('t (ms)')
 
  for j = 1:length(T)
       currents= IV(S(j,:));
@@ -79,9 +83,9 @@ legend('f','h','p','q','d','fontsize',16)
       Il(j) = currents(5);
  end
 
-figure(2);
+figure(3);
  plot(T,INa,'k',T,IK,'r',T,Ix,'b',T,Is,'m',T,Il,'linewidth',2);
-xlabel('time(ms)');
+xlabel('t (ms)');
 
 legend('INa','IK','Ih','Is','Il', 'fontsize',16)
 

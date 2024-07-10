@@ -43,16 +43,16 @@ C=[[0,0,0.1,-1,-1/15];  [0,0,-0.12,-1,0.2];
      [0.17, -0.05 ,0 ,0 ,0];[1,0,0,1,-0.1];
      [0, 0, 0.0001,-1,-0.1];[0.002,-0.0125,0,0,0]];
 
-V0=[-48;-8;-90;-42;-50;-90];
+V0=[-48;-8;-90;-42;-50;-90];  %Nernst potentials of the currents
 
 tstep = .2;
 t_end = 3500;
 
 % specify initial data:
 Inp = 0; %.8;
-V = -49;
+V = -80;
 m=0.1;
-h = 0.7;
+h = 0.8;
 n = 0.3;
 %specify the output points
 tspan = [0:tstep:t_end];
@@ -66,16 +66,16 @@ h = S(:,3);
 n = S(:,4);
 
 figure(1)
-subplot(2,1,1)
+ 
 plot(T,V,'linewidth',2)
 xlabel('t (ms)','fontsize',20)
 ylabel('V (mV)','fontsize',20)
-
-subplot(2,1,2)
+box off
+figure(2)
 plot(T,m,'r',T,h,'b',T,n,'g','linewidth',2)
 legend('m','h','n','fontsize',16)
 xlabel('t (ms)','fontsize',20)
-
+box off
 for j = 1:length(T)
     s = S(j,:);
     currents = IV(s);
@@ -87,7 +87,7 @@ figure(3)
 plot(T,INa,T,IK,T,Icl,'linewidth',2)
 legend('INa','IK','Il','fontsize',16)
 xlabel('t (ms)','fontsize',20)
-
+box off
 end % of main
 
 % ------------------------------------------

@@ -82,20 +82,22 @@ x1 = S(:,9);
 x2 = S(:,10);
 
 figure(1)
-subplot(2,1,1)
+ 
 plot(T,V,'linewidth',2)
 xlabel('t (ms)','fontsize',20)
 ylabel('V (mV)','fontsize',20)
-
-subplot(2,1,2)
+box off 
+ 
+figure(2)
 plot(T,m,'r',T,h,'b',T,d ,'g','linewidth',2)
 legend('m','h','d','fontsize',16)
 xlabel('t (ms)','fontsize',20)
+box off
 
-figure(2)
-plot(T,f,T,q,T,r,T,s,T,x1,T,x2)
+figure(3)
+plot(T,f ,T,q,T,r,T,s,T,x1,T,x2)
 legend('f','q','r','s','x1','x2','fontsize',16)
-
+box off
 for j = 1:length(T)
     s = S(j,:);
     currents = IV(s);
@@ -110,15 +112,17 @@ for j = 1:length(T)
     Iclb(j) = currents(9);
 
 end
-figure(3)
+figure(4)
 plot(T,Isi,T,IK2,T,Ix1,T,Ix2,T,IK1,T,Inab,T,Iclb,'linewidth',2)
 legend( 'Isi', 'IK2', 'Ix1', 'Ix2',  'IK1', 'Inab', 'Iclb','fontsize',16)
 xlabel('t (ms)','fontsize',20)
+box off 
 
-figure(4)
+figure(5)
 plot(T,INa)
 legend( 'Ina',  'fontsize',16)
 xlabel('t (ms)','fontsize',20)
+box off
 %
 
 end   % of main
