@@ -116,6 +116,6 @@ box off
 figure(3)
 plot(y,phi_i,y,phi_e)
 xlabel('x (cm)','fontsize',18)
-legend('boxoff')
+legend('')
 legend('\phi_i','\phi_e','location','northwest')
 box off

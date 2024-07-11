@@ -85,7 +85,7 @@ for j = 1:length(T)
 end
 figure(3)
 plot(T,INa,T,IK,T,Icl,'linewidth',2)
-legend('INa','IK','Il','fontsize',16)
+legend('I_{Na}','I_K','I_l','fontsize',16)
 xlabel('t (ms)','fontsize',20)
 box off
 end % of main

@@ -96,7 +96,7 @@ box off
 
 figure(3)
 plot(T,f ,T,q,T,r,T,s,T,x1,T,x2)
-legend('f','q','r','s','x1','x2','fontsize',16)
+legend('f','q','r','s','x_1','x_2','fontsize',16)
 box off
 for j = 1:length(T)
     s = S(j,:);
@@ -114,13 +114,13 @@ for j = 1:length(T)
 end
 figure(4)
 plot(T,Isi,T,IK2,T,Ix1,T,Ix2,T,IK1,T,Inab,T,Iclb,'linewidth',2)
-legend( 'Isi', 'IK2', 'Ix1', 'Ix2',  'IK1', 'Inab', 'Iclb','fontsize',16)
+legend( 'I_{si}', 'I_{K_2}', 'I_{x_1}', 'I_{x_2}',  'I_{K_1}', 'I_{Na,b}', 'I_{Cl,b}','fontsize',16)
 xlabel('t (ms)','fontsize',20)
 box off 
 
 figure(5)
 plot(T,INa)
-legend( 'Ina',  'fontsize',16)
+legend( 'I_{Na}',  'fontsize',16)
 xlabel('t (ms)','fontsize',20)
 box off
 %

@@ -87,7 +87,7 @@ figure(3);
  plot(T,INa,'k',T,IK,'r',T,Ix,'b',T,Is,'m',T,Il,'linewidth',2);
 xlabel('t (ms)');
 
-legend('INa','IK','Ih','Is','Il', 'fontsize',16)
+legend('I_{Na}','I_K','I_h','I_s','I_l', 'fontsize',16)
 
 end % of main
 

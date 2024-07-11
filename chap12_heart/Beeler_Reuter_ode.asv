@@ -110,7 +110,7 @@ figure(3)
       box off
      figure(4)
       plot(T,S(:,8),'linewidth',2),xlabel('t (ms)','linewidth',2);
-      ylabel('Ca_i');
+      ylabel('Cai');
 box off
 
  for j = 1:length(T)
@@ -124,14 +124,14 @@ box off
 figure(5);
      
     plot(T,IK,'r',T,Ix,'b',T,Is,'m','linewidth',2);
-    xlabel('t (ms)');
-    
-    legend('I_K','I_x','I_s')
+    xlabel('t(ms)');
+    ylabel('I_K,x,Is');
+    legend('IK','Ix','Is')
    
     figure(6)
     plot(T,INa,'g','linewidth',2);
     xlabel('t (ms)');
-    ylabel('I_{Na}');
+    ylabel('INa');
 
 end % of main
 
