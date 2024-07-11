@@ -17,7 +17,7 @@ clc
 
 set(0,                           ...
 'defaultaxesfontsize', 20,   ...
-'defaultaxeslinewidth', 1.5, ...
+'defaultaxeslinewidth', 2.0, ...
 'defaultlinelinewidth', 2.0)
 
 global alps gam Dscal A x
@@ -67,11 +67,12 @@ for j = 1:15
     end
 end
 
-contour(Alf,Sc,onedcrit',[0 0],'--','linewidth',2)
+contour(Alf,Sc,onedcrit',[0 0],'linewidth',2)
 hold on
 
-contour(Alf,Sc,threedcrit',[0 0],'linewidth',2)
+contour(Alf,Sc,threedcrit',[0 0],'--','linewidth',2)
 hold off
+box off
 xlabel('a')
 ylabel('\sigma','fontsiz',22)
 text(0.05,0.5,'stable','fontsize',20)

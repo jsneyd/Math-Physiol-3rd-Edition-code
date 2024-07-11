@@ -34,8 +34,7 @@ x=[1:N]'*dx;
 
 alist=[0.2,0];
 for j = 1:length(alist)
-    a=alist(j);
-
+    a=alist()
 alps=a +(b-a)*(exp(-(x/scale).^2));  % spatially inhomogeneous alpha
 
 Dl=1;
@@ -54,13 +53,11 @@ s0 = [V0;W0 ];
 [T,S] = ode15s(@deRHS,tspan, s0 );
 [t,X]=meshgrid(T,x);
 
-figure(j)
-
 mesh(X,t,S(:,1:N)')
 xlabel('x')
 ylabel('t')
 zlabel('v')
-end
+
 end % of main
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
