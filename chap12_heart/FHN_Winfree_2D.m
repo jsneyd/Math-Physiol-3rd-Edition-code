@@ -5,6 +5,8 @@
 % This file looks at solutions of the standard FHN model
 % in a 2d region  with a double stimulus (the Winfree protocol).
 
+% Be patient. This simulation takes time.
+
 % Useful variables are saved in doublespiral.mat for subsequent use
 % in twoD_defib.m.
 %
@@ -23,7 +25,7 @@ clc
 
 set(0,                           ...
 'defaultaxesfontsize', 20,   ...
-'defaultaxeslinewidth', 1.5, ...
+'defaultaxeslinewidth', 2.0, ...
 'defaultlinelinewidth', 2.0)
 global alf gam   A eps six siy S1 S2  S3 Iamp1 Iamp2 Iamp3 t1 t2  t3 Nsq
 
@@ -109,7 +111,9 @@ A = (-2*(six+siy)*spdiags(ones(Nsq,1),0,Nsq,Nsq)+six*spdiags(spoffdiag2,1,Nsq,Ns
 
 
 tstep =  1;
+
 t_end = 75;
+
 tspan = [0:tstep:t_end];
 s0 = [V0;W0 ];
 [T,S] = ode15s(@deRHS,tspan, s0, odeset('maxstep',1));

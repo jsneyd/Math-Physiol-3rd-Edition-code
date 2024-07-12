@@ -15,7 +15,7 @@ clc
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.5, ...
+   'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0)
 
 L=1;
@@ -38,6 +38,7 @@ figure(1)
     text(0.2,0.9,'T_r','fontsize',20)
     text(0.2,1.85,'T','fontsize',20)
     text(0.8,2.1,'L/c','fontsize',20)
+    box off
     hold off
 
 
@@ -52,6 +53,7 @@ figure(2)
     text(0.2,0.9,'T_r','fontsize',20)
     text(0.2,1.35,'T','fontsize',20)
     text(0.8,2.1,'L/c','fontsize',20)
+    box off
 
 hold off
 
