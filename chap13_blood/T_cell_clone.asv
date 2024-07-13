@@ -28,7 +28,7 @@ tspan = linspace(0,40,1000);
 warning("off")
 [T,Y] = ode15s(@(t,x)rhs(t,x),tspan,init);
 B = Y(:,1); N = Y(:,2); A = Y(:,3); M = Y(:,4);
-figure(2)
+figure(1)
 
 subplot(2,2,1)
 plot(T,B,'r')
@@ -48,18 +48,13 @@ xlabel('t')
 ylabel('M')
 
 
-figure(1)
+figure(2)
 plot(T,B)
-ylabel('B (number of cells)')
-yyaxis right
-plot(T,A,T,10*M)
-legend('boxoff')
-legend('B','A','10 x M')
-  
-    ylabel('A, 10 x B(numberof cells)')
-
-    xlabel('t (days)')
-    
+yya
+ [hax,h1,h2] = plotyy(T ,B, T,N, T,A);
+    ylabel(hax(1),'V (mV)')
+    xlabel('t (s)')
+    ylabel(hax(2),'IP_3')
 %writematrix([T B N A M],'T_cell_out.dat')   % for external plotting
 
 end % of main
