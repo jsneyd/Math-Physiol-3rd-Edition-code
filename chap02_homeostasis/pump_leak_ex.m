@@ -49,7 +49,7 @@ singlesolution(IC,par,options)
 
 % To calculate the response to an osmolarity increase,
 % uncomment the next line
-osmolarity_increase(IC,par,options)
+% osmolarity_increase(IC,par,options)
 
 % comparison of numerical and analytic curves
 volume_against_pumprate(IC,par,options)
