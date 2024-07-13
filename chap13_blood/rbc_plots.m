@@ -55,7 +55,7 @@ figure(2)
     ylabel('U_0','fontsize',20)
     xlabel('XA','fontsize',20)
     axis([0 4 0 1.4])
- 
+ box off
 % There are three parameters
 d = 7;  % time delay
 X = 50; %lifetime of red blood cells
@@ -104,7 +104,7 @@ figure(4)
     xlabel('time (days)','fontsize',20)
     ylabel('N(t)','fontsize',20)
     axis([0 500 0 2.5]) 
-
+box off
 end % of main
 
 %%
