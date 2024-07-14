@@ -71,7 +71,6 @@ figure(1)
     figure(2)
      plot(x,u1(2000 ,:),'red')
      ylabel('u_1')
-      text(0.2,0.37,'t=200','fontsize',18)
     hold on
      yyaxis right
      plot(x,u3(2000,:),'--blue')

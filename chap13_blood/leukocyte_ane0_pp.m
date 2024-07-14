@@ -27,7 +27,7 @@ p.g0=0.2;
 p.b0=1;
 
 % choose Icase = 1 or 2;
-Icase = 1;
+Icase = 2;
 
 if (Icase ==1)
     alist =[0.5,0.75,1]; % three values of alpha
