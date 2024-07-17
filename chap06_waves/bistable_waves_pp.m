@@ -3,6 +3,7 @@
 %
 %  Plot some solutions of the bistable equation for different values of 
 %  c. A demonstration of how shooting can work to find the wave speed.
+%  Correct wave speed is (1-2*alp)/(sqrt(2)) = 0.56568542.
 %
 %   For Chapter 6, Figure 6.3 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.

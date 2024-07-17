@@ -3,8 +3,8 @@
 #   Plot some solutions of the bistable equation for different values of 
 #   c. A demonstration of how shooting can work to find the wave speed.
 #
-#    The wave speed is slightly different from that calculated by the Matlab code. 
-#    I suspect the Matlab ODE solver is better.
+#    The wave speed is slightly different from that calculated by the Matlab code, 
+#    but closer to the correct value of (1-2*alp)/(sqrt(2)) = 0.56568542.
 # 
 #    For Chapter 6, Figure 6.3 of
 #    Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
