@@ -1,15 +1,16 @@
 %  -------------------------------------------------------------------
 %
 %   Use the method of lines to compute the traveling wave in the
-%   FitzHugh-Nagumo equations. Also see the code fhn_wave.m.
+%   FitzHugh-Nagumo equations.
 %
-%   For Chapter 6, Figure 6.5 of
+%   For Chapter 6, Figures 6.5 and 6.6 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
 % 
 %   Written by James Keener and James Sneyd
 % 
 %  -------------------------------------------------------------------  
 
+function fhn_wave
 clear all
 close all
 clc
@@ -55,20 +56,19 @@ w2=u/p.gamma;
 j = 250;
 
 figure(1)
-plot(u,w1,'--',u,w2,'--',S(j,1:p.N),S(j,p.N+1:2*p.N),'linewidth',2)
-axis([-0.3 1 -0.2 1])
-xlabel('v')
-ylabel('w')
-box off
-legend('boxoff')
-legend('dv/dt=0','dw/dt=0')
-
+    plot(u,w1,'--',u,w2,'--',S(j,1:p.N),S(j,p.N+1:2*p.N),'linewidth',2)
+    axis([-0.3 1 -0.2 1])
+    xlabel('v')
+    ylabel('w')
+    box off
+    legend('boxoff')
+    legend('dv/dt=0','dw/dt=0')
 
 figure(3)
-mesh(X,T, S(:,1:p.N))
-xlabel('\it x')
-ylabel('\it t')
-zlabel('\it v')
+    mesh(X,T, S(:,1:p.N))
+    xlabel('\it x')
+    ylabel('\it t')
+    zlabel('\it v')
 
 
 % Now find the speed:
@@ -82,24 +82,23 @@ q=polyfit(Tc,X,1)
 spest= q(2)+q(1)*Tc;
 
 figure(4)
-plot(X,Tc,spest,Tc,'--')
-xlabel('x')
-ylabel('t')
-speedest = q(1);
-formatSpecF = '%5.2f\n';
-title(strcat('Speed = ',sprintf(formatSpecF,speedest)),'fontsize',18)
+    plot(X,Tc,spest,Tc,'--')
+    xlabel('x')
+    ylabel('t')
+    speedest = q(1);
+    formatSpecF = '%5.2f\n';
+    title(strcat('Speed = ',sprintf(formatSpecF,speedest)),'fontsize',18)
 
 
 figure(2)
-j=250;  % this value is chosen to make a nice graph
-plot(X,S(j,1:p.N),X,S(j,p.N+1:2*p.N))
-xlabel('x')
-box off
-legend('boxoff')
-
-legend('v','w')
-formatSpecF = '%5.2f\n';
-title(strcat('Speed = ',sprintf(formatSpecF,speedest)),'fontsize',18)
+    j=250;  % this value is chosen to make a nice graph
+    plot(X,S(j,1:p.N),X,S(j,p.N+1:2*p.N))
+    xlabel('x')
+    box off
+    legend('boxoff')
+    legend('v','w')
+    formatSpecF = '%5.2f\n';
+    title(strcat('Speed = ',sprintf(formatSpecF,speedest)),'fontsize',18)
 
 % % temporary output for a better plotting program
 % vv = S(j,1:p.N);
@@ -107,33 +106,31 @@ title(strcat('Speed = ',sprintf(formatSpecF,speedest)),'fontsize',18)
 % XX = X';
 % save('igorplot.mat','u','w1','w2','XX','vv','ww')
 
+end % of main
+
  
 %% the right hand side for MOL ode simulation:
 function s_prime=RHS(t,s,p)
 
-% break s up into two parts
-V = s(1:p.N);
-w = s(p.N+1:2*p.N);
-
-currents = IV(s,p);
-FV= currents(:,1);
-Fw = currents(:,2);
-
-
-Fv =  p.dg*(-p.sc.*V+[0;V(1:end-1)]+[V(2:end);0]) +FV;
-s_prime = [Fv ;Fw];
-
+    % break s up into two parts
+    V = s(1:p.N);
+    w = s(p.N+1:2*p.N);
+    
+    currents = IV(s,p);
+    FV= currents(:,1);
+    Fw = currents(:,2);
+    
+    Fv =  p.dg*(-p.sc.*V+[0;V(1:end-1)]+[V(2:end);0]) +FV;
+    s_prime = [Fv ;Fw];
 end
 
 %%
 function currents = IV(s,p)
-% calculate the ode dynamics
-u = s(1:p.N);
-w = s(p.N+1:2*p.N);
-Fv = (6*u.*(u-p.alpha).*(1-u)-w +p.Iapp)/p.eps ;
-Fw = (u-p.gamma*w) ;
-
-currents = [Fv, Fw];
-
-
+    % calculate the ode dynamics
+    u = s(1:p.N);
+    w = s(p.N+1:2*p.N);
+    Fv = (6*u.*(u-p.alpha).*(1-u)-w +p.Iapp)/p.eps ;
+    Fw = (u-p.gamma*w) ;
+    
+    currents = [Fv, Fw];
 end
