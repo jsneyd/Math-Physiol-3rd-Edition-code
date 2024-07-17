@@ -1,23 +1,20 @@
 
-restart;  # multi-ion single barrier
+NULL;
+restart;
+eq1:=-a1*p00+km1*p10+k2*p01;
+eq2:=k0*ci*p00-a2*p10+km2*p01+k2*p11;
+eq3:=km3*ce*p00+k1*p10-a3*p01+km1*p11;
+eq4:=km3*ce*p10+k0*ci*p01-a4*p11;
+a1:=k0*ci+km3*ce;
+a2:=km1+k1+km3*ce;
+a3:=k2+km2+k0*ci;
+a4:=k2+km1;
+simplify(eq1+eq2+eq3+eq4);
+eq5:=p00+p10+p01+p11-1;
+solve({eq1,eq2,eq3,eq5},{p00,p01,p10,p11})
 ;
-# could use matrices here as well
-eq1:=-2*koff*p1+kon*ce*p2+kon*ci*p4;
-eq2:=koff*p1-(kon*ce +koff+k42)*p2+kon*ci*p3+k24*p4;
-eq3:=koff*p2-(kon*ci +kon*ce)*p3+koff*p4;
-eq4:=p1+p2+p3+p4-1;
-solve({eq1,eq2,eq3,eq4},{p1,p2,p3,p4});
 assign(%);
-J:=p2*k42-p4*k24;
-factor(J); limit(J,ci=infinity);
-k42:=kpEmdG/EmVby2;
-k24:=kpEmdG*EmVby2;
-factor(numer(J));
-dJ:=denom(J);
-for j from 1 to 3 do
-factor(coeff(dJ,EmVby2,j));
-od
-;
-Js:=subs(EmVby2=1,J);
-factor(Js);
-simplify(limit(J,ci=infinity));
+J:=k1*p10-km2*p01;
+factor(J);
+limit(J,ci=infinity);
+
