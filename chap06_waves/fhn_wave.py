@@ -1,16 +1,29 @@
+#   -------------------------------------------------------------------
+# 
+#    Use the method of lines to compute the traveling wave in the
+#    FitzHugh-Nagumo equations.
+# 
+#    For Chapter 6, Figures 6.5 and 6.6 of
+#    Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+#  
+#    Written by James Keener and James Sneyd
+#  
+#   -------------------------------------------------------------------  
+
+
 import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 
-def rhs(t, s, p):
+
+def rhs(t, s):
     V = s[:N]
-    w = s[N:]
-    currents = iv(s, p)
+    currents = iv(s)
     FV, Fw = currents[:, 0], currents[:, 1]
     Fv = dg * (-sc * V + np.concatenate([[0], V[:-1]]) + np.concatenate([V[1:], [0]])) + FV
     return np.concatenate([Fv, Fw])
 
-def iv(s, p):
+def iv(s):
     u = s[:N]
     w = s[N:]
     Fv = (6 * u * (u - alpha) * (1 - u) - w + Iapp) / eps
@@ -39,8 +52,8 @@ t_end = 20
 
 # Specify the output points
 tspan = np.arange(0, t_end + tstep, tstep)
-
 sol = solve_ivp(rhs, [0, t_end], u0, t_eval=tspan, method='LSODA')
+
 
 # Calculate the nullclines
 u = np.arange(-0.3, 1.01, 0.01)
@@ -50,38 +63,25 @@ w2 = u / gamma
 # Plotting
 j = 250
 plt.figure(1)
-plt.plot(u, w1, '--', u, w2, '--', sol.y[j, :N], sol.y[j, N:], linewidth=2)
+plt.plot(u, w1, '--', u, w2, '--',sol.y[:N,j], sol.y[N:,j], linewidth=2)
 plt.axis([-0.3, 1, -0.2, 1])
 plt.xlabel('v')
 plt.ylabel('w')
-plt.box(False)
 plt.legend(['dv/dt=0', 'dw/dt=0'])
 
-plt.figure(3)
-X, T = np.meshgrid(X, sol.t)
-plt.pcolormesh(X, T, sol.y[:, :N], shading='auto')
-plt.xlabel('x')
-plt.ylabel('t')
-plt.colorbar(label='v')
-
-# Now find the speed
-thresh = 0.5
-Tc = np.array([np.argmax(sol.y[:, j] >= thresh) * tstep for j in range(N)])
-q = np.polyfit(Tc, X, 1)
-speedest = q[0]
-spest = q[1] + q[0] * Tc
-
-plt.figure(4)
-plt.plot(X, Tc, spest, '--')
-plt.xlabel('x')
-plt.ylabel('t')
-plt.title(f'Speed = {speedest:.2f}')
-
 plt.figure(2)
-plt.plot(X, sol.y[j, :N], X, sol.y[j, N:])
+plt.plot(X, sol.y[:N,j], X, sol.y[N:,j])
 plt.xlabel('x')
-plt.box(False)
 plt.legend(['v', 'w'])
-plt.title(f'Speed = {speedest:.2f}')
 
-plt.show()
+
+fig = plt.figure(3)
+ax = fig.add_subplot(111, projection='3d')
+X_mesh, T_mesh = np.meshgrid(X, sol.t)
+ax.plot_surface(X_mesh, T_mesh, np.transpose(sol.y[:N,:]), cmap='viridis')
+ax.set_xlabel('x')
+ax.set_ylabel('t')
+ax.set_zlabel('v')
+
+
+
