@@ -24,7 +24,7 @@ set(0,                           ...
 global n tauR  b0 K1 gam p0 K2 m tauN A alpha
 
 % parameters
-gam = 0.04;
+gam = 0.07;
 n = 1;
 tauR= 2.8;
 K1 = 0.095;
@@ -33,7 +33,7 @@ p0 = 0.8;
 K2 = 0.36;
 m = 2;
 tauN = 3.5;
-A = 10.2;
+A = 10.;
 alpha = 2.4;
  
     
@@ -52,7 +52,8 @@ figure(1)
     xlabel('t','fontsize',16)
     legend('boxoff')
     legend('R','N')
-    title(strcat('\gamma = ',sprintf(formatSpecF,gam)),'fontsize',18)
+   
+    title(strcat('A =',sprintf(formatSpecF,A),' \gamma = ',sprintf(formatSpecF,gam)),'fontsize',18)
    
  
 set(gca,'linewidth',2.0)
@@ -62,7 +63,7 @@ figure(2)
     plot(sol.y(1,:), sol.y(2,:))
     xlabel('R')
     ylabel('N')
-
+box off
 end
 
 %%
