@@ -1,7 +1,7 @@
 % Code to find the dispersion curve for the piecewise linear FHN
 
 %
-%   For Chapter 6, Figure 1.12,   of
+%   For Chapter 6, Figure 6.13,   of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
 % 
 %   Written by James Keener and James Sneyd
@@ -65,6 +65,7 @@ b = xi2/2- 0.01;
  
 figure(1)
 plot(P./cl,cl,'*')
+
 xlabel('T')
 ylabel('c')
  hold on

@@ -1,0 +1,45 @@
+#  -------------------------------------------------------------------
+#
+#  This is an ode integrator for the HH equations.
+#
+#   For Chapter 5, of
+#   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#   Written by James Keener and James Sneyd
+# 
+#  ------------------------------------------------------------------- 
+
+
+v(0)=0.0002775
+u(0) = 0
+m(0)=0.052934
+n(0)=0.31768
+h(0)=0.59611
+
+par Iapp=0.0
+par c = 2
+par gna=120.0, gk=36.0,gl=0.3
+par vna=115.0, vk=-12.0, vl=10.6
+par cm=1.0
+
+alpham=0.1*(25.0-v)/(exp((25.0-v)/10.0)-1.0)
+betam=4.0*exp(-(v)/18.0)
+alphah=0.07*exp(-(v)/20.0)
+betah=1.0/(exp((30.0-v)/10.0)+1.0)
+alphan=0.01*(10.0-v)/(exp((10.0-v)/10.0)-1.0)
+betan=0.125*exp(-(v)/80.0)
+
+I = (1.0/cm)*(-gk*(n^4)*(v-vk) - gna*(m^3)*h*(v-vna) - gl*(v-vl) + Iapp)
+
+v' = u
+u'= c^2*(u - I)
+m'=(alpham*(1.0-m) - betam*m)
+h'=(alphah*(1.0-h) - betah*h)
+n'=(alphan*(1.0-n) - betan*n)
+
+@ ylo=-20,yhi=120,bounds=1000,deltat=0.01,xlo=0,xhi=100,total=100
+@ autovar=Iapp,ntst=150,nmax=2000,npr=2000,dsmin=0.1,dsmax=1,ds=0.2
+@ parmin=-50,parmax=200
+@ autoxmin=-50,autoxmax=200,autoymin=-20,autoymax=120
+@ epsl=1e-6,epsu=1e-6,epss=1e-6
+done
