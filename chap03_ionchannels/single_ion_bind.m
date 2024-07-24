@@ -3,7 +3,7 @@
 % Matlab code to find analytic expressions for the flux through a
 % saturating barrier model of an ion channel, with N binding sites
 
-% For Chapter 3, Section 1.4.2 of
+% For Chapter 3, Section 3.4.2 of
 % Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
 
 % Written by James Keener and James Sneyd
