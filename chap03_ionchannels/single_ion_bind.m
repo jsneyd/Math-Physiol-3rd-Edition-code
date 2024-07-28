@@ -21,7 +21,7 @@ syms v kap0
 % endpoint equations, an additional N-1 equations for the binding sites
 % and a conservation equation.
 
-N = 3;  
+N = 2;  
 eq = sym('eq',[1 N-1]);
 k = sym('k',[1 N]);
 km = sym('km',[1 N+1]);
@@ -54,7 +54,7 @@ J  = subs(sol.J,[k0,k,km],[kap0*exp(v/(2*(N+1))),kbar*exp(v/(2*(N+1))),kbarm*exp
 pretty(simplify(J))
 
 % For Exercise 3.5
-pretty(simplify(limit(sol.J,ci,Inf)))
+pretty(simplify(limit(sol.J,ce,Inf)))
 
 % For Exercise 3.6
 pretty(simplify(limit(J,ci,Inf)))
