@@ -17,7 +17,7 @@ clc
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.0, ...
+   'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0);
 
 global KO2
@@ -42,7 +42,7 @@ VQO2 = (RT./(PiO2-PaO2)).*( sigmaO2*(PaO2-PvO2) + 4*Z0*( hemo(sigmaO2*PaO2) - he
 PaCO2 = phi*PvCO2./(VQO2+phi);
 
 % the RER curve
-plot(PaO2,PaCO2,'LineWidth',2)
+plot(PaO2,PaCO2,'r','LineWidth',2)
 ylabel('P_{a,CO_2} (mm Hg)')
 xlabel('P_{a,O_2} (mm Hg)')
 hold on
@@ -52,17 +52,17 @@ hold on
 
 Rgas = 0.8;
 Pag1 = Rgas*(PiO2-PaO2);
-plot(PaO2,Pag1,'r','LineWidth',1)
+plot(PaO2,Pag1,'g','LineWidth',1)
 Rgas = 1.8;
 Pag2=Rgas*(PiO2-PaO2);
-plot(PaO2,Pag2,'--r','LineWidth',1)
-
+plot(PaO2,Pag2,'--g','LineWidth',1)
+box off
 Rblood=0.8;
 Pab1 = (sigmaCO2*(1+Kc)*PvCO2 -  Rblood*( sigmaO2*(PaO2-PvO2) + 4*Z0*( hemo(sigmaO2*PaO2) - hemo(Wv) ) ) )/(sigmaCO2*(1+Kc));
-plot(PaO2,Pab1,'g','LineWidth',1)
+plot(PaO2,Pab1,'b','LineWidth',1)
 Rblood=1.8;
 Pab2 = (phi1*PvCO2 -  Rblood*( sigmaO2*(PaO2-PvO2) + 4*Z0*( hemo(sigmaO2*PaO2) - hemo(Wv) ) ) )./phi1;
-plot(PaO2,Pab2,'--g','LineWidth',1)
+plot(PaO2,Pab2,'--b','LineWidth',1)
 
 ylim([0,50])
 

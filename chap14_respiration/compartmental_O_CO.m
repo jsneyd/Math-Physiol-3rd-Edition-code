@@ -18,9 +18,9 @@ clc
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.0, ...
+   'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0,...
-   'defaultlinemarkersize',12);
+   'defaultlinemarkersize',16);
 
 global p
 global O U Otilde Utilde   % keep them to use as the starting point for the nonlinear solve
@@ -83,7 +83,7 @@ for  ic = 1:3
     
     figure(ic)
         plot(T*tscale,TO,'r',T*tscale,TU,'g')
-        xlabel('time (minutes)')
+        xlabel('t (minutes)')
         ylabel('total concentration (\mu M)')
         box off
         legend('O_2','CO')

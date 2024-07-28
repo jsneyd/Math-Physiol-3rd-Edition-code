@@ -17,9 +17,9 @@ clc
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.0, ...
+   'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0,...
-   'defaultlinemarkersize',12);
+   'defaultlinemarkersize',16);
 
 global p
 
@@ -41,7 +41,7 @@ end
 
 figure(1)
     plot(T,Y)
-    xlabel('time (nondimensional)')
+    xlabel('\tau')
     ylabel('[O_2] in Body')
 
 % the target is Pa = 104, Pv = 40
@@ -51,7 +51,7 @@ conc(Oa)
 figure(2)
     plot(T, O/p.sigma,'r', T , Otilde/p.sigma,'b')
     title('O_2 Partial Pressures')
-    xlabel('time (dimensionless')
+    xlabel('\tau')
     O(end)/p.sigma
     Otilde(end)/p.sigma
 

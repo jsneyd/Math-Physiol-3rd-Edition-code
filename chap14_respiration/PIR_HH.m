@@ -34,7 +34,7 @@ phi = 3;
 % integrate the ode
 init = [-50;1;-40;0]; %initial data for the odes
 tstep = 0.1;
-t_end = 300;
+t_end = 200;
 
 %specify the output points
 tspan = [-50:tstep:t_end];
@@ -44,11 +44,12 @@ V1=S(:,1);
 V2 = S(:,3);
 
 figure(1)
-    plot(T,V1,T,V2,'--','linewidth',2)
+    plot(T,V1,T,V2, 'linewidth',2)
     legend('boxoff')
     legend('V_1','V_2')
-    xlabel('Time')
-    axis([0 300 -80 0])
+    xlabel('t (ms)')
+    axis([0 200 -80 -20])
+box off
 
 end % of main
 

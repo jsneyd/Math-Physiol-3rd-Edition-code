@@ -16,7 +16,7 @@ function mackey
 clear all
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.0, ...
+   'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0);
 
 global lam Vm tt n
@@ -40,14 +40,14 @@ figure(1)
     text(0.2,4,'stable','fontsize',18)
     text(0.62,5,'\sigma','fontsize',20)
     text(0.8,1,'\omega','fontsize',20)
-
+box off 
 
 % calculate and plot the solution
 sol=dde23(@rhs,tt,@yinit,[-20 100]);
 
 figure(2)
     plot(sol.x,sol.y, sol.x,(-sol.yp+lam)./sol.y,'--')
-    xlabel('time')
+    xlabel('t')
     legend('boxoff')
     legend('CO_2 concentration','Ventilation rate')
     axis([0 100 0 3])

@@ -18,7 +18,7 @@ clc
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.0, ...
+   'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0);
 
 Pvco2=45;
@@ -44,7 +44,7 @@ figure(1)
     plot(VbyQ,Paco2,VbyQO,PaO2)
     axis([0 2 30 130])
     xlabel('Ventilation-perfusion ratio')
-    ylabel('Alveolarpartial pressure (mm Hg)')
+    ylabel('Alveolar partial pressure (mm Hg)')
     text(1.5,43,'CO_2','fontsize',18)
     text(1.5,120,'O_2','fontsize',18)
     box off

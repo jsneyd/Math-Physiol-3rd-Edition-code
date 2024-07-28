@@ -47,14 +47,14 @@ xdot = S(:,4);
 figure(1)
     plot(T,I1,T,I2,'--','linewidth',2)
     legend('I_1','I_2')
-    xlabel('Time')
-
-figure(3)
+    xlabel('t')
+box off
+figure(2)
     dum = p.E2 + 2.5*x.^3./(1+x.^3); % keep for plotting
     plot(T,dum)
-    xlabel('Time')
+    xlabel('t')
     ylabel('E_2 + f(x)')
-
+box off
 %writematrix([T S],'points.dat')   % for external plotting
 
 end  % of main
