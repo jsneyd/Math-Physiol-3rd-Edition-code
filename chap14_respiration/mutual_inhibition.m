@@ -56,7 +56,10 @@ figure(2)
     ylabel('E_2 + f(x)')
 box off
 %writematrix([T S],'points.dat')   % for external plotting
-
+figure(3)
+plot(dum,I1)
+ xlabel('E_2 + f(x)')
+ ylabel('I_1')
 end  % of main
 
 %% the right hand side for ode simulation: 
