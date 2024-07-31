@@ -24,20 +24,19 @@ Dbbt = 5;
 cinf = 0.5;
  
  elist = [1,5,10];
- 
+ keep = [];
 Kblist = [0.01:0.1:20];
  for je = 1:length(elist)
      einf=elist(je);
 
 for k = 1:length(Kblist)
     Kb = Kblist(k);
-
     c =  bisect(@getc,cinf,einf);
     J(k)=fluxw(c,Dc,cinf);
- 
 end
 figure(1)
 plot(Kblist,J/(rho*(einf-cinf)))
+keep = [keep Kblist' J'/(rho*(einf-cinf))];
 xlabel('K_b')
 ylabel('Permeability/\rho')
 hold on
@@ -77,8 +76,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function out = fluxw(c,D,cinf)
- [winf,wpinf]=w(cinf,D);
-
+[winf,wpinf]=w(cinf,D);
 [w0,wp0] = w(c,D);
 out = D*(w0-winf )./wp0;
 end

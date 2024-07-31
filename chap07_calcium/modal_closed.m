@@ -12,7 +12,7 @@ global direction   % this parameter is a cheat, so that we can solve the ode bac
 
 % Parameter values
 ct = 2;
-p = 0.2;
+p = 0.35;
 tau_max=1000;
 
 Ktau=0.1;
@@ -31,7 +31,7 @@ gamma=5.5;
 % solve the ode
 direction = 1;  % solve forwards in time to get the stable limit cycle.
 init = [0.05,0.004];
-tspan = linspace(0,50,20000);
+tspan = linspace(0,150,20000);
 [T,Y] = ode15s(@(t,x)oderhs(t,x),tspan,init);
 cc1 = Y(end/2:end,1);
 hh1 = Y(end/2:end,2);
