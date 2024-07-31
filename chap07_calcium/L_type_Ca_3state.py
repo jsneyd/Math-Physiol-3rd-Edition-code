@@ -1,3 +1,14 @@
+#   -------------------------------------------------------------------
+# 
+#    3-state model of a L-type calcium channel
+# 
+#    For Chapter 7, Section 7.4.2 of
+#    Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#    Written by James Keener and James Sneyd.
+# 
+#   -------------------------------------------------------------------
+
 import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
@@ -46,8 +57,8 @@ for Vm in Vmlist:
     plt.plot(sol.t, op, label=f'V={Vm}')
 
 
-plt.xlabel('Time (ms)')
-plt.ylabel('Open probability')
+plt.xlabel('t (ms)')
+plt.ylabel('Open probability,o')
 plt.legend()
 
 

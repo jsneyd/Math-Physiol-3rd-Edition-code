@@ -1,0 +1,87 @@
+
+#  -------------------------------------------------------------------
+#
+#   An open-cell model for calcium oscillations based on the modal model of the IP3R.
+#
+#   For Chapter 7, Section 7.5.1 of
+#   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#   Written by James Keener and James Sneyd.
+# 
+#  ------------------------------------------------------------------- 
+
+# Initial conditions are the steady state for p=0
+#
+c(0)=0.073622
+h(0)=0.58233
+ce(0)=16.642
+p(0) = 0
+
+
+
+param VPLC = 0
+
+# Kplc = 0 is no positive feedback 
+# Kplc = 0.2 is with positive feedback
+param Kplc=0
+
+# eta = 0 is no negative feedback
+# eta = 1 is with negative feedback
+param eta=0
+
+tau_max=100
+delta=1.5
+Ktau=0.1
+tauP=1
+Kc=0.2
+Kh=0.08
+kf=10
+ 
+Vserca=0.9
+kserca=0.2
+Kbar=0.00001957
+Kp=0.2
+
+gamma=5.5
+Vpm=0.11
+Kpm=0.3
+alpha0=.0027
+Vsocc = .07
+Ksocc=8
+
+param k5P=0.66
+param K3K = 0.4
+
+# Define the functions used in the model
+
+phi_c=c^4/(c^4+Kc^4)
+phi_p=p^2/(Kp^2+p^2)
+phi_p_down=Kp^2/(Kp^2+p^2)
+
+Jpm = Vpm*c^2/(Kpm^2+c^2)
+Jin = alpha0 + Vsocc*(Ksocc^4/(Ksocc^4+ce^4))
+h_inf=Kh^4/(Kh^4+c^4)
+tau = tau_max*Ktau^4/(Ktau^4+c^4)
+#tau = tau_max*h_inf
+serca=Vserca*(c*c-Kbar*ce*ce)/(c*c+kserca*kserca)
+
+beta = phi_p*phi_c*h
+alpha = phi_p_down*(1-phi_c*h_inf)
+Po=beta/(beta + 0.4*(beta+alpha))
+
+
+# Define the differential equations here
+# The parameter scaling just fiddles the time scale
+#
+dc/dt  = kf*Po*(ce-c)-serca + delta*(Jin - Jpm)
+dh/dt  = (h_inf-h)/tau
+dce/dt = gamma*(-kf*Po*(ce-c)+serca)
+dp/dt = Vplc*c^2/(Kplc^2+c^2) - k5P*(eta*c^2/(K3K^2+c^2) + (1-eta))*p
+#
+aux ct=c+ce/gamma
+
+@ total=200,dt=0.05,xp=t,yp=c,xlo=0,xhi=200,ylo=0,yhi=1,meth=gear,bounds=1000
+@ ntst=25,dsmin=0.001,ds=0.002,dsmax=0.005,parmax=1.5
+@ nmax=5000, npr=5000
+@ autoxmin=0,autoxmax=1,autoymin=0,autoymax=1.0
+done
