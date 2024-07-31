@@ -14,7 +14,7 @@ h1(0)=0
 V2(0)=0
 h2(0)=0
 
-par gsyn = 0.3
+par gsyn = 0.02
 par thetasyn=-44
 par gpir=0.3
 par ksyn=2,Vpir=120,VL=-60,Vsyn=-80

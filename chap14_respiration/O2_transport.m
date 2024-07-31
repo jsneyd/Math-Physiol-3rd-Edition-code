@@ -33,7 +33,7 @@ init = 40*p.sigmaO;
 
 figure(1)
     plot(X,O/p.sigmaO,'r')          % plot the pressure, not the conc
-    xlabel('dimensionless distance')
+    xlabel('D_{O_2}x/v')
     ylabel('[O_2]')
     hold on
 
@@ -53,9 +53,9 @@ init = [Oinit, Yinit];
 opts = odeset('RelTol',1e-7,'AbsTol',1e-7,'MaxStep',0.01);
 [X,sol] = ode15s(@twodrhs,xspan,init,opts);
 O = sol(:,1); Y = sol(:,2);
-
+ 
 plot(X,O/p.sigmaO,'--b')          % plot the pressure, not the conc
-xlabel('dimensionless distance')
+xlabel('D_{O_2}x/v')
 ylabel('[O_2]')
 hold off
 
