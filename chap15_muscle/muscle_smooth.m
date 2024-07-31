@@ -17,6 +17,12 @@ close all
 clear all
 clc
 
+
+ set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0);
+
 par.f1 = 0.88; 
 par.g1 = 0.21;
 par.g2 = 4.4;
@@ -68,7 +74,11 @@ for i=1:par.numt
     force2(i) = trapz(x,x.*(nam+namp));
 end
 plot(tout2,force2,'LineWidth',2)
-
+xlabel('t (s)')
+ylabel('p')
+box off
+legend('boxoff')
+legend('Simplified model','Full model','location','southeast')
 % tout1 = tout1';
 % tout2 = tout2';
 % save('temp.mat','tout1','force1','tout2','force2')

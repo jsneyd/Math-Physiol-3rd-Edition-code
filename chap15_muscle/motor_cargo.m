@@ -14,9 +14,9 @@ clc
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.0, ...
+   'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0,...
-   'defaultlinemarkersize',12);
+   'defaultlinemarkersize',18);
 
 
 dr = 0.1;  %the ratio of diffusion coefficients D2/D1
@@ -52,10 +52,11 @@ end
 v2 = dr*wl;
 
 plot(w,v, w ,v2,'--')
-text(5,.16,'hard spring')
-text(5,.33,'soft spring')
+text(5,.16,'Hard spring','fontsize',18)
+text(5,.33,'Soft spring','fontsize',18)
 xlabel('\omega_0')
 ylabel('v\delta/ D_1')
+box off
 
 out=[w' v' v2'];
 %save('cargo.dat','-ascii','out')
