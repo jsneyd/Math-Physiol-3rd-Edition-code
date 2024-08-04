@@ -67,10 +67,10 @@ for j = 1:15
     end
 end
 
-contour(Alf,Sc,onedcrit',[0 0],'linewidth',2)
+[C1,h1] = contour(Alf,Sc,onedcrit',[0 0],'linewidth',2);  % C1 stores the coordinates of the contour
 hold on
 
-contour(Alf,Sc,threedcrit',[0 0],'--','linewidth',2)
+[C2,h2] = contour(Alf,Sc,threedcrit',[0 0],'--','linewidth',2);
 hold off
 box off
 xlabel('a')
@@ -78,7 +78,9 @@ ylabel('\sigma','fontsiz',22)
 text(0.05,0.5,'stable','fontsize',20)
 text(0.15,2,'unstable','fontsize',20)
 
-
+% for external plotting
+writematrix(C1','ectopy1.dat')
+writematrix(C2','ectopy2.dat')
 end % of main
 
 % ---------------------------------------------------
