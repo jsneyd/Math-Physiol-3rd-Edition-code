@@ -1,8 +1,9 @@
 #  -------------------------------------------------------------------
 #
-#  This is an ode integrator for the HH equations.
+#  This is an ode integrator for computing the dispersion curve
+#  of the HH equations.
 #
-#   For Chapter 5, of
+#   For Chapter 6, Exercise 6.23, of
 #   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
 # 
 #   Written by James Keener and James Sneyd
