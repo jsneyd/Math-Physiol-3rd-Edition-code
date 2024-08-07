@@ -1,3 +1,10 @@
+# -----------------------
+# The SNF model of Kim and Forger (2012).
+#
+# For Chapter 10, Section 10.3.1, of
+# Keener and Sneyd, Mathematical Physiology, Third Edition, Springer.
+# Written by James Keener and James Sneyd.
+# -----------------------
 
 M(0)=0.5
 Pc(0)=0.5
@@ -11,8 +18,6 @@ P'=Pc-P
 param alpha=1
 param Kd=1e-03
 param AT=1
-
-
 
 @ total=200,dt=0.05,xl0=0,xhi=200,ylo=0,yhi=20,meth=gear,bounds=10000
 @ autovar=M,ntst=50,nmax=20000,npr=20000,dsmin=0.01,dsmax=0.05,ds=0.02,parmin=0,parmax=10
