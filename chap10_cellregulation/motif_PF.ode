@@ -1,6 +1,10 @@
-# Positive feedback motif
-# For Keener and Sneyd, Mathematical Physiology, Third Edition, Chapter 10
-
+# -----------------------
+# Positive-feedback motif.
+#
+# For Chapter 10, Section 10.1.1, of
+# Keener and Sneyd, Mathematical Physiology, Third Edition, Springer.
+# Written by James Keener and James Sneyd.
+# -----------------------
 
 par S = 0
 par k1=1
