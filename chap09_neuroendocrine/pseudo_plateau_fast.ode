@@ -1,15 +1,9 @@
-# Pseudo-plateau bursting. A modification of the Chay-Keizer model.
-# Modified from the original code of Teka, Bertram, etc.
-
-
 
 # ----------------------------------------
 # Pseudo-plateau bursting. A modification of the Chay-Keizer model.
 # Modified from the original code of Teka, Bertram, etc.
-# 
 # This is the fast subsystem of the model.
-# Used for Keener and Sneyd, Mathematical Physiology, Chapter 9.
-#
+# 
 # For Chapter 9, Section 9.4 of
 # Keener and Sneyd, Mathematical Physiology, Third edition, Springer.
 #
