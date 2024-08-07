@@ -1,3 +1,14 @@
+#  -------------------------------------------------------------------
+#
+#   Ottesen model of the baroreceptor loop.
+#
+#   For Chapter 11, Section 11.6.2, of
+#   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#   Written by James Keener and James Sneyd.
+# 
+#  -------------------------------------------------------------------
+
 param n = 7
 param tau=1.15
 param ca=1.55, R=1.05, Vs=67.9, alpha=0.84, beta=1.17, mu=93.0
