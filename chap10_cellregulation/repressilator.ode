@@ -1,6 +1,11 @@
-# The repressilator (Elowitz and Leibler (2000) Nature, 403, 335.)
-# For Keener and Sneyd, Mathematical Physiology, Third Edition, Chapter 10
 
+# -----------------------
+# The repressilator (Elowitz and Leibler (2000) Nature, 403, 335.)
+#
+# For Chapter 10, Section 10.1.3, of
+# Keener and Sneyd, Mathematical Physiology, Third Edition, Springer.
+# Written by James Keener and James Sneyd.
+# -----------------------
 
 par alpha = 50
 par S = 0
