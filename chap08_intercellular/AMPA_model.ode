@@ -1,3 +1,11 @@
+# ----------------------------
+# AMPA receptor model.
+#
+# For Chapter 8, Section 8.1.6, of
+# Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer
+#
+# Written by James Keener and James Sneyd.
+# ----------------------------
 
 c0(0) = 1
 c1(0) = 0
