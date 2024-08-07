@@ -1,10 +1,6 @@
 
-#
-# The model for compound bursting. 
-
 # ----------------------------
-#  Slightly modified model of compound bursting. 
-#  Wierschem and Bertram, 2004, BMB.
+#  Model of compound bursting. Wierschem and Bertram, 2004, BMB.
 #  Original code provided by Richard Bertram. Modified slightly.
 #
 # For Chapter 9, Section 9.1.2, of
