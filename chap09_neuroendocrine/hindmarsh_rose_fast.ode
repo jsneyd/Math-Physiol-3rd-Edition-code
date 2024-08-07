@@ -1,6 +1,14 @@
 
+# ----------------------------
 # This XPPAUT file is for the fast subsystem of the Hindmarsh-Rose model of bursting.
-# For Keener and Sneyd, Third Edition.
+#
+# For Chapter 9, Section 9.1.3, of
+# Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer
+#
+# Written by James Keener and James Sneyd.
+# ---------------------------- 
+
+
 
 x(0)=-2.20556943
 y(0)=-23.3226825
