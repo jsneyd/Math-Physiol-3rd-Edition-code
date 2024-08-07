@@ -1,3 +1,12 @@
+# ----------------------------
+# A simple calcium wave model.
+#
+# For Chapter 7, Section 7.7.2 of
+# Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer
+#
+# Written by James Keener and James Sneyd.
+# ----------------------------
+
 # Initial conditions are the steady state for p=0
 #
 d(0)=0
@@ -18,7 +27,6 @@ phi2=1
 gamma = 5
 alpha0 = 0.1
 alpha1 = 0.1
-
 
 Po=p*(c^2/(c^2+phi1^2))*(phi2/(c+phi2))
 Jserca = ks*c
