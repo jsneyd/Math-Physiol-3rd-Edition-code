@@ -1,9 +1,9 @@
 
 #  -------------------------------------------------------------------
 #
-#   An open-cell model for calcium oscillations based on the modal model of the IP3R.
+#   An open-cell hybrid model for calcium oscillations based on the modal model of the IP3R.
 #
-#   For Chapter 7, Section 7.5.1 of
+#   For Chapter 7, Section 7.5.3 of
 #   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
 # 
 #   Written by James Keener and James Sneyd.
@@ -16,8 +16,6 @@ c(0)=0.073622
 h(0)=0.58233
 ce(0)=16.642
 p(0) = 0
-
-
 
 param VPLC = 0
 
