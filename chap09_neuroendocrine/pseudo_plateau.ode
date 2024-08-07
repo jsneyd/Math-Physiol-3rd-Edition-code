@@ -1,8 +1,13 @@
-
+# ----------------------------------------
 # Pseudo-plateau bursting. A modification of the Chay-Keizer model.
 # Modified from the original code of Teka, Bertram, etc.
+# 
+# For Chapter 9, Section 9.4 of
+# Keener and Sneyd, Mathematical Physiology, Third edition, Springer.
+#
+# Written by James Keener and James Sneyd
+# ----------------------------------------
 
-# Used for Keener and Sneyd, Mathematical Physiology, Chapter 9.
 
 # Variables:
 #    V -- membrane potential
