@@ -1,3 +1,10 @@
+# -----------------------
+# The NNF model of Kim and Forger (2012).
+#
+# For Chapter 10, Section 10.3.1, of
+# Keener and Sneyd, Mathematical Physiology, Third Edition, Springer.
+# Written by James Keener and James Sneyd.
+# -----------------------
 
 M(0)=0.5
 Pc(0)=0.5
