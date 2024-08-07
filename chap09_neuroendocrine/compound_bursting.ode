@@ -1,9 +1,15 @@
 
+
+# ----------------------------
+#  Model of compound bursting.
+#  Wierschem and Bertram, 2004, BMB.
+#  Original code provided by Richard Bertram. Modified slightly.
 #
-# The model for compound bursting. Wierschem and Bertram, 2004, BMB.
-# Original code provided by Richard Bertram. Modified slightly.
-
-
+# For Chapter 9, Section 9.1.2, of
+# Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer
+#
+# Written by James Keener and James Sneyd.
+# ----------------------------
 v(0)=-61.21
 n(0)=0.000311
 c(0)=0.07
