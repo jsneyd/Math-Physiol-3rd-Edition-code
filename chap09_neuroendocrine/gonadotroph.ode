@@ -1,7 +1,14 @@
+# ----------------------------------------
 # Pituitary cell model using a common core of ionic currents
 # Adding ER calcium, a cytosolic calcium subspace, and IP3 receptor dynamics 
-# Adapted from the original code (Fletcher, Bertram, Stojilkovic, Mol Cell Endocrin 463 (2018))
-# for Keener and Sneyd, Math Physiology, third edition.
+# Adapted from the original code (Fletcher, Bertram, Stojilkovic, Mol Cell Endocrin 463 (2018)).
+# 
+# For Chapter 9, Section 9.3.2 of
+# Keener and Sneyd, Mathematical Physiology, Third edition, Springer.
+#
+# Written by James Keener and James Sneyd
+# ----------------------------------------
+
 
 
 # background IP3 and pulse IP3. Vary to get different bursting patterns.
