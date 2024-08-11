@@ -35,7 +35,7 @@ initial = [1 1 1 1 1 1];
 tspan = linspace(0,2000,1000);
 
 [tt,sol]=ode45(@sturisfun,tspan,initial);
-
+formatSpecF = '%6.1f\n';
 figure(ic)
 plot(tt,sol(:,1)/Vp)
 xlabel('t (min)')
@@ -47,6 +47,7 @@ ylabel('G (mg/dl)')
 %save sturis.dat sol -ASCII
 %title('')
 box off
+ title(strcat('I_G = ',sprintf(formatSpecF,input)),'fontsize',20)
 end
 %%
 function dydt=sturisfun(t,y)
