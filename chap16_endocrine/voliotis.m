@@ -16,7 +16,7 @@ clear all
 clc
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.2, ...
+   'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0);
 
 par.I0 = 0.1;
@@ -51,7 +51,7 @@ hold off
 axis([60 140 0 4000])
 legend('0 Hz','2 Hz','5 Hz','20 Hz')
 box off
-xlabel('time (min)')
+xlabel('t (min)')
 ylabel('v (firing rate)')
 
 end % of main

@@ -17,7 +17,7 @@ clear all
 clc
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.2, ...
+   'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0);
 
 % parameters
@@ -70,15 +70,16 @@ PrF = sol.y(7,:);
  
 figure(1)
 plot(sol.x,LH)
-xlabel('days')
+xlabel('t (days)')
 ylabel('LH (\mu g/L)')
+box off
 
 Est=par.e0 + par.e1*SeF + par.e2*PrF + par.e3*L4;
 figure(2)
 plot(sol.x,Est)
-xlabel('days')
+xlabel('t (days)')
 ylabel('Estradol  (ng/L)')
- 
+box off 
 end
  
 %% RHS of ode  

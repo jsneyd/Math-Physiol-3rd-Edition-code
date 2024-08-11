@@ -15,7 +15,7 @@ function topp
 close all; clear all; clc;
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.2, ...
+   'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0); 
 
 global SI r1 EG0 R0 sigma alpha k d0 r2
@@ -59,6 +59,7 @@ figure(1)
     xlim([-5,100])
     xlabel('\beta')
     ylabel('G')
+    box off
     hold on
 %dlmwrite('topp.dat',[beta' G']);
 
@@ -72,6 +73,7 @@ for j = 1:4
         hold on
     figure(2)
         plot(t,sol(:,1))
+        box off
         hold on
 end
 
