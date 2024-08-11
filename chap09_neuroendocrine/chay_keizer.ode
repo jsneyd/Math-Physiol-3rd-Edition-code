@@ -1,8 +1,13 @@
-
+# ----------------------------
 #  Slightly modified Chay-Keizer model of bursting. 
 #  Original version from Artie Sherman.
 #  Biophys. J. 42:181-190 '83
-#  For Keener and Sneyd, Mathematical Physiology, Third edition
+#
+# For Chapter 9, Section 9.1.1, of
+# Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer
+#
+# Written by James Keener and James Sneyd.
+# ----------------------------
 
 # Initial values:
 v(0)    = -54.774  

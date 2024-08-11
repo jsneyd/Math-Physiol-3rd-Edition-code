@@ -10,7 +10,7 @@
 %
 %  -------------------------------------------------------------------
 
-function Kim_forger_NNF
+%function Kim_forger_NNF
 
 clear all
 close all
@@ -55,7 +55,7 @@ set(gca,'linewidth',1.5)
 box off
 %legend('mRNA','Per')
 
-end % of main
+%end % of main
 
 %%
 function F_prime=deRHS(t,y)

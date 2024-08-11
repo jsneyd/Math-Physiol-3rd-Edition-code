@@ -1,3 +1,11 @@
+# -----------------------
+# The lac operon.
+#
+# For Chapter 10, Section 10.2.5, of
+# Keener and Sneyd, Mathematical Physiology, Third Edition, Springer.
+# Written by James Keener and James Sneyd.
+# -----------------------
+
 M(0)=2.2994e-6
 B(0)=1.5569e-6
 P(0)=3.2068e-5

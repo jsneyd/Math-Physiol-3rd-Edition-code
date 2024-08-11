@@ -1,6 +1,11 @@
 
+# -----------------------
 # This XPPAUT file is for the Hindmarsh-Rose model of bursting.
-# For Keener and Sneyd, Third Edition.
+#
+# For Chapter 9, Exercise 9.8 of
+# Keener and Sneyd, Mathematical Physiology, Third Edition, Springer.
+# Written by James Keener and James Sneyd.
+# -----------------------
 
 x(0)=-1.405
 y(0)=-8.9

@@ -60,8 +60,8 @@ h   = 1;
 k2  = 0.1;
 k6  = 0.1;
 
-num = 200;       # number of space points
-numt = 100;     # number of time outputs
+num = 50;       # number of space points
+numt = 10;     # number of time outputs
 tend = 10;      # final time
 
 # Initial conditions

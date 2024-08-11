@@ -1,4 +1,15 @@
 
+#  -------------------------------------------------------------------
+#
+#   2-d model of blood clotting.
+#
+#   For Chapter 13, Exercise 13.15, of
+#   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#   Written by James Keener and James Sneyd.
+# 
+#  -------------------------------------------------------------------
+
 u1(0)=0
 u2(0)=0
 

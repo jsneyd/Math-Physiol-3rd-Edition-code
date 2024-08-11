@@ -1,3 +1,10 @@
+# -----------------------
+# Model of bursting in the Aplysia neuron.
+#
+# For Chapter 9, Exercise 9.10 of
+# Keener and Sneyd, Mathematical Physiology, Third Edition, Springer.
+# Written by James Keener and James Sneyd.
+# -----------------------
 
 v(0)=-70
 h(0)=0.012925
