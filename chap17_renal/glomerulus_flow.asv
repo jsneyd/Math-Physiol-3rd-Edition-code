@@ -28,24 +28,35 @@ Rd = (P2-Pd)/Qd
 Qe=Qe0;
 KfL = -(Qe./Qi +alpha*log((Qe./Qi-alpha)./(1-alpha)) -1) *(alpha *Qi)/pii
 
-Palist = [20:1:160];  
-for j = 1: length(Palist)
+Palist = [100:1:160];  
+for j = 1:1% length(Palist)
    Pa = Palist(j);
 
    qemx = (Pa-Pe)/(Ra+Re);
-   qemin = (P2*Ra - Pe*Ra - Re*pii + sqrt((P2^2  - 2*P2*Pe  + Pe^2)*Ra^2  ...
-       - 2*(P2 - 2*Pa +Pe)*Re*Ra*pii + Re^2*pii^2)  )/(2*Re*Ra)+0.1;
+   qmin = (P2*Ra - Pe*Ra - Re*pii + sqrt((P2^2  - 2*P2*Pe  + Pe^2)*Ra^2  ...
+       - 2*(P2*Re*Ra - 2*Pa*Re*Ra  +Pe)*Re*Ra)*pii + Re^2*pii^2); ...
+       )/(2*Re*Ra);
   
-   Qe(j)=bisect(@F,qemin,qemx); 
- 
+   Qelist = [qmin:1:qemx];
+
+   for k = 1:length(Qelist);
+       Qe = Qelist(k);
+       test(k) = F(Qe);
+   end
+   figure(1)
+   plot(Qelist,test)
+
+
+  %  Qe(j)=fsolve(@F,Qe0);
 end
+ 
 
- figure(1)
+stop 
+figure(1)
 
- Qi= (Palist-Pe-Re*Qe)/Ra;
+ Qi= (Pa-Pe-Re*Qe)/Ra;
  Qd=Qi-Qe;
- ndx=find(Qd>0);
-    plot(Palist(ndx),Qe(ndx)/10,Palist(ndx),Qd(ndx),Palist(ndx),Qi(ndx)/10 )
+    plot(Palist,Qe,Palist,Qd,Palist,Qi )
     xlabel('P_i')
     legend('Q_e','Q_d','Q_i')
    % axis([0 150 0 1000])
@@ -63,37 +74,7 @@ function out = F(Qe)
     alpha = pii/(P1-P2);
      
     out = Qe +alpha.*Qi.*log((Qe./Qi-alpha)./(1-alpha)) -Qi + KfL*pii./(alpha);
-   % out=  ((Qe./Qi-alpha) );
+    out=  ((Qe./Qi-alpha) );
 end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%
-% the bisection algorithm
-function root = bisect(feval,a,b)
-
-ul = a;
-fl = feval(ul);
-uu = b;
-fu = feval(uu);
-
-% we make the assumption, without checking, that
-% fu*fl<0
-
-% if not, the algoritm fails to find a root.
-
-N = 25;  % number of iterates
-% the main bisection algorithm
-for j = 1:N
-u = (ul+uu)/2;
-fc = feval(u);
-ftest = (fc*fl>=0);
-ul = ftest*u+(1-ftest)*ul;
-fl = ftest*fc + (1-ftest)*fl;
-
-uu = (1-ftest)*u+ ftest*uu;
-fu = (1-ftest)*fc + ftest*fu;
-end
-root = u;
-end
-
 
  

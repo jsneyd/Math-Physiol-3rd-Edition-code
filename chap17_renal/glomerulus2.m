@@ -40,6 +40,7 @@ Re = (P1-Pe)/Qe;
 Rd = (P2-Pd)/Qd;
 KfL = -(Qe/Qi + alpha*log((Qe/Qi-alpha)/(1-alpha)) -1) *(alpha *Qi)/pii;
 
+% now allow Pa to vary and find the corresponding values of Qe and Qd
 n = 50;
 Pa_values = linspace(67,160,n);
 options = optimset('Display','off');
