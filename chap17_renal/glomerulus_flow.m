@@ -45,9 +45,13 @@ end
  Qi= (Palist-Pe-Re*Qe)/Ra;
  Qd=Qi-Qe;
  ndx=find(Qd>0);
-    plot(Palist(ndx),Qe(ndx)/10,Palist(ndx),Qd(ndx),Palist(ndx),Qi(ndx)/10 )
-    xlabel('P_i')
-    legend('Q_e','Q_d','Q_i')
+    plot( Palist(ndx),Qd(ndx))
+    xlabel('Arterial pressure, P_a (mm Hg)')
+    ylabel('Glomerular filtration rate, Q_d (ml/min)')
+    yyaxis right 
+    plot(Palist(ndx),Qe(ndx))
+    ylabel('Efferent arteriole flow rate, Q_e (ml/min)')
+
    % axis([0 150 0 1000])
 % figure(2)
 %     plot(Pa,Qdlist,  Pa,0.2*Qi)
