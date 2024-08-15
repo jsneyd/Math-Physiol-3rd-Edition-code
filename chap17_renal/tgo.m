@@ -48,8 +48,8 @@ for jj = 1:length(gammalist)
     end
     figure(jj)
         plot(time,keepend)
-        xlabel('time')
-        ylabel('macula densa [Cl^-]')
+        xlabel('t')
+        ylabel('macula densa [Cl^-], c')
         save('tgoosc.dat','-ascii','keepend')
         axis([0 20 0 0.7])
         formatSpecF = '%6.2f\n';
@@ -64,6 +64,7 @@ for n = 1:4
     ndx = find(g>0);
     figure(3)
         plot(tbar(ndx),g(ndx))
+        box off
         hold on
 end
 axis([0 0.3 0 20])

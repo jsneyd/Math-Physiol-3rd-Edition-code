@@ -22,14 +22,14 @@ set(0,                           ...
    'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0);
 
-global k mu gamma
+global kbymu gamma
 
 %parameters
 kbar = 0.5;
 cbar = exp(-kbar);
 a = 10;
-kk = 0;
-for  k = 0.1:0.002:2.1 
+kbymu = 1;
+for n = 1:4 
     c = exp(-k);
     F = 1+tanh(a*(cbar-c));
     Fp = -a*(1/cosh(a*(cbar-c)))^2;
@@ -46,12 +46,12 @@ dum=[U' T'];
 %save('tgo.dat','-ascii','dum')
 figure(1)
     plot(U,T);
-    axis([0 1.2 0 4])
+    axis([0 1.2 0 2])
     xlabel('\mu','fontsize',20)
     ylabel('\tau','fontsize',20)
-    text(.45,1,'Unstable','fontsize',18)
-    text(1.0,.3, 'Stable','fontsize',18)
-box off
+    text(.45,1,'unstable','fontsize',18)
+    text(.45,.1, 'stable','fontsize',18)
+
 
 end % of main
 
@@ -60,7 +60,7 @@ end % of main
 function out = Feval(tau)
     global k mu gamma
     w = pi./(tau +k/(2*mu));
-    out = w./(2*sin(k*w/(2*mu)))-gamma;
+    out = w./(2*sin(k*w/(2*mu)));
    
 end
 
