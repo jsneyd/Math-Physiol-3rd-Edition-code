@@ -123,12 +123,13 @@ figure(4)
     ylabel('Flow Rate')
     text(0.8,0.08,'Q_c(1)','fontsize',18)
     text(0.8,0.5,'Q_d(1)','fontsize',18)
+    box off
 figure(5)
     plot(onebyrclist1,Cc1,onebyrclist1,Cd1,onebyrclist1,Cc0)
     xlabel('1/\rho_c')
     ylabel('Relative Concentration')
     legend('C_c(1)','C_d(1)','C_c(0)')
-
+box off
 end % of main
 
 %%

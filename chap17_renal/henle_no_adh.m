@@ -82,7 +82,7 @@ figure(3)
     xlabel('P')
     legend('boxoff')
     legend('C_a(0)','Q_d(1)','C_d(1)','location','northwest')
-
+box off
 end % of main
 
 %%
