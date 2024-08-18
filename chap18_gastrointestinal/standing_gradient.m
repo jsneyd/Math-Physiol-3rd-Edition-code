@@ -18,7 +18,7 @@ clc
 global D P r c0 alp L N0
 set(0,                           ...
 'defaultaxesfontsize', 20,   ...
-'defaultaxeslinewidth', 1.0, ...
+'defaultaxeslinewidth', 2.0, ...
 'defaultlinelinewidth', 2.0, ...
 'defaultpatchlinewidth', 0.7);
 
@@ -55,11 +55,12 @@ for j = 1:length(N0list)
         xlabel('x (mm)','fontsize',20)
         ylim(hAx(1),[0.2,1.3])
         ylim(hAx(2),[0,300])
+        box off
         hold on
 end
 hold off
 
-Now solve the BVP for variable L
+%Now solve the BVP for variable L
 Llist = [10:0.501:100];
 for j = 1:length(Llist)
     L = Llist(j);
@@ -74,7 +75,7 @@ figure(3)
     xlabel('L (mm)')
     ylabel('c_e (mM)')
     axis([10 100 0 3])
-
+box off
 end % of main
 
 
