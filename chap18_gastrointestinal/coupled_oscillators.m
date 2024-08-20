@@ -17,8 +17,8 @@ close all
 clc
 set(0,                           ...
     'defaultaxesfontsize', 20,   ...
-    'defaultaxeslinewidth', 1.0, ...
-    'defaultlinelinewidth', 1.2, ...
+    'defaultaxeslinewidth', 2.0, ...
+    'defaultlinelinewidth', 2.0, ...
     'defaultpatchlinewidth', 0.7);
 N = 32; % number of coupled oscillators
 
@@ -47,20 +47,22 @@ for j = 1:length(deltalist)
     
     figure(3*(j-1)+1)
         plot(T,S(:,2:end),'linewidth',2)
-        xlabel('time','fontsize',20)
+        xlabel('t','fontsize',20)
         ylabel('\phi_i(t)')
+        box off
         formatSpecF = '%6.2f\n';
     figure(3*(j-1)+2)
         plot(S(end,2:N+1)/T(end),'*','linewidth',2)
         xlabel('Oscillator #','fontsize',20)
         ylabel('Average Phase Difference')
         title(strcat('\delta = ',sprintf(formatSpecF,delta)),'fontsize',18)
-    
+    box off
     figure(3*(j-1)+3)
         Cs = cumsum(S(end,:))/T(end);
         plot(num,Cs(2:end),'*',num,nat_freq, '--')
         xlabel('Oscillator #','fontsize',20)
         ylabel('Frequency')
+        box off
         title(strcat('\delta = ',sprintf(formatSpecF,delta)),'fontsize',18)
 end
 
