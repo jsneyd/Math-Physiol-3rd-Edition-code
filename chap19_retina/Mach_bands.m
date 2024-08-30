@@ -14,7 +14,7 @@ clear all
 close all 
 clc
 
-mach = zeros(1000,2000);  % A nice big matrix, to get decent resolution
+mach = zeros(1000,2000);  % A big matrix, to get decent resolution
 
 width = 100;    % The width of the ramp
 light = 55000;   % The brightness on the bright side of the ramp
