@@ -36,7 +36,11 @@ end % of main
 
 %% Plot a sequence of impulse responses -------------------------------------------------
 function plot_impulse_sequence(par)
+ formatSpecF = '%6.2f\n';
     par.I0=0;
+    I0list = [0,0.1,1];
+    for k = 1:length(I0list)
+        par.I0 = I0list(k)
     stimlist = [0,0.0001,0.001,0.01,0.1];
     U=[];
     t=[];
@@ -48,12 +52,14 @@ function plot_impulse_sequence(par)
         U = [U;U1];
         t = [t;t1+2*(j-1)];   
         IC = U1(end,:);
-    end     
-    figure(2)
+    end  
+    figure(k)
         plot(t,U(:,5)*par.Vstar)
-        xlabel('time (s)')
-        ylabel('v')
+        xlabel('t (s)')
+        ylabel('V-V_d')
+         title(strcat('I_0 = ',sprintf(formatSpecF,par.I0)),'fontsize',18)
         box off
+    end
     %writematrix([t U(:,5)*par.Vstar],'adaptation.dat')
 end
 
