@@ -71,6 +71,7 @@ for j=1:5
         plot(log10(I0_base),-par.Vstar*IC(5),'ro') % plot the steady-state value for I0_base
         xlabel('log(I_0)')
         ylabel('-V')
+        box off
     % vkeep = [vkeep -(res')*par.Vstar];   % for external plotting
 
     % Add the Naka-Rushton equation
