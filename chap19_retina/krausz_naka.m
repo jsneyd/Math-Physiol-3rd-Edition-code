@@ -38,7 +38,7 @@ figure(1)
     plot(t,k)
     ylabel('k(t)')
     xlabel('t')
-
+box off
 n = 2^nextpow2(L);          % Extend sample length and pad with zeros
 khat = fft(k,n)/n;          % Take the FFT.
 f = Fs*(0:(n/2))/n;         % Define the frequencies for the frequency domain
@@ -46,7 +46,7 @@ figure(2)
     plot(f,abs(khat(1:n/2+1)))
     %ylabel('\hat{k}(t)')
     xlabel('frequency')
-
+box off
 % Once we know the FT of k, we can then calculate alpha(w).
 alpha = (1 + A*khat).^0.5/lh;
 alpha0 = (1+A*khat(1))^0.5/lh;      % The zero frequency value of alpha
@@ -82,7 +82,7 @@ figure(4)
     x2 = linspace(-R,R,500);
     G2 = (1/(2*alpha0*alpha0*lh*lh))*( 2 - (exp(alpha0*(x2-R)) + exp(-alpha0*(x2+R)) ) );
     plot(x2,G2,'LineWidth',2)
-    
+    box off
     x3 = linspace(R,upper,500);
     G3 = (1/(2*alpha0*alpha0*lh*lh))*abs(exp(-alpha0*abs(x3+R)) - exp(-alpha0*abs(R-x3)));
     plot(x3,G3,'LineWidth',2)
