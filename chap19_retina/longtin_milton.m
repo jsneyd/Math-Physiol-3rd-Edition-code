@@ -14,16 +14,22 @@
 clear all
 close all
 clc
+set(0,                           ...
+   'defaultaxesfontsize', 20,   ...
+   'defaultaxeslinewidth', 2.0, ...
+   'defaultlinelinewidth', 2.0, ...
+   'defaultpatchlinewidth', 0.7);
 
 options = ddeset('Reltol',0.000005);  % To get output at a decent resolution
 tau = 1.2;   % here is where you set the time delay
 tspan = (0:20);
 sol = dde23(@ddefun, tau, @history, tspan,options);
 area = areafun(sol.y);
+figure(1)
 plot(sol.x,sol.y,'b',sol.x,area,'r')
-xlabel('Time (s)');
-ylabel('Pupil area (mm^2)');
-legend('muscle activity','pupil area')
+xlabel('t (s)');
+ box off
+legend('Iris muscle activity, x','pupil area, A')
 
 % output stuff, for convenience
 % xx = sol.x; yy = sol.y;
