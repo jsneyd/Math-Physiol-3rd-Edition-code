@@ -1,4 +1,14 @@
-% glomerular filtration, unregulated
+%    -------------------------------------------------------------------
+%
+%     Model of unregulated glomerular filtration.
+%
+%     For Chapter 17, Section 17.1 of
+%     Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+%
+%     Written by James Keener and James Sneyd.
+%
+%    -------------------------------------------------------------------
+
 clear all
 close all
 clc
