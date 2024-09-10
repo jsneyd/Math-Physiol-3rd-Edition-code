@@ -29,7 +29,7 @@ figure(1)
 plot(sol.x,sol.y,'b',sol.x,area,'r')
 xlabel('t (s)');
  box off
-legend('Iris muscle activity, x','pupil area, A')
+legend('Iris muscle activity, x','pupil area, A (mm^2)')
 
 % output stuff, for convenience
 % xx = sol.x; yy = sol.y;

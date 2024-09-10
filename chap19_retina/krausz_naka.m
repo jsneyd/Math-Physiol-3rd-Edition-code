@@ -45,7 +45,7 @@ f = Fs*(0:(n/2))/n;         % Define the frequencies for the frequency domain
 figure(2)
     plot(f,abs(khat(1:n/2+1)))
     %ylabel('\hat{k}(t)')
-    xlabel('frequency')
+    xlabel('\omega (Hz)')
 box off
 % Once we know the FT of k, we can then calculate alpha(w).
 alpha = (1 + A*khat).^0.5/lh;
@@ -60,7 +60,7 @@ ratio = F/2;
 
 figure(3)
     loglog(f,abs(ratio(1:n/2+1)))
-    xlabel('frequency (Hz)')
+    xlabel('\omega (Hz)')
     ylabel('bar/field response ratio')
     box off
 %% Response to a steady bar of width 2R, by direct calculation and then by convolution. Plot on same graph, to compare
