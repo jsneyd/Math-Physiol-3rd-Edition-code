@@ -32,7 +32,7 @@ xlabel('t (s)');
 legend('Iris muscle activity, x','pupil area, A (mm^2)')
 
 % output stuff, for convenience
- xx = sol.x'; yy = sol.y'; area = area';
+ xx = sol.x'; yy = sol.y';
  save('longtin_milton','xx','yy','area')
 
 
