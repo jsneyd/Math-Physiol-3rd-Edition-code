@@ -25,7 +25,7 @@ set(0,                           ...
    'defaultlinelinewidth', 2.0);
 
 Ntot=100; 
-dGlow=0.1; dGhigh=5;  % these are the limits for the amplitude A
+dGlow=0; dGhigh=5;  % these are the limits for the amplitude A
 deltaG = linspace(dGlow,dGhigh,Ntot);
 b = 2; %location of minimum
  d=@(x)x;
@@ -50,18 +50,20 @@ end
  
  
 figure(1)
-      semilogy(deltaG,k1,'r',deltaG,k1_approx,'b--',deltaG,km1,'r',deltaG,km1_approx,'b--')
+      semilogy(deltaG,k1,deltaG,k1_approx,'red')
     xlabel('a=-\Delta G^0/k_BT')
-    text(3,0.01,'k_{-1}','fontsize', 18)
-    text(4.6,0.12,'k_1','fontsize', 18)
-    box off
+    ylabel('k_1/k_BT')
+    figure(2)
+    semilogy(deltaG,km1,deltaG,km1_approx,'red')
+    xlabel('a=-\Delta G^0/k_BT')
+    ylabel('k_{-1}')
     fiddle=((-UUpp(b)*UUpp(1))^0.5)/((-UUpp(0)*UUpp(1))^0.5);
     
 figure(3)
-semilogy(deltaG,km1./k1,'r',deltaG,fiddle*exp(-deltaG),'b--')
+semilogy(deltaG,km1./k1,deltaG,fiddle*exp(-deltaG),'red')
    xlabel('a=-\Delta G^0/k_BT')
     ylabel('k_{-1}/k_1')
-box off
+
 
 dump = [deltaG' k1' k1_approx' km1' km1_approx' km1'./k1' fiddle*exp(-deltaG)'];
 save('delG.dat','-ascii','dump')
