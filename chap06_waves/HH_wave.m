@@ -18,7 +18,7 @@ clc
 
 set(0,                           ...
 'defaultaxesfontsize', 20,   ...
-'defaultaxeslinewidth', 1.2, ...
+'defaultaxeslinewidth', 2.0, ...
 'defaultlinelinewidth', 2.0, ...
 'defaultpatchlinewidth', 0.7); 
 
@@ -32,7 +32,7 @@ gkbar = 36;
 gl = 0.3;
 
 Cm = 1; % mu F/cm^2
-Tfact = 1; % this is the correction factor for temperatures other that 6.3C
+Tfact = 1; % this is the correction factor for temperatures other than 6.3C
 %Tfact = 0.977 % correspnds to 0C
 %Tfact = 1.085 % corresponds to 30 C.
 
@@ -86,7 +86,7 @@ figure(2)
     ylabel('X')
     xlabel('T (ms)')
     formatSpecF = '%5.2f\n';
-    title(strcat('Speed = ',sprintf(formatSpecF,speedest)),'fontsize',18)
+    title(strcat('Speed = ',sprintf(formatSpecF,speedest),' \lambda_m/ms'),'fontsize',18)
 
 % Plot some wave profiles
 figure(3)

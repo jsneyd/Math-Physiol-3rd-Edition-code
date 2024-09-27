@@ -81,8 +81,8 @@ figure(2)
 % 
 figure(3)
   plot(P,xi1,'*')
- xlabel('xi_2')
- ylabel('xi_1')
+ xlabel('\xi_2')
+ ylabel('\xi_1')
  hold on
  figure(4)
  plot(clist,real(lamst),clist,imag(lamst))
