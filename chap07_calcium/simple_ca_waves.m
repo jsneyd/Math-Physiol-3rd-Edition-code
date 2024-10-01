@@ -77,6 +77,7 @@ for j =1:length(parlist)
     formatSpecF = '%6.2f\n';
     figure(2*j-1) % a phase portrait
     plot(c,ce1,'--',c,ce2,'--',C,Ce,C(1),Ce(1),'*','linewidth',2)
+    box off
     legend('boxoff')
     legend('dc/dt=0','dc_e/dt=0')
     xlabel('c')
@@ -90,8 +91,8 @@ for j =1:length(parlist)
     figure(2*j) % a time sequence
     plot(T,C,T,Ce,'linewidth',2)
     %igorplots = [igorplots T C Ce];     % for external plotting
-    
-    xlabel('Time','fontsize',20)
+    box off
+    xlabel('t','fontsize',20)
     legend('Ca^{++}','Ca^{++}_e')
     title(strcat('p =',sprintf(formatSpecF,p.p),'\mu M'),'fontsize',18)
 end
@@ -144,6 +145,7 @@ figure(7)
 plot(c,ce1,'--',c,ce2,'--',S(j,p.N+1:2*p.N), S(j,2*p.N+1:3*p.N),'linewidth',2)
 xlabel('Ca','fontsize',20)
 ylabel('C_e','fontsize',20)
+box off
 legend('boxoff')
 legend('dc/dt=0','dc_e/dt=0')
 title(strcat('p =',sprintf(formatSpecF,p.p),'\mu M'),'fontsize',18)
@@ -172,6 +174,7 @@ q=polyfit(Tc,X,1)
 spest= q(2)+q(1)*Tc;
 figure(9)
 plot(X,Tc,spest,Tc,'--')
+box off 
 xlabel('x')
 ylabel('t')
 speedest = q(1)
