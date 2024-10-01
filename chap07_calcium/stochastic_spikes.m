@@ -24,8 +24,8 @@ delt = 0.01;
 k = 0.5;
 x0 = 0.01;  % The system can be reactivated only when x<x0
 
-nthresh = 5; %# of different runs % use 40 for a mu/sigma plot, 
-% but it takes a lot of time
+nthresh = 10; %# of different runs % use 40 for a mu/sigma plot in the text, 
+
 thresh = linspace(0.997,0.9995,nthresh); 
 % for a mu/sigma plot
 % thresh = linspace(0.999,0.999,nthresh);           % for a single run
@@ -85,7 +85,7 @@ x1=Xkeep(end)+1;  % add the jump
    
     figure(j)
     plot(T,Xkeep)
-    xlabel('time')
+    xlabel('t')
     ylabel('x')
     ISI = Tkeep(2:end) - Tkeep(1:end-1);            % the interspike intervals
     mu(j) = mean(ISI);

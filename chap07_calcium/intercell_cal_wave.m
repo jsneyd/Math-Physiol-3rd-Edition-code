@@ -125,7 +125,7 @@ figure(2)
 imagesc(X,T,c)
 colorbar
 xlabel('x (\mu m)')
-ylabel('time (sec)')
+ylabel('t (s)')
 
 
 
