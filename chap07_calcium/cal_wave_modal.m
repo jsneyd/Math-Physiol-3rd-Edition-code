@@ -81,8 +81,10 @@ tspan = linspace(0,t_end,n_out);
 figure(1)
 plot(X,S(50,1:p.N),X,S(70,1:p.N),'linewidth',2)
 xlabel('x','fontsize',20)
-ylabel('Ca^{++}(x,t)','fontsize',20)
-
+ylabel('c (\muM)','fontsize',20)
+box off
+legend('boxoff')
+legend('t=5 s','t=7 s')
 %igorpde = [X S(50,1:p.N)' S(70,1:p.N)'];                % for external plotting
 %writematrix(igorpde,'igorpde.dat')                      % for external plotting
 
