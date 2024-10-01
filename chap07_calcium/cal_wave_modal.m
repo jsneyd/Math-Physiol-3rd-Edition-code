@@ -97,9 +97,10 @@ end
 Xs = X(1:size(Tc,2));
 q=polyfit(Tc,Xs,1)
 spest= q(2)+q(1)*Tc;
-
+formatSpecF = '%6.2f\n';
 figure(4)
 plot(Xs,Tc,spest,Tc,'--')
+ title(strcat('Velocity = ',sprintf(formatSpecF,q(1)), '\mum s^{-1}'),'fontsize',18)
 xlabel('x')
 ylabel('t')
 
