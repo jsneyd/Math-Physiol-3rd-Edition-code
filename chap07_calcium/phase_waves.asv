@@ -69,7 +69,7 @@ tspan = [0:tstep:t_end];
 
 % % plot the solution at each time step to make a simple movie
 % for j = 1:length(T)
-%     figure(1)
+%     figure(3)
 %     subplot(2,1,1)
 %     plot(X,S(j,par.N+1:2*par.N),'linewidth',2)
 %     xlabel('x','fontsize',20)
@@ -82,24 +82,23 @@ tspan = [0:tstep:t_end];
 %     %axis([0 max(X) 0 3])
 % end
  
-figure(2+3*(dj-1)) % plot the final solution
+figure(5+3*dj-1) % plot the final solution
 plot(X, S(end,1:par.N),X,S(end,par.N+1:2*par.N),'linewidth',2)
 legend('IP_3','Ca^{++}','fontsize',20)
 xlabel('x','fontsize',20)
 
 % plot a time course
-figure(3+3*(dj-1))
+figure(6)
 plot(T,S(:,3*par.N/2),T,S(:,1*par.N/2))
 xlabel('time')
 ylabel('Ca^{++}(L/2)')
 
-figure(4+3*(dj-1))
+figure(7)
 contour(X,T,S(:,par.N+1:2*par.N),'linewidth',2)
 xlabel('x')
 ylabel('t')
 zlabel('Ca^{++}')
 
-end
 
 %%
 %the right hand side for pde (MoL) simulation:
