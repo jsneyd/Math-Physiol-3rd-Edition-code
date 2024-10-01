@@ -16,7 +16,7 @@ close all
 clc
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.2, ...
+   'defaultaxeslinewidth', 2.2, ...
    'defaultlinelinewidth', 2.0, ...
    'defaultpatchlinewidth', 0.7); 
 
@@ -41,12 +41,17 @@ for i=1:3
     h_inf=Kh^4./(Kh^4+cc.^4);
     [~,~,Po]=getstuff(cc,h_inf);
     figure(1)
-    plot(cc,Po)
+    semilogx(cc,Po)
     hold on
     keep = [keep Po'];
 end
-xlim([0,1]); xlabel('c');
-ylim([0,0.3]); ylabel('P_o');
+box off
+xlim([0,1]); 
+xlabel('c (\mu M)');
+ylim([0,0.3]); 
+ylabel('P_o');
+legend('boxoff')
+legend('p=0.2 mM','p=0.4 mM','p=0.6mM')
 
 
 % % Now calculate some responses to step increases in c
@@ -64,12 +69,14 @@ for i = 1:3
     % plot solution
     figure(2)
     plot(T,Po)
+    box off 
     hold on
     keep = [keep Po'];
 end
 xlabel('t (s)');
 ylabel('P_o');
-
+legend('boxoff')
+legend('c_{stim}=0.4 \mu M','c_{stim}=0.6 \mu M','c_{stim}=0.8 \mu M')
 
 %% Define the differential equation here
 
