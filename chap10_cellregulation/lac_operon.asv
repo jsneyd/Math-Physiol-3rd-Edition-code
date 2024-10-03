@@ -19,11 +19,15 @@ set(0,                           ...
     'defaultaxeslinewidth', 2.0, ...
     'defaultlinelinewidth', 2.0);
 global tmax
-tmax = 2000;
-nT = 1001;
+tmax = 10000
+nT = 2001;
 init=[0.01 0.01 0.01 0.0 0];
 tspan = linspace(0,tmax,nT );
- 
+for j = 1:nT
+    gLe(j) = getLe(tspan(j));
+end
+figure(16)
+plot(tspan,gLe)
  opts = odeset('AbsTol',1e-9,'RelTol',1e-9,'MaxStep',0.01); % be careful with the numerics
 [T,Y] = ode15s(@(t,x)rhs(t,x),tspan,init,opts);
 
@@ -37,14 +41,10 @@ figure(1)
     yyaxis right
     plot(T,Le,'LineWidth',2)
 ylabel('L_e (mM)')
-box off
-
 figure(2)
 plot(Le,Y(:,4))
 xlabel('L_e')
 ylabel('A')
-box off
-
 
  %%
 function out = rhs(t,x)
