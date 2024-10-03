@@ -19,7 +19,7 @@ set(0,                           ...
     'defaultaxeslinewidth', 2.0, ...
     'defaultlinelinewidth', 2.0);
 global tmax
-tmax = 2000;
+tmax = 10000;
 nT = 1001;
 init=[0.01 0.01 0.01 0.0 0];
 tspan = linspace(0,tmax,nT );
@@ -40,7 +40,7 @@ ylabel('L_e (mM)')
 box off
 
 figure(2)
-plot(Le,Y(:,4))
+semilogy(Le,Y(:,4))
 xlabel('L_e')
 ylabel('A')
 box off
