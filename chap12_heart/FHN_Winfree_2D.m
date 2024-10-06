@@ -7,6 +7,8 @@
 
 % Be patient. This simulation takes time.
 
+%The answer can be replayed using replay_doublespiral.m
+
 % Useful variables are saved in doublespiral.mat for subsequent use
 % in twoD_defib.m.
 %
@@ -117,6 +119,9 @@ t_end = 75;
 tspan = [0:tstep:t_end];
 s0 = [V0;W0 ];
 [T,S] = ode15s(@deRHS,tspan, s0, odeset('maxstep',1));
+
+save('doublespiralsimulation.mat','T','S','N','L')
+
 for j = 1:length(T)
     V = reshape(S(j,1:Nsq),N,N);
     W = reshape(S(j,Nsq+1:2*Nsq),N,N);
