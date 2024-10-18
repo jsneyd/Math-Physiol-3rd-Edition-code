@@ -27,18 +27,16 @@ km1 = 0.06;
 k2 = 0.5;
 km2 = 0.01;
 
+% plot the steady states as functions of c
 clist = [0.01:.01:0.5];
 for j=1:length(clist)
     c=clist(j);
-
     [Rst(j),Ost(j),Ist(j)]=ROIss(c);
-
 end
 
- 
 figure(2)
 plot(clist,Rst,'r',clist,Ost,'b',clist,Ist,'g')
- hold on
+hold on
 
 % for external plotting
 % keep = fplot(Ost,[0.01 0.5]);
@@ -91,34 +89,30 @@ text(0.25,0.75,'peak response','fontsize',18)
 
 end % of main
 
-%%
+%% rhs for the ODEs
 function out = rhs(t,x,c)
-global k1 km1 k2 km2
-R = x(1);
-O = x(2);
-I = x(3);
-RI = 1 - R - O - I;
-
- out(1) = km1*O + km2*RI - R*(k1*c*c + k2*c);
-out(2) = km2*I + k1*c*c*R - O*(k2*c + km1);
-out(3) = k2*c*O + k1*c*c*RI - I*(km2 + km1);
-out = out';
-
+    global k1 km1 k2 km2
+    R = x(1);
+    O = x(2);
+    I = x(3);
+    RI = 1 - R - O - I;
+    
+    out(1) = km1*O + km2*RI - R*(k1*c*c + k2*c);
+    out(2) = km2*I + k1*c*c*R - O*(k2*c + km1);
+    out(3) = k2*c*O + k1*c*c*RI - I*(km2 + km1);
+    out = out';
 end
 
 
+%% calculate the steady states for any given c
 function[Rst,Ost,Ist]= ROIss(c)
-global k1 km1 k2 km2
- 
- % matrix equation
- A  =[[- km2-(k1*c*c + k2*c),km1- km2,- km2];[k1*c*c ,-(k2*c + km1),km2 ] ;[- k1*c*c,- k1*c*c+k2*c ,-(km2 + km1)- k1*c*c]]; 
-
-
-
-Rhs = -[km2;0;  k1*c*c];
-
-R =A\Rhs;
-Rst=R(1);
-Ost=R(2);
-Ist=R(3);
+    global k1 km1 k2 km2    
+    % matrix equation
+    A  =[[- km2-(k1*c*c + k2*c),km1- km2,- km2];[k1*c*c ,-(k2*c + km1),km2 ] ;[- k1*c*c,- k1*c*c+k2*c ,-(km2 + km1)- k1*c*c]]; 
+    
+    Rhs = -[km2;0;  k1*c*c];
+    R =A\Rhs;
+    Rst=R(1);
+    Ost=R(2);
+    Ist=R(3);
 end

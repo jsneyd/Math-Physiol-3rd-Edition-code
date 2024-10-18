@@ -14,130 +14,73 @@ set(0,                           ...
     'defaultaxesfontsize', 20,   ...
     'defaultaxeslinewidth', 2.0, ...
     'defaultlinelinewidth', 2.0);
-global Kb Dbbt Dc De cinf einf  Jc rho 
+global Kb Dbbt Dc De cinf ceinf winf vinf rho 
+
+options = optimset('Display','off');
+
 % parameters
 Dc = 1;
 De = 1;
 Dbbt = 5;
- 
- rho = 2;
+rho = 2;
 cinf = 0.5;
- 
- elist = [1,5,10];
- keep = [];
-Kblist = [0.01:0.1:20];
- for je = 1:length(elist)
-     einf=elist(je);
+ceinf_list = [1 5 10];
 
-for k = 1:length(Kblist)
-    Kb = Kblist(k);
-    c =  bisect(@getc,cinf,einf);
-    J(k)=fluxw(c,Dc,cinf);
-end
-figure(1)
-plot(Kblist,J/(rho*(einf-cinf)))
-keep = [keep Kblist' J'/(rho*(einf-cinf))];
-xlabel('K_b')
-ylabel('Permeability/\rho')
-hold on
-
- end
-text(2,0.336,'e_\infty=1','fontsize',18)
-text(2,0.362,'e_\infty=5','fontsize',18)
-text(8,0.362,'e_\infty=10','fontsize',18)
-box off
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function out = getc(c)
-global Dc cinf einf rho Jc
-% first step
-% for a given value of c, find e
-Jc=fluxw(c,Dc,cinf);
-e = bisect2(@gete,c ,einf);
-
-out = rho*(e-c)-Jc;
-end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    function out = gete(e)
-     global   De einf Jc
-Je = fluxw(e,De,einf);
-out=Je+Jc;
+n = 1500;
+Kb_list = linspace(0.001,10,n);
+rho_eff = zeros(n,1);  % preallocation of space, for speed
+for j=1:3
+    ceinf = ceinf_list(j);
+    for i=1:n
+        Kb = Kb_list(i);
+        winf = getw_v(cinf,Dc);
+        vinf = getw_v(ceinf,De);
+        c0 = fsolve(@(x)getc0(x),2,options);
+        J = rho*(getce0(c0) - c0);
+        rho_eff(i) = J/(ceinf - cinf);
     end
+    plot(Kb_list,rho_eff)
+    hold on
+end
+legend('c_{e,\infty} = 1','c_{e,\infty} = 5','c_{e,\infty} = 10')
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [wout,wpout] = w(c,D)
-global  Dbbt Kb 
 
-wout = D*c+Dbbt*c./(Kb+c);
-wpout = D+Dbbt*Kb./(Kb+c).^2;
+%% This is the function that must be set to zero, in order to find c0
+function out = getc0(c0)
+    global Dc De winf vinf
+    ce0 = getce0(c0);   % get ce0 as a function of c0. This is done algebraically.
+
+    w0 = getw_v(c0,Dc);
+    wp0 = getw_v_prime(c0,Dc);    
+    v0 = getw_v(ce0,De);
+    vp0 = getw_v_prime(ce0,De);
+
+    out = Dc*(w0 - winf)./(wp0) + De*(v0 - vinf)./(vp0);
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-function out = fluxw(c,D,cinf)
-[winf,wpinf]=w(cinf,D);
-[w0,wp0] = w(c,D);
-out = D*(w0-winf )./wp0;
+%%
+function ce0 = getce0(c0)
+    global Dc winf rho
+    w0 = getw_v(c0,Dc);
+    wp0 = getw_v_prime(c0,Dc);
+    ce0 = c0 + Dc*(w0 - winf)./(wp0*rho);
 end
+
+%%
+function out = getw_v(x,D)
+    global  Dbbt Kb
+    out = D.*x + Dbbt.*x./(Kb+x);
+end
+
+%%
+function out = getw_v_prime(x,D)
+    global  Dbbt Kb
+    out = D + Dbbt*Kb./((Kb+x).^2);
+end
+
+
+
  
- 
-%%%%%%%%%%%%%%%%%%%%%%%
-% this is the bisection algorithm
-function root = bisect(feval,a,b)
 
-ul = a;
-fl = feval(ul);
-uu = b;
-fu = feval(uu);
-
-% we make the assumption, without checking, that 
-% fu*fl<0
-
-% if not, the algoritm fails to find a root.
-
-N = 25;  % number of iterates
-% the main bisection algorithm
-for j = 1:N
-u = (ul+uu)/2;
-fc = feval(u);
-ftest = (fc*fl>=0);
-ul = ftest*u+(1-ftest)*ul;
-fl = ftest*fc + (1-ftest)*fl;
-
-uu = (1-ftest)*u+ ftest*uu;
-fu = (1-ftest)*fc + ftest*fu;
-end
-root = u;
-end
-
-% another copy of the bisection algorithm
-% this is the bisection algorithm
-function root = bisect2(feval,a,b)
-
-ul = a;
-fl = feval(ul);
-uu = b;
-fu = feval(uu);
-
-% we make the assumption, without checking, that 
-% fu*fl<0
-
-% if not, the algoritm fails to find a root.
-
-N = 25;  % number of iterates
-% the main bisection algorithm
-for j = 1:N
-u = (ul+uu)/2;
-fc = feval(u);
-ftest = (fc*fl>=0);
-ul = ftest*u+(1-ftest)*ul;
-fl = ftest*fc + (1-ftest)*fl;
-
-uu = (1-ftest)*u+ ftest*uu;
-fu = (1-ftest)*fc + ftest*fu;
-end
-root = u;
-end
 
 

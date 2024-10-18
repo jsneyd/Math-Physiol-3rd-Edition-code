@@ -1,56 +1,70 @@
+#   -------------------------------------------------------------------
+# 
+#    Reponse of the RyR model of Stern to a step increase in calcium.
+# 
+#    For Chapter 7, Section 7.4.4 of
+#    Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#    Written by James Keener and James Sneyd.
+# 
+#   -------------------------------------------------------------------
+
+
 import sympy as sp
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import solve_ivp
 
 
-# First do the symbolic calcuation of the steady state, and plot it
+# Calculate the steady states for any given c
+def ROIss(c):
+    A = np.array([[-km2 - (k1 * c**2 + k2 * c), km1 - km2, -km2],
+                  [k1 * c**2, -(k2 * c + km1), km2],
+                  [-k1 * c**2, -k1 * c**2 + k2 * c, -(km2 + km1) - k1 * c**2]])
+    
+    Rhs = np.array([-km2, 0, -k1 * c**2])
+    R = np.linalg.solve(A, Rhs)
+    return R[0], R[1], R[2]
 
-k1, km1, k2, km2, R, O, I, c = sp.symbols('k1 km1 k2 km2 R O I c')
-
-RI = 1 - R - O - I
-eq1 = km1*O + km2*RI - R*(k1*c*c + k2*c)
-eq2 = km2*I + k1*c*c*R - O*(k2*c + km1)
-eq3 = k2*c*O + k1*c*c*RI - I*(km2 + km1)
-
-k1val = 35
-km1val = 0.06
-k2val = 0.5
-km2val = 0.01
-
-sols = sp.solve([eq1, eq2, eq3], (R, O, I))
-Ost = sp.lambdify(c, sols[O].subs([(k1, k1val), (km1, km1val), (k2, k2val), (km2, km2val)]))
-Rst = sp.lambdify(c, sols[R].subs([(k1, k1val), (km1, km1val), (k2, k2val), (km2, km2val)]))
-Ist = sp.lambdify(c, sols[I].subs([(k1, k1val), (km1, km1val), (k2, k2val), (km2, km2val)]))
-
-plt.figure(1)
-c_vals = np.linspace(0.01, 0.5, 100)
-plt.plot(c_vals, Rst(c_vals), 'r', label='R')
-plt.plot(c_vals, Ost(c_vals), 'b', label='O (steady)')
-plt.plot(c_vals, Ist(c_vals), 'g', label='I')
-plt.xlabel('c')
-
-
-
-
-# Next, do the numerical solutions and calculate the peak response
 
 # Define the ODEs
 def rhs(t, x, c):
-    global k1val, km1val, k2val, km2val
     R, O, I = x
     RI = 1 - R - O - I
-
-    k1 = k1val
-    km1 = km1val
-    k2 = k2val
-    km2 = km2val
 
     return [
         km1 * O + km2 * RI - R * (k1 * c * c + k2 * c),
         km2 * I + k1 * c * c * R - O * (k2 * c + km1),
         k2 * c * O + k1 * c * c * RI - I * (km2 + km1)
     ]
+
+
+k1 = 35
+km1 = 0.06
+k2 = 0.5
+km2 = 0.01
+
+# Plot the steady states as functions of c
+clist = np.linspace(0.01, 0.5, 50)
+Rst, Ost, Ist = [], [], []
+for c in clist:
+    R, O, I = ROIss(c)
+    Rst.append(R)
+    Ost.append(O)
+    Ist.append(I)
+
+plt.figure(1)
+plt.plot(clist, Rst, 'r', label='Rst')
+plt.plot(clist, Ost, 'b', label='Ost')
+plt.plot(clist, Ist, 'g', label='Ist')
+plt.legend()
+plt.xlabel('c (\u03BCM)')
+plt.ylabel('Steady states')
+plt.title('Steady states vs. c')
+
+
+
+# Next, do the numerical solutions and calculate the peak response
 
 # Set initial conditions, time span, and parameter values
 init = [1, 0, 0]  # Initial conditions for R, O, I
@@ -67,7 +81,7 @@ plt.xlabel('Time')
 plt.ylabel('O')
 plt.legend()
 
-# Calculate the steady-state and peak responses
+# Calculate and plot the peak response
 cc = np.linspace(0.01, 0.5, 50)
 tspan = np.linspace(0, 50, 100000)
 peak = []

@@ -11,7 +11,7 @@
 %  -------------------------------------------------------------------
 
 function RyR_Stern
-%% symbolic calculation and plotting of the steady state
+%%  plot the steady state
 
 clear all
 close all
@@ -21,29 +21,22 @@ set(0,                           ...
    'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0);
 
-syms k1 km1 k2 km2 R O I RI c
-global k1val km1val k2val km2val
+global k1 km1 k2 km2
+k1 = 35;
+km1 = 0.06;
+k2 = 0.5;
+km2 = 0.01;
 
-RI = 1 - R - O - I;
-eq1 = km1*O + km2*RI - R*(k1*c*c + k2*c);
-eq2 = km2*I + k1*c*c*R - O*(k2*c + km1);
-eq3 = k2*c*O + k1*c*c*RI - I*(km2 + km1);
-
-k1val = 35;
-km1val = 0.06;
-k2val = 0.5;
-km2val = 0.01;
-
-[R,O,I] = solve([eq1,eq2,eq3],[R,O,I]);
-Ost(c) = subs(O,[k1,km1,k2,km2],[k1val,km1val,k2val,km2val]);
-Rst(c) = subs(R,[k1,km1,k2,km2],[k1val,km1val,k2val,km2val]);
-Ist(c) = subs(I,[k1,km1,k2,km2],[k1val,km1val,k2val,km2val]);
+% plot the steady states as functions of c
+clist = [0.01:.01:0.5];
+for j=1:length(clist)
+    c=clist(j);
+    [Rst(j),Ost(j),Ist(j)]=ROIss(c);
+end
 
 figure(2)
-fplot(Rst,[0.01 0.5],'r','LineWidth',2)
+plot(clist,Rst,'r',clist,Ost,'b',clist,Ist,'g')
 hold on
-fplot(Ost,[0.01 0.5],'b','LineWidth',2)
-fplot(Ist,[0.01 0.5],'g','LineWidth',2)
 
 % for external plotting
 % keep = fplot(Ost,[0.01 0.5]);
@@ -51,34 +44,30 @@ fplot(Ist,[0.01 0.5],'g','LineWidth',2)
 
 %% numerical solutions
 
-%clear all
-
 init = [1,0,0];                 % Assume that c = 0 initially. Probably not very accurate.
-tspan = linspace(0,1.5,1000);
+tspan = linspace(0,1.5,100);
 
 figure(1)
-c = 1;
-[T,Y] = ode15s(@(t,x)rhs(t,x,c),tspan,init);
+clist = [1,2,3];
+for j = 1:3
+    c = clist(j);
+ [T,Y] = ode15s(@(t,x)rhs(t,x,c),tspan,init);
 plot(T,Y(:,2))
 %writematrix( [T Y(:,2)],'test3.dat')   % for external plotting
 hold on
-
-c = 2;
-[T,Y] = ode15s(@(t,x)rhs(t,x,c),tspan,init);
-%writematrix( [T Y(:,2)],'test4.dat')   % for external plotting
-plot(T,Y(:,2))
-
-c = 3;
-[T,Y] = ode15s(@(t,x)rhs(t,x,c),tspan,init);
-%writematrix( [T Y(:,2)],'test5.dat')   % for external plotting
-plot(T,Y(:,2))
-hold off
+end
+box off
+legend('boxoff')
+legend('c=1 \mu M','c=2 \mu M','c=3 \mu M')
+xlabel('t (ms)')
+ylabel('O')
+ hold off
 
 % calculate the steady-state and peak responses
 
 n = 50;
-cc = linspace(0.01,0.5,n);
-tspan = linspace(0,50,100000);
+cc = linspace(0.0,0.5,n);
+tspan = linspace(0,50,10000);
 for i = 1:n
     c = cc(i);
     [T,Y] = ode15s(@(t,x)rhs(t,x,c),tspan,init);
@@ -87,28 +76,43 @@ end
 
 figure(2)
 plot(cc,peak,'k')
+xlabel('c (\mu M)')
+ylabel('O')
+box off
+text(0.2,0.14,'steady response','fontsize',18)
+text(0.25,0.75,'peak response','fontsize',18)
 
 % for external plotting
 % writematrix([cc',peak'],'test2.dat')
 
 end % of main
 
-%%
+%% rhs for the ODEs
 function out = rhs(t,x,c)
-global k1val km1val k2val km2val
-R = x(1);
-O = x(2);
-I = x(3);
-RI = 1 - R - O - I;
+    global k1 km1 k2 km2
+    R = x(1);
+    O = x(2);
+    I = x(3);
+    RI = 1 - R - O - I;
+    
+    out(1) = km1*O + km2*RI - R*(k1*c*c + k2*c);
+    out(2) = km2*I + k1*c*c*R - O*(k2*c + km1);
+    out(3) = k2*c*O + k1*c*c*RI - I*(km2 + km1);
+    out = out';
+end
 
-k1 = k1val;
-km1 = km1val;
-k2 = k2val;
-km2 = km2val;
 
-out(1) = km1*O + km2*RI - R*(k1*c*c + k2*c);
-out(2) = km2*I + k1*c*c*R - O*(k2*c + km1);
-out(3) = k2*c*O + k1*c*c*RI - I*(km2 + km1);
-out = out';
-
+%% calculate the steady states for any given c
+function[Rst,Ost,Ist]= ROIss(c)
+    global k1 km1 k2 km2    
+    % matrix equation
+    A  =[[- km2-(k1*c*c + k2*c),km1- km2,- km2];
+        [k1*c*c ,-(k2*c + km1),km2 ] ;
+        [- k1*c*c,- k1*c*c+k2*c ,-(km2 + km1)- k1*c*c]]; 
+    
+    Rhs = -[km2;0;  k1*c*c];
+    R =A\Rhs;
+    Rst=R(1);
+    Ost=R(2);
+    Ist=R(3);
 end

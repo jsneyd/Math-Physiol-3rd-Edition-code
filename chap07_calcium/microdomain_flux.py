@@ -1,80 +1,69 @@
+#  code to solve the microdomain flux equations
+
+#    For Chapter 7, Section 7.6 of
+#    Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+#  
+#    Written by James Keener and James Sneyd.
+#  
+#   ------------------------------------------------------------------- 
+
 import numpy as np
+from scipy.optimize import fsolve
 import matplotlib.pyplot as plt
 
 
-def getc(c):
-    global Jc
-    Jc = fluxw(c, Dc, cinf)
-    e = bisect(gete, c, einf)
-    return rho * (e - c) - Jc
 
-def gete(e):
-    global Jc
-    Je = fluxw(e, De, einf)
-    return Je + Jc
+# Function to compute w_v
+def getw_v(x, D):
+    return D * x + Dbbt * x / (Kb + x)
 
-def w(c, D):
-    wout = D * c + Dbbt * c / (Kb + c)
-    wpout = D + Dbbt * Kb / (Kb + c)**2
-    return wout, wpout
+# Function to compute the derivative of w_v
+def getw_v_prime(x, D):
+    return D + Dbbt * Kb / (Kb + x)**2
 
-def fluxw(c, D, cinf):
-    winf, wpinf = w(cinf, D)
-    w0, wp0 = w(c, D)
-    return D * (w0 - winf) / wp0
+# Function to compute ce0
+def getce0(c0):
+    w0 = getw_v(c0, Dc)
+    wp0 = getw_v_prime(c0, Dc)
+    return c0 + Dc * (w0 - winf) / (wp0 * rho)
 
-def bisect(func, a, b, N=25):
-    ul = a
-    fl = func(ul)
-    uu = b
-    fu = func(uu)
-
-    for j in range(N):
-        u = (ul + uu) / 2
-        fc = func(u)
-        ftest = (fc * fl >= 0)
-        ul = ftest * u + (1 - ftest) * ul
-        fl = ftest * fc + (1 - ftest) * fl
-        uu = (1 - ftest) * u + ftest * uu
-        fu = (1 - ftest) * fc + ftest * fu
-
-    return u
-
-# Set plot parameters
-plt.rcParams.update({
-    'axes.titlesize': 20,
-    'axes.linewidth': 2.0,
-    'lines.linewidth': 2.0
-})
-plt.rcParams['text.usetex'] = True
+# Function for c0 that must be set to zero to find c0
+def getc0(c0):
+    ce0 = getce0(c0)
+    w0 = getw_v(c0, Dc)
+    wp0 = getw_v_prime(c0, Dc)
+    v0 = getw_v(ce0, De)
+    vp0 = getw_v_prime(ce0, De)
+    return Dc * (w0 - winf) / wp0 + De * (v0 - vinf) / vp0
 
 
-# Parameters
+# Global variables
 Dc = 1
 De = 1
 Dbbt = 5
-
 rho = 2
 cinf = 0.5
 
-elist = [1, 5, 10]
-keep = []
-Kblist = np.arange(0.01, 20.1, 0.1)
+ceinf_list = [1, 5, 10]
+n = 1500
+Kb_list = np.linspace(0.001, 10, n)
+rho_eff = np.zeros(n)  # preallocate space
 
-for einf in elist:
-    J = []
-    for Kb in Kblist:
-        c = bisect(getc, cinf, einf)
-        J.append(fluxw(c, Dc, cinf))
+# Loop over ceinf_list and Kb_list to calculate rho_eff and plot
+for ceinf in ceinf_list:
+    for i in range(n):
+        Kb = Kb_list[i]
+        winf = getw_v(cinf, Dc)
+        vinf = getw_v(ceinf, De)
+        c0_initial_guess = 2  # initial guess for fsolve
+        c0 = fsolve(getc0, c0_initial_guess)
+        J = rho * (getce0(c0) - c0)
+        rho_eff[i] = J / (ceinf - cinf)
+    
+    plt.plot(Kb_list, rho_eff, label=f'c_e,∞ = {ceinf}')
 
-    plt.figure(1)
-    plt.plot(Kblist, np.array(J) / (rho * (einf - cinf)))
-    keep.append(np.column_stack((Kblist, np.array(J) / (rho * (einf - cinf)))))
-    plt.xlabel('$K_b$')
-    plt.ylabel('Permeability$/\rho$')
-
-plt.text(2, 0.336, '$e_\infty=1$', fontsize=18)
-plt.text(2, 0.362, '$e_\infty=5$', fontsize=18)
-plt.text(8, 0.362, '$e_\infty=10$', fontsize=18)
-
-
+# Add labels and legend to the plot
+plt.xlabel('K_b')
+plt.ylabel('ρ_eff')
+plt.legend()
+plt.show()
