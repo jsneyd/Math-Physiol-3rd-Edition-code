@@ -177,11 +177,12 @@ sol = odeint(pdeRHS, init, tspan)
 
 # Create a contour plot
 plt.figure(7)
-contour = plt.contour(X, tspan, sol[:, N:2*N], linewidths=2)
+contour = plt.contourf(X, tspan, sol[:, N:2*N], linewidths=2)
 plt.xlabel('x')
 plt.ylabel('t')
 plt.title('Contour Plot of Ca++')
 plt.clabel(contour, inline=True, fontsize=8)
+plt.colorbar(contour)
 plt.show()
 
     
