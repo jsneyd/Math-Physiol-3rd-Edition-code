@@ -42,6 +42,10 @@ for j=1:3
     plot(Kb_list,rho_eff)
     hold on
 end
+xlabel('K_b')
+ylabel('\rho_{eff}')
+box off
+legend('boxoff')
 legend('c_{e,\infty} = 1','c_{e,\infty} = 5','c_{e,\infty} = 10')
 
 
