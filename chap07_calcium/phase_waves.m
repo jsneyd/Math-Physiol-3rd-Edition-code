@@ -95,6 +95,7 @@ ylabel('Ca^{++}(L/2)')
 
 figure(4+3*(dj-1))
 contour(X,T,S(:,par.N+1:2*par.N),'linewidth',2)
+contourcbar
 xlabel('x')
 ylabel('t')
 zlabel('Ca^{++}')
