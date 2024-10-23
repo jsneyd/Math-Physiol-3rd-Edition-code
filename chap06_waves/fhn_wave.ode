@@ -2,7 +2,7 @@
 # This is an attempt to find travelling waves for FHN using bifurcation
 # analysis
 v(0)=0
-d(0)=0
+u(0)=0
 w(0)=0
  
 par Iapp=0
@@ -13,8 +13,8 @@ par Delta=5,alpha=0.1,gamma=1,eps=0.1
 # Define the differential equations here
 #
 
-v'=d
-d'=(1/Delta)*(s*d - v*(v-1)*(alpha-v) + w - Iapp) 
+v'=u
+u'=(1/Delta)*(s*u - v*(v-1)*(alpha-v) + w - Iapp) 
 w'=eps*(v-gamma*w)/s 
 #
 @ total=50,dt=0.005,xp=t,yp=v,xlo=0,xhi=50,ylo=0,yhi=2,meth=gear,bounds=10000
