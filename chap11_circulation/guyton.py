@@ -74,12 +74,12 @@ O2vstar = 40
 Pastar = 100
 Qstar = 5.6
 Mstar = Qstar * (O2astar - O2vstar)
-A = 0.0022
-R0 = 250
+A = 0.1
+R0 = 4
 
 # Plot flow against pressure
 Pa_model = np.linspace(0, 250, 100)
-Qa_model = (1 / (1 + A * O2astar)) * (Mstar * A + Pa_model / R0)
+Qa_model = (1 / (1 + A * O2astar)) * (Mstar * A + Pa_model / R0)/Qstar
 
 plt.figure(1)
 plt.plot(flow_Pa[:, 1], flow_Pa[:, 0], label='Data')
@@ -91,7 +91,7 @@ plt.show()
 
 # Plot flow against metabolism
 M_model = np.linspace(0, 8, 100)
-Qa_model2 = (1 / (1 + A * O2astar)) * (M_model * Mstar * A + Pastar / R0)
+Qa_model2 = (1 / (1 + A * O2astar)) * (M_model * Mstar * A + Pastar / R0)/Qstar
 
 plt.figure(2)
 plt.plot(flow_metab[:, 1], flow_metab[:, 0], label='Data')
@@ -104,11 +104,11 @@ plt.show()
 # Plot flow against oxygen deficiency
 ox_def = np.linspace(0, 50, 100)
 O2a = O2astar * (1 - ox_def / 100)
-Qa_model3 = Mstar / (O2a - O2vstar)
+Qa_model3 = (1/(1+A*O2a))*(Mstar*A + Pastar/R0)/Qstar
 
 plt.figure(3)
 plt.plot(flow_oxy[:, 1], flow_oxy[:, 0], label='Data')
-plt.plot(ox_def, Qa_model3 / Qstar, label='Model')
+plt.plot(ox_def, Qa_model3, label='Model')
 plt.xlabel('% Arterial oxygen deficiency')
 plt.ylabel('Blood flow (x normal)')
 plt.legend()
