@@ -79,8 +79,12 @@ flow_oxy = [1.02721	0
  Qstar=5.6;
  Mstar = Qstar*(O2astar - O2vstar);
  
- A = 0.1; %0.0022;
- R0 = 250;
+ A = 0.1; 
+ R0 = 4; 
+
+ % alternate values from second edition that don't seem to work
+ %A = Qstar/(3*Mstar - Qstar*O2astar)
+ %R0 = Pastar*(3*Mstar - Qstar*O2astar)/(2*Qstar*Mstar)
 
  % plot flow against pressure
  Pa_model = linspace(0,250,100);
@@ -88,7 +92,7 @@ flow_oxy = [1.02721	0
  figure(1)
      plot(flow_Pa(:,2),flow_Pa(:,1))
      hold on
-     plot(Pa_model,Qa_model)
+     plot(Pa_model,Qa_model/Qstar)
      xlabel('Arterial pressure (mm Hg)')
      ylabel('Blood flow (x normal)')
 
@@ -98,20 +102,18 @@ flow_oxy = [1.02721	0
  figure(2)
      plot(flow_metab(:,2),flow_metab(:,1))
      hold on
-     plot(M_model,Qa_model2)
+     plot(M_model,Qa_model2/Qstar)
      xlabel('Metabolism (x normal)')
      ylabel('Blood flow (x normal)')
 
  % plot flow against oxygen deficiency
  ox_def = linspace(0,50,100);
  O2a = O2astar*(1-ox_def/100);
- Qa_model3 = Mstar./(O2a-O2vstar);
  Qa_model4 = (1./(1+A*O2a)).*(Mstar*A + Pastar/R0);
  figure(3)
      plot(flow_oxy(:,2),flow_oxy(:,1))
      hold on
-     plot(ox_def,Qa_model3/Qstar)
-     plot(ox_def,Qa_model4)
+     plot(ox_def,Qa_model4/Qstar)
      xlabel('% Arterial oxygen deficiency')
      ylabel('Blood flow (x normal)')
 
