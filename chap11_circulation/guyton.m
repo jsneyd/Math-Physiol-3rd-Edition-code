@@ -18,7 +18,7 @@ set(0,                           ...
    'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0);
 
-% The data for the three graphs. Easier to enter it all directly than read
+% The data for the three graphs. It's easier to enter it all directly than read
 % it from three separate files
 
 flow_Pa = [0	10.256
@@ -90,32 +90,36 @@ flow_oxy = [1.02721	0
  Pa_model = linspace(0,250,100);
  Qa_model = (1/(1+A*O2astar))*(Mstar*A + Pa_model/R0);
  figure(1)
-     plot(flow_Pa(:,2),flow_Pa(:,1))
-     hold on
-     plot(Pa_model,Qa_model/Qstar)
+     
+     plot(Pa_model,Qa_model/Qstar,'--', flow_Pa(:,2),flow_Pa(:,1))
      xlabel('Arterial pressure (mm Hg)')
      ylabel('Blood flow (x normal)')
 
+box off 
+legend('boxoff')
+legend('Model','Data','location','northwest')
  % plot flow against metabolism
  M_model = linspace(0,8,100);
  Qa_model2 = (1/(1+A*O2astar))*(M_model*Mstar*A + Pastar/R0);
  figure(2)
-     plot(flow_metab(:,2),flow_metab(:,1))
-     hold on
-     plot(M_model,Qa_model2/Qstar)
+      
+     plot(M_model,Qa_model2/Qstar,'--',flow_metab(:,2),flow_metab(:,1))
      xlabel('Metabolism (x normal)')
      ylabel('Blood flow (x normal)')
-
+box off
+legend('boxoff')
+legend('Model','Data','location','northwest')
  % plot flow against oxygen deficiency
- ox_def = linspace(0,50,100);
+ ox_def = linspace(0,75,100);
  O2a = O2astar*(1-ox_def/100);
  Qa_model4 = (1./(1+A*O2a)).*(Mstar*A + Pastar/R0);
  figure(3)
-     plot(flow_oxy(:,2),flow_oxy(:,1))
-     hold on
-     plot(ox_def,Qa_model4/Qstar)
+     
+     plot(ox_def,Qa_model4/Qstar,'--',flow_oxy(:,2),flow_oxy(:,1))
      xlabel('% Arterial oxygen deficiency')
      ylabel('Blood flow (x normal)')
-
+box off 
+legend('boxoff')
+legend('Model','Data','location','northwest')
 
 
