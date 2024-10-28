@@ -17,7 +17,7 @@ clear all; close all; clc;
 
 set(0,                           ...
    'defaultaxesfontsize', 20,   ...
-   'defaultaxeslinewidth', 1.2, ...
+   'defaultaxeslinewidth', 2.0, ...
    'defaultlinelinewidth', 2.0);
 p.k1 = 0.5; p.k2 = 0.1;
 p.km1 = 0.25; p.km2 = 0.1;
@@ -70,7 +70,7 @@ figure(2)
     xlabel('Frequency of stimulation (1/T)')
     ylabel('Average response over period')
     legend('boxoff')
-    legend('pulsatile input','steady input')
+    legend('steady input','pulsatile input')
 %writematrix([freq' response'],'adaptation.dat','Delimiter',' ')
 
 end % of main

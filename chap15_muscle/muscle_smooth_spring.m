@@ -15,10 +15,14 @@ close all
 clear all
 clc
 
-global num k2 k6 f1 g1 g2 gL1 gL2
+global num k2 k6 f1 g1 g2 gL1 gL2 k1amp
 
 k2 = 0.1;
 k6 = 0.1;
+k1vals = [-0.34, 0, 0.34]
+k1amp = 0.34;
+for k = 1:3
+    k1amp = k1vals(k);
 
 
 f1 = 0.88; 
@@ -54,6 +58,10 @@ for i = 1:length(t)
     p(i) = trapz(x, x .* (nam + namp));
 end
 plot(t, p)
+hold on
+end
+xlabel('t (s)')
+box off
 
 % save the results
 % Uncomment the following line if you want to save the data
@@ -109,11 +117,13 @@ function val = gL(x)
 end
 
 function val = k1(t)
-    val = 0.35 - 0.34 * sin(2 * t);
+global k1amp
+    val = 0.35 - k1amp * sin(2 * t);
 end
 
 function val = k5(t)
-    val = 0.35 - 0.34 * sin(2 * t);
+global k1amp 
+    val = 0.35 - k1amp * sin(2 * t);
 end
 
 
