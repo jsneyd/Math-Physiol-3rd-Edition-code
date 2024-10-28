@@ -99,13 +99,14 @@ box off
 legend('boxoff')
 legend('Model','Data','location','northwest')
  % plot flow against metabolism
- M_model = linspace(0,8,100);
+ M_model = linspace(0,7.5,100);
  Qa_model2 = (1/(1+A*O2astar))*(M_model*Mstar*A + Pastar/R0);
  figure(2)
       
      plot(M_model,Qa_model2/Qstar,'--',flow_metab(:,2),flow_metab(:,1))
      xlabel('Metabolism (x normal)')
      ylabel('Blood flow (x normal)')
+     axis([0 8 0 4])
 box off
 legend('boxoff')
 legend('Model','Data','location','northwest')
@@ -118,6 +119,7 @@ legend('Model','Data','location','northwest')
      plot(ox_def,Qa_model4/Qstar,'--',flow_oxy(:,2),flow_oxy(:,1))
      xlabel('% Arterial oxygen deficiency')
      ylabel('Blood flow (x normal)')
+     axis([0 80 0 3])
 box off 
 legend('boxoff')
 legend('Model','Data','location','northwest')
