@@ -107,7 +107,7 @@ flow_oxy = [1.02721	0
      ylabel('Blood flow (x normal)')
 
  % plot flow against oxygen deficiency
- ox_def = linspace(0,50,100);
+ ox_def = linspace(0,80,100);
  O2a = O2astar*(1-ox_def/100);
  Qa_model4 = (1./(1+A*O2a)).*(Mstar*A + Pastar/R0);
  figure(3)
