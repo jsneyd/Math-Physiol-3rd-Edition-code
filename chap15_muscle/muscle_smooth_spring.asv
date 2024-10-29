@@ -93,7 +93,7 @@ end
 function val = f(x)
     global f1
     val = 0;
-    if x > 0 && x <= 1  % hence delta x = 1
+    if x > 0 && x <= 1  % hence 
         val = f1 * x;
     end
 end
