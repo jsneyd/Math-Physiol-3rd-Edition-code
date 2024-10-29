@@ -35,11 +35,13 @@ for j = 1:length(stimlist)
         plot(tt,sol(:,1))
         xlabel('t')
         ylabel('v')
+        box off
         title(strcat('Period = ',sprintf(formatSpecF, par.stimperiod)),'fontsize',18)  
         figure(2*j)
         plot(tt,sol(:,3))
         xlabel('t')
         ylabel('z')
+        box off
         title(strcat('Period = ',sprintf(formatSpecF, par.stimperiod)),'fontsize',18)  
     %save brown.dat sol -ASCII
 end
@@ -83,6 +85,7 @@ function solve_a_constant(par)
     plot(v,g4,'b','HandleVisibility','off')
     ylim([-0.1,0.2])
     hold on
+    box off
     
     % now solve for when a is held fixed for various lengths of time, and add
     % to plot. Do this simply by setting a large period, so the stimulus  
