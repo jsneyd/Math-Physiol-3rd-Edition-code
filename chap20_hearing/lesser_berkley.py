@@ -50,20 +50,19 @@ for w in w_list:
     A = np.linalg.solve(alpha, f)
 
     # Construct phi on y=0
-    y = 0.0  # Evaluate eta on the membrane
-    phi = xi * (1 - xi / 2) - sigma * y * (1 - y / (2 * sigma))
+    eta = 0.0  # Evaluate h on the membrane
+    psi = xi * (1 - xi / 2) - sigma * eta * (1 - eta / (2 * sigma))
     for n in range(N + 1):
-        phi = phi + A[n] * np.cosh(n * np.pi * (sigma - y)) * np.cos(n * np.pi * xi)
+        psi = psi + A[n] * np.cosh(n * np.pi * (sigma - eta)) * np.cos(n * np.pi * xi)
 
     Fhat = 1  # Driving force
-    phi = phi / (1j * w * L * Fhat)
-    eta = 2 * phi / W
+    h = 2 * Fhat*psi / W
 
     # Plot results
     plt.figure(2 * w_list.index(w) + 1)
-    plt.plot(xi * L, np.real(eta), 'r')
-    plt.plot(xi * L, np.abs(eta), '--b')
-    plt.plot(xi * L, -np.abs(eta), '--b')
+    plt.plot(xi * L, np.real(h), 'r')
+    plt.plot(xi * L, np.abs(h), '--b')
+    plt.plot(xi * L, -np.abs(h), '--b')
     plt.xlabel('x (cm)')
     plt.ylabel('amplitude')
     plt.xlim([0, L])
@@ -74,10 +73,10 @@ for w in w_list:
     times = np.linspace(0, 10 / w, N)
     plt.figure(2 * w_list.index(w) + 2)
     for j in range(N):
-        etawave = eta * np.exp(1j * w * times[j])
-        plt.plot(xi * L, np.real(etawave), 'r')
-        plt.plot(xi * L, np.abs(etawave), '--b')
-        plt.plot(xi * L, -np.abs(etawave), '--b')
+        hwave = h * np.exp(1j * w * times[j])
+        plt.plot(xi * L, np.real(hwave), 'r')
+        plt.plot(xi * L, np.abs(hwave), '--b')
+        plt.plot(xi * L, -np.abs(hwave), '--b')
         plt.xlabel('x (cm)')
         plt.ylabel('amplitude')
         plt.title(f'$\omega = {w}$/s')

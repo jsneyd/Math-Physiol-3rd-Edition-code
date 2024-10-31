@@ -56,22 +56,21 @@ for wj = 1:2
     A  = alpha\f;
     
     % construct phi on y=0
-    y = 0.0;   % evaluate eta on the membrane
-    phi = xi.*(1-xi/2) - sigma*y.*(1-y/(2*sigma));
+    eta = 0.0;   % evaluate h on the membrane
+    psi = xi.*(1-xi/2) - sigma*eta.*(1-eta/(2*sigma));
     for n=0:N
-        phi = phi + A(n+1)*cosh(n*pi*(sigma-y))*cos(n*pi*xi);
+        psi = psi + A(n+1)*cosh(n*pi*(sigma-eta))*cos(n*pi*xi);
     end
-    Fhat = 1;   % driving force
-    phi = phi/(1i*w*L*Fhat);
-    eta = 2*phi./W;
+    Fhat = 1;        % driving force.                 
+    h = 2*Fhat*psi./W;
     
     figure(2*wj-1)
-        plot(xi*L,real(eta),'r' )
+        plot(xi,real(h)/max(abs(h)),'r' )
         hold on
-        plot(xi*L,abs(eta),'--b',xi*L,-abs(eta)','--b','LineWidth',2)
-        xlabel('x (cm)')
-        ylabel('amplitude')
-        xlim([0,L])
+        plot(xi,abs(h)/max(abs(h)),'--b',xi,-abs(h)/max(abs(h))','--b','LineWidth',2)
+        xlabel('\xi')
+        ylabel('normalized amplitude, Re(h)/max(|h|)')
+        xlim([0,1])
         formatSpecF = '%6.0f\n';    
         title(strcat('\omega = ',sprintf(formatSpecF,w),'/s'))
         box off
@@ -81,14 +80,14 @@ for wj = 1:2
     times = linspace(0,10/w,N);
     figure(2*wj)
     for j=1:N
-        etawave = eta*exp(1i*w*times(j));
-        plot(xi*L,real(etawave),'r',xi*L,abs(etawave),'--b',xi*L,-abs(etawave),'--b')
-        xlabel('x (cm)')
-        ylabel('amplitude')
+        hwave = h*exp(1i*w*times(j));
+        plot(xi,real(hwave)/max(abs(h)),'r',xi,abs(hwave)/max(abs(h)),'--b',xi,-abs(hwave)/max(abs(h)),'--b')
+        xlabel('\xi')
+        ylabel('normalized amplitude, Re(h)/max(|h|)')
         box off
         formatSpecF = '%6.0f\n';
         title(strcat('\omega = ',sprintf(formatSpecF,w),'/s'))
-        xlim([0,L])
+        xlim([0,1])
         drawnow
         pause(0.02)
     end

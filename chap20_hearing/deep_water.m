@@ -36,16 +36,16 @@ for wj=1:2
     Z = (r + k/(1i*w));
     Z0 = (r0 + k0/(1i*w));
     Y = 2./Z;
-    eta0 = F0/Z0;
+    h0 = F0/Z0;
     
     intY = 2*1i*w*(exp(lam*x) - 1)/(lam*(1i*w*r0 + k0));
-    eta = -1i*rho*eta0.*Y.*exp(-w*rho*intY);
+    h = -1i*rho*h0.*Y.*exp(-w*rho*intY);
        
     figure(wj)
-        plot(x,eta/max(abs(eta)),'r')
+        plot(x,h/max(abs(h)),'r')
         hold on
-        plot(x,abs(eta)/max(abs(eta)),'--b','LineWidth',2)
-        plot(x,-abs(eta)/max(abs(eta)),'--b','LineWidth',2)
+        plot(x,abs(h)/max(abs(h)),'--b','LineWidth',2)
+        plot(x,-abs(h)/max(abs(h)),'--b','LineWidth',2)
         hold off
         xlim([0,L])
         box off
@@ -54,7 +54,7 @@ for wj=1:2
         ylabel('normalized amplitude')
         xlabel('x (cm)')
 
-    igorout = [igorout x' real(eta/max(abs(eta)))' abs(eta/max(eta))' -abs(eta/max(eta))'];
+    igorout = [igorout x' real(h/max(abs(h)))' abs(h/max(h))' -abs(h/max(h))'];
 end
 
 %writematrix(igorout,'deep.dat')  % for external plotting
