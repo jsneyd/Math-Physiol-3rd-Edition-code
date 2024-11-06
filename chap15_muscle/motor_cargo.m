@@ -2,7 +2,7 @@
 %
 %   Velocity of a motor pulling a cargo.
 %
-%   For Chapter 15, Section 15.11.2 of
+%   For Chapter 15, Section 15.10.2 of
 %   Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
 %
 %   Written by James Keener and James Sneyd.
