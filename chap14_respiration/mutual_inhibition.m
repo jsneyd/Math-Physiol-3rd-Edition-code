@@ -10,7 +10,7 @@
 %
 %  -------------------------------------------------------------------
 
-function mutual_inhibition
+%function mutual_inhibition
 
 close all
 clear all
@@ -60,7 +60,7 @@ figure(3)
 plot(dum,I1)
  xlabel('E_2 + f(x)')
  ylabel('I_1')
-end  % of main
+%end  % of main
 
 %% the right hand side for ode simulation: 
 
