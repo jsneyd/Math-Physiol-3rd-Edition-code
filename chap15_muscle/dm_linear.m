@@ -3,22 +3,24 @@
 % GM Donovan
 % g.donovan@auckland.ac.nz
 
+
+
 function DM_linear
 close all
 clear all
 
 % for constant stretch (Figs 2 & 3), change sign of v as required
 %if(1==0)
-vconst=-10; % +/-
-param.v=@(x)vconst;
+%vconst=-10; % +/-
+%param.v=@(x)0 + 25*np.sin(50*x);
 %end
 
 % for oscillations (Fig 4)
-% if(1==1)
-% v0=25;
-% om=50;
-% param.v=@(t) v0*sin(om*t);
-% end
+ if(1==1)
+ v0=25;
+ om=50;
+ param.v=@(t) v0*sin(om*t);
+ end
 
 % binding functions
 f1=43.3;
@@ -64,7 +66,7 @@ DMuni.y=yout;
 
 % plot
 for qq=1:3
-figure(qq)
+%figure(qq)
 plot(tout,yout(:,qq),'-')
 hold on
 ylabel(sprintf('M_%d',qq-1))

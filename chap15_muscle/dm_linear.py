@@ -1,3 +1,15 @@
+
+#   -------------------------------------------------------------------
+# 
+#   Uniform distribution approximation (Math. Biosci. 239 2020:108444).
+# 
+#    For Chapter 15, Section 15.7.1 of
+#    Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#    Written in Matlab by GM Donovan, and converted to Python by James Keener and James Sneyd.
+# 
+#   -------------------------------------------------------------------
+
 import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
