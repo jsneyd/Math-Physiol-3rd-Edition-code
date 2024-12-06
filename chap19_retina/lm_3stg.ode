@@ -1,0 +1,45 @@
+
+
+#  -----------------------------------------------
+#  File to solve the Longtin-Milton model of pupillary light reflex cycling.
+#  with a 3-stage linear filter
+#  
+#  For Chapter 19, Exercise 19.18 of 
+#  Keener and Sneyd, Mathematical Physiology, 3rd Edition, Springer.
+# 
+#  Written by James Keener and James Sneyd
+#  -----------------------------------------------
+
+lam = 30
+par gamma = 5
+par tau = 0.5
+par n = 7
+par I = 10
+phibar = 1
+theta = 10
+areafun(x) = lam*theta^n/(x^n + theta^n)
+capF(x) = x*heav(x)
+
+x(0) = 15
+x1(0) = 15
+x2(0) = 15
+x3(0) = 15
+ 
+
+x1' = (1/tau)*(x - x1)
+x2' = (1/tau)*(x1 - x2)
+x3' = (1/tau)*(x2 - x3)
+
+x' = gamma*capF(log(I*areafun(x3)/phibar))-x
+   	   	
+#set up the plot
+@ total=20, dt=1e-3, xp=t, yp=x, xlo=0, xhi=20, ylo=0, yhi=40 meth=gear, bounds=20000
+
+@ ntst=25,dsmin=0.01,ds=0.02,dsmax=0.05,parmin=0,parmax=30
+@ nmax=5000, npr=5000
+@ autoxmin=0,autoxmax=30,autoymin=0,autoymax=30
+done
+
+
+
+
