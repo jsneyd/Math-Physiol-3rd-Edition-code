@@ -20,7 +20,7 @@ plt.rcParams.update({
     'lines.linewidth': 2.0
 })
 
-plt.rcParams['text.usetex'] = True
+plt.rcParams['text.usetex'] = False
 
 # Constants
 y = np.linspace(0, 1, 100)
